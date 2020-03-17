@@ -1,0 +1,1114 @@
+{
+  "nbformat": 4,
+  "nbformat_minor": 0,
+  "metadata": {
+    "colab": {
+      "name": "Untitled0.ipynb",
+      "provenance": [],
+      "collapsed_sections": []
+    },
+    "kernelspec": {
+      "name": "python3",
+      "display_name": "Python 3"
+    },
+    "accelerator": "TPU"
+  },
+  "cells": [
+    {
+      "cell_type": "code",
+      "metadata": {
+        "id": "-ISr34_bFF5X",
+        "colab_type": "code",
+        "colab": {}
+      },
+      "source": [
+        "#This programm classify chroinic kidney disease using artificial neural network"
+      ],
+      "execution_count": 0,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {
+        "id": "MGvrIhUEkEcM",
+        "colab_type": "code",
+        "colab": {}
+      },
+      "source": [
+        "import glob\n",
+        "import keras as k  #machine learning library\n",
+        "from keras.models import  Sequential, load_model  #model- Sequential\n",
+        "from keras.layers import Dense   #neural network dense layer(Each neuron recieves input from all the neurons in the previous layer)\n",
+        "import numpy as np  #num py pythton library use for numerical works\n",
+        "import pandas as pd  #pandas library use data manipulation and analysis\n",
+        "from sklearn.model_selection import train_test_split   #machine learining library\n",
+        "from sklearn.preprocessing import LabelEncoder,MinMaxScaler  #for lableEncoder use for converting strig in to number\n",
+        "import matplotlib.pyplot as plt  #use for plot our data\n"
+      ],
+      "execution_count": 0,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {
+        "id": "E9VxSp9ImxWn",
+        "colab_type": "code",
+        "outputId": "04bf1fb4-bed0-4976-8c31-9a3ae72850d5",
+        "colab": {
+          "resources": {
+            "http://localhost:8080/nbextensions/google.colab/files.js": {
+              "data": "Ly8gQ29weXJpZ2h0IDIwMTcgR29vZ2xlIExMQwovLwovLyBMaWNlbnNlZCB1bmRlciB0aGUgQXBhY2hlIExpY2Vuc2UsIFZlcnNpb24gMi4wICh0aGUgIkxpY2Vuc2UiKTsKLy8geW91IG1heSBub3QgdXNlIHRoaXMgZmlsZSBleGNlcHQgaW4gY29tcGxpYW5jZSB3aXRoIHRoZSBMaWNlbnNlLgovLyBZb3UgbWF5IG9idGFpbiBhIGNvcHkgb2YgdGhlIExpY2Vuc2UgYXQKLy8KLy8gICAgICBodHRwOi8vd3d3LmFwYWNoZS5vcmcvbGljZW5zZXMvTElDRU5TRS0yLjAKLy8KLy8gVW5sZXNzIHJlcXVpcmVkIGJ5IGFwcGxpY2FibGUgbGF3IG9yIGFncmVlZCB0byBpbiB3cml0aW5nLCBzb2Z0d2FyZQovLyBkaXN0cmlidXRlZCB1bmRlciB0aGUgTGljZW5zZSBpcyBkaXN0cmlidXRlZCBvbiBhbiAiQVMgSVMiIEJBU0lTLAovLyBXSVRIT1VUIFdBUlJBTlRJRVMgT1IgQ09ORElUSU9OUyBPRiBBTlkgS0lORCwgZWl0aGVyIGV4cHJlc3Mgb3IgaW1wbGllZC4KLy8gU2VlIHRoZSBMaWNlbnNlIGZvciB0aGUgc3BlY2lmaWMgbGFuZ3VhZ2UgZ292ZXJuaW5nIHBlcm1pc3Npb25zIGFuZAovLyBsaW1pdGF0aW9ucyB1bmRlciB0aGUgTGljZW5zZS4KCi8qKgogKiBAZmlsZW92ZXJ2aWV3IEhlbHBlcnMgZm9yIGdvb2dsZS5jb2xhYiBQeXRob24gbW9kdWxlLgogKi8KKGZ1bmN0aW9uKHNjb3BlKSB7CmZ1bmN0aW9uIHNwYW4odGV4dCwgc3R5bGVBdHRyaWJ1dGVzID0ge30pIHsKICBjb25zdCBlbGVtZW50ID0gZG9jdW1lbnQuY3JlYXRlRWxlbWVudCgnc3BhbicpOwogIGVsZW1lbnQudGV4dENvbnRlbnQgPSB0ZXh0OwogIGZvciAoY29uc3Qga2V5IG9mIE9iamVjdC5rZXlzKHN0eWxlQXR0cmlidXRlcykpIHsKICAgIGVsZW1lbnQuc3R5bGVba2V5XSA9IHN0eWxlQXR0cmlidXRlc1trZXldOwogIH0KICByZXR1cm4gZWxlbWVudDsKfQoKLy8gTWF4IG51bWJlciBvZiBieXRlcyB3aGljaCB3aWxsIGJlIHVwbG9hZGVkIGF0IGEgdGltZS4KY29uc3QgTUFYX1BBWUxPQURfU0laRSA9IDEwMCAqIDEwMjQ7Ci8vIE1heCBhbW91bnQgb2YgdGltZSB0byBibG9jayB3YWl0aW5nIGZvciB0aGUgdXNlci4KY29uc3QgRklMRV9DSEFOR0VfVElNRU9VVF9NUyA9IDMwICogMTAwMDsKCmZ1bmN0aW9uIF91cGxvYWRGaWxlcyhpbnB1dElkLCBvdXRwdXRJZCkgewogIGNvbnN0IHN0ZXBzID0gdXBsb2FkRmlsZXNTdGVwKGlucHV0SWQsIG91dHB1dElkKTsKICBjb25zdCBvdXRwdXRFbGVtZW50ID0gZG9jdW1lbnQuZ2V0RWxlbWVudEJ5SWQob3V0cHV0SWQpOwogIC8vIENhY2hlIHN0ZXBzIG9uIHRoZSBvdXRwdXRFbGVtZW50IHRvIG1ha2UgaXQgYXZhaWxhYmxlIGZvciB0aGUgbmV4dCBjYWxsCiAgLy8gdG8gdXBsb2FkRmlsZXNDb250aW51ZSBmcm9tIFB5dGhvbi4KICBvdXRwdXRFbGVtZW50LnN0ZXBzID0gc3RlcHM7CgogIHJldHVybiBfdXBsb2FkRmlsZXNDb250aW51ZShvdXRwdXRJZCk7Cn0KCi8vIFRoaXMgaXMgcm91Z2hseSBhbiBhc3luYyBnZW5lcmF0b3IgKG5vdCBzdXBwb3J0ZWQgaW4gdGhlIGJyb3dzZXIgeWV0KSwKLy8gd2hlcmUgdGhlcmUgYXJlIG11bHRpcGxlIGFzeW5jaHJvbm91cyBzdGVwcyBhbmQgdGhlIFB5dGhvbiBzaWRlIGlzIGdvaW5nCi8vIHRvIHBvbGwgZm9yIGNvbXBsZXRpb24gb2YgZWFjaCBzdGVwLgovLyBUaGlzIHVzZXMgYSBQcm9taXNlIHRvIGJsb2NrIHRoZSBweXRob24gc2lkZSBvbiBjb21wbGV0aW9uIG9mIGVhY2ggc3RlcCwKLy8gdGhlbiBwYXNzZXMgdGhlIHJlc3VsdCBvZiB0aGUgcHJldmlvdXMgc3RlcCBhcyB0aGUgaW5wdXQgdG8gdGhlIG5leHQgc3RlcC4KZnVuY3Rpb24gX3VwbG9hZEZpbGVzQ29udGludWUob3V0cHV0SWQpIHsKICBjb25zdCBvdXRwdXRFbGVtZW50ID0gZG9jdW1lbnQuZ2V0RWxlbWVudEJ5SWQob3V0cHV0SWQpOwogIGNvbnN0IHN0ZXBzID0gb3V0cHV0RWxlbWVudC5zdGVwczsKCiAgY29uc3QgbmV4dCA9IHN0ZXBzLm5leHQob3V0cHV0RWxlbWVudC5sYXN0UHJvbWlzZVZhbHVlKTsKICByZXR1cm4gUHJvbWlzZS5yZXNvbHZlKG5leHQudmFsdWUucHJvbWlzZSkudGhlbigodmFsdWUpID0+IHsKICAgIC8vIENhY2hlIHRoZSBsYXN0IHByb21pc2UgdmFsdWUgdG8gbWFrZSBpdCBhdmFpbGFibGUgdG8gdGhlIG5leHQKICAgIC8vIHN0ZXAgb2YgdGhlIGdlbmVyYXRvci4KICAgIG91dHB1dEVsZW1lbnQubGFzdFByb21pc2VWYWx1ZSA9IHZhbHVlOwogICAgcmV0dXJuIG5leHQudmFsdWUucmVzcG9uc2U7CiAgfSk7Cn0KCi8qKgogKiBHZW5lcmF0b3IgZnVuY3Rpb24gd2hpY2ggaXMgY2FsbGVkIGJldHdlZW4gZWFjaCBhc3luYyBzdGVwIG9mIHRoZSB1cGxvYWQKICogcHJvY2Vzcy4KICogQHBhcmFtIHtzdHJpbmd9IGlucHV0SWQgRWxlbWVudCBJRCBvZiB0aGUgaW5wdXQgZmlsZSBwaWNrZXIgZWxlbWVudC4KICogQHBhcmFtIHtzdHJpbmd9IG91dHB1dElkIEVsZW1lbnQgSUQgb2YgdGhlIG91dHB1dCBkaXNwbGF5LgogKiBAcmV0dXJuIHshSXRlcmFibGU8IU9iamVjdD59IEl0ZXJhYmxlIG9mIG5leHQgc3RlcHMuCiAqLwpmdW5jdGlvbiogdXBsb2FkRmlsZXNTdGVwKGlucHV0SWQsIG91dHB1dElkKSB7CiAgY29uc3QgaW5wdXRFbGVtZW50ID0gZG9jdW1lbnQuZ2V0RWxlbWVudEJ5SWQoaW5wdXRJZCk7CiAgaW5wdXRFbGVtZW50LmRpc2FibGVkID0gZmFsc2U7CgogIGNvbnN0IG91dHB1dEVsZW1lbnQgPSBkb2N1bWVudC5nZXRFbGVtZW50QnlJZChvdXRwdXRJZCk7CiAgb3V0cHV0RWxlbWVudC5pbm5lckhUTUwgPSAnJzsKCiAgY29uc3QgcGlja2VkUHJvbWlzZSA9IG5ldyBQcm9taXNlKChyZXNvbHZlKSA9PiB7CiAgICBpbnB1dEVsZW1lbnQuYWRkRXZlbnRMaXN0ZW5lcignY2hhbmdlJywgKGUpID0+IHsKICAgICAgcmVzb2x2ZShlLnRhcmdldC5maWxlcyk7CiAgICB9KTsKICB9KTsKCiAgY29uc3QgY2FuY2VsID0gZG9jdW1lbnQuY3JlYXRlRWxlbWVudCgnYnV0dG9uJyk7CiAgaW5wdXRFbGVtZW50LnBhcmVudEVsZW1lbnQuYXBwZW5kQ2hpbGQoY2FuY2VsKTsKICBjYW5jZWwudGV4dENvbnRlbnQgPSAnQ2FuY2VsIHVwbG9hZCc7CiAgY29uc3QgY2FuY2VsUHJvbWlzZSA9IG5ldyBQcm9taXNlKChyZXNvbHZlKSA9PiB7CiAgICBjYW5jZWwub25jbGljayA9ICgpID0+IHsKICAgICAgcmVzb2x2ZShudWxsKTsKICAgIH07CiAgfSk7CgogIC8vIENhbmNlbCB1cGxvYWQgaWYgdXNlciBoYXNuJ3QgcGlja2VkIGFueXRoaW5nIGluIHRpbWVvdXQuCiAgY29uc3QgdGltZW91dFByb21pc2UgPSBuZXcgUHJvbWlzZSgocmVzb2x2ZSkgPT4gewogICAgc2V0VGltZW91dCgoKSA9PiB7CiAgICAgIHJlc29sdmUobnVsbCk7CiAgICB9LCBGSUxFX0NIQU5HRV9USU1FT1VUX01TKTsKICB9KTsKCiAgLy8gV2FpdCBmb3IgdGhlIHVzZXIgdG8gcGljayB0aGUgZmlsZXMuCiAgY29uc3QgZmlsZXMgPSB5aWVsZCB7CiAgICBwcm9taXNlOiBQcm9taXNlLnJhY2UoW3BpY2tlZFByb21pc2UsIHRpbWVvdXRQcm9taXNlLCBjYW5jZWxQcm9taXNlXSksCiAgICByZXNwb25zZTogewogICAgICBhY3Rpb246ICdzdGFydGluZycsCiAgICB9CiAgfTsKCiAgaWYgKCFmaWxlcykgewogICAgcmV0dXJuIHsKICAgICAgcmVzcG9uc2U6IHsKICAgICAgICBhY3Rpb246ICdjb21wbGV0ZScsCiAgICAgIH0KICAgIH07CiAgfQoKICBjYW5jZWwucmVtb3ZlKCk7CgogIC8vIERpc2FibGUgdGhlIGlucHV0IGVsZW1lbnQgc2luY2UgZnVydGhlciBwaWNrcyBhcmUgbm90IGFsbG93ZWQuCiAgaW5wdXRFbGVtZW50LmRpc2FibGVkID0gdHJ1ZTsKCiAgZm9yIChjb25zdCBmaWxlIG9mIGZpbGVzKSB7CiAgICBjb25zdCBsaSA9IGRvY3VtZW50LmNyZWF0ZUVsZW1lbnQoJ2xpJyk7CiAgICBsaS5hcHBlbmQoc3BhbihmaWxlLm5hbWUsIHtmb250V2VpZ2h0OiAnYm9sZCd9KSk7CiAgICBsaS5hcHBlbmQoc3BhbigKICAgICAgICBgKCR7ZmlsZS50eXBlIHx8ICduL2EnfSkgLSAke2ZpbGUuc2l6ZX0gYnl0ZXMsIGAgKwogICAgICAgIGBsYXN0IG1vZGlmaWVkOiAkewogICAgICAgICAgICBmaWxlLmxhc3RNb2RpZmllZERhdGUgPyBmaWxlLmxhc3RNb2RpZmllZERhdGUudG9Mb2NhbGVEYXRlU3RyaW5nKCkgOgogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAnbi9hJ30gLSBgKSk7CiAgICBjb25zdCBwZXJjZW50ID0gc3BhbignMCUgZG9uZScpOwogICAgbGkuYXBwZW5kQ2hpbGQocGVyY2VudCk7CgogICAgb3V0cHV0RWxlbWVudC5hcHBlbmRDaGlsZChsaSk7CgogICAgY29uc3QgZmlsZURhdGFQcm9taXNlID0gbmV3IFByb21pc2UoKHJlc29sdmUpID0+IHsKICAgICAgY29uc3QgcmVhZGVyID0gbmV3IEZpbGVSZWFkZXIoKTsKICAgICAgcmVhZGVyLm9ubG9hZCA9IChlKSA9PiB7CiAgICAgICAgcmVzb2x2ZShlLnRhcmdldC5yZXN1bHQpOwogICAgICB9OwogICAgICByZWFkZXIucmVhZEFzQXJyYXlCdWZmZXIoZmlsZSk7CiAgICB9KTsKICAgIC8vIFdhaXQgZm9yIHRoZSBkYXRhIHRvIGJlIHJlYWR5LgogICAgbGV0IGZpbGVEYXRhID0geWllbGQgewogICAgICBwcm9taXNlOiBmaWxlRGF0YVByb21pc2UsCiAgICAgIHJlc3BvbnNlOiB7CiAgICAgICAgYWN0aW9uOiAnY29udGludWUnLAogICAgICB9CiAgICB9OwoKICAgIC8vIFVzZSBhIGNodW5rZWQgc2VuZGluZyB0byBhdm9pZCBtZXNzYWdlIHNpemUgbGltaXRzLiBTZWUgYi82MjExNTY2MC4KICAgIGxldCBwb3NpdGlvbiA9IDA7CiAgICB3aGlsZSAocG9zaXRpb24gPCBmaWxlRGF0YS5ieXRlTGVuZ3RoKSB7CiAgICAgIGNvbnN0IGxlbmd0aCA9IE1hdGgubWluKGZpbGVEYXRhLmJ5dGVMZW5ndGggLSBwb3NpdGlvbiwgTUFYX1BBWUxPQURfU0laRSk7CiAgICAgIGNvbnN0IGNodW5rID0gbmV3IFVpbnQ4QXJyYXkoZmlsZURhdGEsIHBvc2l0aW9uLCBsZW5ndGgpOwogICAgICBwb3NpdGlvbiArPSBsZW5ndGg7CgogICAgICBjb25zdCBiYXNlNjQgPSBidG9hKFN0cmluZy5mcm9tQ2hhckNvZGUuYXBwbHkobnVsbCwgY2h1bmspKTsKICAgICAgeWllbGQgewogICAgICAgIHJlc3BvbnNlOiB7CiAgICAgICAgICBhY3Rpb246ICdhcHBlbmQnLAogICAgICAgICAgZmlsZTogZmlsZS5uYW1lLAogICAgICAgICAgZGF0YTogYmFzZTY0LAogICAgICAgIH0sCiAgICAgIH07CiAgICAgIHBlcmNlbnQudGV4dENvbnRlbnQgPQogICAgICAgICAgYCR7TWF0aC5yb3VuZCgocG9zaXRpb24gLyBmaWxlRGF0YS5ieXRlTGVuZ3RoKSAqIDEwMCl9JSBkb25lYDsKICAgIH0KICB9CgogIC8vIEFsbCBkb25lLgogIHlpZWxkIHsKICAgIHJlc3BvbnNlOiB7CiAgICAgIGFjdGlvbjogJ2NvbXBsZXRlJywKICAgIH0KICB9Owp9CgpzY29wZS5nb29nbGUgPSBzY29wZS5nb29nbGUgfHwge307CnNjb3BlLmdvb2dsZS5jb2xhYiA9IHNjb3BlLmdvb2dsZS5jb2xhYiB8fCB7fTsKc2NvcGUuZ29vZ2xlLmNvbGFiLl9maWxlcyA9IHsKICBfdXBsb2FkRmlsZXMsCiAgX3VwbG9hZEZpbGVzQ29udGludWUsCn07Cn0pKHNlbGYpOwo=",
+              "ok": true,
+              "headers": [
+                [
+                  "content-type",
+                  "application/javascript"
+                ]
+              ],
+              "status": 200,
+              "status_text": ""
+            }
+          },
+          "base_uri": "https://localhost:8080/",
+          "height": 261
+        }
+      },
+      "source": [
+        "from google.colab import  files\n",
+        "uploaded= files.upload()\n",
+        "df=pd.read_csv('kidney_disease.csv')\n",
+        "df.head()"
+      ],
+      "execution_count": 4,
+      "outputs": [
+        {
+          "output_type": "display_data",
+          "data": {
+            "text/html": [
+              "\n",
+              "     <input type=\"file\" id=\"files-68757d15-5618-4cb1-8f51-ceabfc583455\" name=\"files[]\" multiple disabled />\n",
+              "     <output id=\"result-68757d15-5618-4cb1-8f51-ceabfc583455\">\n",
+              "      Upload widget is only available when the cell has been executed in the\n",
+              "      current browser session. Please rerun this cell to enable.\n",
+              "      </output>\n",
+              "      <script src=\"/nbextensions/google.colab/files.js\"></script> "
+            ],
+            "text/plain": [
+              "<IPython.core.display.HTML object>"
+            ]
+          },
+          "metadata": {
+            "tags": []
+          }
+        },
+        {
+          "output_type": "stream",
+          "text": [
+            "Saving kidney_disease.csv to kidney_disease.csv\n"
+          ],
+          "name": "stdout"
+        },
+        {
+          "output_type": "execute_result",
+          "data": {
+            "text/html": [
+              "<div>\n",
+              "<style scoped>\n",
+              "    .dataframe tbody tr th:only-of-type {\n",
+              "        vertical-align: middle;\n",
+              "    }\n",
+              "\n",
+              "    .dataframe tbody tr th {\n",
+              "        vertical-align: top;\n",
+              "    }\n",
+              "\n",
+              "    .dataframe thead th {\n",
+              "        text-align: right;\n",
+              "    }\n",
+              "</style>\n",
+              "<table border=\"1\" class=\"dataframe\">\n",
+              "  <thead>\n",
+              "    <tr style=\"text-align: right;\">\n",
+              "      <th></th>\n",
+              "      <th>id</th>\n",
+              "      <th>age</th>\n",
+              "      <th>bp</th>\n",
+              "      <th>sg</th>\n",
+              "      <th>al</th>\n",
+              "      <th>su</th>\n",
+              "      <th>rbc</th>\n",
+              "      <th>pc</th>\n",
+              "      <th>pcc</th>\n",
+              "      <th>ba</th>\n",
+              "      <th>bgr</th>\n",
+              "      <th>bu</th>\n",
+              "      <th>sc</th>\n",
+              "      <th>sod</th>\n",
+              "      <th>pot</th>\n",
+              "      <th>hemo</th>\n",
+              "      <th>pcv</th>\n",
+              "      <th>wc</th>\n",
+              "      <th>rc</th>\n",
+              "      <th>htn</th>\n",
+              "      <th>dm</th>\n",
+              "      <th>cad</th>\n",
+              "      <th>appet</th>\n",
+              "      <th>pe</th>\n",
+              "      <th>ane</th>\n",
+              "      <th>classification</th>\n",
+              "    </tr>\n",
+              "  </thead>\n",
+              "  <tbody>\n",
+              "    <tr>\n",
+              "      <th>0</th>\n",
+              "      <td>0</td>\n",
+              "      <td>48.0</td>\n",
+              "      <td>80.0</td>\n",
+              "      <td>1.020</td>\n",
+              "      <td>1.0</td>\n",
+              "      <td>0.0</td>\n",
+              "      <td>NaN</td>\n",
+              "      <td>normal</td>\n",
+              "      <td>notpresent</td>\n",
+              "      <td>notpresent</td>\n",
+              "      <td>121.0</td>\n",
+              "      <td>36.0</td>\n",
+              "      <td>1.2</td>\n",
+              "      <td>NaN</td>\n",
+              "      <td>NaN</td>\n",
+              "      <td>15.4</td>\n",
+              "      <td>44</td>\n",
+              "      <td>7800</td>\n",
+              "      <td>5.2</td>\n",
+              "      <td>yes</td>\n",
+              "      <td>yes</td>\n",
+              "      <td>no</td>\n",
+              "      <td>good</td>\n",
+              "      <td>no</td>\n",
+              "      <td>no</td>\n",
+              "      <td>ckd</td>\n",
+              "    </tr>\n",
+              "    <tr>\n",
+              "      <th>1</th>\n",
+              "      <td>1</td>\n",
+              "      <td>7.0</td>\n",
+              "      <td>50.0</td>\n",
+              "      <td>1.020</td>\n",
+              "      <td>4.0</td>\n",
+              "      <td>0.0</td>\n",
+              "      <td>NaN</td>\n",
+              "      <td>normal</td>\n",
+              "      <td>notpresent</td>\n",
+              "      <td>notpresent</td>\n",
+              "      <td>NaN</td>\n",
+              "      <td>18.0</td>\n",
+              "      <td>0.8</td>\n",
+              "      <td>NaN</td>\n",
+              "      <td>NaN</td>\n",
+              "      <td>11.3</td>\n",
+              "      <td>38</td>\n",
+              "      <td>6000</td>\n",
+              "      <td>NaN</td>\n",
+              "      <td>no</td>\n",
+              "      <td>no</td>\n",
+              "      <td>no</td>\n",
+              "      <td>good</td>\n",
+              "      <td>no</td>\n",
+              "      <td>no</td>\n",
+              "      <td>ckd</td>\n",
+              "    </tr>\n",
+              "    <tr>\n",
+              "      <th>2</th>\n",
+              "      <td>2</td>\n",
+              "      <td>62.0</td>\n",
+              "      <td>80.0</td>\n",
+              "      <td>1.010</td>\n",
+              "      <td>2.0</td>\n",
+              "      <td>3.0</td>\n",
+              "      <td>normal</td>\n",
+              "      <td>normal</td>\n",
+              "      <td>notpresent</td>\n",
+              "      <td>notpresent</td>\n",
+              "      <td>423.0</td>\n",
+              "      <td>53.0</td>\n",
+              "      <td>1.8</td>\n",
+              "      <td>NaN</td>\n",
+              "      <td>NaN</td>\n",
+              "      <td>9.6</td>\n",
+              "      <td>31</td>\n",
+              "      <td>7500</td>\n",
+              "      <td>NaN</td>\n",
+              "      <td>no</td>\n",
+              "      <td>yes</td>\n",
+              "      <td>no</td>\n",
+              "      <td>poor</td>\n",
+              "      <td>no</td>\n",
+              "      <td>yes</td>\n",
+              "      <td>ckd</td>\n",
+              "    </tr>\n",
+              "    <tr>\n",
+              "      <th>3</th>\n",
+              "      <td>3</td>\n",
+              "      <td>48.0</td>\n",
+              "      <td>70.0</td>\n",
+              "      <td>1.005</td>\n",
+              "      <td>4.0</td>\n",
+              "      <td>0.0</td>\n",
+              "      <td>normal</td>\n",
+              "      <td>abnormal</td>\n",
+              "      <td>present</td>\n",
+              "      <td>notpresent</td>\n",
+              "      <td>117.0</td>\n",
+              "      <td>56.0</td>\n",
+              "      <td>3.8</td>\n",
+              "      <td>111.0</td>\n",
+              "      <td>2.5</td>\n",
+              "      <td>11.2</td>\n",
+              "      <td>32</td>\n",
+              "      <td>6700</td>\n",
+              "      <td>3.9</td>\n",
+              "      <td>yes</td>\n",
+              "      <td>no</td>\n",
+              "      <td>no</td>\n",
+              "      <td>poor</td>\n",
+              "      <td>yes</td>\n",
+              "      <td>yes</td>\n",
+              "      <td>ckd</td>\n",
+              "    </tr>\n",
+              "    <tr>\n",
+              "      <th>4</th>\n",
+              "      <td>4</td>\n",
+              "      <td>51.0</td>\n",
+              "      <td>80.0</td>\n",
+              "      <td>1.010</td>\n",
+              "      <td>2.0</td>\n",
+              "      <td>0.0</td>\n",
+              "      <td>normal</td>\n",
+              "      <td>normal</td>\n",
+              "      <td>notpresent</td>\n",
+              "      <td>notpresent</td>\n",
+              "      <td>106.0</td>\n",
+              "      <td>26.0</td>\n",
+              "      <td>1.4</td>\n",
+              "      <td>NaN</td>\n",
+              "      <td>NaN</td>\n",
+              "      <td>11.6</td>\n",
+              "      <td>35</td>\n",
+              "      <td>7300</td>\n",
+              "      <td>4.6</td>\n",
+              "      <td>no</td>\n",
+              "      <td>no</td>\n",
+              "      <td>no</td>\n",
+              "      <td>good</td>\n",
+              "      <td>no</td>\n",
+              "      <td>no</td>\n",
+              "      <td>ckd</td>\n",
+              "    </tr>\n",
+              "  </tbody>\n",
+              "</table>\n",
+              "</div>"
+            ],
+            "text/plain": [
+              "   id   age    bp     sg   al   su  ...   dm cad appet   pe  ane  classification\n",
+              "0   0  48.0  80.0  1.020  1.0  0.0  ...  yes  no  good   no   no             ckd\n",
+              "1   1   7.0  50.0  1.020  4.0  0.0  ...   no  no  good   no   no             ckd\n",
+              "2   2  62.0  80.0  1.010  2.0  3.0  ...  yes  no  poor   no  yes             ckd\n",
+              "3   3  48.0  70.0  1.005  4.0  0.0  ...   no  no  poor  yes  yes             ckd\n",
+              "4   4  51.0  80.0  1.010  2.0  0.0  ...   no  no  good   no   no             ckd\n",
+              "\n",
+              "[5 rows x 26 columns]"
+            ]
+          },
+          "metadata": {
+            "tags": []
+          },
+          "execution_count": 4
+        }
+      ]
+    },
+    {
+      "cell_type": "code",
+      "metadata": {
+        "id": "i3W1jrnTwtYl",
+        "colab_type": "code",
+        "outputId": "7b900673-e42b-430e-cd31-24b22ca7910b",
+        "colab": {
+          "base_uri": "https://localhost:8080/",
+          "height": 34
+        }
+      },
+      "source": [
+        "#get shape of data\n",
+        "df.shape"
+      ],
+      "execution_count": 5,
+      "outputs": [
+        {
+          "output_type": "execute_result",
+          "data": {
+            "text/plain": [
+              "(400, 26)"
+            ]
+          },
+          "metadata": {
+            "tags": []
+          },
+          "execution_count": 5
+        }
+      ]
+    },
+    {
+      "cell_type": "code",
+      "metadata": {
+        "id": "Z41NiHayw2e1",
+        "colab_type": "code",
+        "colab": {}
+      },
+      "source": [
+        "#create list of columns for informations\n",
+        "columns_to_retain=['sg','al','sc','hemo','pcv','pcc','rbc','age','bp','bu','sod','pot','appet','classification']  #select columns\n",
+        "df = df.drop([col for col in df.columns if not col in columns_to_retain], axis=1)  # filter selected columns\n",
+        "df = df.dropna(axis=0) # drop missing values or N/A data rows\n"
+      ],
+      "execution_count": 0,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {
+        "id": "gH15VKAJ3Vim",
+        "colab_type": "code",
+        "colab": {}
+      },
+      "source": [
+        "for column in df.columns:\n",
+        "  if df[column].dtype ==np.number:\n",
+        "    continue\n",
+        "  df[column]=LabelEncoder().fit_transform(df[column])\n",
+        "  "
+      ],
+      "execution_count": 0,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {
+        "id": "-9-njdIH3yCv",
+        "colab_type": "code",
+        "outputId": "13764743-415b-4129-e81b-44beddea38a8",
+        "colab": {
+          "base_uri": "https://localhost:8080/",
+          "height": 204
+        }
+      },
+      "source": [
+        "df.head()"
+      ],
+      "execution_count": 8,
+      "outputs": [
+        {
+          "output_type": "execute_result",
+          "data": {
+            "text/html": [
+              "<div>\n",
+              "<style scoped>\n",
+              "    .dataframe tbody tr th:only-of-type {\n",
+              "        vertical-align: middle;\n",
+              "    }\n",
+              "\n",
+              "    .dataframe tbody tr th {\n",
+              "        vertical-align: top;\n",
+              "    }\n",
+              "\n",
+              "    .dataframe thead th {\n",
+              "        text-align: right;\n",
+              "    }\n",
+              "</style>\n",
+              "<table border=\"1\" class=\"dataframe\">\n",
+              "  <thead>\n",
+              "    <tr style=\"text-align: right;\">\n",
+              "      <th></th>\n",
+              "      <th>age</th>\n",
+              "      <th>bp</th>\n",
+              "      <th>sg</th>\n",
+              "      <th>al</th>\n",
+              "      <th>rbc</th>\n",
+              "      <th>pcc</th>\n",
+              "      <th>bu</th>\n",
+              "      <th>sc</th>\n",
+              "      <th>sod</th>\n",
+              "      <th>pot</th>\n",
+              "      <th>hemo</th>\n",
+              "      <th>pcv</th>\n",
+              "      <th>appet</th>\n",
+              "      <th>classification</th>\n",
+              "    </tr>\n",
+              "  </thead>\n",
+              "  <tbody>\n",
+              "    <tr>\n",
+              "      <th>3</th>\n",
+              "      <td>48.0</td>\n",
+              "      <td>70.0</td>\n",
+              "      <td>1.005</td>\n",
+              "      <td>4.0</td>\n",
+              "      <td>1</td>\n",
+              "      <td>1</td>\n",
+              "      <td>56.0</td>\n",
+              "      <td>3.8</td>\n",
+              "      <td>111.0</td>\n",
+              "      <td>2.5</td>\n",
+              "      <td>11.2</td>\n",
+              "      <td>14</td>\n",
+              "      <td>1</td>\n",
+              "      <td>0</td>\n",
+              "    </tr>\n",
+              "    <tr>\n",
+              "      <th>9</th>\n",
+              "      <td>53.0</td>\n",
+              "      <td>90.0</td>\n",
+              "      <td>1.020</td>\n",
+              "      <td>2.0</td>\n",
+              "      <td>0</td>\n",
+              "      <td>1</td>\n",
+              "      <td>107.0</td>\n",
+              "      <td>7.2</td>\n",
+              "      <td>114.0</td>\n",
+              "      <td>3.7</td>\n",
+              "      <td>9.5</td>\n",
+              "      <td>11</td>\n",
+              "      <td>1</td>\n",
+              "      <td>0</td>\n",
+              "    </tr>\n",
+              "    <tr>\n",
+              "      <th>11</th>\n",
+              "      <td>63.0</td>\n",
+              "      <td>70.0</td>\n",
+              "      <td>1.010</td>\n",
+              "      <td>3.0</td>\n",
+              "      <td>0</td>\n",
+              "      <td>1</td>\n",
+              "      <td>60.0</td>\n",
+              "      <td>2.7</td>\n",
+              "      <td>131.0</td>\n",
+              "      <td>4.2</td>\n",
+              "      <td>10.8</td>\n",
+              "      <td>14</td>\n",
+              "      <td>1</td>\n",
+              "      <td>0</td>\n",
+              "    </tr>\n",
+              "    <tr>\n",
+              "      <th>14</th>\n",
+              "      <td>68.0</td>\n",
+              "      <td>80.0</td>\n",
+              "      <td>1.010</td>\n",
+              "      <td>3.0</td>\n",
+              "      <td>1</td>\n",
+              "      <td>1</td>\n",
+              "      <td>90.0</td>\n",
+              "      <td>4.1</td>\n",
+              "      <td>130.0</td>\n",
+              "      <td>6.4</td>\n",
+              "      <td>5.6</td>\n",
+              "      <td>1</td>\n",
+              "      <td>1</td>\n",
+              "      <td>0</td>\n",
+              "    </tr>\n",
+              "    <tr>\n",
+              "      <th>20</th>\n",
+              "      <td>61.0</td>\n",
+              "      <td>80.0</td>\n",
+              "      <td>1.015</td>\n",
+              "      <td>2.0</td>\n",
+              "      <td>0</td>\n",
+              "      <td>0</td>\n",
+              "      <td>148.0</td>\n",
+              "      <td>3.9</td>\n",
+              "      <td>135.0</td>\n",
+              "      <td>5.2</td>\n",
+              "      <td>7.7</td>\n",
+              "      <td>6</td>\n",
+              "      <td>1</td>\n",
+              "      <td>0</td>\n",
+              "    </tr>\n",
+              "  </tbody>\n",
+              "</table>\n",
+              "</div>"
+            ],
+            "text/plain": [
+              "     age    bp     sg   al  rbc  ...  pot  hemo  pcv  appet  classification\n",
+              "3   48.0  70.0  1.005  4.0    1  ...  2.5  11.2   14      1               0\n",
+              "9   53.0  90.0  1.020  2.0    0  ...  3.7   9.5   11      1               0\n",
+              "11  63.0  70.0  1.010  3.0    0  ...  4.2  10.8   14      1               0\n",
+              "14  68.0  80.0  1.010  3.0    1  ...  6.4   5.6    1      1               0\n",
+              "20  61.0  80.0  1.015  2.0    0  ...  5.2   7.7    6      1               0\n",
+              "\n",
+              "[5 rows x 14 columns]"
+            ]
+          },
+          "metadata": {
+            "tags": []
+          },
+          "execution_count": 8
+        }
+      ]
+    },
+    {
+      "cell_type": "code",
+      "metadata": {
+        "id": "of9XTHWn6_8g",
+        "colab_type": "code",
+        "colab": {}
+      },
+      "source": [
+        "#difining X(feature set) and Y(result set)\n",
+        "X=df.drop(['classification'],axis=1)\n",
+        "Y=df['classification']\n"
+      ],
+      "execution_count": 0,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {
+        "id": "9ldapdyt7kOA",
+        "colab_type": "code",
+        "colab": {}
+      },
+      "source": [
+        "#Feature scalling using mon-max, after scalling all features lie between 1 and 0\n",
+        "x_scaler=MinMaxScaler()\n",
+        "x_scaler.fit(X)\n",
+        "column_name=X.columns\n",
+        "X[column_name]=x_scaler.transform(X)\n"
+      ],
+      "execution_count": 0,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {
+        "id": "PBZk8Ri-8b8D",
+        "colab_type": "code",
+        "colab": {}
+      },
+      "source": [
+        "# dvide train set and test sets( shuffle for better train set)\n",
+        "X_train,X_test,Y_train,Y_test=train_test_split(X,Y,test_size=0.2,shuffle=True);"
+      ],
+      "execution_count": 0,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {
+        "id": "d5_eMgiM9Ge4",
+        "colab_type": "code",
+        "colab": {
+          "base_uri": "https://localhost:8080/",
+          "height": 153
+        },
+        "outputId": "77d9117d-35cb-406d-a0d9-1fb2a4c2b411"
+      },
+      "source": [
+        "#build model(using sequential method)  1 input layer(13 neurons) / 1 hiddn layer(256 neurons) / 1 out put layer(onr neuron)\n",
+        "model=Sequential()\n",
+        "model.add(Dense(256, activation='relu',kernel_initializer=k.initializers.random_normal(seed=13),input_dim=len(X.columns)))\n",
+        "model.add(Dense(1,activation='hard_sigmoid'))"
+      ],
+      "execution_count": 12,
+      "outputs": [
+        {
+          "output_type": "stream",
+          "text": [
+            "WARNING:tensorflow:From /usr/local/lib/python3.6/dist-packages/keras/backend/tensorflow_backend.py:66: The name tf.get_default_graph is deprecated. Please use tf.compat.v1.get_default_graph instead.\n",
+            "\n",
+            "WARNING:tensorflow:From /usr/local/lib/python3.6/dist-packages/keras/backend/tensorflow_backend.py:541: The name tf.placeholder is deprecated. Please use tf.compat.v1.placeholder instead.\n",
+            "\n",
+            "WARNING:tensorflow:From /usr/local/lib/python3.6/dist-packages/keras/backend/tensorflow_backend.py:4409: The name tf.random_normal is deprecated. Please use tf.random.normal instead.\n",
+            "\n",
+            "WARNING:tensorflow:From /usr/local/lib/python3.6/dist-packages/keras/backend/tensorflow_backend.py:4432: The name tf.random_uniform is deprecated. Please use tf.random.uniform instead.\n",
+            "\n"
+          ],
+          "name": "stdout"
+        }
+      ]
+    },
+    {
+      "cell_type": "code",
+      "metadata": {
+        "id": "F2Shjc6Z_YFG",
+        "colab_type": "code",
+        "colab": {}
+      },
+      "source": [
+        "#compile model\n",
+        "model.compile(loss='binary_crossentropy', optimizer='adam',metrics=['accuracy'])"
+      ],
+      "execution_count": 0,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {
+        "id": "JYydoSkG_sjF",
+        "colab_type": "code",
+        "outputId": "c0834385-14a2-41c6-bf1d-2efa359ac081",
+        "colab": {
+          "base_uri": "https://localhost:8080/",
+          "height": 1000
+        }
+      },
+      "source": [
+        "#train data epochs=200\n",
+        "history=model.fit(X_train,Y_train, epochs=120, batch_size=X_train.shape[0])"
+      ],
+      "execution_count": 15,
+      "outputs": [
+        {
+          "output_type": "stream",
+          "text": [
+            "WARNING:tensorflow:From /usr/local/lib/python3.6/dist-packages/keras/backend/tensorflow_backend.py:1033: The name tf.assign_add is deprecated. Please use tf.compat.v1.assign_add instead.\n",
+            "\n",
+            "WARNING:tensorflow:From /usr/local/lib/python3.6/dist-packages/keras/backend/tensorflow_backend.py:1020: The name tf.assign is deprecated. Please use tf.compat.v1.assign instead.\n",
+            "\n",
+            "WARNING:tensorflow:From /usr/local/lib/python3.6/dist-packages/keras/backend/tensorflow_backend.py:3005: The name tf.Session is deprecated. Please use tf.compat.v1.Session instead.\n",
+            "\n",
+            "Epoch 1/120\n",
+            "WARNING:tensorflow:From /usr/local/lib/python3.6/dist-packages/keras/backend/tensorflow_backend.py:190: The name tf.get_default_session is deprecated. Please use tf.compat.v1.get_default_session instead.\n",
+            "\n",
+            "WARNING:tensorflow:From /usr/local/lib/python3.6/dist-packages/keras/backend/tensorflow_backend.py:197: The name tf.ConfigProto is deprecated. Please use tf.compat.v1.ConfigProto instead.\n",
+            "\n",
+            "WARNING:tensorflow:From /usr/local/lib/python3.6/dist-packages/keras/backend/tensorflow_backend.py:207: The name tf.global_variables is deprecated. Please use tf.compat.v1.global_variables instead.\n",
+            "\n",
+            "WARNING:tensorflow:From /usr/local/lib/python3.6/dist-packages/keras/backend/tensorflow_backend.py:216: The name tf.is_variable_initialized is deprecated. Please use tf.compat.v1.is_variable_initialized instead.\n",
+            "\n",
+            "WARNING:tensorflow:From /usr/local/lib/python3.6/dist-packages/keras/backend/tensorflow_backend.py:223: The name tf.variables_initializer is deprecated. Please use tf.compat.v1.variables_initializer instead.\n",
+            "\n",
+            "145/145 [==============================] - 1s 4ms/step - loss: 0.6665 - acc: 0.8759\n",
+            "Epoch 2/120\n",
+            "145/145 [==============================] - 0s 15us/step - loss: 0.6504 - acc: 0.8621\n",
+            "Epoch 3/120\n",
+            "145/145 [==============================] - 0s 30us/step - loss: 0.6349 - acc: 0.8483\n",
+            "Epoch 4/120\n",
+            "145/145 [==============================] - 0s 9us/step - loss: 0.6202 - acc: 0.8345\n",
+            "Epoch 5/120\n",
+            "145/145 [==============================] - 0s 38us/step - loss: 0.6060 - acc: 0.8138\n",
+            "Epoch 6/120\n",
+            "145/145 [==============================] - 0s 12us/step - loss: 0.5924 - acc: 0.8138\n",
+            "Epoch 7/120\n",
+            "145/145 [==============================] - 0s 31us/step - loss: 0.5794 - acc: 0.8138\n",
+            "Epoch 8/120\n",
+            "145/145 [==============================] - 0s 26us/step - loss: 0.5670 - acc: 0.8069\n",
+            "Epoch 9/120\n",
+            "145/145 [==============================] - 0s 32us/step - loss: 0.5549 - acc: 0.8069\n",
+            "Epoch 10/120\n",
+            "145/145 [==============================] - 0s 32us/step - loss: 0.5432 - acc: 0.8069\n",
+            "Epoch 11/120\n",
+            "145/145 [==============================] - 0s 12us/step - loss: 0.5318 - acc: 0.8069\n",
+            "Epoch 12/120\n",
+            "145/145 [==============================] - 0s 32us/step - loss: 0.5205 - acc: 0.8069\n",
+            "Epoch 13/120\n",
+            "145/145 [==============================] - 0s 38us/step - loss: 0.5095 - acc: 0.8069\n",
+            "Epoch 14/120\n",
+            "145/145 [==============================] - 0s 22us/step - loss: 0.4986 - acc: 0.8069\n",
+            "Epoch 15/120\n",
+            "145/145 [==============================] - 0s 21us/step - loss: 0.4880 - acc: 0.8069\n",
+            "Epoch 16/120\n",
+            "145/145 [==============================] - 0s 17us/step - loss: 0.4774 - acc: 0.8069\n",
+            "Epoch 17/120\n",
+            "145/145 [==============================] - 0s 18us/step - loss: 0.4670 - acc: 0.8069\n",
+            "Epoch 18/120\n",
+            "145/145 [==============================] - 0s 15us/step - loss: 0.4566 - acc: 0.8069\n",
+            "Epoch 19/120\n",
+            "145/145 [==============================] - 0s 19us/step - loss: 0.4463 - acc: 0.8069\n",
+            "Epoch 20/120\n",
+            "145/145 [==============================] - 0s 23us/step - loss: 0.4360 - acc: 0.8138\n",
+            "Epoch 21/120\n",
+            "145/145 [==============================] - 0s 33us/step - loss: 0.4258 - acc: 0.8276\n",
+            "Epoch 22/120\n",
+            "145/145 [==============================] - 0s 20us/step - loss: 0.4155 - acc: 0.8276\n",
+            "Epoch 23/120\n",
+            "145/145 [==============================] - 0s 17us/step - loss: 0.4053 - acc: 0.8276\n",
+            "Epoch 24/120\n",
+            "145/145 [==============================] - 0s 21us/step - loss: 0.3951 - acc: 0.8414\n",
+            "Epoch 25/120\n",
+            "145/145 [==============================] - 0s 17us/step - loss: 0.3849 - acc: 0.8483\n",
+            "Epoch 26/120\n",
+            "145/145 [==============================] - 0s 16us/step - loss: 0.3747 - acc: 0.8483\n",
+            "Epoch 27/120\n",
+            "145/145 [==============================] - 0s 13us/step - loss: 0.3644 - acc: 0.8483\n",
+            "Epoch 28/120\n",
+            "145/145 [==============================] - 0s 27us/step - loss: 0.3540 - acc: 0.8552\n",
+            "Epoch 29/120\n",
+            "145/145 [==============================] - 0s 17us/step - loss: 0.3436 - acc: 0.8552\n",
+            "Epoch 30/120\n",
+            "145/145 [==============================] - 0s 17us/step - loss: 0.3332 - acc: 0.8552\n",
+            "Epoch 31/120\n",
+            "145/145 [==============================] - 0s 14us/step - loss: 0.3227 - acc: 0.8759\n",
+            "Epoch 32/120\n",
+            "145/145 [==============================] - 0s 11us/step - loss: 0.3122 - acc: 0.8828\n",
+            "Epoch 33/120\n",
+            "145/145 [==============================] - 0s 13us/step - loss: 0.3016 - acc: 0.8828\n",
+            "Epoch 34/120\n",
+            "145/145 [==============================] - 0s 15us/step - loss: 0.2909 - acc: 0.8897\n",
+            "Epoch 35/120\n",
+            "145/145 [==============================] - 0s 18us/step - loss: 0.2803 - acc: 0.8897\n",
+            "Epoch 36/120\n",
+            "145/145 [==============================] - 0s 14us/step - loss: 0.2696 - acc: 0.8897\n",
+            "Epoch 37/120\n",
+            "145/145 [==============================] - 0s 15us/step - loss: 0.2588 - acc: 0.8897\n",
+            "Epoch 38/120\n",
+            "145/145 [==============================] - 0s 15us/step - loss: 0.2481 - acc: 0.8897\n",
+            "Epoch 39/120\n",
+            "145/145 [==============================] - 0s 11us/step - loss: 0.2374 - acc: 0.8897\n",
+            "Epoch 40/120\n",
+            "145/145 [==============================] - 0s 15us/step - loss: 0.2269 - acc: 0.8897\n",
+            "Epoch 41/120\n",
+            "145/145 [==============================] - 0s 26us/step - loss: 0.2168 - acc: 0.8897\n",
+            "Epoch 42/120\n",
+            "145/145 [==============================] - 0s 22us/step - loss: 0.2074 - acc: 0.8897\n",
+            "Epoch 43/120\n",
+            "145/145 [==============================] - 0s 16us/step - loss: 0.1990 - acc: 0.8897\n",
+            "Epoch 44/120\n",
+            "145/145 [==============================] - 0s 28us/step - loss: 0.1909 - acc: 0.8897\n",
+            "Epoch 45/120\n",
+            "145/145 [==============================] - 0s 24us/step - loss: 0.1829 - acc: 0.8897\n",
+            "Epoch 46/120\n",
+            "145/145 [==============================] - 0s 22us/step - loss: 0.1753 - acc: 0.8897\n",
+            "Epoch 47/120\n",
+            "145/145 [==============================] - 0s 32us/step - loss: 0.1680 - acc: 0.9103\n",
+            "Epoch 48/120\n",
+            "145/145 [==============================] - 0s 21us/step - loss: 0.1610 - acc: 0.9172\n",
+            "Epoch 49/120\n",
+            "145/145 [==============================] - 0s 24us/step - loss: 0.1545 - acc: 0.9241\n",
+            "Epoch 50/120\n",
+            "145/145 [==============================] - 0s 21us/step - loss: 0.1485 - acc: 0.9241\n",
+            "Epoch 51/120\n",
+            "145/145 [==============================] - 0s 23us/step - loss: 0.1427 - acc: 0.9241\n",
+            "Epoch 52/120\n",
+            "145/145 [==============================] - 0s 20us/step - loss: 0.1372 - acc: 0.9310\n",
+            "Epoch 53/120\n",
+            "145/145 [==============================] - 0s 27us/step - loss: 0.1320 - acc: 0.9310\n",
+            "Epoch 54/120\n",
+            "145/145 [==============================] - 0s 76us/step - loss: 0.1270 - acc: 0.9310\n",
+            "Epoch 55/120\n",
+            "145/145 [==============================] - 0s 25us/step - loss: 0.1221 - acc: 0.9379\n",
+            "Epoch 56/120\n",
+            "145/145 [==============================] - 0s 20us/step - loss: 0.1175 - acc: 0.9379\n",
+            "Epoch 57/120\n",
+            "145/145 [==============================] - 0s 23us/step - loss: 0.1132 - acc: 0.9379\n",
+            "Epoch 58/120\n",
+            "145/145 [==============================] - 0s 15us/step - loss: 0.1093 - acc: 0.9379\n",
+            "Epoch 59/120\n",
+            "145/145 [==============================] - 0s 24us/step - loss: 0.1055 - acc: 0.9379\n",
+            "Epoch 60/120\n",
+            "145/145 [==============================] - 0s 20us/step - loss: 0.1019 - acc: 0.9379\n",
+            "Epoch 61/120\n",
+            "145/145 [==============================] - 0s 21us/step - loss: 0.0983 - acc: 0.9379\n",
+            "Epoch 62/120\n",
+            "145/145 [==============================] - 0s 21us/step - loss: 0.0950 - acc: 0.9448\n",
+            "Epoch 63/120\n",
+            "145/145 [==============================] - 0s 19us/step - loss: 0.0918 - acc: 0.9448\n",
+            "Epoch 64/120\n",
+            "145/145 [==============================] - 0s 21us/step - loss: 0.0888 - acc: 0.9448\n",
+            "Epoch 65/120\n",
+            "145/145 [==============================] - 0s 17us/step - loss: 0.0858 - acc: 0.9448\n",
+            "Epoch 66/120\n",
+            "145/145 [==============================] - 0s 19us/step - loss: 0.0831 - acc: 0.9517\n",
+            "Epoch 67/120\n",
+            "145/145 [==============================] - 0s 24us/step - loss: 0.0805 - acc: 0.9655\n",
+            "Epoch 68/120\n",
+            "145/145 [==============================] - 0s 18us/step - loss: 0.0782 - acc: 0.9655\n",
+            "Epoch 69/120\n",
+            "145/145 [==============================] - 0s 20us/step - loss: 0.0759 - acc: 0.9655\n",
+            "Epoch 70/120\n",
+            "145/145 [==============================] - 0s 20us/step - loss: 0.0740 - acc: 0.9655\n",
+            "Epoch 71/120\n",
+            "145/145 [==============================] - 0s 24us/step - loss: 0.0722 - acc: 0.9655\n",
+            "Epoch 72/120\n",
+            "145/145 [==============================] - 0s 56us/step - loss: 0.0706 - acc: 0.9655\n",
+            "Epoch 73/120\n",
+            "145/145 [==============================] - 0s 18us/step - loss: 0.0691 - acc: 0.9655\n",
+            "Epoch 74/120\n",
+            "145/145 [==============================] - 0s 21us/step - loss: 0.0677 - acc: 0.9655\n",
+            "Epoch 75/120\n",
+            "145/145 [==============================] - 0s 22us/step - loss: 0.0663 - acc: 0.9655\n",
+            "Epoch 76/120\n",
+            "145/145 [==============================] - 0s 20us/step - loss: 0.0651 - acc: 0.9655\n",
+            "Epoch 77/120\n",
+            "145/145 [==============================] - 0s 21us/step - loss: 0.0639 - acc: 0.9655\n",
+            "Epoch 78/120\n",
+            "145/145 [==============================] - 0s 16us/step - loss: 0.0628 - acc: 0.9655\n",
+            "Epoch 79/120\n",
+            "145/145 [==============================] - 0s 23us/step - loss: 0.0617 - acc: 0.9724\n",
+            "Epoch 80/120\n",
+            "145/145 [==============================] - 0s 20us/step - loss: 0.0607 - acc: 0.9724\n",
+            "Epoch 81/120\n",
+            "145/145 [==============================] - 0s 18us/step - loss: 0.0597 - acc: 0.9724\n",
+            "Epoch 82/120\n",
+            "145/145 [==============================] - 0s 23us/step - loss: 0.0587 - acc: 0.9724\n",
+            "Epoch 83/120\n",
+            "145/145 [==============================] - 0s 16us/step - loss: 0.0577 - acc: 0.9724\n",
+            "Epoch 84/120\n",
+            "145/145 [==============================] - 0s 15us/step - loss: 0.0568 - acc: 0.9724\n",
+            "Epoch 85/120\n",
+            "145/145 [==============================] - 0s 11us/step - loss: 0.0559 - acc: 0.9724\n",
+            "Epoch 86/120\n",
+            "145/145 [==============================] - 0s 15us/step - loss: 0.0551 - acc: 0.9724\n",
+            "Epoch 87/120\n",
+            "145/145 [==============================] - 0s 22us/step - loss: 0.0542 - acc: 0.9724\n",
+            "Epoch 88/120\n",
+            "145/145 [==============================] - 0s 12us/step - loss: 0.0534 - acc: 0.9724\n",
+            "Epoch 89/120\n",
+            "145/145 [==============================] - 0s 11us/step - loss: 0.0527 - acc: 0.9724\n",
+            "Epoch 90/120\n",
+            "145/145 [==============================] - 0s 20us/step - loss: 0.0520 - acc: 0.9724\n",
+            "Epoch 91/120\n",
+            "145/145 [==============================] - 0s 19us/step - loss: 0.0513 - acc: 0.9724\n",
+            "Epoch 92/120\n",
+            "145/145 [==============================] - 0s 12us/step - loss: 0.0506 - acc: 0.9724\n",
+            "Epoch 93/120\n",
+            "145/145 [==============================] - 0s 13us/step - loss: 0.0499 - acc: 0.9724\n",
+            "Epoch 94/120\n",
+            "145/145 [==============================] - 0s 19us/step - loss: 0.0492 - acc: 0.9724\n",
+            "Epoch 95/120\n",
+            "145/145 [==============================] - 0s 16us/step - loss: 0.0486 - acc: 0.9724\n",
+            "Epoch 96/120\n",
+            "145/145 [==============================] - 0s 11us/step - loss: 0.0479 - acc: 0.9724\n",
+            "Epoch 97/120\n",
+            "145/145 [==============================] - 0s 12us/step - loss: 0.0473 - acc: 0.9724\n",
+            "Epoch 98/120\n",
+            "145/145 [==============================] - 0s 19us/step - loss: 0.0467 - acc: 0.9724\n",
+            "Epoch 99/120\n",
+            "145/145 [==============================] - 0s 15us/step - loss: 0.0460 - acc: 0.9724\n",
+            "Epoch 100/120\n",
+            "145/145 [==============================] - 0s 18us/step - loss: 0.0454 - acc: 0.9724\n",
+            "Epoch 101/120\n",
+            "145/145 [==============================] - 0s 16us/step - loss: 0.0448 - acc: 0.9724\n",
+            "Epoch 102/120\n",
+            "145/145 [==============================] - 0s 13us/step - loss: 0.0442 - acc: 0.9724\n",
+            "Epoch 103/120\n",
+            "145/145 [==============================] - 0s 13us/step - loss: 0.0436 - acc: 0.9724\n",
+            "Epoch 104/120\n",
+            "145/145 [==============================] - 0s 14us/step - loss: 0.0430 - acc: 0.9724\n",
+            "Epoch 105/120\n",
+            "145/145 [==============================] - 0s 22us/step - loss: 0.0425 - acc: 0.9862\n",
+            "Epoch 106/120\n",
+            "145/145 [==============================] - 0s 22us/step - loss: 0.0419 - acc: 0.9862\n",
+            "Epoch 107/120\n",
+            "145/145 [==============================] - 0s 15us/step - loss: 0.0414 - acc: 0.9862\n",
+            "Epoch 108/120\n",
+            "145/145 [==============================] - 0s 15us/step - loss: 0.0409 - acc: 0.9862\n",
+            "Epoch 109/120\n",
+            "145/145 [==============================] - 0s 23us/step - loss: 0.0404 - acc: 0.9931\n",
+            "Epoch 110/120\n",
+            "145/145 [==============================] - 0s 20us/step - loss: 0.0399 - acc: 0.9931\n",
+            "Epoch 111/120\n",
+            "145/145 [==============================] - 0s 21us/step - loss: 0.0395 - acc: 0.9931\n",
+            "Epoch 112/120\n",
+            "145/145 [==============================] - 0s 19us/step - loss: 0.0391 - acc: 0.9931\n",
+            "Epoch 113/120\n",
+            "145/145 [==============================] - 0s 22us/step - loss: 0.0387 - acc: 0.9931\n",
+            "Epoch 114/120\n",
+            "145/145 [==============================] - 0s 21us/step - loss: 0.0383 - acc: 0.9931\n",
+            "Epoch 115/120\n",
+            "145/145 [==============================] - 0s 23us/step - loss: 0.0379 - acc: 0.9931\n",
+            "Epoch 116/120\n",
+            "145/145 [==============================] - 0s 26us/step - loss: 0.0375 - acc: 0.9931\n",
+            "Epoch 117/120\n",
+            "145/145 [==============================] - 0s 24us/step - loss: 0.0372 - acc: 0.9931\n",
+            "Epoch 118/120\n",
+            "145/145 [==============================] - 0s 28us/step - loss: 0.0368 - acc: 0.9931\n",
+            "Epoch 119/120\n",
+            "145/145 [==============================] - 0s 26us/step - loss: 0.0365 - acc: 0.9931\n",
+            "Epoch 120/120\n",
+            "145/145 [==============================] - 0s 23us/step - loss: 0.0361 - acc: 0.9931\n"
+          ],
+          "name": "stdout"
+        }
+      ]
+    },
+    {
+      "cell_type": "code",
+      "metadata": {
+        "id": "Q2QcG8bCGEyq",
+        "colab_type": "code",
+        "colab": {}
+      },
+      "source": [
+        "model.save('ckd.model')"
+      ],
+      "execution_count": 0,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {
+        "id": "IA_Fi7stGMCl",
+        "colab_type": "code",
+        "colab": {
+          "base_uri": "https://localhost:8080/",
+          "height": 312
+        },
+        "outputId": "9bd56c99-942f-4a32-e1e7-e0890b26fd30"
+      },
+      "source": [
+        "#visualize model and loss accuracy\n",
+        "plt.plot(history.history['acc'])\n",
+        "plt.plot(history.history['loss'])\n",
+        "plt.title('Model accuracy and model')\n",
+        "plt.ylabel('accuracy and loss')\n",
+        "plt.xlabel('epoch')"
+      ],
+      "execution_count": 18,
+      "outputs": [
+        {
+          "output_type": "execute_result",
+          "data": {
+            "text/plain": [
+              "Text(0.5, 0, 'epoch')"
+            ]
+          },
+          "metadata": {
+            "tags": []
+          },
+          "execution_count": 18
+        },
+        {
+          "output_type": "display_data",
+          "data": {
+            "image/png": "iVBORw0KGgoAAAANSUhEUgAAAYIAAAEWCAYAAABrDZDcAAAABHNCSVQICAgIfAhkiAAAAAlwSFlz\nAAALEgAACxIB0t1+/AAAADh0RVh0U29mdHdhcmUAbWF0cGxvdGxpYiB2ZXJzaW9uMy4xLjMsIGh0\ndHA6Ly9tYXRwbG90bGliLm9yZy+AADFEAAAgAElEQVR4nO3dd5wV1fnH8c+zBZbepTcFC3bcYJTY\nkCiiATVGRewtv8SWRGNMMyYxJv5izM8WDSIWLIg1RFFEgoXYKFZABVEEREGpUhZ29/n9cWblsuyy\nF9jZuXfv9/16zeveKXfmGYa9z51z5pxj7o6IiOSuvKQDEBGRZCkRiIjkOCUCEZEcp0QgIpLjlAhE\nRHKcEoGISI5TIpDYmVkPM3MzK0hj27PNbEpdxJUrzOweM7s2gePqumcJJQLZjJl9YmYbzKxtpeVv\nRn/UPZKJTETiokQgVfkYGFYxY2Z7A42TCyczpPPLViQbKRFIVUYDZ6bMnwXcl7qBmbUws/vMbKmZ\nzTez35hZXrQu38xuMLMvzWwecGwVn73LzBab2SIzu9bM8tMJzMweMbPPzWylmb1kZnumrGtkZn+L\n4llpZlPMrFG07jtm9oqZrTCzBWZ2drT8BTM7P2UfmxVRRHdBF5nZHGBOtOymaB+rzGy6mR2Ssn2+\nmf3KzD4ys9XR+q5mdpuZ/a3SuYwzs59Wc55bO8Y1ZjY2+vdfbWYzzaw4Zf3+ZjYjWvcwULSVf8+z\nzey/Zvb36N9mnpkdHC1fYGZLzOyslO0Tue4SLyUCqcprQHMz2yP6Qz0VuL/SNrcALYCdgcMIieOc\naN0FwHHA/kAxcFKlz94DlAK9om2OAs4nPc8AvYGdgBnAAynrbgAOAA4GWgNXAuVm1j363C1AO2A/\n4K00jwdwPHAg0CeanxrtozXwIPCImVV82f6McDc1GGgOnAusBe4FhqV8abYFBkafr8rWjgEwBBgD\ntATGAbdG+20APElI5q2BR4Dv13B+BwLvAG2iY40BvkW4PqcDt5pZ02jbpK67xMndNWn6ZgI+IXxB\n/Qb4MzAImAgUAA70APKBDUCflM/9EHghev8f4H9S1h0VfbYAaA+UAI1S1g8DJkfvzwampBlry2i/\nLQg/atYB+1ax3S+BJ6rZxwvA+Snzmx0/2v+AGuJYXnFc4ANgaDXbzQa+G72/GBi/Ddcl9RjXAM+n\n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\njlMiEBHJcf8PGttfbz7dvgcAAAAASUVORK5CYII=\n",
+            "text/plain": [
+              "<Figure size 432x288 with 1 Axes>"
+            ]
+          },
+          "metadata": {
+            "tags": []
+          }
+        }
+      ]
+    },
+    {
+      "cell_type": "code",
+      "metadata": {
+        "id": "V-z5_dT3Iogd",
+        "colab_type": "code",
+        "colab": {
+          "base_uri": "https://localhost:8080/",
+          "height": 51
+        },
+        "outputId": "2d196e3c-8132-4851-9381-7599824aa2c7"
+      },
+      "source": [
+        "print('shape of training data: ',X_train.shape)\n",
+        "print('shape of test data: ',X_test.shape)"
+      ],
+      "execution_count": 20,
+      "outputs": [
+        {
+          "output_type": "stream",
+          "text": [
+            "shape of training data:  (145, 13)\n",
+            "shape of test data:  (37, 13)\n"
+          ],
+          "name": "stdout"
+        }
+      ]
+    },
+    {
+      "cell_type": "code",
+      "metadata": {
+        "id": "IzzL2Us_JEGb",
+        "colab_type": "code",
+        "colab": {
+          "base_uri": "https://localhost:8080/",
+          "height": 646
+        },
+        "outputId": "e8807d14-f8d5-4cd3-8231-0dc0637c436b"
+      },
+      "source": [
+        "pred=model.predict(X_test)\n",
+        "pred=[1 if y>=0.5 else 0 for y in pred]\n",
+        "pred"
+      ],
+      "execution_count": 23,
+      "outputs": [
+        {
+          "output_type": "execute_result",
+          "data": {
+            "text/plain": [
+              "[1,\n",
+              " 1,\n",
+              " 1,\n",
+              " 1,\n",
+              " 1,\n",
+              " 1,\n",
+              " 1,\n",
+              " 0,\n",
+              " 1,\n",
+              " 0,\n",
+              " 0,\n",
+              " 1,\n",
+              " 1,\n",
+              " 0,\n",
+              " 0,\n",
+              " 1,\n",
+              " 0,\n",
+              " 1,\n",
+              " 0,\n",
+              " 0,\n",
+              " 1,\n",
+              " 0,\n",
+              " 1,\n",
+              " 1,\n",
+              " 1,\n",
+              " 1,\n",
+              " 1,\n",
+              " 1,\n",
+              " 1,\n",
+              " 1,\n",
+              " 0,\n",
+              " 1,\n",
+              " 0,\n",
+              " 0,\n",
+              " 1,\n",
+              " 1,\n",
+              " 1]"
+            ]
+          },
+          "metadata": {
+            "tags": []
+          },
+          "execution_count": 23
+        }
+      ]
+    },
+    {
+      "cell_type": "code",
+      "metadata": {
+        "id": "w32VVo_PKEjX",
+        "colab_type": "code",
+        "colab": {
+          "base_uri": "https://localhost:8080/",
+          "height": 51
+        },
+        "outputId": "fef51ecf-a2f7-4ad0-caf8-b011886425c1"
+      },
+      "source": [
+        "print('Original: {0}'.format(','.join(str(x) for x in Y_test)))\n",
+        "print('Predict: {0}'.format(','.join(str(x) for x in pred)))"
+      ],
+      "execution_count": 24,
+      "outputs": [
+        {
+          "output_type": "stream",
+          "text": [
+            "Original: 1,1,1,1,1,1,1,0,1,0,0,1,1,0,0,1,0,1,0,0,1,0,1,1,1,1,1,1,1,1,0,1,0,0,1,1,1\n",
+            "Predict: 1,1,1,1,1,1,1,0,1,0,0,1,1,0,0,1,0,1,0,0,1,0,1,1,1,1,1,1,1,1,0,1,0,0,1,1,1\n"
+          ],
+          "name": "stdout"
+        }
+      ]
+    }
+  ]
+}
