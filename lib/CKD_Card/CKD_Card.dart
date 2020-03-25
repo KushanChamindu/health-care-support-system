@@ -10,28 +10,24 @@ class CKD_Cards extends StatefulWidget {
 
 class _CKD_CardsState extends State<CKD_Cards> {
   @override
-  bool viewVisible = true ;
-  void showWidget(){
-    setState(() {
-      viewVisible = true ;
-    });
-  }
-
-  void hideWidget(){
-    setState(() {
-      viewVisible = false ;
-    });
-  }
-
+  bool viewVisible = false ;
   bool getVisible(){
-    return !viewVisible;
+    if(viewVisible==false){
+      setState(() {
+        viewVisible = true ;
+      });
+    }else{
+      setState(() {
+        viewVisible = false ;
+      });
+    }
   }
 
   Widget build(BuildContext context) {
-    bool viewVisible = getVisible();
     return Card(
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(8.0))),
       child: InkWell(
+        onTap: (){getVisible();},
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,  // add this
           children: <Widget>[
@@ -64,12 +60,54 @@ class _CKD_CardsState extends State<CKD_Cards> {
                 visible: viewVisible,
                 child:Row(
                   children: <Widget>[
-                    IconButton(
-                        icon: Icon(
-                          Icons.local_hospital,
-                          size: 40,
-                          color: Colors.black,
-                        ), onPressed: null)
+                    Expanded(
+                      child: InkWell(
+                        onTap: (){print('jadhfkjahf');},
+                        child: Center(
+                          child: Row(
+                            children: <Widget>[
+                              Padding(
+                                padding: const EdgeInsets.fromLTRB(50, 0, 5, 2),
+                                child: Icon(
+                                    Icons.local_hospital,
+                                    size: 40,),
+                              ),
+                              Text(
+                                  'Discription',
+                              style: TextStyle(
+                                fontWeight: FontWeight.w500,
+                                fontSize: 16,
+                              ),
+                              ),
+                            ],
+                          ),
+                        )
+                      ),
+                    ),
+                    Expanded(
+                        child:InkWell(
+                          onTap: (){print('jadhfkjahf');},
+                          child: Row(
+                            children: <Widget>[
+                              Padding(
+                                padding: const EdgeInsets.fromLTRB(50, 0, 5, 0),
+                                child: Image.asset(
+                                  'assets/docIcon.png',
+                                  height: 40,
+                                  width: 40,
+                                ),
+                              ),
+                              Text(
+                                'Doctor',
+                                style: TextStyle(
+                                  fontWeight: FontWeight.w500,
+                                  fontSize: 16
+                                ),
+                              )
+                            ],
+                          ),
+                        ),
+                    )
                   ],
                 )
             ),
