@@ -20,7 +20,7 @@ class _LoadingState extends State<Loading> with SingleTickerProviderStateMixin{
   void initState(){
     super.initState();
 
-    controller=AnimationController( vsync: this, duration: Duration(seconds: 3));
+    controller=AnimationController( vsync: this, duration: Duration(milliseconds: 1500));
     animation_rotation=Tween<double>(
       begin: 0.0,
       end: 1.0
@@ -46,12 +46,14 @@ class _LoadingState extends State<Loading> with SingleTickerProviderStateMixin{
         }
       });
     });
+//    controller.repeat(period: Duration(seconds: 3));
     controller.repeat();
     route_to_home();
   }
-  Future<void> route_to_home() async{
-    await Future.delayed(const Duration(seconds: 5));
+   void route_to_home() async{
+    await Future.delayed(const Duration(seconds: 3));
     Navigator.pushReplacementNamed(context, '/home');
+    controller.stop();
   }
   Widget build(BuildContext context) {
     return Container(

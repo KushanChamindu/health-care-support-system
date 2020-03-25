@@ -8,6 +8,8 @@ class CKD_message extends StatefulWidget {
 class _CKD_messageState extends State<CKD_message> {
   @override
   Widget build(BuildContext context) {
-    return Container();
+    return Container(
+      child: Text('Message'),
+    );
   }
 }

@@ -4,6 +4,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class CKD_Cards extends StatefulWidget {
+  CKD_Cards();
   @override
   _CKD_CardsState createState() => _CKD_CardsState();
 }
@@ -62,7 +63,9 @@ class _CKD_CardsState extends State<CKD_Cards> {
                   children: <Widget>[
                     Expanded(
                       child: InkWell(
-                        onTap: (){print('jadhfkjahf');},
+                        onTap: (){
+                          Navigator.pushNamed(context, '/CKD_discription');
+                        },
                         child: Center(
                           child: Row(
                             children: <Widget>[
@@ -86,7 +89,9 @@ class _CKD_CardsState extends State<CKD_Cards> {
                     ),
                     Expanded(
                         child:InkWell(
-                          onTap: (){print('jadhfkjahf');},
+                          onTap: (){
+                            Navigator.pushNamed(context, '/CKD_message');
+                          },
                           child: Row(
                             children: <Widget>[
                               Padding(
