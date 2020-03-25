@@ -17,7 +17,7 @@ class Home extends StatelessWidget {
           leading: Padding(
             padding: EdgeInsets.all(8.0),
             child: CircleAvatar(
-              backgroundImage: AssetImage('assets/Doctor.png'),
+              backgroundImage: AssetImage('assets/CKD_image/Doctor.png'),
               radius: 30,
               backgroundColor: Colors.blueAccent,
             ),

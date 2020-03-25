@@ -71,7 +71,7 @@ class _LoadingState extends State<Loading> with SingleTickerProviderStateMixin{
                 color: Colors.white,
                   shape: BoxShape.circle,
                   image:DecorationImage(
-                        image: AssetImage('assets/Doctor.png')
+                        image: AssetImage('assets/CKD_image/Doctor.png')
                             ),
                       ),
                 ),

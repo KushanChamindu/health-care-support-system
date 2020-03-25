@@ -38,7 +38,7 @@ class _CKD_CardsState extends State<CKD_Cards> {
                 topRight: Radius.circular(8.0),
               ),
               child: Image.asset(
-                  'assets/kidney.png',
+                  'assets/CKD_image/kidney.png',
                   width: 300,
                   height: 200,
                   fit:BoxFit.fitWidth
@@ -97,7 +97,7 @@ class _CKD_CardsState extends State<CKD_Cards> {
                               Padding(
                                 padding: const EdgeInsets.fromLTRB(50, 0, 7, 3),
                                 child: Image.asset(
-                                  'assets/docIcon.png',
+                                  'assets/CKD_image/docIcon.png',
                                   height: 40,
                                   width: 40,
                                 ),

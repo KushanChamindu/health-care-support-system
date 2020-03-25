@@ -1,6 +1,7 @@
 //import 'dart:html';
 
 import 'package:flutter/material.dart';
+import 'CKD_symptom.dart';
 
 class CKD_discription extends StatefulWidget {
   @override
@@ -25,7 +26,7 @@ class _CKD_discriptionState extends State<CKD_discription> {
                 padding: EdgeInsets.fromLTRB(8, 4, 4, 4),
                 child: CircleAvatar(
                   backgroundImage: AssetImage(
-                    'assets/Doctor.png',
+                    'assets/CKD_image/Doctor.png',
                   ),
                   radius: 25,
                   backgroundColor: Colors.blueAccent,
@@ -40,10 +41,56 @@ class _CKD_discriptionState extends State<CKD_discription> {
       body: SingleChildScrollView(
         child: Column(
           children: <Widget>[
-            Align(
-              alignment: Alignment.centerLeft,
-              child: Symptoms(),
+            Card(
+              child: Image.asset('assets/CKD_image/kidney_1.jpg',
+              ),
             ),
+            Row(
+              children: <Widget>[
+                Padding(
+                  padding: const EdgeInsets.fromLTRB(2, 0,5, 0),
+                  child: Align(
+                      alignment: Alignment.centerLeft,
+                      child: Card(
+                        child: FlatButton.icon(
+                            onPressed: () {
+                              Navigator.pushNamed(context, '/CKD_symptom');
+                            },
+                            icon: Icon(
+                              Icons.touch_app,
+                              size: 25,
+                            ),
+                            label: Padding(
+                              padding: const EdgeInsets.fromLTRB(0, 0, 25, 0),
+                              child: Text("CKD Symptoms",
+                                  style: TextStyle(
+                                      fontSize: 16, fontWeight: FontWeight.w900)),
+                            )),
+                      ),
+                    ),
+                ),
+                Align(
+                  alignment: Alignment.centerLeft,
+                  child: Card(
+                    child: FlatButton.icon(
+                        onPressed: () {
+                          Navigator.pushNamed(context, '/CKD_precaution');
+                        },
+                        icon: Icon(
+                          Icons.local_pharmacy,
+                          size: 25,
+                        ),
+                        label: Padding(
+                          padding: const EdgeInsets.fromLTRB(0, 0, 7, 0),
+                          child: Text("CKD precautions",
+                              style: TextStyle(
+                                  fontSize: 16, fontWeight: FontWeight.w900)),
+                        )),
+                  ),
+                ),
+              ],
+            ),
+
             Align(
                 alignment: Alignment.centerLeft,
                 child: Titles(
@@ -174,131 +221,4 @@ class _TitlesState extends State<Titles> {
   }
 }
 
-class Symptoms extends StatefulWidget {
-  bool visible = false;
 
-  @override
-  _SymptomsState createState() => _SymptomsState();
-}
-
-class _SymptomsState extends State<Symptoms> {
-  void get_visible() {
-    setState(() {
-      if (widget.visible) {
-        widget.visible = false;
-      } else {
-        widget.visible = true;
-      }
-    });
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return Card(
-      child: Container(
-          child: Column(
-        children: <Widget>[
-          FlatButton.icon(
-              onPressed: () {
-                get_visible();
-              },
-              icon: Icon(
-                Icons.touch_app,
-                size: 25,
-              ),
-              label: Expanded(
-                  child: Text("CKD Symptoms",
-                      style: TextStyle(
-                          fontSize: 16, fontWeight: FontWeight.w900)))),
-          Visibility(
-              visible: widget.visible,
-              child: Padding(
-                  padding: const EdgeInsets.fromLTRB(8, 5, 8, 10),
-                  child: Column(
-                    children: <Widget>[
-                      new ListTile(
-                        leading: new MyBullet(),
-                        title: new Text('Weight loss and poor appetite'),
-                      ),
-                      new ListTile(
-                        leading: new MyBullet(),
-                        title: new Text(
-                            'Swollen ankles, feet or hands – as a result of water retention'),
-                      ),
-                      new ListTile(
-                        leading: new MyBullet(),
-                        title: new Text(
-                          'Shortness of breath',
-                          style: TextStyle(fontWeight: FontWeight.w900),
-                        ),
-                      ),
-                      new ListTile(
-                        leading: new MyBullet(),
-                        title: new Text('Tiredness'),
-                      ),
-                      new ListTile(
-                        leading: new MyBullet(),
-                        title: new Text(
-                          'Blood in your pee (urine)',
-                          style: TextStyle(fontWeight: FontWeight.w600),
-                        ),
-                      ),
-                      new ListTile(
-                        leading: new MyBullet(),
-                        title: new Text(
-                            'An increased need to pee – particularly at night'),
-                      ),
-                      new ListTile(
-                        leading: new MyBullet(),
-                        title: new Text('Difficulty sleeping (insomnia'),
-                      ),
-                      new ListTile(
-                        leading: new MyBullet(),
-                        title: new Text(
-                          'Itchy skin',
-                          style: TextStyle(fontWeight: FontWeight.w900),
-                        ),
-                      ),
-                      new ListTile(
-                        leading: new MyBullet(),
-                        title: new Text(
-                          'Muscle cramps',
-                          style: TextStyle(fontWeight: FontWeight.w900),
-                        ),
-                      ),
-                      new ListTile(
-                        leading: new MyBullet(),
-                        title: new Text('feeling sick'),
-                      ),
-                      new ListTile(
-                        leading: new MyBullet(),
-                        title: new Text('Headaches'),
-                      ),
-                      new ListTile(
-                        leading: new MyBullet(),
-                        title: new Text('Erectile dysfunction in men'),
-                      )
-                    ],
-                  )))
-        ],
-      )),
-    );
-  }
-}
-
-class MyBullet extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return Padding(
-      padding: EdgeInsets.fromLTRB(20, 8, 0, 3),
-      child: new Container(
-        height: 10.0,
-        width: 10.0,
-        decoration: new BoxDecoration(
-          color: Colors.black,
-          shape: BoxShape.circle,
-        ),
-      ),
-    );
-  }
-}

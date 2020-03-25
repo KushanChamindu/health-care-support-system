@@ -25,7 +25,7 @@ class _CKD_webviewState extends State<CKD_webview> {
               padding: EdgeInsets.fromLTRB(8, 4, 4, 4),
               child: CircleAvatar(
                 backgroundImage: AssetImage(
-                  'assets/Doctor.png',
+                  'assets/CKD_image/Doctor.png',
                 ),
                 radius: 25,
                 backgroundColor: Colors.blueAccent,
@@ -50,7 +50,7 @@ class _CKD_webviewState extends State<CKD_webview> {
             child: Column(
               children: <Widget>[
                 Image.asset(
-                    'assets/wait.gif'
+                    'assets/CKD_image/wait.gif'
                 ),
 //                Image.asset(
 //                    'assets/wait_2.gif'
