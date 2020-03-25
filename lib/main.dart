@@ -2,40 +2,19 @@ import 'dart:ui';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'CKD_Card/CKD_Card.dart';
+import 'package:healthcaresupportsystem/Pages/Home.dart';
+import 'Pages/Loading.dart';
+import 'Pages/CKD_pages/CKD_message.dart';
+import 'Pages/CKD_pages/CKD_discription.dart';
 
 void main() => runApp(MaterialApp(
-  home: Home(),
+  routes: {
+    '/':(context) =>Loading(),
+    '/home': (context) => Home(),
+    '/CKD_message' :(context)=> CKD_message(),
+    '/CKD_discription':(context) =>CKD_discription()
+  },
 ));
 
-class Home extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: Colors.blue[100],
-      appBar: AppBar(
-        title: Text('Home'),
-        centerTitle: true,
-        backgroundColor: Colors.blueAccent,
-        leading: Padding(
-          padding: EdgeInsets.all(8.0),
-          child: CircleAvatar(
-            backgroundImage: AssetImage('assets/Doctor.png'),
-            radius: 30,
-            backgroundColor: Colors.blueAccent,
-          ),
-        ),
-      ),
-      body: ListView(
-          children: <Widget>[
-      Container(
-      margin:EdgeInsets.all(8.0),
-      child:CKD_Cards()
-    ),
-  ]
-    )
-    );
-  }
-}
 
 

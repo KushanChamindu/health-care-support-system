@@ -90,7 +90,7 @@ class _CKD_CardsState extends State<CKD_Cards> {
                           child: Row(
                             children: <Widget>[
                               Padding(
-                                padding: const EdgeInsets.fromLTRB(50, 0, 5, 0),
+                                padding: const EdgeInsets.fromLTRB(50, 0, 7, 3),
                                 child: Image.asset(
                                   'assets/docIcon.png',
                                   height: 40,
