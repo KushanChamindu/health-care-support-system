@@ -2,29 +2,13 @@
 
 import 'package:flutter/material.dart';
 
+
 class CKD_discription extends StatefulWidget {
   @override
   _CKD_discriptionState createState() => _CKD_discriptionState();
 }
 
 class _CKD_discriptionState extends State<CKD_discription> {
-  bool visible1 = true;
-  bool visible2 = true;
-  bool visible3 = true;
-  bool visible4 = true;
-  bool visible5 = true;
-  bool visible6 = true;
-  bool visible7 = true;
-  bool visible8 = true;
-
-//  void get_visible_1(bool visible1){
-//    setState(() {
-//      if(visible){
-//        visible+Str
-//      }else{}
-//    });
-//  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -57,6 +41,23 @@ class _CKD_discriptionState extends State<CKD_discription> {
       body: SingleChildScrollView(
         child: Column(
           children: <Widget>[
+            Card(
+        child: Column(
+            children: <Widget>[
+            FlatButton.icon(
+                onPressed: (){
+              Navigator.pushNamed(context, '/CKD_webview');
+            },
+              icon:Icon(
+              Icons.public
+              ),
+                label: Expanded(child: Text("Open More Info",
+          style:TextStyle(
+              fontSize: 16
+          )
+      ))),
+      ],
+    )),
             Align(
                 alignment: Alignment.centerLeft,
                 child: Titles(
@@ -68,7 +69,7 @@ class _CKD_discriptionState extends State<CKD_discription> {
               alignment: Alignment.centerLeft,
               child:Titles(
                 text1: 'Causes of Chronic Kidney Disease',
-                text2: 'Diabetes and high blood pressure are the most common causes of kidney disease. Your health care provider may do tests to find out why you have kidney disease. The cause of your kidney disease may affect the type of treatment you receive.',
+                text2: 'Diabetes, high blood pressure, using Alcohol and smorking are the most common causes of kidney disease. Your health care provider may do tests to find out why you have kidney disease. The cause of your kidney disease may affect the type of treatment you receive.',
               )
             ),
             Align(
@@ -157,7 +158,7 @@ class _TitlesState extends State<Titles> {
                 Visibility(
                     visible: widget.visible,
                     child: Padding(
-                      padding: const EdgeInsets.all(8.0),
+                      padding: const EdgeInsets.fromLTRB(8,5, 8, 10),
                       child: Text(
                           widget.text2,
                           style: TextStyle(

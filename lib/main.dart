@@ -1,7 +1,7 @@
-import 'dart:ui';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:healthcaresupportsystem/Pages/CKD_pages/CKD_webview.dart';
 import 'package:healthcaresupportsystem/Pages/Home.dart';
 import 'Pages/Loading.dart';
 import 'Pages/CKD_pages/CKD_message.dart';
@@ -12,7 +12,8 @@ void main() => runApp(MaterialApp(
     '/':(context) =>Loading(),
     '/home': (context) => Home(),
     '/CKD_message' :(context)=> CKD_message(),
-    '/CKD_discription':(context) =>CKD_discription()
+    '/CKD_discription':(context) =>CKD_discription(),
+    '/CKD_webview':(context) => CKD_webview(),
   },
 ));
 
