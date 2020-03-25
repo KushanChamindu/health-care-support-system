@@ -1,4 +1,8 @@
+import 'dart:ui';
+
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'CKD_Card/CKD_Card.dart';
 
 void main() => runApp(MaterialApp(
   home: Home(),
@@ -22,26 +26,16 @@ class Home extends StatelessWidget {
           ),
         ),
       ),
-      body: Padding(
-        padding: EdgeInsets.fromLTRB(30.0, 40.0, 30.0, 0.0),
-        child: Column(
+      body: ListView(
           children: <Widget>[
-            Container(
-              padding: EdgeInsets.fromLTRB(50, 150, 5, 0),
-              decoration: BoxDecoration(
-                image: DecorationImage(
-                  image: AssetImage('assets/Doctor.png'),
-                  fit: BoxFit.cover
-                )
-              ),
-              child: Text('Chronical kidney disease'),
-            ),
-            Container(
-
-            )
-          ],
-        ),
-      ),
+      Container(
+      margin:EdgeInsets.all(8.0),
+      child:CKD_Cards()
+    ),
+  ]
+    )
     );
   }
 }
+
+
