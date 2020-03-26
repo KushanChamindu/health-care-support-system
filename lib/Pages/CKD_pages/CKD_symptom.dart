@@ -1,3 +1,5 @@
+import 'dart:ffi';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'Constant.dart';
@@ -8,18 +10,23 @@ class CKD_symptoms extends StatefulWidget {
 }
 
 class _CKD_symptomsState extends State<CKD_symptoms> {
-  void choiceAction(String choice){
-    if(choice=='Account'){
+  void choiceAction(String choice) {
+    if (choice == 'Account') {
       Navigator.pushNamed(context, '/account');
-    }else if(choice=='SignOut'){
+    } else if (choice == 'SignOut') {
       print('SignOut');
-    }else{
+    } else {
       showAboutDialog(
           context: context,
-          applicationIcon: Image.asset('assets/CKD_image/Doctor.png', width: 100,height: 100,),
+          applicationIcon: Image.asset(
+            'assets/CKD_image/Doctor.png',
+            width: 100,
+            height: 100,
+          ),
           applicationName: "Mobile Doctor",
           applicationVersion: '0.0.1',
-          applicationLegalese: 'This software developed by HCSS PVT LMD. Copyright © 2020 Arnoud Engelfriet. Some rights reserved.',
+          applicationLegalese:
+              'This software developed by HCSS PVT LMD. Copyright © 2020 Arnoud Engelfriet. Some rights reserved.',
           children: <Widget>[
             Padding(
               padding: const EdgeInsets.fromLTRB(0, 10, 0, 0),
@@ -36,13 +43,17 @@ class _CKD_symptomsState extends State<CKD_symptoms> {
             Container(
               child: Text('* Beast Cancer'),
             )
-          ]
-
-      );
+          ]);
     }
   }
+  bool visible=true;
   @override
   Widget build(BuildContext context) {
+    void set_visible(visi){
+      setState(() {
+        visible=!visi;
+      });
+    }
     return Scaffold(
       appBar: AppBar(
         title: Row(
@@ -72,33 +83,55 @@ class _CKD_symptomsState extends State<CKD_symptoms> {
         actions: <Widget>[
           PopupMenuButton<String>(
             onSelected: choiceAction,
-            itemBuilder: (BuildContext context){
-              return Constant.choice.map((String choice){
-                if(choice=='Account'){
+            itemBuilder: (BuildContext context) {
+              return Constant.choice.map((String choice) {
+                if (choice == 'Account') {
                   return PopupMenuItem(
                       value: choice,
-                      child: Row(children: <Widget>[Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Icon(Icons.person, color: Colors.black,),
-                      ), Text(choice)],));
-
-                }else if(choice=='SignOut'){
+                      child: Row(
+                        children: <Widget>[
+                          Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Icon(
+                              Icons.person,
+                              color: Colors.black,
+                            ),
+                          ),
+                          Text(choice)
+                        ],
+                      ));
+                } else if (choice == 'SignOut') {
                   return PopupMenuItem(
                       value: choice,
-                      child: Row(children: <Widget>[Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Icon(Icons.lock, color: Colors.black,),
-                      ), Text(choice)],));
-                }else{
+                      child: Row(
+                        children: <Widget>[
+                          Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Icon(
+                              Icons.lock,
+                              color: Colors.black,
+                            ),
+                          ),
+                          Text(choice)
+                        ],
+                      ));
+                } else {
                   return PopupMenuItem(
                       value: choice,
-                      child: Row(children: <Widget>[Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Icon(Icons.flag, color: Colors.black,),
-                      ), Text(choice)],));
+                      child: Row(
+                        children: <Widget>[
+                          Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Icon(
+                              Icons.flag,
+                              color: Colors.black,
+                            ),
+                          ),
+                          Text(choice)
+                        ],
+                      ));
                 }
-              }
-              ).toList();
+              }).toList();
             },
           )
         ],
@@ -128,7 +161,6 @@ class _CKD_symptomsState extends State<CKD_symptoms> {
                             ),
                           ],
                         ),
-                        
                       ],
                     ),
                     Column(
@@ -197,7 +229,7 @@ class _CKD_symptomsState extends State<CKD_symptoms> {
                             new Text(
                               'Erectile dysfunction in men',
                               style: TextStyle(
-                                  fontSize: 16, fontWeight: FontWeight.w900),
+                                  fontSize: 16, fontWeight: FontWeight.w900,color: Colors.black),
                             ),
                           ],
                         ),
@@ -258,4 +290,3 @@ class MyBullet extends StatelessWidget {
     );
   }
 }
-
