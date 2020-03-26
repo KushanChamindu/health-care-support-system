@@ -3,15 +3,45 @@ import 'dart:ui';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:healthcaresupportsystem/CKD_Card/CKD_Card.dart';
+import 'CKD_pages/Constant.dart';
 
 
 class Home extends StatelessWidget {
-
-  void choiceAction(String choice){
-    print('Working');
-  }
   @override
   Widget build(BuildContext context) {
+    void choiceAction(String choice){
+      if(choice=='Account'){
+        Navigator.pushNamed(context, '/account');
+      }else if(choice=='SignOut'){
+        print('SignOut');
+      }else{
+        showAboutDialog(
+            context: context,
+            applicationIcon: Image.asset('assets/CKD_image/Doctor.png', width: 100,height: 100,),
+            applicationName: "Mobile Doctor",
+            applicationVersion: '0.0.1',
+            applicationLegalese: 'This software developed by HCSS PVT LMD. Copyright © 2020 Arnoud Engelfriet. Some rights reserved.',
+            children: <Widget>[
+              Padding(
+                padding: const EdgeInsets.fromLTRB(0, 10, 0, 0),
+                child: Container(
+                  child: Text('* Chronic kidney disease'),
+                ),
+              ),
+              Container(
+                child: Text('* Diabetise'),
+              ),
+              Container(
+                child: Text('* Heart disease'),
+              ),
+              Container(
+                child: Text('* Beast Cancer'),
+              )
+            ]
+
+        );
+      }
+    }
     return Scaffold(
         backgroundColor: Colors.blue[100],
         appBar: AppBar(
@@ -70,15 +100,4 @@ class Home extends StatelessWidget {
         )
     );
   }
-}
-class Constant{
-  static const String Account='Account';
-  static const String SignOut='SignOut';
-  static const String About='About';
-
-  static const List<String> choice=<String>[
-    Account,
-    SignOut,
-    About
-  ];
 }
