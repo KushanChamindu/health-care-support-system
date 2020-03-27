@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "775095780193",
+    "firebase_url": "https://health-care-support-syst-edba2.firebaseio.com",
+    "project_id": "health-care-support-syst-edba2",
+    "storage_bucket": "health-care-support-syst-edba2.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:775095780193:android:a74f5f58c4ac507608fb20",
+        "android_client_info": {
+          "package_name": "com.ninja.healthcaresupportsystem"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "775095780193-nmadvj8f0dqupa2i4mg5v967c0o80dup.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBKT_rQxqckIxKdLze0Gd2jhpyfP1rJLkw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "775095780193-nmadvj8f0dqupa2i4mg5v967c0o80dup.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -1,13 +1,25 @@
 import 'package:flutter/material.dart';
 import 'dart:math';
 
+import 'package:healthcaresupportsystem/Pages/Auth/Auth.dart';
+
 class Loading extends StatefulWidget {
+  final BaseAuth auth;
+  String email;
+  String passwaord;
+  bool isLogInResquest;
+  Loading({this.auth,this.email,this.passwaord, this.isLogInResquest});
   @override
   _LoadingState createState() => _LoadingState();
 }
 
-class _LoadingState extends State<Loading> with SingleTickerProviderStateMixin{
+enum AuthStatus{
+  notSignIn,
+  SignIn
+}
 
+class _LoadingState extends State<Loading> with SingleTickerProviderStateMixin{
+  AuthStatus _authStatus= AuthStatus.notSignIn;
   AnimationController controller;
   Animation<double> animation_rotation;
   Animation<double> animation_radius_in;
@@ -19,6 +31,15 @@ class _LoadingState extends State<Loading> with SingleTickerProviderStateMixin{
   @override
   void initState(){
     super.initState();
+//    String user_id =widget.auth.currentUser();
+//    print(user_id);
+//    setState(() {
+//      if(user_id==null){
+//        _authStatus=AuthStatus.notSignIn;
+//      }else{
+//        _authStatus=AuthStatus.SignIn;
+//      }
+//    });
 
     controller=AnimationController( vsync: this, duration: Duration(milliseconds: 1500));
     animation_rotation=Tween<double>(
@@ -51,12 +72,37 @@ class _LoadingState extends State<Loading> with SingleTickerProviderStateMixin{
     route_to_home();
   }
    void route_to_home() async{
-    await Future.delayed(const Duration(seconds: 3));
-    Navigator.pushReplacementNamed(context, '/home');
-    controller.stop();
+    try{
+      if(widget.isLogInResquest){
+        String userId =await widget.auth.signInWithEmailAndPassword(widget.email, widget.passwaord);
+        print("SignIn Id: ${userId}");
+        Navigator.pushReplacementNamed(context, '/home');
+        controller.stop();
+      }else{
+        String userId= await widget.auth.createUserWithEmailAndPassword(widget.email, widget.passwaord);
+        print("Registered user : ${userId}");
+        Navigator.pushReplacementNamed(context, '/home');
+        controller.stop();
+      }
+    }catch(e){
+      print("Error : $e");
+      Navigator.pushReplacementNamed(context, '/');
+      controller.stop();
+    }
+
+//    await Future.delayed(const Duration(seconds: 3));
+     controller.stop();
+
   }
+
   Widget build(BuildContext context) {
-    return Container(
+//    switch (_authStatus){
+//      case AuthStatus.SignIn:
+//
+//      case AuthStatus.notSignIn:
+//        LogIn(auth: widget.auth,onSingIn: ,);
+//    }
+    return  Container(
       color: Colors.white,
       width: 100,
       height: 100,
@@ -68,13 +114,13 @@ class _LoadingState extends State<Loading> with SingleTickerProviderStateMixin{
                 width: 120,
                 height: 120,
                 decoration: BoxDecoration(
-                color: Colors.white,
+                  color: Colors.white,
                   shape: BoxShape.circle,
                   image:DecorationImage(
-                        image: AssetImage('assets/CKD_image/Doctor.png')
-                            ),
-                      ),
+                      image: AssetImage('assets/CKD_image/Doctor.png')
+                  ),
                 ),
+              ),
             ),
             RotationTransition(
               turns: animation_rotation,
@@ -88,62 +134,62 @@ class _LoadingState extends State<Loading> with SingleTickerProviderStateMixin{
                     ),
                   ),
 
-            Transform.translate(
-              offset: Offset(multipy*cos(2*pi/4), multipy*sin(2*pi/4)),
-              child: Dot(
-                radius: 12,
-                color: Colors.black,
-              ),
-            ),
-            Transform.translate(
-              offset: Offset(multipy*cos(3*pi/4), multipy*sin(3*pi/4)),
-              child: Dot(
-                radius: 12,
-                color: Colors.amber,
-              ),
-            ),
-            Transform.translate(
-              offset: Offset(multipy*cos(4*pi/4), multipy*sin(4*pi/4)),
-              child: Dot(
-                radius: 12,
-                color: Colors.green,
-              ),
-            ),
-            Transform.translate(
-              offset: Offset(multipy*cos(5*pi/4), multipy*sin(5*pi/4)),
-              child: Dot(
-                radius: 12,
-                color: Colors.orange,
-              ),
-            ),
-            Transform.translate(
-              offset: Offset(multipy*cos(6*pi/4), multipy*sin(6*pi/4)),
-              child: Dot(
-                radius: 12,
-                color: Colors.purpleAccent,
-              ),
-            ),
-            Transform.translate(
-              offset: Offset(multipy*cos(7*pi/4), multipy*sin(7*pi/4)),
-              child: Dot(
-                radius: 12,
-                color: Colors.blue,
-              ),
-            ),
-            Transform.translate(
-              offset: Offset(multipy*cos(8*pi/4), multipy*sin(8*pi/4)),
-              child: Dot(
-                radius: 12,
-                color: Colors.brown,
-              ),
-            ),
+                  Transform.translate(
+                    offset: Offset(multipy*cos(2*pi/4), multipy*sin(2*pi/4)),
+                    child: Dot(
+                      radius: 12,
+                      color: Colors.black,
+                    ),
+                  ),
+                  Transform.translate(
+                    offset: Offset(multipy*cos(3*pi/4), multipy*sin(3*pi/4)),
+                    child: Dot(
+                      radius: 12,
+                      color: Colors.amber,
+                    ),
+                  ),
+                  Transform.translate(
+                    offset: Offset(multipy*cos(4*pi/4), multipy*sin(4*pi/4)),
+                    child: Dot(
+                      radius: 12,
+                      color: Colors.green,
+                    ),
+                  ),
+                  Transform.translate(
+                    offset: Offset(multipy*cos(5*pi/4), multipy*sin(5*pi/4)),
+                    child: Dot(
+                      radius: 12,
+                      color: Colors.orange,
+                    ),
+                  ),
+                  Transform.translate(
+                    offset: Offset(multipy*cos(6*pi/4), multipy*sin(6*pi/4)),
+                    child: Dot(
+                      radius: 12,
+                      color: Colors.purpleAccent,
+                    ),
+                  ),
+                  Transform.translate(
+                    offset: Offset(multipy*cos(7*pi/4), multipy*sin(7*pi/4)),
+                    child: Dot(
+                      radius: 12,
+                      color: Colors.blue,
+                    ),
+                  ),
+                  Transform.translate(
+                    offset: Offset(multipy*cos(8*pi/4), multipy*sin(8*pi/4)),
+                    child: Dot(
+                      radius: 12,
+                      color: Colors.brown,
+                    ),
+                  ),
                 ],
               ),
             ),
           ],
-    ),
-
         ),
+
+      ),
     );
   }
 }
