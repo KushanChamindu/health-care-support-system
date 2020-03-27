@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:healthcaresupportsystem/Pages/Auth/Auth.dart';
 import 'package:healthcaresupportsystem/Pages/Loading.dart';
@@ -5,65 +6,73 @@ import 'package:healthcaresupportsystem/Pages/Loading.dart';
 ///test@test.com    test1234
 
 class LogIn extends StatefulWidget {
-  final BaseAuth auth;
-  LogIn({this.auth});
+  final BaseAuth auth = Auth();
+
   @override
   _LogInState createState() => _LogInState();
 }
 
-enum FormType{
-  logIn,
-  register
-}
-enum LoadingStatus{
-  loadLogIn,
-  loadRegister,
-  nigther
-}
+enum FormType { logIn, register }
+enum LoadingStatus { loadLogIn, loadRegister, nigther }
 
 class _LogInState extends State<LogIn> {
-  LoadingStatus loadingStatus=LoadingStatus.nigther;
-  final formKey=new GlobalKey<FormState>();
-  String App_bar_title="LogIn";
+  LoadingStatus loadingStatus = LoadingStatus.nigther;
+  final formKey = new GlobalKey<FormState>();
+  String App_bar_title = "LogIn";
   String _email;
   String _password;
-  FormType _formType=FormType.logIn;
+  FormType _formType = FormType.logIn;
 
-  void switchForm(){
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    widget.auth.currentUser().then((value){
+      setState(() {
+        if(value!=null){
+          Navigator.pushReplacementNamed(context, '/home');
+        }
+      });
+    });
+  }
+
+  void switchForm() {
     setState(() {
-      if(_formType==FormType.logIn){
+      if (_formType == FormType.logIn) {
         formKey.currentState.reset();
-        App_bar_title="Register";
-        _formType=FormType.register;
-      }else if(_formType==FormType.register){
+        App_bar_title = "Register";
+        _formType = FormType.register;
+      } else if (_formType == FormType.register) {
         formKey.currentState.reset();
-        App_bar_title="LogIn";
-        _formType=FormType.logIn;
+        App_bar_title = "LogIn";
+        _formType = FormType.logIn;
       }
     });
   }
+
   bool validateAndSave() {
-    final form=formKey.currentState;
-    if(form.validate()){
+    final form = formKey.currentState;
+    if (form.validate()) {
       form.save();
       return true;
-    }else{
+    } else {
       return false;
     }
   }
-  void validateAndSubmit()async{
-    if(validateAndSave()){
-      try{
-        if(_formType==FormType.logIn){
+
+  void validateAndSubmit() async {
+    if (validateAndSave()) {
+      try {
+        if (_formType == FormType.logIn) {
           setState(() {
-            loadingStatus=LoadingStatus.loadLogIn;
+            loadingStatus = LoadingStatus.loadLogIn;
           });
-        }else if (_formType==FormType.register){
+        } else if (_formType == FormType.register) {
           setState(() {
-            loadingStatus=LoadingStatus.loadRegister;
+            loadingStatus = LoadingStatus.loadRegister;
           });
         }
-      }catch(e){
+      } catch (e) {
         print('Error : $e');
       }
     }
@@ -71,10 +80,10 @@ class _LogInState extends State<LogIn> {
 
   @override
   Widget build(BuildContext context) {
-    switch (loadingStatus){
+    switch (loadingStatus) {
       case LoadingStatus.nigther:
         return Scaffold(
-          backgroundColor: Colors.grey[300],
+          backgroundColor: Colors.grey[200],
           appBar: AppBar(
             centerTitle: true,
             title: Text(
@@ -100,60 +109,79 @@ class _LogInState extends State<LogIn> {
                   key: formKey,
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.stretch,
-                    children: buildInputs()+buildSubmitButtons(),
+                    children: buildInputs() + buildSubmitButtons(),
                   )),
             ),
           ),
         );
       case LoadingStatus.loadLogIn:
-        return Loading(auth: Auth(),email: _email,passwaord: _password,isLogInResquest: true,);
+        return Loading(
+          auth: Auth(),
+          email: _email,
+          passwaord: _password,
+          isLogInResquest: true,
+        );
 //        print("Kushan");
       case LoadingStatus.loadRegister:
-        return Loading(auth: Auth(),email: _email,passwaord: _password,isLogInResquest: false,);
+        return Loading(
+          auth: Auth(),
+          email: _email,
+          passwaord: _password,
+          isLogInResquest: false,
+        );
     }
-
   }
-  List<Widget> buildInputs(){
+
+  List<Widget> buildInputs() {
     return [
       TextFormField(
         decoration: InputDecoration(labelText: 'Email'),
-        validator: (value)=>value.isEmpty? 'Email con\'t be empty' : null,
-        onSaved: (value)=> _email=value,
+        validator: (value) => value.isEmpty ? 'Email con\'t be empty' : null,
+        onSaved: (value) => _email = value,
       ),
       TextFormField(
         decoration: InputDecoration(labelText: 'Password'),
-        validator: (value)=>value.isEmpty? 'Password con\'t be empty' : null,
+        validator: (value) => value.isEmpty ? 'Password con\'t be empty' : null,
         obscureText: true,
-        onSaved: (value)=> _password=value,
+        onSaved: (value) => _password = value,
       ),
     ];
   }
-  List<Widget> buildSubmitButtons(){
-    if(_formType==FormType.logIn){
-      return[
+
+  List<Widget> buildSubmitButtons() {
+    if (_formType == FormType.logIn) {
+      return [
         RaisedButton.icon(
           onPressed: validateAndSubmit,
           icon: Icon(Icons.add_to_home_screen),
           label: Text("LogIn"),
-          color: Colors.white,),
+          color: Colors.white,
+        ),
         FlatButton(
-          child: Text('Create a account', style: TextStyle(fontSize: 20),),
+          child: Text(
+            'Create a account',
+            style: TextStyle(fontSize: 20),
+          ),
           onPressed: switchForm,
-        )
+        ),
       ];
-    }else if(_formType==FormType.register){
-      return[
+//      e.toString().split(',')[1]
+    } else if (_formType == FormType.register) {
+      return [
         RaisedButton.icon(
           onPressed: validateAndSubmit,
           icon: Icon(Icons.create),
           label: Text("Register"),
-          color: Colors.white,),
+          color: Colors.white,
+        ),
         FlatButton(
-          child: Text('Have a account? LogIn', style: TextStyle(fontSize: 20),),
+          child: Text(
+            'Have a account? LogIn',
+            style: TextStyle(fontSize: 20),
+          ),
           onPressed: switchForm,
-        )
+        ),
       ];
     }
-
   }
 }

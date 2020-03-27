@@ -1,6 +1,3 @@
-
-
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:healthcaresupportsystem/Pages/Account.dart';
@@ -15,18 +12,16 @@ import 'Pages/CKD_pages/CKD_message.dart';
 import 'Pages/CKD_pages/CKD_discription.dart';
 
 void main() => runApp(MaterialApp(
-  routes: {
+      routes: {
 //    '/loading':(context) =>Loading(auth: Auth()),
-    '/':(context)=> LogIn(auth: Auth(),),
-    '/account':(context)=> Account(),
-    '/home': (context) => Home(),
-    '/CKD_message' :(context)=> CKD_message(),
-    '/CKD_discription':(context) =>CKD_discription(),
-    '/CKD_webview':(context) => CKD_webview(),
-    '/CKD_symptom':(context)=> CKD_symptoms(),
-    '/CKD_precaution':(context)=> CKD_precautions()
-  },
-));
-
-
-
+        '/': (context) => LogIn(),
+        '/account': (context) => Account(),
+        '/home': (context) => Home(
+            ),
+        '/CKD_message': (context) => CKD_message(),
+        '/CKD_discription': (context) => CKD_discription(),
+        '/CKD_webview': (context) => CKD_webview(),
+        '/CKD_symptom': (context) => CKD_symptoms(),
+        '/CKD_precaution': (context) => CKD_precautions()
+      },
+    ));

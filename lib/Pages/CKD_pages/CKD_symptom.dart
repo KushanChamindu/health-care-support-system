@@ -2,19 +2,25 @@ import 'dart:ffi';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:healthcaresupportsystem/Pages/Auth/Auth.dart';
 import 'Constant.dart';
 
 class CKD_symptoms extends StatefulWidget {
+  final BaseAuth auth=Auth();
   @override
   _CKD_symptomsState createState() => _CKD_symptomsState();
 }
 
 class _CKD_symptomsState extends State<CKD_symptoms> {
-  void choiceAction(String choice) {
+  void choiceAction(String choice) async{
     if (choice == 'Account') {
       Navigator.pushNamed(context, '/account');
     } else if (choice == 'SignOut') {
       print('SignOut');
+      await widget.auth.singOut();
+      if(await widget.auth.currentUser()==null){
+        Navigator.pushReplacementNamed(context, '/');
+      }
     } else {
       showAboutDialog(
           context: context,

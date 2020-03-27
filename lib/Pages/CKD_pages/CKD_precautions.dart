@@ -1,17 +1,23 @@
 import 'package:flutter/material.dart';
+import 'package:healthcaresupportsystem/Pages/Auth/Auth.dart';
 import 'Constant.dart';
 
 class CKD_precautions extends StatefulWidget {
+  final BaseAuth auth=Auth();
   @override
   _CKD_precautionsState createState() => _CKD_precautionsState();
 }
 
 class _CKD_precautionsState extends State<CKD_precautions> {
-  void choiceAction(String choice){
+  void choiceAction(String choice)async{
     if(choice=='Account'){
       Navigator.pushNamed(context, '/account');
     }else if(choice=='SignOut'){
       print('SignOut');
+      await widget.auth.singOut();
+      if(await widget.auth.currentUser()==null){
+    Navigator.pushReplacementNamed(context, '/');
+    }
     }else{
       showAboutDialog(
           context: context,

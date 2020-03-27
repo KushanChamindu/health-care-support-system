@@ -3,17 +3,57 @@ import 'dart:ui';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:healthcaresupportsystem/CKD_Card/CKD_Card.dart';
+import 'package:healthcaresupportsystem/Pages/Auth/Auth.dart';
+import 'package:healthcaresupportsystem/Pages/Loading.dart';
 import 'CKD_pages/Constant.dart';
 
 
+
 class Home extends StatelessWidget {
+  final BaseAuth auth=Auth();
   @override
-  Widget build(BuildContext context) {
-    void choiceAction(String choice){
+  Widget build(BuildContext context,) {
+
+
+    void choiceAction(String choice)async{
       if(choice=='Account'){
         Navigator.pushNamed(context, '/account');
       }else if(choice=='SignOut'){
         print('SignOut');
+        await auth.singOut();
+        if(await auth.currentUser()==null){
+          Navigator.pushReplacementNamed(context, '/');
+        }else{
+          showAboutDialog(BuildContext context){
+            AlertDialog alert=AlertDialog(
+              backgroundColor: Colors.grey[100],
+              title: Center(
+                child: Text(
+                  "Connection Problem!!",
+                  style: TextStyle(fontSize: 25,),
+                ),
+              ),
+              content: Column(
+                verticalDirection: VerticalDirection.down,
+                children: <Widget>[
+                  Image.asset('assets/connection_lost.gif', width: 250,height: 150,),
+                  Padding(
+                    padding: const EdgeInsets.fromLTRB(8,0, 8, 0),
+                    child: Text('SignOut problem',style: TextStyle(fontSize: 17),textAlign: TextAlign.center,),
+                  )
+                ],
+              ),
+              actions: <Widget>[CupertinoButton(child: Text("Ok"), onPressed:(){Navigator.of(context).pop();})],
+            );
+            showDialog(
+              context: context,
+              builder: (BuildContext context) {
+                return Center(child: Container(width: 500,height: 400,child: alert));
+              },
+            );
+          }
+          showAboutDialog(context);
+        }
       }else{
         showAboutDialog(
             context: context,
@@ -90,14 +130,48 @@ class Home extends StatelessWidget {
             ),
           ),
         ),
-        body: ListView(
-            children: <Widget>[
-              Container(
-                  margin:EdgeInsets.all(8.0),
-                  child:CKD_Cards()
-              ),
-            ]
+        body: Stack(
+          children: <Widget>[
+            ListView(
+                children: <Widget>[
+                  Container(
+                      margin:EdgeInsets.all(8.0),
+                      child:CKD_Cards()
+                  ),
+                ]
+            ),
+//            Center(
+//              child: Container(
+////            padding: EdgeInsets.fromLTRB(50, 50, , bottom),
+//                width: 500,
+//                height: 400,
+//                child: Visibility(
+//                    visible: _visible,
+//                    child: AlertDialog(
+//                      title: Center(
+//                        child: Text(
+//                          "Connection Problem!!",
+//                          style: TextStyle(fontSize: 25,),
+//                        ),
+//                      ),
+//                      content: Column(
+//                        verticalDirection: VerticalDirection.down,
+//                        children: <Widget>[
+//                          Image.asset('assets/logInError.gif', width: 200,height: 100,),
+//                          Padding(
+//                            padding: const EdgeInsets.fromLTRB(8,25, 8, 8),
+//                            child: Text('SignOut problem',style: TextStyle(fontSize: 17),textAlign: TextAlign.center,),
+//                          )
+//                        ],
+//                      ),
+//                      actions: <Widget>[CupertinoButton(child: Text("Ok"), onPressed:(){_visible=false;})],
+//                    )
+//                ),
+//              ),
+//            ),
+          ],
         )
     );
   }
 }
+
