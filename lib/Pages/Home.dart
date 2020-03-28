@@ -140,35 +140,6 @@ class Home extends StatelessWidget {
                   ),
                 ]
             ),
-//            Center(
-//              child: Container(
-////            padding: EdgeInsets.fromLTRB(50, 50, , bottom),
-//                width: 500,
-//                height: 400,
-//                child: Visibility(
-//                    visible: _visible,
-//                    child: AlertDialog(
-//                      title: Center(
-//                        child: Text(
-//                          "Connection Problem!!",
-//                          style: TextStyle(fontSize: 25,),
-//                        ),
-//                      ),
-//                      content: Column(
-//                        verticalDirection: VerticalDirection.down,
-//                        children: <Widget>[
-//                          Image.asset('assets/logInError.gif', width: 200,height: 100,),
-//                          Padding(
-//                            padding: const EdgeInsets.fromLTRB(8,25, 8, 8),
-//                            child: Text('SignOut problem',style: TextStyle(fontSize: 17),textAlign: TextAlign.center,),
-//                          )
-//                        ],
-//                      ),
-//                      actions: <Widget>[CupertinoButton(child: Text("Ok"), onPressed:(){_visible=false;})],
-//                    )
-//                ),
-//              ),
-//            ),
           ],
         )
     );

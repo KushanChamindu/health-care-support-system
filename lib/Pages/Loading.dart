@@ -3,14 +3,16 @@ import 'package:flutter/material.dart';
 import 'dart:math';
 
 import 'package:healthcaresupportsystem/Pages/Auth/Auth.dart';
+import 'package:healthcaresupportsystem/Pages/Auth/User.dart';
 
 class Loading extends StatefulWidget {
   final BaseAuth auth;
   String email;
   String passwaord;
   bool isLogInResquest;
+  User user;
 
-  Loading({this.auth, this.email, this.passwaord, this.isLogInResquest});
+  Loading({this.auth, this.email, this.passwaord, this.isLogInResquest,this.user});
 
   @override
   _LoadingState createState() => _LoadingState();
@@ -86,13 +88,19 @@ class _LoadingState extends State<Loading> with SingleTickerProviderStateMixin {
         Navigator.pushReplacementNamed(context, '/home');
         controller.stop();
       } else {
-        String userId = await widget.auth
-            .createUserWithEmailAndPassword(widget.email, widget.passwaord);
-        print("Registered user : ${userId}");
-        Navigator.pushReplacementNamed(context, '/home');
-        controller.stop();
+          String userId = await widget.auth
+              .createUserWithEmailAndPassword(widget.email, widget.passwaord);
+
+          widget.user.setUserId(userId);
+          print(widget.user.Username);
+          print(widget.user.uid);
+          await widget.auth.setUserData(widget.user.uid, widget.user.Username, widget.user.Birthday, widget.user.bloodGroup);
+          print("Registered user : ${userId}");
+          Navigator.pushReplacementNamed(context, '/home');
+          controller.stop();
       }
     } catch (e) {
+      print('Error  Error    :$e');
       print("Error : ${e.toString().split(',')[1]}");
       setState(() {
         _visibility=true;
@@ -108,12 +116,6 @@ class _LoadingState extends State<Loading> with SingleTickerProviderStateMixin {
   }
 
   Widget build(BuildContext context) {
-//    switch (_authStatus){
-//      case AuthStatus.SignIn:
-//
-//      case AuthStatus.notSignIn:
-//        LogIn(auth: widget.auth,onSingIn: ,);
-//    }
     return Container(
       color: Colors.white,
       child: Stack(

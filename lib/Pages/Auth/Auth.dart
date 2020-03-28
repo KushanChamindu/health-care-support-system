@@ -1,4 +1,6 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:healthcaresupportsystem/Pages/Auth/User.dart';
 
 abstract class BaseAuth {
   Future<String> signInWithEmailAndPassword(String email, String password);
@@ -7,9 +9,11 @@ abstract class BaseAuth {
 
   Future<String> currentUser();
   Future<void> singOut();
+  Future setUserData(String uid, String Username,DateTime Birthday,String bloodGroup);
 }
 
 class Auth implements BaseAuth {
+
   Future<String> signInWithEmailAndPassword(
       String email, String password) async {
     AuthResult result = await FirebaseAuth.instance
@@ -37,5 +41,23 @@ class Auth implements BaseAuth {
   }
   Future<void> singOut()async{
     return FirebaseAuth.instance.signOut();
+  }
+  // ignore: non_constant_identifier_names
+
+  final CollectionReference userData=Firestore.instance.collection('user_data');
+  Future setUserData(String uid, String Username,DateTime Birthday,String bloodGroup)async{
+    print("in updateUserData function ${uid}");
+    await userData.document(uid).setData({
+      'Usernanme':Username,
+      "Birthday":Birthday,
+      'bloodGroup':bloodGroup,
+      'CKD': null,
+      'Diabetits':null,
+      'Breast_canser':null,
+      'HeartIssue':null,
+    });
+  }
+  Stream<QuerySnapshot> get user_data{
+    return userData.snapshots();
   }
 }
