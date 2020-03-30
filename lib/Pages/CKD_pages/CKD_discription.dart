@@ -2,6 +2,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:healthcaresupportsystem/Pages/Auth/Auth.dart';
+import 'package:healthcaresupportsystem/Pages/Auth/UID.dart';
 import 'CKD_symptom.dart';
 import 'Constant.dart';
 
@@ -15,7 +16,8 @@ class CKD_discription extends StatefulWidget {
 class _CKD_discriptionState extends State<CKD_discription> {
   void choiceAction(String choice)async{
     if(choice=='Account'){
-      Navigator.pushNamed(context, '/account');
+      String uid= await widget.auth.currentUser();
+      Navigator.pushNamed(context, '/account',arguments:UID(uid: uid));
     }else if(choice=='SignOut'){
       print('SignOut');
       await widget.auth.singOut();

@@ -4,6 +4,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:healthcaresupportsystem/CKD_Card/CKD_Card.dart';
 import 'package:healthcaresupportsystem/Pages/Auth/Auth.dart';
+import 'package:healthcaresupportsystem/Pages/Auth/UID.dart';
 import 'package:healthcaresupportsystem/Pages/Loading.dart';
 import 'CKD_pages/Constant.dart';
 
@@ -17,7 +18,8 @@ class Home extends StatelessWidget {
 
     void choiceAction(String choice)async{
       if(choice=='Account'){
-        Navigator.pushNamed(context, '/account');
+        String uid= await auth.currentUser();
+        Navigator.pushNamed(context, '/account',arguments:UID(uid: uid));
       }else if(choice=='SignOut'){
         print('SignOut');
         await auth.singOut();
