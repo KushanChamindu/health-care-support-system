@@ -65,18 +65,19 @@ class _CKD_symptomsState extends State<CKD_symptoms> {
     return Scaffold(
       appBar: AppBar(
         title: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
             Align(
-              alignment: Alignment.centerLeft,
+              alignment: Alignment.center,
               child: Text(
-                'Chronic Kiney Disease Information',
+                'CKD Symptoms',
                 style: TextStyle(fontSize: 15),
               ),
             ),
             Align(
               alignment: Alignment.topRight,
               child: Padding(
-                padding: EdgeInsets.fromLTRB(3, 4, 0, 4),
+                padding: EdgeInsets.fromLTRB(10, 4, 0, 4),
                 child: CircleAvatar(
                   backgroundImage: AssetImage(
                     'assets/CKD_image/Doctor.png',

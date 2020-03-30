@@ -60,56 +60,62 @@ class _CKD_CardsState extends State<CKD_Cards> {
             Visibility(
                 visible: viewVisible,
                 child:Row(
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
                     Expanded(
-                      child: InkWell(
-                        onTap: (){
-                          Navigator.pushNamed(context, '/CKD_discription');
-                        },
-                        child: Center(
-                          child: Row(
-                            children: <Widget>[
-                              Padding(
-                                padding: const EdgeInsets.fromLTRB(50, 0, 5, 2),
-                                child: Icon(
+                      child: Align(
+                        alignment: Alignment.centerLeft,
+                        child: InkWell(
+                          onTap: (){
+                            Navigator.pushNamed(context, '/CKD_discription');
+                          },
+                          child: Padding(
+                            padding: const EdgeInsets.fromLTRB(15,0, 0, 0),
+                            child: Row(
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              children: <Widget>[
+                                Icon(
                                     Icons.local_hospital,
                                     size: 40,),
-                              ),
-                              Text(
-                                  'Discription',
-                              style: TextStyle(
-                                fontWeight: FontWeight.w500,
-                                fontSize: 16,
-                              ),
-                              ),
-                            ],
-                          ),
-                        )
+                                Text(
+                                    'Discription',
+                                style: TextStyle(
+                                  fontWeight: FontWeight.w500,
+                                  fontSize: 16,
+                                ),
+                                ),
+                              ],
+                            ),
+                          )
+                        ),
                       ),
                     ),
                     Expanded(
-                        child:InkWell(
-                          onTap: (){
-                            Navigator.pushNamed(context, '/CKD_message');
-                          },
-                          child: Row(
-                            children: <Widget>[
-                              Padding(
-                                padding: const EdgeInsets.fromLTRB(50, 0, 7, 3),
-                                child: Image.asset(
-                                  'assets/CKD_image/docIcon.png',
-                                  height: 40,
-                                  width: 40,
+                        child:Align(
+                          alignment: Alignment.centerRight,
+                          child: InkWell(
+                            onTap: (){
+                              Navigator.pushNamed(context, '/CKD_message');
+                            },
+                            child: Row(
+                              children: <Widget>[
+                                Padding(
+                                  padding: const EdgeInsets.fromLTRB(50, 0, 7, 3),
+                                  child: Image.asset(
+                                    'assets/CKD_image/docIcon.png',
+                                    height: 40,
+                                    width: 40,
+                                  ),
                                 ),
-                              ),
-                              Text(
-                                'Doctor',
-                                style: TextStyle(
-                                  fontWeight: FontWeight.w500,
-                                  fontSize: 16
-                                ),
-                              )
-                            ],
+                                Text(
+                                  'Doctor',
+                                  style: TextStyle(
+                                    fontWeight: FontWeight.w500,
+                                    fontSize: 16
+                                  ),
+                                )
+                              ],
+                            ),
                           ),
                         ),
                     )

@@ -56,20 +56,21 @@ class _CKD_discriptionState extends State<CKD_discription> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.grey[300],
-      appBar: AppBar(
+      appBar:  AppBar(
         title: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
             Align(
-              alignment: Alignment.centerLeft,
+              alignment: Alignment.center,
               child: Text(
-                'Chronic Kiney Disease Information',
+                'Chronic Kidney Disease',
                 style: TextStyle(fontSize: 15),
               ),
             ),
             Align(
               alignment: Alignment.topRight,
               child: Padding(
-                padding: EdgeInsets.fromLTRB(3, 4, 0, 4),
+                padding: EdgeInsets.fromLTRB(10, 4, 0, 4),
                 child: CircleAvatar(
                   backgroundImage: AssetImage(
                     'assets/CKD_image/Doctor.png',
@@ -114,7 +115,6 @@ class _CKD_discriptionState extends State<CKD_discription> {
             },
           )
         ],
-//        centerTitle: true,
         backgroundColor: Colors.blueAccent,
       ),
       body: SingleChildScrollView(
@@ -125,46 +125,48 @@ class _CKD_discriptionState extends State<CKD_discription> {
               ),
             ),
             Row(
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
-                Padding(
-                  padding: const EdgeInsets.fromLTRB(2, 0,5, 0),
+                Expanded(
                   child: Align(
                       alignment: Alignment.centerLeft,
-                      child: Card(
-                        child: FlatButton.icon(
-                            onPressed: () {
-                              Navigator.pushNamed(context, '/CKD_symptom');
-                            },
-                            icon: Icon(
-                              Icons.touch_app,
-                              size: 25,
-                            ),
-                            label: Padding(
-                              padding: const EdgeInsets.fromLTRB(0, 0, 25, 0),
-                              child: Text("CKD Symptoms",
+                      child: Container(
+                        width: 250,
+                        child: Card(
+                          child: FlatButton.icon(
+                              onPressed: () {
+                                Navigator.pushNamed(context, '/CKD_symptom');
+                              },
+                              icon: Icon(
+                                Icons.touch_app,
+                                size: 25,
+                              ),
+                              label: Text("CKD Symptoms",
                                   style: TextStyle(
-                                      fontSize: 16, fontWeight: FontWeight.w900)),
-                            )),
+                                      fontSize: 15, fontWeight: FontWeight.w900))),
+                        ),
                       ),
                     ),
                 ),
-                Align(
-                  alignment: Alignment.centerLeft,
-                  child: Card(
-                    child: FlatButton.icon(
-                        onPressed: () {
-                          Navigator.pushNamed(context, '/CKD_precaution');
-                        },
-                        icon: Icon(
-                          Icons.local_pharmacy,
-                          size: 25,
-                        ),
-                        label: Padding(
-                          padding: const EdgeInsets.fromLTRB(0, 0, 7, 0),
-                          child: Text("CKD precautions",
-                              style: TextStyle(
-                                  fontSize: 16, fontWeight: FontWeight.w900)),
-                        )),
+                Expanded(
+                  child: Align(
+                    alignment: Alignment.centerRight,
+                    child: Container(
+                      width: 200,
+                      child: Card(
+                        child: FlatButton.icon(
+                            onPressed: () {
+                              Navigator.pushNamed(context, '/CKD_precaution');
+                            },
+                            icon: Icon(
+                              Icons.local_pharmacy,
+                              size: 25,
+                            ),
+                            label: Text("CKD precautions",
+                                style: TextStyle(
+                                    fontSize: 14, fontWeight: FontWeight.w900))),
+                      ),
+                    ),
                   ),
                 ),
               ],

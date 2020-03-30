@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 import 'package:healthcaresupportsystem/Pages/Auth/Auth.dart';
 import 'package:healthcaresupportsystem/Pages/Auth/User.dart';
 import 'package:healthcaresupportsystem/Pages/Loading.dart';
@@ -77,7 +78,6 @@ class _LogInState extends State<LogIn> {
         } else if (_formType == FormType.register) {
           setState(() {
             loadingStatus = LoadingStatus.loadRegister;
-
           });
         }
       } catch (e) {
@@ -89,80 +89,119 @@ class _LogInState extends State<LogIn> {
   @override
   Widget build(BuildContext context) {
     final TextEditingController _controller = new TextEditingController();
-    List<String> blood_groups=['O−',	'O+',	'A−',	'A+',	'B−',	'B+',	'AB−',	'AB+'];
+    List<String> blood_groups = [
+      'O−',
+      'O+',
+      'A−',
+      'A+',
+      'B−',
+      'B+',
+      'AB−',
+      'AB+'
+    ];
 
     List<Widget> buildInputs() {
       if (_formType == FormType.logIn) {
         return [
-          TextFormField(
-            decoration: InputDecoration(labelText: 'Email'),
-            validator: (value) =>
-            value.isEmpty
-                ? 'Email con\'t be empty'
-                : null,
-            onSaved: (value) => _email = value,
+          SizedBox(
+            height: 5,
           ),
           TextFormField(
-            decoration: InputDecoration(labelText: 'Password'),
+            decoration: InputDecoration(
+                labelText: 'E-mail',
+                hintText: 'Input valid E-mail',
+                prefixIcon: Icon(Icons.email),
+                focusedBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.all(Radius.circular(4)),
+                    borderSide: BorderSide(width: 1, color: Colors.blue))),
             validator: (value) =>
-            value.isEmpty
-                ? 'Password con\'t be empty'
-                : null,
+                value.isEmpty ? 'Email con\'t be empty' : null,
+            onSaved: (value) => _email = value,
+          ),
+          SizedBox(
+            height: 10,
+          ),
+          TextFormField(
+            decoration: InputDecoration(
+                focusedBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.all(Radius.circular(4)),
+                    borderSide: BorderSide(width: 1, color: Colors.blue)),
+                labelText: 'Password',
+                hintText: 'Input Password',
+                prefixIcon: Icon(Icons.lock)),
+            validator: (value) =>
+                value.isEmpty ? 'Password con\'t be empty' : null,
             obscureText: true,
             onSaved: (value) => _password = value,
           ),
-
         ];
       } else if (_formType == FormType.register) {
         return [
-//          DropdownButton<String>(
-//            items: <String>['A', 'B', 'C', 'D'].map((String value) {
-//              return new DropdownMenuItem<String>(
-//                value: value,
-//                child: new Text(value),
-//              );
-//            }).toList(),
-//            onChanged: (_) {},
-//          ),
           TextFormField(
-            decoration: InputDecoration(labelText: 'User name'),
+            decoration: InputDecoration(
+                labelText: 'User name',
+                hintText: 'Input user name',
+                prefixIcon: Icon(Icons.perm_identity),
+                focusedBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.all(Radius.circular(4)),
+                    borderSide: BorderSide(width: 1, color: Colors.blue))),
             // ignore: missing_return
-            validator: (value){
-              if(value.isEmpty){
+            validator: (value) {
+              if (value.isEmpty) {
                 return 'User name con\'t be empty';
-              }else if(value.length>=28){
+              } else if (value.length >= 28) {
                 return 'User name should be 28 characters';
               }
             },
             onSaved: (value) => Username = value,
           ),
+          SizedBox(
+            height: 10,
+          ),
           TextFormField(
-            decoration: InputDecoration(labelText: 'Email'),
+            decoration: InputDecoration(
+                labelText: 'E-mail',
+                hintText: 'Input valid E-mail',
+                prefixIcon: Icon(Icons.email),
+                focusedBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.all(Radius.circular(4)),
+                    borderSide: BorderSide(width: 1, color: Colors.blue))),
             validator: (value) =>
-            value.isEmpty
-                ? 'Email con\'t be empty'
-                : null,
+                value.isEmpty ? 'Email con\'t be empty' : null,
             onSaved: (value) => _email = value,
+          ),
+          SizedBox(
+            height: 10,
           ),
           Column(children: <Widget>[
 //            Text('Basic date field (${format.pattern})'),
             DateTimeField(
-              onSaved: (value)=> Birthday=value,
+              onSaved: (value) => Birthday = value,
               // ignore: missing_return
-              validator: (value){
-                if(value==null){
+              validator: (value) {
+                if (value == null) {
                   return 'Birthday is required';
-                }else{
-                  String date=value.toString().trim().split(' ')[0];
-                  final birthday = DateTime(int.parse(date.split('-')[0]) ,int.parse(date.split('-')[1]),int.parse(date.split('-')[2]),);
+                } else {
+                  String date = value.toString().trim().split(' ')[0];
+                  final birthday = DateTime(
+                    int.parse(date.split('-')[0]),
+                    int.parse(date.split('-')[1]),
+                    int.parse(date.split('-')[2]),
+                  );
                   final date2 = DateTime.now();
                   final difference = date2.difference(birthday).inDays;
-                  if(difference<=3650){
+                  if (difference <= 3650) {
                     return 'Your age should be more than 10 years';
                   }
                 }
               },
-              decoration: InputDecoration(labelText: 'Birthday'),
+              decoration: InputDecoration(
+                  labelText: 'Birthday',
+                  hintText: 'Input birthday',
+                  prefixIcon: Icon(Icons.calendar_today),
+                  focusedBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.all(Radius.circular(4)),
+                      borderSide: BorderSide(width: 1, color: Colors.blue))),
               format: format,
               onShowPicker: (context, currentValue) {
                 return showDatePicker(
@@ -170,32 +209,19 @@ class _LogInState extends State<LogIn> {
                     firstDate: DateTime(1900),
                     initialDate: currentValue ?? DateTime.now(),
                     lastDate: DateTime(2100));
-
               },
             ),
           ]),
-//          TextFormField(
-//            decoration: InputDecoration(labelText: 'BloodGroup'),
-//            // ignore: missing_return
-//            validator: (value) {
-//              List<String> blood_groups=['O−',	'O+',	'A−',	'A+,'	'B−',	'B+',	'AB−',	'AB+,'];
-//              if(value.isEmpty){
-//                return 'Blood group con\'t be empty';
-//              }
-//              else if(!blood_groups.contains(value)){
-//                return 'Blood group should be one of thses: O−	O+	A−	A+	B−	B+	AB−	AB+';
-//              }
-//            },
-//            onSaved: (value) => bloodGroup = value,
-//          ),
+          SizedBox(
+            height: 10,
+          ),
           TextFormField(
             // ignore: missing_return
             validator: (value) {
 //              List<String> blood_groups=['O−',	'O+',	'A−',	'A+,'	'B−',	'B+',	'AB−',	'AB+,'];
-              if(value.isEmpty){
+              if (value.isEmpty) {
                 return 'Blood group con\'t be empty';
-              }
-              else if(!blood_groups.contains(value)){
+              } else if (!blood_groups.contains(value)) {
                 return 'Blood group should be one of thses: O−	O+	A−	A+	B−	B+	AB−	AB+';
               }
             },
@@ -203,6 +229,11 @@ class _LogInState extends State<LogIn> {
             controller: _controller,
             decoration: InputDecoration(
               labelText: 'Blood group',
+              hintText: 'Input your blood group',
+              prefixIcon: Icon(Icons.local_hospital),
+              focusedBorder: OutlineInputBorder(
+                  borderRadius: BorderRadius.all(Radius.circular(4)),
+                  borderSide: BorderSide(width: 1, color: Colors.blue)),
               suffixIcon: PopupMenuButton<String>(
                 icon: const Icon(Icons.arrow_drop_down),
                 onSelected: (String value) {
@@ -218,19 +249,26 @@ class _LogInState extends State<LogIn> {
               ),
             ),
           ),
+          SizedBox(
+            height: 10,
+          ),
           TextFormField(
-            decoration: InputDecoration(labelText: 'Password'),
+            decoration: InputDecoration(
+                focusedBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.all(Radius.circular(4)),
+                    borderSide: BorderSide(width: 1, color: Colors.blue)),
+                labelText: 'Password',
+                hintText: 'Input Password',
+                prefixIcon: Icon(Icons.lock)),
             validator: (value) =>
-            value.isEmpty
-                ? 'Password con\'t be empty'
-                : null,
+                value.isEmpty ? 'Password con\'t be empty' : null,
             obscureText: true,
             onSaved: (value) => _password = value,
           ),
-
         ];
       }
     }
+
     switch (loadingStatus) {
       case LoadingStatus.nigther:
         return Scaffold(
@@ -281,7 +319,11 @@ class _LogInState extends State<LogIn> {
           email: _email,
           passwaord: _password,
           isLogInResquest: false,
-          user: User(uid: null,Birthday: Birthday,bloodGroup: bloodGroup,Username: Username),
+          user: User(
+              uid: null,
+              Birthday: Birthday,
+              bloodGroup: bloodGroup,
+              Username: Username),
         );
     }
   }
@@ -291,11 +333,24 @@ class _LogInState extends State<LogIn> {
   List<Widget> buildSubmitButtons() {
     if (_formType == FormType.logIn) {
       return [
-        RaisedButton.icon(
-          onPressed: validateAndSubmit,
-          icon: Icon(Icons.add_to_home_screen),
-          label: Text("LogIn"),
-          color: Colors.white,
+        SizedBox(
+          height: 10,
+        ),
+        Container(
+          height: 50,
+          child: RaisedButton.icon(
+            shape:
+                RoundedRectangleBorder(borderRadius: BorderRadius.circular(18)),
+            color: Colors.blue[200],
+            splashColor: Colors.black38,
+            elevation: 10,
+            onPressed: validateAndSubmit,
+            icon: Icon(Icons.add_to_home_screen),
+            label: Text(
+              "LogIn",
+              style: TextStyle(fontSize: 17),
+            ),
+          ),
         ),
         FlatButton(
           child: Text(
@@ -308,11 +363,21 @@ class _LogInState extends State<LogIn> {
 //      e.toString().split(',')[1]
     } else if (_formType == FormType.register) {
       return [
-        RaisedButton.icon(
-          onPressed: validateAndSubmit,
-          icon: Icon(Icons.create),
-          label: Text("Register"),
-          color: Colors.white,
+        SizedBox(
+          height: 10,
+        ),
+        Container(
+          height: 50,
+          child: RaisedButton.icon(
+            shape:
+                RoundedRectangleBorder(borderRadius: BorderRadius.circular(18)),
+            color: Colors.blue[200],
+            splashColor: Colors.black38,
+            elevation: 10,
+            onPressed: validateAndSubmit,
+            icon: Icon(Icons.create),
+            label: Text("Register"),
+          ),
         ),
         FlatButton(
           child: Text(

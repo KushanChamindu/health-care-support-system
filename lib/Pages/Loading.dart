@@ -104,7 +104,8 @@ class _LoadingState extends State<Loading> with SingleTickerProviderStateMixin {
       print("Error : ${e.toString().split(',')[1]}");
       setState(() {
         _visibility=true;
-        error=e.toString().split(',')[1];
+        error=e.toString().split(',')[1].split('.')[0];
+        print(error.length);
       });
 
 //      Navigator.pushReplacementNamed(context, '/' );

@@ -14,20 +14,24 @@ class _CKD_webviewState extends State<CKD_webview> {
     return WebviewScaffold(url: url,
     appBar: AppBar(
       title: Row(
+        mainAxisAlignment: MainAxisAlignment.center,
         children: <Widget>[
-          Text(
-            'Chronic Kiney Disease Information',
-            style: TextStyle(fontSize: 15),
+          Align(
+            alignment: Alignment.center,
+            child: Text(
+              'CKD More Info',
+              style: TextStyle(fontSize: 15),
+            ),
           ),
           Align(
             alignment: Alignment.topRight,
             child: Padding(
-              padding: EdgeInsets.fromLTRB(8, 4, 4, 4),
+              padding: EdgeInsets.fromLTRB(10, 4, 0, 4),
               child: CircleAvatar(
                 backgroundImage: AssetImage(
                   'assets/CKD_image/Doctor.png',
                 ),
-                radius: 25,
+                radius: 20,
                 backgroundColor: Colors.blueAccent,
               ),
             ),
