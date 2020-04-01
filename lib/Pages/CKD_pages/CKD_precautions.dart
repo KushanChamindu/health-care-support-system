@@ -12,8 +12,14 @@ class CKD_precautions extends StatefulWidget {
 class _CKD_precautionsState extends State<CKD_precautions> {
   void choiceAction(String choice)async{
     if(choice=='Account'){
-      String uid= await widget.auth.currentUser();
-      Navigator.pushNamed(context, '/account',arguments:UID(uid: uid));
+      try {
+        String uid= await widget.auth.currentUser();
+        Navigator.pushNamed(context, '/account',arguments:UID(uid: uid));
+      } catch (e) {
+        Scaffold.of(context).showSnackBar(SnackBar(
+          content: Text('Check your internet connection'),
+        ));
+      }
     }else if(choice=='SignOut'){
       print('SignOut');
       await widget.auth.singOut();

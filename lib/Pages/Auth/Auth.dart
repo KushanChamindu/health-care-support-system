@@ -12,6 +12,7 @@ abstract class BaseAuth {
   Future setUserData(String uid, String Username,DateTime Birthday,String bloodGroup);
   Stream<QuerySnapshot> get user_data;
   Future updateAccountDetails(String uid, String Username, String bloodGroup, DateTime Birthday );
+  Future setUserImageDetails(String uid,String ImageURL);
 }
 
 class Auth implements BaseAuth {
@@ -46,7 +47,6 @@ class Auth implements BaseAuth {
   }
   // ignore: non_constant_identifier_names
 
-  final CollectionReference userData=Firestore.instance.collection('user_data');
   Future setUserData(String uid, String Username,DateTime Birthday,String bloodGroup)async{
     print("in updateUserData function ${uid}");
     await userData.document(uid).setData({
@@ -57,9 +57,10 @@ class Auth implements BaseAuth {
       'Diabetits':null,
       'Breast_canser':null,
       'HeartIssue':null,
+      'ProfilePic':null,
     });
   }
-  Future updateAccountDetails(String uid, String Username, String bloodGroup, DateTime Birthday ){
+  Future updateAccountDetails(String uid, String Username, String bloodGroup, DateTime Birthday )async{
     Firestore.instance
         .collection('user_data')
         .document(uid)
@@ -69,7 +70,12 @@ class Auth implements BaseAuth {
       'Birthday': Birthday,
     });
   }
-
+  Future setUserImageDetails(String uid,String ImageURL)async{
+    Firestore.instance.collection('user_data').document(uid).updateData({
+      'ProfilePic':ImageURL
+    });
+  }
+  final CollectionReference userData=Firestore.instance.collection('user_data');
   // ignore: non_constant_identifier_names
   Stream<QuerySnapshot> get user_data{
     return userData.snapshots();

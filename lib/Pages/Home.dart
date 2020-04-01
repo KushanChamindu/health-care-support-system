@@ -18,8 +18,15 @@ class Home extends StatelessWidget {
 
     void choiceAction(String choice)async{
       if(choice=='Account'){
-        String uid= await auth.currentUser();
-        Navigator.pushNamed(context, '/account',arguments:UID(uid: uid));
+        try {
+          String uid= await auth.currentUser();
+          Navigator.pushNamed(context, '/account',arguments:UID(uid: uid));
+        } catch (e) {
+          Scaffold.of(context).showSnackBar(SnackBar(
+            content: Text('Check your internet connection'),
+          ));
+          // TODO
+        }
       }else if(choice=='SignOut'){
         print('SignOut');
         await auth.singOut();
