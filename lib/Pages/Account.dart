@@ -240,6 +240,7 @@ class _AccountBodyState extends State<AccountBody> {
     super.initState();
     print(widget.uid);
   }
+
   @override
   Widget build(BuildContext context) {
     Future getImage() async {
@@ -336,7 +337,9 @@ class _AccountBodyState extends State<AccountBody> {
                     child: Column(
                       children: <Widget>[
                         TextFormField(
-                          initialValue: (userData['Username']!=null)?userData['Username']: 'Loading...',
+                          initialValue: (userData['Username'] != null)
+                              ? userData['Username']
+                              : 'Loading...',
                           decoration: InputDecoration(labelText: 'User name'),
                           // ignore: missing_return
                           validator: (value) {
@@ -351,26 +354,28 @@ class _AccountBodyState extends State<AccountBody> {
                         Column(children: <Widget>[
 //            Text('Basic date field (${format.pattern})'),
                           DateTimeField(
-                            initialValue:(userData['Birthday']!=null) ?DateTime(
-                              int.parse(userData['Birthday']
-                                  .toDate()
-                                  .toString()
-                                  .split(' ')[0]
-                                  .trim()
-                                  .split('-')[0]),
-                              int.parse(userData['Birthday']
-                                  .toDate()
-                                  .toString()
-                                  .split(' ')[0]
-                                  .trim()
-                                  .split('-')[1]),
-                              int.parse(userData['Birthday']
-                                  .toDate()
-                                  .toString()
-                                  .split(' ')[0]
-                                  .trim()
-                                  .split('-')[2]),
-                            ): Text('Loading...'),
+                            initialValue: (userData['Birthday'] != null)
+                                ? DateTime(
+                                    int.parse(userData['Birthday']
+                                        .toDate()
+                                        .toString()
+                                        .split(' ')[0]
+                                        .trim()
+                                        .split('-')[0]),
+                                    int.parse(userData['Birthday']
+                                        .toDate()
+                                        .toString()
+                                        .split(' ')[0]
+                                        .trim()
+                                        .split('-')[1]),
+                                    int.parse(userData['Birthday']
+                                        .toDate()
+                                        .toString()
+                                        .split(' ')[0]
+                                        .trim()
+                                        .split('-')[2]),
+                                  )
+                                : Text('Loading...'),
                             onSaved: (value) => Birthday = value,
                             // ignore: missing_return
                             validator: (value) {
@@ -512,9 +517,9 @@ class _AccountBodyState extends State<AccountBody> {
                                                     'assets/CKD_image/kidney_1.jpg'),
                                               )
                                             : CircleAvatar(
-                                              backgroundImage: NetworkImage(
-                                                  userData['ProfilePic']),
-                                            )),
+                                                backgroundImage: NetworkImage(
+                                                    userData['ProfilePic']),
+                                              )),
                               ),
                             ),
                             Visibility(
@@ -581,7 +586,9 @@ class _AccountBodyState extends State<AccountBody> {
                           style: TextStyle(color: Colors.black38),
                         ),
                         Text(
-                          (userData['Username']!=null)?'${userData['Username']}': 'Loading...',
+                          (userData['Username'] != null)
+                              ? '${userData['Username']}'
+                              : 'Loading...',
                           style: TextStyle(
                               fontWeight: FontWeight.bold,
                               fontSize: 28,
@@ -598,7 +605,9 @@ class _AccountBodyState extends State<AccountBody> {
                           height: 5,
                         ),
                         Text(
-                          (userData['Birthday']!=null)?'${userData['Birthday'].toDate().toString().split(' ')[0].trim()}':'Loading...',
+                          (userData['Birthday'] != null)
+                              ? '${userData['Birthday'].toDate().toString().split(' ')[0].trim()}'
+                              : 'Loading...',
                           style: TextStyle(
                               fontWeight: FontWeight.bold,
                               fontSize: 17,
@@ -615,7 +624,9 @@ class _AccountBodyState extends State<AccountBody> {
                           height: 5,
                         ),
                         Text(
-                          (userData['bloodGroup']!=null)?'${userData['bloodGroup']}':'Loading...',
+                          (userData['bloodGroup'] != null)
+                              ? '${userData['bloodGroup']}'
+                              : 'Loading...',
                           style: TextStyle(
                               fontWeight: FontWeight.bold,
                               fontSize: 17,
@@ -792,6 +803,15 @@ class _AccountBodyState extends State<AccountBody> {
       );
     } catch (e) {
       print('Error :$e');
+      return Builder(
+        builder: (context) => Container(
+          child: Center(
+              child: Text(
+            'Loading...',
+            style: TextStyle(fontSize: 25, fontWeight: FontWeight.w800),
+          )),
+        ),
+      );
       // TODO
     }
   }
