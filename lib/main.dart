@@ -6,10 +6,14 @@ import 'package:healthcaresupportsystem/Pages/CKD_pages/CKD_precautions.dart';
 import 'package:healthcaresupportsystem/Pages/CKD_pages/CKD_symptom.dart';
 import 'package:healthcaresupportsystem/Pages/CKD_pages/CKD_webview.dart';
 import 'package:healthcaresupportsystem/Pages/Home.dart';
+import 'package:healthcaresupportsystem/Pages/breast_cancer/bc_more.dart';
+import 'package:healthcaresupportsystem/Pages/breast_cancer/breast_solutions.dart';
+import 'package:healthcaresupportsystem/Pages/breast_cancer/breast_symptoms.dart';
 import 'Pages/Auth/LogIn.dart';
 import 'Pages/Loading.dart';
 import 'Pages/CKD_pages/CKD_message.dart';
 import 'Pages/CKD_pages/CKD_discription.dart';
+import 'Pages/breast_cancer/breast_cancer.dart';
 
 void main() => runApp(MaterialApp(
       routes: {
@@ -22,6 +26,13 @@ void main() => runApp(MaterialApp(
         '/CKD_discription': (context) => CKD_discription(),
         '/CKD_webview': (context) => CKD_webview(),
         '/CKD_symptom': (context) => CKD_symptoms(),
-        '/CKD_precaution': (context) => CKD_precautions()
+        '/CKD_precaution': (context) => CKD_precautions(),
+
+//        -----------------------------------------------------------
+        '/breastcancer':(context) =>BrestCancer(),
+        '/bc_symptoms':(context)=>BC_Symptoms(),
+        '/bc_solutions':(context)=>BC_Solutions(),
+        '/bc_more':(context)=>BC_More(),
+
       },
     ));

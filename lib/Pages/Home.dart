@@ -6,6 +6,7 @@ import 'package:healthcaresupportsystem/CKD_Card/CKD_Card.dart';
 import 'package:healthcaresupportsystem/Pages/Auth/Auth.dart';
 import 'package:healthcaresupportsystem/Pages/Auth/UID.dart';
 import 'package:healthcaresupportsystem/Pages/Loading.dart';
+import 'package:healthcaresupportsystem/breast_cancer_Card/breast_cancer_Card.dart';
 import 'CKD_pages/Constant.dart';
 
 
@@ -145,7 +146,12 @@ class Home extends StatelessWidget {
                 children: <Widget>[
                   Container(
                       margin:EdgeInsets.all(8.0),
-                      child:CKD_Cards()
+                      child:Column(
+                        children: <Widget>[
+                          CKD_Cards(),
+                          BC_Cards()
+                        ],
+                      )
                   ),
                 ]
             ),
