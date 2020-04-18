@@ -5,6 +5,7 @@ import 'package:healthcaresupportsystem/Pages/Auth/Auth.dart';
 import 'package:healthcaresupportsystem/Pages/Auth/User.dart';
 import 'package:healthcaresupportsystem/Pages/Loading.dart';
 import 'package:datetime_picker_formfield/datetime_picker_formfield.dart';
+import 'package:healthcaresupportsystem/Pages/validation/ValidationForm.dart';
 import 'package:intl/intl.dart';
 import 'package:intl/intl.dart';
 
@@ -23,6 +24,8 @@ enum LoadingStatus { loadLogIn, loadRegister, nigther }
 class _LogInState extends State<LogIn> {
   LoadingStatus loadingStatus = LoadingStatus.nigther;
   final formKey = new GlobalKey<FormState>();
+  final TextEditingController _passwordController = TextEditingController();
+  final TextEditingController _confirmPassController = TextEditingController();
   String App_bar_title = "LogIn";
   String _email;
   String _password;
@@ -114,8 +117,7 @@ class _LogInState extends State<LogIn> {
                 focusedBorder: OutlineInputBorder(
                     borderRadius: BorderRadius.all(Radius.circular(4)),
                     borderSide: BorderSide(width: 1, color: Colors.blue))),
-            validator: (value) =>
-                value.isEmpty ? 'Email con\'t be empty' : null,
+            validator: (value)=> ValidationForm.emailValidate(value),
             onSaved: (value) => _email = value,
           ),
           SizedBox(
@@ -129,8 +131,7 @@ class _LogInState extends State<LogIn> {
                 labelText: 'Password',
                 hintText: 'Input Password',
                 prefixIcon: Icon(Icons.lock)),
-            validator: (value) =>
-                value.isEmpty ? 'Password con\'t be empty' : null,
+            validator: (value) => ValidationForm.passwordValidate(value),
             obscureText: true,
             onSaved: (value) => _password = value,
           ),
@@ -145,14 +146,7 @@ class _LogInState extends State<LogIn> {
                 focusedBorder: OutlineInputBorder(
                     borderRadius: BorderRadius.all(Radius.circular(4)),
                     borderSide: BorderSide(width: 1, color: Colors.blue))),
-            // ignore: missing_return
-            validator: (value) {
-              if (value.isEmpty) {
-                return 'User name con\'t be empty';
-              } else if (value.length >= 28) {
-                return 'User name should be 28 characters';
-              }
-            },
+            validator:(value)=> ValidationForm.usernameValidate(value),
             onSaved: (value) => Username = value,
           ),
           SizedBox(
@@ -166,8 +160,7 @@ class _LogInState extends State<LogIn> {
                 focusedBorder: OutlineInputBorder(
                     borderRadius: BorderRadius.all(Radius.circular(4)),
                     borderSide: BorderSide(width: 1, color: Colors.blue))),
-            validator: (value) =>
-                value.isEmpty ? 'Email con\'t be empty' : null,
+            validator: (value)=> ValidationForm.emailValidate(value),
             onSaved: (value) => _email = value,
           ),
           SizedBox(
@@ -177,24 +170,7 @@ class _LogInState extends State<LogIn> {
 //            Text('Basic date field (${format.pattern})'),
             DateTimeField(
               onSaved: (value) => Birthday = value,
-              // ignore: missing_return
-              validator: (value) {
-                if (value == null) {
-                  return 'Birthday is required';
-                } else {
-                  String date = value.toString().trim().split(' ')[0];
-                  final birthday = DateTime(
-                    int.parse(date.split('-')[0]),
-                    int.parse(date.split('-')[1]),
-                    int.parse(date.split('-')[2]),
-                  );
-                  final date2 = DateTime.now();
-                  final difference = date2.difference(birthday).inDays;
-                  if (difference <= 3650) {
-                    return 'Your age should be more than 10 years';
-                  }
-                }
-              },
+              validator: (value) => ValidationForm.dateValidate(value),
               decoration: InputDecoration(
                   labelText: 'Birthday',
                   hintText: 'Input birthday',
@@ -217,14 +193,7 @@ class _LogInState extends State<LogIn> {
           ),
           TextFormField(
             // ignore: missing_return
-            validator: (value) {
-//              List<String> blood_groups=['O−',	'O+',	'A−',	'A+,'	'B−',	'B+',	'AB−',	'AB+,'];
-              if (value.isEmpty) {
-                return 'Blood group con\'t be empty';
-              } else if (!blood_groups.contains(value)) {
-                return 'Blood group should be one of thses: O−	O+	A−	A+	B−	B+	AB−	AB+';
-              }
-            },
+            validator: (value)=>ValidationForm.bloodValidate(value),
             onSaved: (value) => bloodGroup = value,
             controller: _controller,
             decoration: InputDecoration(
@@ -253,6 +222,7 @@ class _LogInState extends State<LogIn> {
             height: 10,
           ),
           TextFormField(
+            controller: _passwordController,
             decoration: InputDecoration(
                 focusedBorder: OutlineInputBorder(
                     borderRadius: BorderRadius.all(Radius.circular(4)),
@@ -260,10 +230,24 @@ class _LogInState extends State<LogIn> {
                 labelText: 'Password',
                 hintText: 'Input Password',
                 prefixIcon: Icon(Icons.lock)),
-            validator: (value) =>
-                value.isEmpty ? 'Password con\'t be empty' : null,
+            validator: (value) =>ValidationForm.passwordValidate(value),
             obscureText: true,
             onSaved: (value) => _password = value,
+          ),
+          SizedBox(
+            height: 10,
+          ),
+          TextFormField(
+            controller: _confirmPassController,
+            decoration: InputDecoration(
+                focusedBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.all(Radius.circular(4)),
+                    borderSide: BorderSide(width: 1, color: Colors.blue)),
+                labelText: 'Confirm password',
+                hintText: 'Input same password',
+                prefixIcon: Icon(Icons.lock)),
+            validator: (value)=>ValidationForm.confirmPassValidate(value, _passwordController),
+            obscureText: true,
           ),
         ];
       }
@@ -312,7 +296,6 @@ class _LogInState extends State<LogIn> {
           passwaord: _password,
           isLogInResquest: true,
         );
-//        print("Kushan");
       case LoadingStatus.loadRegister:
         return Loading(
           auth: Auth(),

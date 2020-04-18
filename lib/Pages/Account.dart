@@ -3,6 +3,7 @@ import 'package:datetime_picker_formfield/datetime_picker_formfield.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:healthcaresupportsystem/Pages/Auth/UID.dart';
+import 'package:healthcaresupportsystem/Pages/validation/ValidationForm.dart';
 import 'package:intl/intl.dart';
 import 'package:healthcaresupportsystem/Pages/Auth/User.dart';
 import 'package:provider/provider.dart';
@@ -313,7 +314,7 @@ class _AccountBodyState extends State<AccountBody> {
       }
 
       createAlertDialog(BuildContext context) {
-        final TextEditingController _controller = new TextEditingController();
+        final TextEditingController _controller = new TextEditingController(text: (userData['bloodGroup']!=null)?userData['bloodGroup'] : 'Loading..' );
         List<String> blood_groups = [
           'O−',
           'O+',
@@ -322,7 +323,7 @@ class _AccountBodyState extends State<AccountBody> {
           'B−',
           'B+',
           'AB−',
-          'AB+,'
+          'AB+'
         ];
         // ignore: missing_return
         return showDialog(
@@ -342,13 +343,7 @@ class _AccountBodyState extends State<AccountBody> {
                               : 'Loading...',
                           decoration: InputDecoration(labelText: 'User name'),
                           // ignore: missing_return
-                          validator: (value) {
-                            if (value.isEmpty) {
-                              return 'User name con\'t be empty';
-                            } else if (value.length >= 28) {
-                              return 'User name should be 28 characters';
-                            }
-                          },
+                          validator:(value)=> ValidationForm.usernameValidate(value),
                           onSaved: (value) => Username = value,
                         ),
                         Column(children: <Widget>[
@@ -378,25 +373,7 @@ class _AccountBodyState extends State<AccountBody> {
                                 : Text('Loading...'),
                             onSaved: (value) => Birthday = value,
                             // ignore: missing_return
-                            validator: (value) {
-                              if (value == null) {
-                                return 'Birthday is required';
-                              } else {
-                                String date =
-                                    value.toString().trim().split(' ')[0];
-                                final birthday = DateTime(
-                                  int.parse(date.split('-')[0]),
-                                  int.parse(date.split('-')[1]),
-                                  int.parse(date.split('-')[2]),
-                                );
-                                final date2 = DateTime.now();
-                                final difference =
-                                    date2.difference(birthday).inDays;
-                                if (difference <= 3650) {
-                                  return 'Your age should be more than 10 years';
-                                }
-                              }
-                            },
+                            validator: (value) => ValidationForm.dateValidate(value),
                             decoration: InputDecoration(labelText: 'Birthday'),
                             format: format,
                             onShowPicker: (context, currentValue) {
@@ -409,14 +386,8 @@ class _AccountBodyState extends State<AccountBody> {
                           ),
                         ]),
                         TextFormField(
-                          // ignore: missing_return
-                          validator: (value) {
-                            if (value.isEmpty) {
-                              return 'Blood group con\'t be empty';
-                            } else if (!blood_groups.contains(value)) {
-                              return 'Blood group should be one of thses: O−	O+	A−	A+	B−	B+	AB−	AB+';
-                            }
-                          },
+                         //_controller.text=userData['bloodGroup']
+                          validator: (value)=>ValidationForm.bloodValidate(value),
                           onSaved: (value) => bloodGroup = value,
                           controller: _controller,
                           decoration: InputDecoration(
@@ -585,14 +556,17 @@ class _AccountBodyState extends State<AccountBody> {
                           'User name',
                           style: TextStyle(color: Colors.black38),
                         ),
-                        Text(
-                          (userData['Username'] != null)
-                              ? '${userData['Username']}'
-                              : 'Loading...',
-                          style: TextStyle(
-                              fontWeight: FontWeight.bold,
-                              fontSize: 28,
-                              color: Colors.black),
+                        Center(
+                          child: Text(
+                            (userData['Username'] != null)
+                                ?  '${userData['Username']}'
+                                : 'Loading...',
+                            textAlign: TextAlign.center,
+                            style: TextStyle(
+                                fontWeight: FontWeight.bold,
+                                fontSize: 28,
+                                color: Colors.black),
+                          ),
                         ),
                         SizedBox(
                           height: 10,
