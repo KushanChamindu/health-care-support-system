@@ -1,17 +1,19 @@
 import 'package:flutter/cupertino.dart';
 
-class ValidationForm{
-  static String emailValidate(String value){
+class ValidationForm {
+  static String emailValidate(String value) {
     return value.isEmpty ? 'Email con\'t be empty' : null;
   }
-  static String passwordValidate(String value){
+
+  static String passwordValidate(String value) {
     return value.isEmpty ? 'Password con\'t be empty' : null;
   }
-  static String usernameValidate(String value){
+
+  static String usernameValidate(String value) {
     return value.isEmpty ? 'User name con\'t be empty' : null;
   }
-  // ignore: missing_return
-  static String dateValidate(DateTime value){
+
+  static String dateValidate(DateTime value) {
     if (value == null) {
       return 'Birthday is required';
     } else {
@@ -25,23 +27,34 @@ class ValidationForm{
       final difference = date2.difference(birthday).inDays;
       if (difference <= 3650) {
         return 'Your age should be more than 10 years';
+      } else {
+        return null;
       }
     }
   }
-  // ignore: missing_return
-  static String bloodValidate(String value){
-    List<String> bloodGroups=['O−',	'O+',	'A−',	'A+',	'B−',	'B+',	'AB−',	'AB+'];
+
+  static String bloodValidate(String value) {
+    List<String> bloodGroups = [
+      'O−',
+      'O+',
+      'A−',
+      'A+',
+      'B−',
+      'B+',
+      'AB−',
+      'AB+'
+    ];
     if (value.isEmpty) {
       return 'Blood group con\'t be empty';
     } else if (!bloodGroups.contains(value)) {
       return 'Blood group should be one of thses: O−	O+	A−	A+	B−	B+	AB−	AB+';
-    }
+    }else{return null;}
   }
-  static String confirmPassValidate(String value, TextEditingController _passwordController){
-    if(value.isEmpty)
-      return 'Password con\'t be empty';
-    if(value != _passwordController.text)
-      return 'Not Match with password';
+
+  static String confirmPassValidate(
+      String value, TextEditingController _passwordController) {
+    if (value.isEmpty) return 'Password con\'t be empty';
+    if (value != _passwordController.text) return 'Not Match with password';
     return null;
   }
 }
