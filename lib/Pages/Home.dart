@@ -25,7 +25,6 @@ class Home extends StatelessWidget {
           Scaffold.of(context).showSnackBar(SnackBar(
             content: Text('Check your internet connection'),
           ));
-          // TODO
         }
       }else if(choice=='SignOut'){
         print('SignOut');

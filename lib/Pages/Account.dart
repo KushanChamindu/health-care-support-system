@@ -23,7 +23,6 @@ class Account extends StatefulWidget {
 class _AccountState extends State<Account> {
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
   }
 
@@ -237,7 +236,6 @@ class _AccountBodyState extends State<AccountBody> {
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     print(widget.uid);
   }
@@ -249,7 +247,7 @@ class _AccountBodyState extends State<AccountBody> {
         var image = await ImagePicker.pickImage(source: ImageSource.gallery);
         setState(() {
           _image = image;
-          print('PAth of image: $_image');
+          print('Path of image: $_image');
         });
       }catch(e){
         print("Access deny!!!! ");
@@ -792,7 +790,6 @@ class _AccountBodyState extends State<AccountBody> {
           )),
         ),
       );
-      // TODO
     }
   }
 }
