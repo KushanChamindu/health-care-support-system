@@ -10,7 +10,9 @@ class _CKD_webviewState extends State<CKD_webview> {
   final url='https://www.niddk.nih.gov/health-information/kidney-disease/chronic-kidney-disease-ckd/what-is-chronic-kidney-disease';
   @override
   Widget build(BuildContext context) {
-    return WebviewScaffold(url: url,
+    return WebviewScaffold(
+        url: url,
+    scrollBar: true,
     appBar: AppBar(
       title: Row(
         mainAxisAlignment: MainAxisAlignment.center,
@@ -44,6 +46,7 @@ class _CKD_webviewState extends State<CKD_webview> {
       withLocalStorage: true,
       withZoom: true,
     hidden: true,
+    withOverviewMode: true,
     initialChild: Container(
       child:Center(
         child: Padding(

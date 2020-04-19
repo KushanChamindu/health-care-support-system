@@ -122,9 +122,11 @@ class _CKD_discriptionState extends State<CKD_discription> {
       ),
       body: SingleChildScrollView(
         child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
             Card(
-              child: Image.asset('assets/CKD_image/kidney_1.jpg',
+              child:
+              Image.asset('assets/CKD_image/kidney_1.jpg',
               ),
             ),
             Row(
@@ -289,11 +291,11 @@ class _TitlesState extends State<Titles> {
           Visibility(
               visible: widget.visible,
               child: Padding(
-                padding: const EdgeInsets.fromLTRB(8, 5, 8, 10),
+                padding: const EdgeInsets.fromLTRB(20, 0, 8, 15),
                 child: Text(
                   widget.text2,
                   style: TextStyle(
-                      fontSize: 14,
+                      fontSize: 15,
                       height: 1.5,
                       fontWeight: FontWeight.w400,
                       letterSpacing: 0.5),
