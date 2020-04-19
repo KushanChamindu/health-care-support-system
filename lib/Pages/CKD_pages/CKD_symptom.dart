@@ -1,4 +1,3 @@
-import 'dart:ffi';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -63,11 +62,11 @@ class _CKD_symptomsState extends State<CKD_symptoms> {
   bool visible=true;
   @override
   Widget build(BuildContext context) {
-    void set_visible(visi){
-      setState(() {
-        visible=!visi;
-      });
-    }
+//    void set_visible(visi){
+//      setState(() {
+//        visible=!visi;
+//      });
+//    }
     return
       Scaffold(
       appBar: AppBar(

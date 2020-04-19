@@ -1,9 +1,6 @@
-//import 'dart:html';
-
 import 'package:flutter/material.dart';
 import 'package:healthcaresupportsystem/Pages/Auth/Auth.dart';
 import 'package:healthcaresupportsystem/Pages/Auth/UID.dart';
-import 'CKD_symptom.dart';
 import 'Constant.dart';
 
 

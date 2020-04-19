@@ -22,7 +22,7 @@ class Loading extends StatefulWidget {
 enum AuthStatus { notSignIn, SignIn }
 
 class _LoadingState extends State<Loading> with SingleTickerProviderStateMixin {
-  AuthStatus _authStatus = AuthStatus.notSignIn;
+//  AuthStatus _authStatus = AuthStatus.notSignIn;
   AnimationController controller;
   Animation<double> animation_rotation;
   Animation<double> animation_radius_in;
@@ -36,16 +36,6 @@ class _LoadingState extends State<Loading> with SingleTickerProviderStateMixin {
   @override
   void initState() {
     super.initState();
-//    String user_id =widget.auth.currentUser();
-//    print(user_id);
-//    setState(() {
-//      if(user_id==null){
-//        _authStatus=AuthStatus.notSignIn;
-//      }else{
-//        _authStatus=AuthStatus.SignIn;
-//      }
-//    });
-
     controller = AnimationController(
         vsync: this, duration: Duration(milliseconds: 1500));
     animation_rotation = Tween<double>(begin: 0.0, end: 1.0).animate(
