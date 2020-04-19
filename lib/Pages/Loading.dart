@@ -12,7 +12,8 @@ class Loading extends StatefulWidget {
   bool isLogInResquest;
   User user;
 
-  Loading({this.auth, this.email, this.passwaord, this.isLogInResquest,this.user});
+  Loading(
+      {this.auth, this.email, this.passwaord, this.isLogInResquest, this.user});
 
   @override
   _LoadingState createState() => _LoadingState();
@@ -26,7 +27,7 @@ class _LoadingState extends State<Loading> with SingleTickerProviderStateMixin {
   Animation<double> animation_rotation;
   Animation<double> animation_radius_in;
   Animation<double> animation_radius_out;
-  bool _visibility=false;
+  bool _visibility = false;
   String error;
 
   final double initmultipy = 120;
@@ -88,23 +89,24 @@ class _LoadingState extends State<Loading> with SingleTickerProviderStateMixin {
         Navigator.pushReplacementNamed(context, '/home');
         controller.stop();
       } else {
-          String userId = await widget.auth
-              .createUserWithEmailAndPassword(widget.email, widget.passwaord);
+        String userId = await widget.auth
+            .createUserWithEmailAndPassword(widget.email, widget.passwaord);
 
-          widget.user.setUserId(userId);
-          print(widget.user.Username);
-          print(widget.user.uid);
-          await widget.auth.setUserData(widget.user.uid, widget.user.Username, widget.user.Birthday, widget.user.bloodGroup);
-          print("Registered user : ${userId}");
-          Navigator.pushReplacementNamed(context, '/home');
-          controller.stop();
+        widget.user.setUserId(userId);
+        print(widget.user.Username);
+        print(widget.user.uid);
+        await widget.auth.setUserData(widget.user.uid, widget.user.Username,
+            widget.user.Birthday, widget.user.bloodGroup);
+        print("Registered user : ${userId}");
+        Navigator.pushReplacementNamed(context, '/home');
+        controller.stop();
       }
     } catch (e) {
       print('Error  Error    :$e');
       print("Error : ${e.toString().split(',')[1]}");
       setState(() {
-        _visibility=true;
-        error=e.toString().split(',')[1].split('.')[0];
+        _visibility = true;
+        error = e.toString().split(',')[1].split('.')[0];
         print(error.length);
       });
 
@@ -118,6 +120,7 @@ class _LoadingState extends State<Loading> with SingleTickerProviderStateMixin {
 
   Widget build(BuildContext context) {
     return Container(
+      key: ValueKey('loadingContainer'),
       color: Colors.white,
       child: Stack(
         children: <Widget>[
@@ -146,64 +149,64 @@ class _LoadingState extends State<Loading> with SingleTickerProviderStateMixin {
                       child: Stack(
                         children: <Widget>[
                           Transform.translate(
-                            offset:
-                                Offset(multipy * cos(pi / 4), multipy * sin(pi / 4)),
+                            offset: Offset(
+                                multipy * cos(pi / 4), multipy * sin(pi / 4)),
                             child: Dot(
                               radius: 12,
                               color: Colors.redAccent,
                             ),
                           ),
                           Transform.translate(
-                            offset: Offset(
-                                multipy * cos(2 * pi / 4), multipy * sin(2 * pi / 4)),
+                            offset: Offset(multipy * cos(2 * pi / 4),
+                                multipy * sin(2 * pi / 4)),
                             child: Dot(
                               radius: 12,
                               color: Colors.black,
                             ),
                           ),
                           Transform.translate(
-                            offset: Offset(
-                                multipy * cos(3 * pi / 4), multipy * sin(3 * pi / 4)),
+                            offset: Offset(multipy * cos(3 * pi / 4),
+                                multipy * sin(3 * pi / 4)),
                             child: Dot(
                               radius: 12,
                               color: Colors.amber,
                             ),
                           ),
                           Transform.translate(
-                            offset: Offset(
-                                multipy * cos(4 * pi / 4), multipy * sin(4 * pi / 4)),
+                            offset: Offset(multipy * cos(4 * pi / 4),
+                                multipy * sin(4 * pi / 4)),
                             child: Dot(
                               radius: 12,
                               color: Colors.green,
                             ),
                           ),
                           Transform.translate(
-                            offset: Offset(
-                                multipy * cos(5 * pi / 4), multipy * sin(5 * pi / 4)),
+                            offset: Offset(multipy * cos(5 * pi / 4),
+                                multipy * sin(5 * pi / 4)),
                             child: Dot(
                               radius: 12,
                               color: Colors.orange,
                             ),
                           ),
                           Transform.translate(
-                            offset: Offset(
-                                multipy * cos(6 * pi / 4), multipy * sin(6 * pi / 4)),
+                            offset: Offset(multipy * cos(6 * pi / 4),
+                                multipy * sin(6 * pi / 4)),
                             child: Dot(
                               radius: 12,
                               color: Colors.purpleAccent,
                             ),
                           ),
                           Transform.translate(
-                            offset: Offset(
-                                multipy * cos(7 * pi / 4), multipy * sin(7 * pi / 4)),
+                            offset: Offset(multipy * cos(7 * pi / 4),
+                                multipy * sin(7 * pi / 4)),
                             child: Dot(
                               radius: 12,
                               color: Colors.blue,
                             ),
                           ),
                           Transform.translate(
-                            offset: Offset(
-                                multipy * cos(8 * pi / 4), multipy * sin(8 * pi / 4)),
+                            offset: Offset(multipy * cos(8 * pi / 4),
+                                multipy * sin(8 * pi / 4)),
                             child: Dot(
                               radius: 12,
                               color: Colors.brown,
@@ -219,6 +222,7 @@ class _LoadingState extends State<Loading> with SingleTickerProviderStateMixin {
           ),
           Center(
             child: Container(
+              key: Key('LoadignErrorContainer'),
 //            padding: EdgeInsets.fromLTRB(50, 50, , bottom),
               width: 500,
               height: 400,
@@ -228,20 +232,37 @@ class _LoadingState extends State<Loading> with SingleTickerProviderStateMixin {
                     title: Center(
                       child: Text(
                         "Some Went Wrong!!",
-                        style: TextStyle(fontSize: 25,),
+                        style: TextStyle(
+                          fontSize: 25,
+                        ),
                       ),
                     ),
                     content: Column(
                       verticalDirection: VerticalDirection.down,
                       children: <Widget>[
-                        Image.asset('assets/logInError.gif', width: 200,height: 100,),
+                        Image.asset(
+                          'assets/logInError.gif',
+                          width: 200,
+                          height: 100,
+                        ),
                         Padding(
-                          padding: const EdgeInsets.fromLTRB(8,25, 8, 8),
-                          child: Text('${error}',style: TextStyle(fontSize: 17),textAlign: TextAlign.center,),
+                          padding: const EdgeInsets.fromLTRB(8, 25, 8, 8),
+                          child: Text(
+                            '${error}',
+                            style: TextStyle(fontSize: 17),
+                            textAlign: TextAlign.center,
+                          ),
                         )
                       ],
                     ),
-                    actions: <Widget>[CupertinoButton(child: Text("Ok"), onPressed:(){Navigator.pushReplacementNamed(context, '/');})],
+                    actions: <Widget>[
+                      CupertinoButton(
+                          child: Text("Ok",key: Key('error_box_ok_button'),),
+                          onPressed: () {
+                            Navigator.pushReplacementNamed(context, '/');
+                          },
+                      ),
+                    ],
                   )),
             ),
           ),

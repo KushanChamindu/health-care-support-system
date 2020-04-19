@@ -7,7 +7,6 @@ import 'package:healthcaresupportsystem/Pages/Loading.dart';
 import 'package:datetime_picker_formfield/datetime_picker_formfield.dart';
 import 'package:healthcaresupportsystem/Pages/validation/ValidationForm.dart';
 import 'package:intl/intl.dart';
-import 'package:intl/intl.dart';
 
 ///test@test.com    test1234
 
@@ -110,6 +109,7 @@ class _LogInState extends State<LogIn> {
             height: 5,
           ),
           TextFormField(
+            key: Key('loginEmailField'),
             decoration: InputDecoration(
                 labelText: 'E-mail',
                 hintText: 'Input valid E-mail',
@@ -124,6 +124,7 @@ class _LogInState extends State<LogIn> {
             height: 10,
           ),
           TextFormField(
+            key: Key('loginPasswordField'),
             decoration: InputDecoration(
                 focusedBorder: OutlineInputBorder(
                     borderRadius: BorderRadius.all(Radius.circular(4)),
@@ -139,6 +140,7 @@ class _LogInState extends State<LogIn> {
       } else if (_formType == FormType.register) {
         return [
           TextFormField(
+            key: ValueKey('registerUsernameField'),
             decoration: InputDecoration(
                 labelText: 'User name',
                 hintText: 'Input user name',
@@ -153,6 +155,7 @@ class _LogInState extends State<LogIn> {
             height: 10,
           ),
           TextFormField(
+            key: ValueKey('registerEmailField'),
             decoration: InputDecoration(
                 labelText: 'E-mail',
                 hintText: 'Input valid E-mail',
@@ -169,6 +172,7 @@ class _LogInState extends State<LogIn> {
           Column(children: <Widget>[
 //            Text('Basic date field (${format.pattern})'),
             DateTimeField(
+              key: ValueKey('registerDateTimeField'),
               onSaved: (value) => Birthday = value,
               validator: (value) => ValidationForm.dateValidate(value),
               decoration: InputDecoration(
@@ -192,7 +196,7 @@ class _LogInState extends State<LogIn> {
             height: 10,
           ),
           TextFormField(
-            // ignore: missing_return
+            key: ValueKey('registerBloodGroupField'),
             validator: (value)=>ValidationForm.bloodValidate(value),
             onSaved: (value) => bloodGroup = value,
             controller: _controller,
@@ -222,6 +226,7 @@ class _LogInState extends State<LogIn> {
             height: 10,
           ),
           TextFormField(
+            key: ValueKey('registerPasswordField'),
             controller: _passwordController,
             decoration: InputDecoration(
                 focusedBorder: OutlineInputBorder(
@@ -238,6 +243,7 @@ class _LogInState extends State<LogIn> {
             height: 10,
           ),
           TextFormField(
+            key: ValueKey('registerConfirmPasswordField'),
             controller: _confirmPassController,
             decoration: InputDecoration(
                 focusedBorder: OutlineInputBorder(
@@ -322,6 +328,7 @@ class _LogInState extends State<LogIn> {
         Container(
           height: 50,
           child: RaisedButton.icon(
+            key: Key('logInButton'),
             shape:
                 RoundedRectangleBorder(borderRadius: BorderRadius.circular(18)),
             color: Colors.blue[200],
@@ -339,6 +346,7 @@ class _LogInState extends State<LogIn> {
           child: Text(
             'Create a account',
             style: TextStyle(fontSize: 20),
+            key: ValueKey('register_switch_button'),
           ),
           onPressed: switchForm,
         ),
@@ -359,13 +367,15 @@ class _LogInState extends State<LogIn> {
             elevation: 10,
             onPressed: validateAndSubmit,
             icon: Icon(Icons.create),
-            label: Text("Register"),
+            label: Text("Resgister",
+                key: ValueKey('registerButton')),
           ),
         ),
         FlatButton(
           child: Text(
             'Have a account? LogIn',
             style: TextStyle(fontSize: 20),
+            key: ValueKey('login_switch_button'),
           ),
           onPressed: switchForm,
         ),

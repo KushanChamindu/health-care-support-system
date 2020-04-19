@@ -98,6 +98,7 @@ class Home extends StatelessWidget {
           title: Text('Home'),
           actions: <Widget>[
             PopupMenuButton<String>(
+              key: ValueKey('HomePopUpMenueButton'),
               onSelected: choiceAction,
               itemBuilder: (BuildContext context){
                 return Constant.choice.map((String choice){
@@ -111,6 +112,7 @@ class Home extends StatelessWidget {
 
                 }else if(choice=='SignOut'){
                   return PopupMenuItem(
+                      key: ValueKey('homeSignoutButton'),
                       value: choice,
                       child: Row(children: <Widget>[Padding(
                         padding: const EdgeInsets.all(8.0),
@@ -143,6 +145,7 @@ class Home extends StatelessWidget {
         body: Stack(
           children: <Widget>[
             ListView(
+              key: Key('HomePage'),
                 children: <Widget>[
                   Container(
                       margin:EdgeInsets.all(8.0),
