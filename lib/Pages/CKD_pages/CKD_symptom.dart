@@ -69,7 +69,13 @@ class _CKD_symptomsState extends State<CKD_symptoms> {
 //    }
     return
       Scaffold(
+        key: ValueKey('CKDsymptomPage'),
       appBar: AppBar(
+        leading: IconButton(
+          key: ValueKey('CKDsymptomBackButton'),
+          icon: Icon(Icons.arrow_back),
+          onPressed: () => Navigator.of(context).pop(),
+        ),
         title: Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
@@ -182,6 +188,7 @@ class _CKD_symptomsState extends State<CKD_symptoms> {
                       ),
                     ),
                     Card(
+                      key: ValueKey('sampleCKDsymptom'),
                       child: Row(
                         children: <Widget>[
                           Padding(

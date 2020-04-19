@@ -14,6 +14,11 @@ class _CKD_webviewState extends State<CKD_webview> {
         url: url,
     scrollBar: true,
     appBar: AppBar(
+      leading: IconButton(
+        key: ValueKey('webviewBackButton'),
+      icon: Icon(Icons.arrow_back),
+      onPressed: () => Navigator.of(context).pop(),
+    ),
       title: Row(
         mainAxisAlignment: MainAxisAlignment.center,
         children: <Widget>[
@@ -48,6 +53,7 @@ class _CKD_webviewState extends State<CKD_webview> {
     hidden: true,
     withOverviewMode: true,
     initialChild: Container(
+      key: ValueKey('webviewInitialWidget'),
       child:Center(
         child: Padding(
           padding: EdgeInsets.all(50),

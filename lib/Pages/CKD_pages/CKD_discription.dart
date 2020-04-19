@@ -122,6 +122,7 @@ class _CKD_discriptionState extends State<CKD_discription> {
       ),
       body: SingleChildScrollView(
         child: Column(
+          key: ValueKey('CKDdiscriptionPage'),
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
             Card(
@@ -138,6 +139,7 @@ class _CKD_discriptionState extends State<CKD_discription> {
                       child: Container(
                         width: 250,
                         child: Card(
+                          key: ValueKey('CKDsymptomButton'),
                           child: FlatButton.icon(
                               onPressed: () {
                                 Navigator.pushNamed(context, '/CKD_symptom');
@@ -159,6 +161,7 @@ class _CKD_discriptionState extends State<CKD_discription> {
                     child: Container(
                       width: 200,
                       child: Card(
+                        key: ValueKey('CKDprecautionButton'),
                         child: FlatButton.icon(
                             onPressed: () {
                               Navigator.pushNamed(context, '/CKD_precaution');
@@ -179,6 +182,7 @@ class _CKD_discriptionState extends State<CKD_discription> {
 
             Align(
                 alignment: Alignment.centerLeft,
+                key: ValueKey('sampleCKDdirscription'),
                 child: Titles(
                   text1: 'What Is Chronic Kidney Disease?',
                   text2:

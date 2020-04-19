@@ -1,10 +1,10 @@
 import 'package:flutter_driver/flutter_driver.dart';
 import 'package:test/test.dart';
 
-//command for the run that test:  flutter drive --target=test_driver/loginWidget.dart
+//command for the run that test:  flutter drive --target=test_driver/Widget.dart
 
 void main() {
-  group('Loading widget', () {
+  group('Loading widget', (){
     isPresent(SerializableFinder byValueKey, FlutterDriver driver,
         {Duration timeout = const Duration(seconds: 3)}) async {
       try {
@@ -14,7 +14,6 @@ void main() {
         return false;
       }
     }
-
     var logInEmail = find.byValueKey('loginEmailField');
     var logInPassword = find.byValueKey('loginPasswordField');
     var logInButton = find.byValueKey('logInButton');
@@ -131,6 +130,80 @@ void main() {
         await driver.tap(homeSignoutButton);
         await driver.waitFor(registerSwitchButton);
         await Future.delayed(Duration(milliseconds: 2000), () {});
+    });
+  });
+  group('home Page test',(){
+    FlutterDriver driver;
+    setUpAll(() async {
+      driver = await FlutterDriver.connect();
+    });
+    tearDownAll(() async {
+      if (driver != null) {
+        driver.close();
+      }
+    });
+    var logInEmail = find.byValueKey('loginEmailField');
+    var logInPassword = find.byValueKey('loginPasswordField');
+    var logInButton = find.byValueKey('logInButton');
+    var homePage= find.byValueKey('HomePage');
+    var CKDCard=find.byValueKey('CKD_Card');
+    var CKDdiscriptionButton=find.byValueKey('CKDdiscriptionButton');
+    var CKDdiscriptionPage=find.byValueKey('CKDdiscriptionPage');
+    var CKDsymptomButton=find.byValueKey('CKDsymptomButton');
+    var CKDprecautionButton=find.byValueKey('CKDprecautionButton');
+    var CKDprecautionBackButton=find.byValueKey('CKDprecautionBackButton');
+    var sampleCKDdirscription=find.byValueKey('sampleCKDdirscription');
+    var sampleCKDprecaution=find.byValueKey('sampleCKDprecaution');
+    var sampleCKDsymptom=find.byValueKey('sampleCKDsymptom');
+    var CKDsymptomPage=find.byValueKey('CKDsymptomPage');
+    var CKDsymptomBackButton=find.byValueKey('CKDsymptomBackButton');
+    var webviewBackButton=find.byValueKey('webviewBackButton');
+    var webviewInitialWidget=find.byValueKey('webviewInitialWidget');
+    test('logIn Successfully', ()async{
+      await driver.tap(logInEmail);
+      await driver.enterText('kushan@kushan.com');
+      await driver.tap(logInPassword);
+      await driver.enterText('kushan1234');
+      await Future.delayed(Duration(milliseconds: 2000), () {});
+      await driver.tap(logInButton);
+      await driver.waitFor(homePage);
+      await driver.waitFor(CKDCard);
+    });
+    test('Goto CKD discrption and CKD discription page UI test', ()async{
+      await driver.tap(CKDCard);
+      await driver.waitFor(CKDdiscriptionButton);
+      await driver.tap(CKDdiscriptionButton);
+      await driver.waitFor(CKDdiscriptionPage);
+      await Future.delayed(Duration(milliseconds: 2000), () {});
+      await driver.tap(sampleCKDdirscription);
+      await Future.delayed(Duration(milliseconds: 2000), () {});
+      await driver.tap(sampleCKDdirscription);
+    });
+    test('test UI of CKD symptopm page', ()async{
+      await driver.tap(CKDsymptomButton);
+      await driver.waitFor(CKDsymptomPage);
+      await Future.delayed(Duration(milliseconds: 2000), () {});
+      await driver.scroll(
+          sampleCKDsymptom, 0, -800, Duration(milliseconds: 500));
+      await Future.delayed(Duration(milliseconds: 2000), () {});
+      await driver.tap(CKDsymptomBackButton);
+      await driver.waitFor(CKDdiscriptionPage);
+    });
+    test('test UI of CKD precaution', ()async{
+      await driver.tap(CKDprecautionButton);
+      await driver.waitFor(sampleCKDprecaution);
+      await Future.delayed(Duration(milliseconds: 2000), () {});
+      await driver.tap(CKDprecautionBackButton);
+      await driver.waitFor(CKDdiscriptionPage);
+    });
+    test('test web view', ()async{
+      await driver.scroll(
+          sampleCKDdirscription, 0, -880, Duration(milliseconds: 500));
+      await Future.delayed(Duration(milliseconds: 2000), () {});
+      await driver.tap(find.text('Open More Info'));
+      await driver.waitFor(webviewInitialWidget);
+      await Future.delayed(Duration(milliseconds: 10000), () {});
+      await driver.tap(webviewBackButton);
     });
   });
 }

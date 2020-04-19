@@ -26,6 +26,7 @@ class _CKD_CardsState extends State<CKD_Cards> {
 
   Widget build(BuildContext context) {
     return Card(
+      key: ValueKey('CKD_Card'),
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(8.0))),
       child: InkWell(
         onTap: (){getVisible();},
@@ -66,6 +67,7 @@ class _CKD_CardsState extends State<CKD_Cards> {
                       child: Align(
                         alignment: Alignment.centerLeft,
                         child: InkWell(
+                          key: ValueKey('CKDdiscriptionButton'),
                           onTap: (){
                             Navigator.pushNamed(context, '/CKD_discription');
                           },
