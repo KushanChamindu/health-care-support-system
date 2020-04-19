@@ -245,11 +245,15 @@ class _AccountBodyState extends State<AccountBody> {
   @override
   Widget build(BuildContext context) {
     Future getImage() async {
-      var image = await ImagePicker.pickImage(source: ImageSource.gallery);
-      setState(() {
-        _image = image;
-        print('PAth of image: $_image');
-      });
+      try{
+        var image = await ImagePicker.pickImage(source: ImageSource.gallery);
+        setState(() {
+          _image = image;
+          print('PAth of image: $_image');
+        });
+      }catch(e){
+        print("Access deny!!!! ");
+      }
     }
 
     Future uploadImage(BuildContext context) async {
