@@ -5,7 +5,6 @@ import 'package:flutter/material.dart';
 import 'package:healthcaresupportsystem/Pages/Auth/UID.dart';
 import 'package:healthcaresupportsystem/Pages/validation/ValidationForm.dart';
 import 'package:intl/intl.dart';
-import 'package:healthcaresupportsystem/Pages/Auth/User.dart';
 import 'package:provider/provider.dart';
 import 'Auth/Auth.dart';
 import 'CKD_pages/Constant.dart';
@@ -211,7 +210,8 @@ class _AccountState extends State<Account> {
           ),
           body: AccountBody(
             uid: args.uid,
-          )),
+          )
+      ),
     );
   }
 }
@@ -253,20 +253,22 @@ class _AccountBodyState extends State<AccountBody> {
     }
 
     Future uploadImage(BuildContext context) async {
-      String filename = basename(_image.path);
-      StorageReference firebaseStorageRef =
-          FirebaseStorage.instance.ref().child(filename);
-      StorageUploadTask uploadTask = firebaseStorageRef.putFile(_image);
-      StorageTaskSnapshot takeSnapshot = await uploadTask.onComplete;
-      String _downloadURL = await takeSnapshot.ref.getDownloadURL();
-      print(_downloadURL);
-      await widget.auth.setUserImageDetails(widget.uid, _downloadURL);
-      setState(() {
-        print('Profile picture uploaded');
-        Scaffold.of(context).showSnackBar(SnackBar(
-          content: Text('Profile picture uploaded'),
-        ));
-      });
+      if(_image!=null){
+        String filename = basename(_image.path);
+        StorageReference firebaseStorageRef =
+        FirebaseStorage.instance.ref().child(filename);
+        StorageUploadTask uploadTask = firebaseStorageRef.putFile(_image);
+        StorageTaskSnapshot takeSnapshot = await uploadTask.onComplete;
+        String _downloadURL = await takeSnapshot.ref.getDownloadURL();
+        print(_downloadURL);
+        await widget.auth.setUserImageDetails(widget.uid, _downloadURL);
+        setState(() {
+          print('Profile picture uploaded');
+          Scaffold.of(context).showSnackBar(SnackBar(
+            content: Text('Profile picture uploaded'),
+          ));
+        });
+      }
     }
 
     final user_data = Provider.of<QuerySnapshot>(context);
@@ -781,7 +783,7 @@ class _AccountBodyState extends State<AccountBody> {
         builder: (context) => Container(
           child: Center(
               child: Text(
-            'Loading...',
+            'Loading....',
             style: TextStyle(fontSize: 25, fontWeight: FontWeight.w800),
           )),
         ),

@@ -1,6 +1,8 @@
 import 'package:flutter_driver/flutter_driver.dart';
 import 'package:test/test.dart';
 
+//command for the run that test:  flutter drive --target=test_driver/loginWidget.dart
+
 void main() {
   group('Loading widget', () {
     isPresent(SerializableFinder byValueKey, FlutterDriver driver,
@@ -63,6 +65,7 @@ void main() {
       await driver.waitFor(loadingpage);
       final isExist = await isPresent(loadingErrorContainer, driver);
       expect(isExist, true);
+      await Future.delayed(Duration(milliseconds: 2000), () {});
       await driver.tap(errorBoxOkButton); // go to the loading page
     });
     test('Log in with empty email or password', () async {
@@ -127,6 +130,7 @@ void main() {
         await driver.tap(homePopUpMenueButton);
         await driver.tap(homeSignoutButton);
         await driver.waitFor(registerSwitchButton);
+        await Future.delayed(Duration(milliseconds: 2000), () {});
     });
   });
 }
