@@ -1,5 +1,4 @@
 import 'dart:ui';
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:healthcaresupportsystem/CKD_Card/CKD_Card.dart';
@@ -7,6 +6,7 @@ import 'package:healthcaresupportsystem/Pages/Auth/Auth.dart';
 import 'package:healthcaresupportsystem/Pages/Auth/UID.dart';
 import 'package:healthcaresupportsystem/breast_cancer_Card/breast_cancer_Card.dart';
 import 'CKD_pages/Constant.dart';
+import 'notificationManager/waterButtonCard.dart';
 
 
 
@@ -14,8 +14,6 @@ class Home extends StatelessWidget {
   final BaseAuth auth=Auth();
   @override
   Widget build(BuildContext context,) {
-
-
     void choiceAction(String choice)async{
       if(choice=='Account'){
         try {
@@ -149,8 +147,9 @@ class Home extends StatelessWidget {
                       margin:EdgeInsets.all(8.0),
                       child:Column(
                         children: <Widget>[
+                          waterButtonCard(),
                           CKD_Cards(),
-                          BC_Cards()
+                          BC_Cards(),
                         ],
                       )
                   ),

@@ -8,6 +8,8 @@ import 'package:healthcaresupportsystem/Pages/Home.dart';
 import 'package:healthcaresupportsystem/Pages/breast_cancer/bc_more.dart';
 import 'package:healthcaresupportsystem/Pages/breast_cancer/breast_solutions.dart';
 import 'package:healthcaresupportsystem/Pages/breast_cancer/breast_symptoms.dart';
+import 'package:healthcaresupportsystem/Pages/notificationManager/dietNotification.dart';
+import 'package:healthcaresupportsystem/Pages/notificationManager/waterNotification.dart';
 import 'Pages/Auth/LogIn.dart';
 import 'Pages/CKD_pages/CKD_message.dart';
 import 'Pages/CKD_pages/CKD_discription.dart';
@@ -25,6 +27,8 @@ void main() => runApp(MaterialApp(
         '/CKD_webview': (context) => CKD_webview(),
         '/CKD_symptom': (context) => CKD_symptoms(),
         '/CKD_precaution': (context) => CKD_precautions(),
+        '/WaterNotification':(context)=>WaterNotification(),
+        '/DietNotification':(context)=>DietNotification(),
 
 //        -----------------------------------------------------------
         '/breastcancer':(context) =>BrestCancer(),
