@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
-import 'package:healthcaresupportsystem/Pages/Auth/Auth.dart';
+import 'package:healthcaresupportsystem/Pages/Auth/Service/Auth.dart';
 import 'package:healthcaresupportsystem/Pages/Auth/User.dart';
 import 'package:healthcaresupportsystem/Pages/Loading.dart';
 import 'package:datetime_picker_formfield/datetime_picker_formfield.dart';

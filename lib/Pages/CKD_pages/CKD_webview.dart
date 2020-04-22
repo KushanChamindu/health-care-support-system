@@ -13,6 +13,7 @@ class _CKD_webviewState extends State<CKD_webview> {
     return WebviewScaffold(
         url: url,
     scrollBar: true,
+    withLocalUrl: true,
     appBar: AppBar(
       leading: IconButton(
         key: ValueKey('webviewBackButton'),

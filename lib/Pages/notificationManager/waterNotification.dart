@@ -1,7 +1,9 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:healthcaresupportsystem/Pages/Auth/Auth.dart';
+import 'package:healthcaresupportsystem/Pages/Auth/Service/Auth.dart';
 import 'package:healthcaresupportsystem/Pages/Auth/UID.dart';
 import 'package:healthcaresupportsystem/Pages/CKD_pages/Constant.dart';
+import 'package:provider/provider.dart';
 
 class WaterNotification extends StatefulWidget {
   final BaseAuth auth = Auth();
@@ -11,7 +13,13 @@ class WaterNotification extends StatefulWidget {
 
 class _WaterNotificationState extends State<WaterNotification> {
   @override
+  void initState() {
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
+    final UID args = ModalRoute.of(context).settings.arguments;
     void choiceAction(String choice) async {
       if (choice == 'Account') {
         try {
@@ -39,7 +47,7 @@ class _WaterNotificationState extends State<WaterNotification> {
             applicationName: "Mobile Doctor",
             applicationVersion: '0.0.1',
             applicationLegalese:
-            'This software developed by HCSS PVT LMD. Copyright © 2020 Arnoud Engelfriet. Some rights reserved.',
+                'This software developed by HCSS PVT LMD. Copyright © 2020 Arnoud Engelfriet. Some rights reserved.',
             children: <Widget>[
               Padding(
                 padding: const EdgeInsets.fromLTRB(0, 10, 0, 0),
@@ -59,96 +67,138 @@ class _WaterNotificationState extends State<WaterNotification> {
             ]);
       }
     }
-    return Scaffold(
-      backgroundColor: Colors.grey[300],
-      appBar: AppBar(
-        leading: IconButton(
-          icon: Icon(Icons.arrow_back),
-          onPressed: () => Navigator.of(context).pop(),
-        ),
-        title: Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            Align(
-              alignment: Alignment.center,
-              child: Text(
-                'Water Drinking Plan',
-                style: TextStyle(fontSize: 15),
+    return StreamProvider<QuerySnapshot>.value(
+        value: widget.auth.waterNotificationData,
+        child: Scaffold(
+            backgroundColor: Colors.grey[300],
+            appBar: AppBar(
+              leading: IconButton(
+                icon: Icon(Icons.arrow_back),
+                onPressed: () => Navigator.of(context).pop(),
               ),
-            ),
-            Align(
-              alignment: Alignment.topRight,
-              child: Padding(
-                padding: EdgeInsets.fromLTRB(10, 4, 0, 4),
-                child: CircleAvatar(
-                  backgroundImage: AssetImage(
-                    'assets/CKD_image/Doctor.png',
+              title: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget>[
+                  Align(
+                    alignment: Alignment.center,
+                    child: Text(
+                      'Water Drinking Plan',
+                      style: TextStyle(fontSize: 15),
+                    ),
                   ),
-                  radius: 20,
-                  backgroundColor: Colors.blueAccent,
-                ),
+                  Align(
+                    alignment: Alignment.topRight,
+                    child: Padding(
+                      padding: EdgeInsets.fromLTRB(10, 4, 0, 4),
+                      child: CircleAvatar(
+                        backgroundImage: AssetImage(
+                          'assets/CKD_image/Doctor.png',
+                        ),
+                        radius: 20,
+                        backgroundColor: Colors.blueAccent,
+                      ),
+                    ),
+                  ),
+                ],
               ),
+              actions: <Widget>[
+                PopupMenuButton<String>(
+                  onSelected: choiceAction,
+                  itemBuilder: (BuildContext context) {
+                    return Constant.choice.map((String choice) {
+                      if (choice == 'Account') {
+                        return PopupMenuItem(
+                            value: choice,
+                            child: Row(
+                              children: <Widget>[
+                                Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: Icon(
+                                    Icons.person,
+                                    color: Colors.black,
+                                  ),
+                                ),
+                                Text(choice)
+                              ],
+                            ));
+                      } else if (choice == 'SignOut') {
+                        return PopupMenuItem(
+                            value: choice,
+                            child: Row(
+                              children: <Widget>[
+                                Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: Icon(
+                                    Icons.lock,
+                                    color: Colors.black,
+                                  ),
+                                ),
+                                Text(choice)
+                              ],
+                            ));
+                      } else {
+                        return PopupMenuItem(
+                            value: choice,
+                            child: Row(
+                              children: <Widget>[
+                                Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: Icon(
+                                    Icons.flag,
+                                    color: Colors.black,
+                                  ),
+                                ),
+                                Text(choice)
+                              ],
+                            ));
+                      }
+                    }).toList();
+                  },
+                )
+              ],
+              backgroundColor: Colors.blueAccent,
             ),
-          ],
-        ),
-        actions: <Widget>[
-          PopupMenuButton<String>(
-            onSelected: choiceAction,
-            itemBuilder: (BuildContext context) {
-              return Constant.choice.map((String choice) {
-                if (choice == 'Account') {
-                  return PopupMenuItem(
-                      value: choice,
-                      child: Row(
-                        children: <Widget>[
-                          Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: Icon(
-                              Icons.person,
-                              color: Colors.black,
-                            ),
-                          ),
-                          Text(choice)
-                        ],
-                      ));
-                } else if (choice == 'SignOut') {
-                  return PopupMenuItem(
-                      value: choice,
-                      child: Row(
-                        children: <Widget>[
-                          Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: Icon(
-                              Icons.lock,
-                              color: Colors.black,
-                            ),
-                          ),
-                          Text(choice)
-                        ],
-                      ));
-                } else {
-                  return PopupMenuItem(
-                      value: choice,
-                      child: Row(
-                        children: <Widget>[
-                          Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: Icon(
-                              Icons.flag,
-                              color: Colors.black,
-                            ),
-                          ),
-                          Text(choice)
-                        ],
-                      ));
-                }
-              }).toList();
-            },
-          )
-        ],
-        backgroundColor: Colors.blueAccent,
-      ),
-      body: Container(child: Center(child: Text('water')),),
-    );
+            body: Container(
+                child: Center(
+              child: WaterNotificationBody(uid: args.uid,),
+              ),
+            )));
+//
   }
 }
+
+class WaterNotificationBody extends StatefulWidget {
+  final String uid;
+
+  WaterNotificationBody({this.uid});
+  @override
+  _WaterNotificationBodyState createState() => _WaterNotificationBodyState();
+}
+
+
+class _WaterNotificationBodyState extends State<WaterNotificationBody> {
+
+  @override
+  Widget build(BuildContext context) {
+    final waterNotificationData = Provider.of<QuerySnapshot>(context);
+    try{
+      var waterData = waterNotificationData.documents
+          .firstWhere((doc) => doc.documentID == '${widget.uid}')
+          .data;
+      print(waterData);
+      return Builder(
+        builder: (context)=>Scaffold(),
+      );
+    }catch(e){
+      return Builder(
+        builder: (context)=>Center(
+            child: Text(
+              'Loading....',
+              style: TextStyle(fontSize: 25, fontWeight: FontWeight.w800),
+            )),
+      );
+    }
+
+  }
+}
+

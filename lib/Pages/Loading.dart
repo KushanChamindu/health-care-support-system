@@ -2,7 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'dart:math';
 
-import 'package:healthcaresupportsystem/Pages/Auth/Auth.dart';
+import 'package:healthcaresupportsystem/Pages/Auth/Service/Auth.dart';
 import 'package:healthcaresupportsystem/Pages/Auth/User.dart';
 
 class Loading extends StatefulWidget {

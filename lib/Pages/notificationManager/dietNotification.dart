@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:healthcaresupportsystem/Pages/Auth/Auth.dart';
+import 'package:healthcaresupportsystem/Pages/Auth/Service/Auth.dart';
 import 'package:healthcaresupportsystem/Pages/Auth/UID.dart';
 import 'package:healthcaresupportsystem/Pages/CKD_pages/Constant.dart';
 class DietNotification extends StatefulWidget {
@@ -56,6 +56,8 @@ class _DietNotificationState extends State<DietNotification> {
           ]);
     }
   }
+  static List days=['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
+  var date= days[DateTime.now().weekday];
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -147,7 +149,7 @@ class _DietNotificationState extends State<DietNotification> {
         ],
         backgroundColor: Colors.blueAccent,
       ),
-      body: Container(child: Center(child: Text('food')),),
+      body: Container(child: Center(child: Text(date),),)
     );
   }
 }

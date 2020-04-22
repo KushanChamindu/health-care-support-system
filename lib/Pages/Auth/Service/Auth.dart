@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
@@ -14,6 +15,9 @@ abstract class BaseAuth {
   Future updateAccountDetails(
       String uid, String Username, String bloodGroup, DateTime Birthday);
   Future setUserImageDetails(String uid, String ImageURL);
+  Future<void> updateWaterNotification (String uid);
+  // ignore: missing_return
+  Stream<QuerySnapshot> get waterNotificationData;
 }
 
 class Auth implements BaseAuth {
@@ -45,7 +49,6 @@ class Auth implements BaseAuth {
   Future<void> singOut() async {
     return FirebaseAuth.instance.signOut();
   }
-  // ignore: non_constant_identifier_names
 
   Future setUserData(
       String uid, String Username, DateTime Birthday, String bloodGroup) async {
@@ -60,11 +63,34 @@ class Auth implements BaseAuth {
       'HeartIssue': null,
       'ProfilePic': null,
     });
+    await waterNotification.document(uid).setData({
+      'firstday':getAboveSunday(),
+      'monday':null,
+      'tuesday':null,
+      'wednesday':null,
+      'thursday':null,
+      'friday':null,
+      'saturday':null,
+      'sunday ':null,
+    });
+  }
+//  static List days=['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
+  DateTime getAboveSunday(){
+    var today = DateTime(DateTime.now().year,DateTime.now().month,DateTime.now().day);;
+//    var date= days[(today.weekday)];
+    for(var i=0; i<7;i++){
+      today=today.add(Duration(days: 1));
+      print(today.weekday);
+      if(today.weekday==7){
+        return today;
+      }
+    }
+    return null;
   }
 
   Future updateAccountDetails(
       String uid, String Username, String bloodGroup, DateTime Birthday) async {
-    Firestore.instance.collection('user_data').document(uid).updateData({
+    await Firestore.instance.collection('user_data').document(uid).updateData({
       'Username': Username,
       'bloodGroup': bloodGroup,
       'Birthday': Birthday,
@@ -80,8 +106,27 @@ class Auth implements BaseAuth {
 
   final CollectionReference userData =
       Firestore.instance.collection('user_data');
+  final CollectionReference waterNotification =
+  Firestore.instance.collection('waterNotification');
+
   // ignore: non_constant_identifier_names
-  Stream<QuerySnapshot> get user_data {
+  Stream<QuerySnapshot> get user_data{
     return userData.snapshots();
+  }
+
+  Future<void> updateWaterNotification (String uid)async{
+    await waterNotification.document(uid).updateData({
+      'firstday':getAboveSunday(),
+      'monday':null,
+      'tuesday':null,
+      'wednesday':null,
+      'thursday':null,
+      'friday':null,
+      'saturday':null,
+      'sunday ':null,
+    });
+  }
+  Stream<QuerySnapshot> get waterNotificationData{
+    return waterNotification.snapshots();
   }
 }

@@ -1,7 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:healthcaresupportsystem/Pages/Auth/Auth.dart';
+import 'package:healthcaresupportsystem/Pages/Auth/Service/Auth.dart';
 import 'package:healthcaresupportsystem/Pages/validation/ValidationForm.dart';
 import 'package:mockito/mockito.dart';
 import 'package:rxdart/rxdart.dart';
@@ -62,6 +62,14 @@ class MockAuth implements BaseAuth {
 
   @override
   Stream<QuerySnapshot> get user_data => null;
+
+  @override
+  Future<void> updateWaterNotification(String uid) {
+    return null;
+  }
+
+  @override
+  Stream<QuerySnapshot> get waterNotificationData => null;
 }
 
 MockFirebaseAuth _auth = MockFirebaseAuth();

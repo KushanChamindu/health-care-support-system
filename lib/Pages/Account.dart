@@ -6,7 +6,7 @@ import 'package:healthcaresupportsystem/Pages/Auth/UID.dart';
 import 'package:healthcaresupportsystem/Pages/validation/ValidationForm.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
-import 'Auth/Auth.dart';
+import 'Auth/Service/Auth.dart';
 import 'CKD_pages/Constant.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:path/path.dart';
