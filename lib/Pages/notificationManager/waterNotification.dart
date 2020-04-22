@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:healthcaresupportsystem/Pages/Auth/Service/Auth.dart';
 import 'package:healthcaresupportsystem/Pages/Auth/UID.dart';
@@ -67,6 +68,7 @@ class _WaterNotificationState extends State<WaterNotification> {
             ]);
       }
     }
+
     return StreamProvider<QuerySnapshot>.value(
         value: widget.auth.waterNotificationData,
         child: Scaffold(
@@ -159,8 +161,10 @@ class _WaterNotificationState extends State<WaterNotification> {
               backgroundColor: Colors.blueAccent,
             ),
             body: Container(
-                child: Center(
-              child: WaterNotificationBody(uid: args.uid,),
+              child: Center(
+                child: WaterNotificationBody(
+                  uid: args.uid,
+                ),
               ),
             )));
 //
@@ -175,30 +179,71 @@ class WaterNotificationBody extends StatefulWidget {
   _WaterNotificationBodyState createState() => _WaterNotificationBodyState();
 }
 
-
 class _WaterNotificationBodyState extends State<WaterNotificationBody> {
-
+  var visibility=true;
+  void changeVIsibility(){
+    setState(() {
+      visibility=!visibility;
+    });
+  }
   @override
   Widget build(BuildContext context) {
     final waterNotificationData = Provider.of<QuerySnapshot>(context);
-    try{
+    try {
       var waterData = waterNotificationData.documents
           .firstWhere((doc) => doc.documentID == '${widget.uid}')
           .data;
       print(waterData);
       return Builder(
-        builder: (context)=>Scaffold(),
-      );
-    }catch(e){
+          builder: (context) => Scaffold(
+                bottomNavigationBar: CurvedNavigationBar(
+                  backgroundColor: Colors.blueAccent,
+                  items: <Widget>[
+                    Icon(Icons.alarm, size: 30),
+                    Icon(Icons.assessment, size: 30),
+                  ],
+                  onTap: (index) {
+                    changeVIsibility();
+                  },
+                ),
+                body: Scaffold(
+                    backgroundColor: Colors.blueAccent,
+                    body: Stack(
+                      children: <Widget>[
+                        AnimatedContainer(
+                          duration: Duration(milliseconds: 500),
+                          alignment: visibility ? Alignment.center : AlignmentDirectional.centerStart,
+                          curve: Curves.ease,
+                          child: Visibility(
+                            visible: visibility,
+                            child: Container(
+                              child: Container(child: Text('Alerm')),
+                            ),
+                          ),
+                        ),
+                        AnimatedContainer(
+                          duration: Duration(milliseconds: 500),
+                          alignment: !visibility ? Alignment.center : AlignmentDirectional.centerEnd,
+                          curve: Curves.ease,
+                          child: Visibility(
+                            visible: !visibility,
+                            child: Container(
+                              color: Colors.blueAccent,
+                              child: Text('Graph'),
+                            ),
+                          ),
+                        )
+                      ],
+                    )),
+              ));
+    } catch (e) {
       return Builder(
-        builder: (context)=>Center(
+        builder: (context) => Center(
             child: Text(
-              'Loading....',
-              style: TextStyle(fontSize: 25, fontWeight: FontWeight.w800),
-            )),
+          'Loading....',
+          style: TextStyle(fontSize: 25, fontWeight: FontWeight.w800),
+        )),
       );
     }
-
   }
 }
-
