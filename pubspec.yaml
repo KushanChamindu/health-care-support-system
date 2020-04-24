@@ -38,6 +38,7 @@ dependencies:
 
 
 dev_dependencies:
+  flutter_launcher_icons: ^0.7.4
   mockito: ^4.1.1
   rxdart:
   flutter_driver:
@@ -46,6 +47,10 @@ dev_dependencies:
 #  flutter_test:
 #    sdk: flutter
 
+flutter_icons:
+  android: "launcher_icon"
+  ios: true
+  image_path: "assets/CKD_image/Doctor.png"
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
