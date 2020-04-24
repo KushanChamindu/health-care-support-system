@@ -70,6 +70,18 @@ class MockAuth implements BaseAuth {
 
   @override
   Stream<QuerySnapshot> get waterNotificationData => null;
+
+  @override
+  Future<void> updateIsAlarm(String uid, bool isAlermOn) {
+    // TODO: implement updateIsAlerm
+    return null;
+  }
+
+  @override
+  Future<void> updateWaterTimer(String uid, DateTime startTime, DateTime finishedTime, int goal) {
+    // TODO: implement updateWaterTimer
+    return null;
+  }
 }
 
 MockFirebaseAuth _auth = MockFirebaseAuth();
@@ -79,6 +91,8 @@ final MockAuth authClass = MockAuth();
 void main() {
 
   group('logIn validation test', () {
+
+
     test('title', () {
       //setup
       //run

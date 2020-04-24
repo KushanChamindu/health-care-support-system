@@ -36,6 +36,7 @@ dependencies:
   giffy_dialog: ^1.7.0
   flutter_redux: ^0.6.0
 
+
 dev_dependencies:
   mockito: ^4.1.1
   rxdart:
@@ -62,6 +63,7 @@ flutter:
     - assets/
     - assets/CKD_image/
     - assets/breast_cancer_image/
+    - assets/NotificationManager/
   #  - images/a_dot_ham.jpeg
 
   # An image asset can refer to one or more resolution-specific "variants", see

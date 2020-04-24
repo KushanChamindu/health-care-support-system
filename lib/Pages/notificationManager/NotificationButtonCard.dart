@@ -33,7 +33,7 @@ class _waterButtonCardState extends State<waterButtonCard> {
                           topRight: Radius.circular(8.0),
                         ),
                         child: Image.asset(
-                          'assets/waterNotifi.gif',
+                          'assets/NotificationManager/waterNotifi.gif',
                           width: 387,
                           height: 200,
                           fit: BoxFit.fitWidth,
@@ -70,7 +70,7 @@ class _waterButtonCardState extends State<waterButtonCard> {
                           topRight: Radius.circular(8.0),
                         ),
                         child: Image.asset(
-                          'assets/diet-plan.gif',
+                          'assets/NotificationManager/diet-plan.gif',
                           width: 387,
                           height: 200,
                           fit: BoxFit.fitWidth,
