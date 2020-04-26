@@ -15,13 +15,15 @@ abstract class BaseAuth {
   Future updateAccountDetails(
       String uid, String Username, String bloodGroup, DateTime Birthday);
   Future setUserImageDetails(String uid, String ImageURL);
-  Future<void> updateWaterTimer(String uid, DateTime startTime,DateTime finishedTime,int goal);
-  Future<void> updateIsAlarm (String uid, bool isAlermOn);
-  // ignore: missing_return
-  Stream<QuerySnapshot> get waterNotificationData;
+//  Future<void> updateWaterTimer(String uid, DateTime startTime,DateTime finishedTime,int goal);
+//  Future<void> updateIsAlarm (String uid, bool isAlermOn);
+//  // ignore: missing_return
+//  Stream<QuerySnapshot> get waterNotificationData;
 }
 
 class Auth implements BaseAuth {
+  final CollectionReference waterNotification =
+  Firestore.instance.collection('waterNotification');
   Future<String> signInWithEmailAndPassword(
       String email, String password) async {
     AuthResult result = await FirebaseAuth.instance
@@ -106,28 +108,10 @@ class Auth implements BaseAuth {
 
   final CollectionReference userData =
       Firestore.instance.collection('user_data');
-  final CollectionReference waterNotification =
-  Firestore.instance.collection('waterNotification');
 
   // ignore: non_constant_identifier_names
   Stream<QuerySnapshot> get user_data{
     return userData.snapshots();
   }
 
-  Future<void> updateWaterTimer(String uid, DateTime startTime,DateTime finishedTime,int goal)async{
-    await waterNotification.document(uid).updateData({
-      'firstday':getAboveSunday(),
-      'startTime':startTime,
-      'endTime':finishedTime,
-      'goal':goal
-    });
-  }
-  Stream<QuerySnapshot> get waterNotificationData{
-    return waterNotification.snapshots();
-  }
-  Future<void> updateIsAlarm (String uid, bool isAlarmOn)async{
-    await waterNotification.document(uid).updateData({
-      'isAlermOn': isAlarmOn
-    });
-  }
 }

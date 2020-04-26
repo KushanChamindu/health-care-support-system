@@ -63,25 +63,6 @@ class MockAuth implements BaseAuth {
   @override
   Stream<QuerySnapshot> get user_data => null;
 
-  @override
-  Future<void> updateWaterNotification(String uid) {
-    return null;
-  }
-
-  @override
-  Stream<QuerySnapshot> get waterNotificationData => null;
-
-  @override
-  Future<void> updateIsAlarm(String uid, bool isAlermOn) {
-    // TODO: implement updateIsAlerm
-    return null;
-  }
-
-  @override
-  Future<void> updateWaterTimer(String uid, DateTime startTime, DateTime finishedTime, int goal) {
-    // TODO: implement updateWaterTimer
-    return null;
-  }
 }
 
 MockFirebaseAuth _auth = MockFirebaseAuth();

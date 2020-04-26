@@ -55,7 +55,7 @@ class ValidationForm {
         DateTime.now().month,
         DateTime.now().day,
         int.parse(value.split(':')[0]),
-        int.parse(value.split(':')[1]) + 1)
+        int.parse(value.split(':')[1]))
         .isAfter(DateTime.now())) {
       return 'Time should after now time';
     }
@@ -83,7 +83,7 @@ class ValidationForm {
             DateTime.now().month,
             DateTime.now().day,
             int.parse(value.split(':')[0]),
-            int.parse(value.split(':')[1]) + 1)
+            int.parse(value.split(':')[1]))
         .isAfter(DateTime.now())) {
       return 'Time should after now time';
     }
