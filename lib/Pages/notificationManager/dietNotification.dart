@@ -56,8 +56,8 @@ class _DietNotificationState extends State<DietNotification> {
           ]);
     }
   }
-  static List days=['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
-  var date= days[DateTime.now().weekday];
+  static List days=['Monday','Tuesday','Wednesday','Thursday','Friday','Saturday','Sunday'];
+  var date= days[DateTime.now().weekday-1];
   @override
   Widget build(BuildContext context) {
     return Scaffold(

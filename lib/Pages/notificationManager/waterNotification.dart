@@ -1,7 +1,9 @@
 import 'dart:async';
 import 'dart:math';
 import 'dart:ui';
+import 'package:flutter/rendering.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_swiper/flutter_swiper.dart';
 import 'package:healthcaresupportsystem/Pages/Auth/Service/NotificationService.dart';
 import 'package:healthcaresupportsystem/Pages/validation/ValidationForm.dart';
 import 'package:intl/intl.dart';
@@ -12,6 +14,7 @@ import 'package:flutter/material.dart';
 import 'package:healthcaresupportsystem/Pages/Auth/Service/Auth.dart';
 import 'package:healthcaresupportsystem/Pages/Auth/UID.dart';
 import 'package:healthcaresupportsystem/Pages/CKD_pages/Constant.dart';
+import 'package:percent_indicator/circular_percent_indicator.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 
@@ -198,6 +201,7 @@ class _WaterNotificationBodyState extends State<WaterNotificationBody> {
   DateTime startTime;
   DateTime finishedTime;
   int waterGoal;
+  int drunkWater;
   var visibility = true;
   FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
       new FlutterLocalNotificationsPlugin();
@@ -216,6 +220,7 @@ class _WaterNotificationBodyState extends State<WaterNotificationBody> {
     flutterLocalNotificationsPlugin.initialize(initializationSettings,
         onSelectNotification: onSelectNotification);
   }
+
   Future onDidReceiveLocalNotification(
       int id, String title, String body, String payload) async {
     await showDialog(
@@ -234,35 +239,46 @@ class _WaterNotificationBodyState extends State<WaterNotificationBody> {
               ],
             ));
   }
+
   void _showNotification() async {
     await _demoNotification();
   }
+
   Future<void> _demoNotification() async {
     var androidPlatformChannelSpecifics = AndroidNotificationDetails(
-        'channel_ID', 'channel_name', 'chanell description',
-        importance: Importance.Max,
-        priority: Priority.High,
-        ticker: 'test ticker',color: Colors.blueAccent,enableLights: true,);
+      'channel_ID',
+      'channel_name',
+      'chanell description',
+      importance: Importance.Max,
+      priority: Priority.High,
+      ticker: 'test ticker',
+      color: Colors.blueAccent,
+      enableLights: true,
+    );
     var iOSChannelSpecifics = IOSNotificationDetails();
     var platformChannelSpecifics = NotificationDetails(
         androidPlatformChannelSpecifics, iOSChannelSpecifics);
-    int difference= finishedTime.difference(startTime).inHours;
-    for(var i=0;i<difference;i++){
+    int difference = finishedTime.difference(startTime).inHours;
+    for (var i = 0; i < difference; i++) {
       await flutterLocalNotificationsPlugin.schedule(
           i,
           'Water Alerm',
           ('Time to drink water and update your water tracking system'),
-          startTime.add(Duration(seconds: i*2)),
+          startTime.add(Duration(seconds: i * 2)),
           platformChannelSpecifics,
           payload: '/WaterNotification');
     }
   }
-  Future onSelectNotification(String payload)async{
-    if (payload=='/WaterNotification'){
-      debugPrint(ModalRoute.of(context).settings.name ==null? 'on selected null': 'on selected notnull');
+
+  Future onSelectNotification(String payload) async {
+    if (payload == '/WaterNotification') {
+      debugPrint(ModalRoute.of(context).settings.name == null
+          ? 'on selected null'
+          : 'on selected notnull');
     }
 //    debugPrint(ModalRoute.of(context).settings.name ==null? 'on selected null': 'on selected notnull');
   }
+
   void changeVIsibility() {
     setState(() {
       visibility = !visibility;
@@ -321,6 +337,7 @@ class _WaterNotificationBodyState extends State<WaterNotificationBody> {
           return false;
         }
       }
+
       toggleButton() async {
         try {
           await widget.notificationService
@@ -334,6 +351,7 @@ class _WaterNotificationBodyState extends State<WaterNotificationBody> {
           alermToggle = !alermToggle;
         });
       }
+
       createAlertDialog(BuildContext context) {
         return showDialog(
             context: context,
@@ -365,6 +383,7 @@ class _WaterNotificationBodyState extends State<WaterNotificationBody> {
               );
             });
       }
+
       void validateAndSubmit() async {
         if (validateAndSave()) {
           try {
@@ -382,7 +401,7 @@ class _WaterNotificationBodyState extends State<WaterNotificationBody> {
                 content: Text('Saved changes'),
               ));
             }
-            alermToggle==false?toggleButton():null;
+            alermToggle == false ? toggleButton() : null;
             await _showNotification();
           } catch (e) {
             print('Error : $e');
@@ -393,6 +412,17 @@ class _WaterNotificationBodyState extends State<WaterNotificationBody> {
         }
       }
 
+      List<String> waterMotivation = [
+        'Promotes Proper Kidney Function',
+        'Fueling the body with oxygen delivery',
+        'Regulating temperature',
+        'Lubricating joints',
+        'Gastrointestinal health',
+        'Maintains a Healthy Digestion',
+        'Promotes Healthy Skin',
+        'Reduces Risk for Urinary Tract Infections',
+        'Helps Alleviate Mood'
+      ];
       List<String> waterGoalList = [
         '1000 ml',
         '1500 ml',
@@ -401,9 +431,12 @@ class _WaterNotificationBodyState extends State<WaterNotificationBody> {
         '3000 ml',
         '3500 ml',
       ];
-      if(waterData['isAlermOn']!=null && waterData['startTime'].toDate().day != DateTime.now().day && waterData['isAlermOn']==true){
+      if (waterData['isAlermOn'] != null &&
+          waterData['startTime'].toDate().day != DateTime.now().day &&
+          waterData['isAlermOn'] == true) {
         toggleButton();
       }
+//      print(waterData['monday'].toDouble());
       return Builder(
           builder: (context) => Scaffold(
                 bottomNavigationBar: CurvedNavigationBar(
@@ -495,22 +528,29 @@ class _WaterNotificationBodyState extends State<WaterNotificationBody> {
                                                   right:
                                                       alermToggle ? 0.0 : 55.0,
                                                   child: Tooltip(
-                                                    message: alermToggle==false?'first add valide data':'submit form',
+                                                    message: alermToggle ==
+                                                            false
+                                                        ? 'first add valide data'
+                                                        : 'submit form',
                                                     child: InkWell(
-                                                      onTap: ()async{
-                                                        if(alermToggle==false) {
+                                                      onTap: () async {
+                                                        if (alermToggle ==
+                                                            false) {
                                                           await validateAndSubmit();
-                                                        }else{
-                                                          await flutterLocalNotificationsPlugin.cancelAll();
+                                                        } else {
+                                                          await flutterLocalNotificationsPlugin
+                                                              .cancelAll();
                                                           toggleButton();
-                                                        };
-                                                        },
+                                                        }
+                                                        ;
+                                                      },
                                                       child: AnimatedSwitcher(
                                                         duration: Duration(
                                                             milliseconds: 400),
                                                         transitionBuilder:
                                                             (Widget child,
-                                                                Animation<double>
+                                                                Animation<
+                                                                        double>
                                                                     animation) {
                                                           return ScaleTransition(
                                                             child: child,
@@ -521,17 +561,20 @@ class _WaterNotificationBodyState extends State<WaterNotificationBody> {
                                                             ? Icon(
                                                                 Icons
                                                                     .notifications_active,
-                                                                color:
-                                                                    Colors.green,
+                                                                color: Colors
+                                                                    .green,
                                                                 size: 30,
-                                                                key: UniqueKey(),
+                                                                key:
+                                                                    UniqueKey(),
                                                               )
                                                             : Icon(
                                                                 Icons
                                                                     .notifications,
-                                                                color: Colors.red,
+                                                                color:
+                                                                    Colors.red,
                                                                 size: 30,
-                                                                key: UniqueKey(),
+                                                                key:
+                                                                    UniqueKey(),
                                                               ),
                                                       ),
                                                     ),
@@ -544,9 +587,14 @@ class _WaterNotificationBodyState extends State<WaterNotificationBody> {
                                       ],
                                     ),
                                     Padding(
-                                      padding: const EdgeInsets.only(left: 10.0,right: 8.0),
+                                      padding: const EdgeInsets.only(
+                                          left: 10.0, right: 8.0),
                                       child: Form(
-                                        onChanged: (){if(alermToggle==true){validateAndSubmit();}},
+                                        onChanged: () {
+                                          if (alermToggle == true) {
+                                            validateAndSubmit();
+                                          }
+                                        },
                                         autovalidate: true,
                                         key: waterFormKey,
                                         child: Column(
@@ -563,9 +611,10 @@ class _WaterNotificationBodyState extends State<WaterNotificationBody> {
                                                           value.split(':')[1])),
                                               autovalidate:
                                                   true, //startTime =value,
-                                              validator: (value) => ValidationForm
-                                                  .StartimeValidation(
-                                                      value, _endController),
+                                              validator: (value) =>
+                                                  ValidationForm
+                                                      .StartimeValidation(value,
+                                                          _endController),
                                               readOnly: true,
                                               controller: _startController,
                                               decoration: InputDecoration(
@@ -576,13 +625,13 @@ class _WaterNotificationBodyState extends State<WaterNotificationBody> {
                                                       OutlineInputBorder(
                                                           borderRadius:
                                                               BorderRadius.all(
-                                                                  Radius.circular(
-                                                                      4)),
-                                                          borderSide:
-                                                              BorderSide(
-                                                                  width: 1,
-                                                                  color: Colors
-                                                                      .blue))),
+                                                                  Radius
+                                                                      .circular(
+                                                                          4)),
+                                                          borderSide: BorderSide(
+                                                              width: 1,
+                                                              color: Colors
+                                                                  .blue))),
                                               onTap: () async {
                                                 final time = (await showTimePicker(
                                                     context: context,
@@ -590,29 +639,33 @@ class _WaterNotificationBodyState extends State<WaterNotificationBody> {
                                                                 'startTime'] !=
                                                             null
                                                         ? TimeOfDay(
-                                                            hour: int.parse(
-                                                                waterData['startTime']
-                                                                    .toDate()
-                                                                    .toString()
-                                                                    .split(' ')[1]
-                                                                    .trim()
-                                                                    .split(
-                                                                        ':')[0]),
+                                                            hour: int.parse(waterData[
+                                                                    'startTime']
+                                                                .toDate()
+                                                                .toString()
+                                                                .split(' ')[1]
+                                                                .trim()
+                                                                .split(':')[0]),
                                                             minute: int.parse(
                                                                 waterData['startTime']
                                                                     .toDate()
                                                                     .toString()
-                                                                    .split(' ')[1]
-                                                                    .trim()
                                                                     .split(
-                                                                        ':')[1]))
+                                                                        ' ')[1]
+                                                                    .trim()
+                                                                    .split(':')[1]))
                                                         : TimeOfDay.now()));
                                                 (time != null)
-                                                    ?
-                                                _startController.text =
-                                                        time.toString().split(':')[0].substring(10,12) +
-                                                            ":" +
-                                                            time.toString().split(':')[1].substring(0,2)
+                                                    ? _startController
+                                                        .text = time
+                                                            .toString()
+                                                            .split(':')[0]
+                                                            .substring(10, 12) +
+                                                        ":" +
+                                                        time
+                                                            .toString()
+                                                            .split(':')[1]
+                                                            .substring(0, 2)
                                                     : null;
                                               },
                                             ),
@@ -630,9 +683,10 @@ class _WaterNotificationBodyState extends State<WaterNotificationBody> {
                                                       int.parse(
                                                           value.split(':')[1])),
                                               autovalidate: true,
-                                              validator: (value) => ValidationForm
-                                                  .EndtimeValidation(
-                                                      value, _startController),
+                                              validator: (value) =>
+                                                  ValidationForm
+                                                      .EndtimeValidation(value,
+                                                          _startController),
                                               readOnly: true,
                                               controller: _endController,
                                               decoration: InputDecoration(
@@ -643,13 +697,13 @@ class _WaterNotificationBodyState extends State<WaterNotificationBody> {
                                                       OutlineInputBorder(
                                                           borderRadius:
                                                               BorderRadius.all(
-                                                                  Radius.circular(
-                                                                      4)),
-                                                          borderSide:
-                                                              BorderSide(
-                                                                  width: 1,
-                                                                  color: Colors
-                                                                      .blue))),
+                                                                  Radius
+                                                                      .circular(
+                                                                          4)),
+                                                          borderSide: BorderSide(
+                                                              width: 1,
+                                                              color: Colors
+                                                                  .blue))),
                                               onTap: () async {
                                                 final time = (await showTimePicker(
                                                     context: context,
@@ -657,28 +711,32 @@ class _WaterNotificationBodyState extends State<WaterNotificationBody> {
                                                                 'endTime'] !=
                                                             null
                                                         ? TimeOfDay(
-                                                            hour: int.parse(
-                                                                waterData['endTime']
-                                                                    .toDate()
-                                                                    .toString()
-                                                                    .split(' ')[1]
-                                                                    .trim()
-                                                                    .split(
-                                                                        ':')[0]),
+                                                            hour: int.parse(waterData[
+                                                                    'endTime']
+                                                                .toDate()
+                                                                .toString()
+                                                                .split(' ')[1]
+                                                                .trim()
+                                                                .split(':')[0]),
                                                             minute: int.parse(
                                                                 waterData['endTime']
                                                                     .toDate()
                                                                     .toString()
-                                                                    .split(' ')[1]
-                                                                    .trim()
                                                                     .split(
-                                                                        ':')[1]))
+                                                                        ' ')[1]
+                                                                    .trim()
+                                                                    .split(':')[1]))
                                                         : TimeOfDay.now()));
                                                 (time != null)
-                                                    ? _endController.text =
-                                                    time.toString().split(':')[0].substring(10,12) +
+                                                    ? _endController.text = time
+                                                            .toString()
+                                                            .split(':')[0]
+                                                            .substring(10, 12) +
                                                         ":" +
-                                                        time.toString().split(':')[1].substring(0,2)
+                                                        time
+                                                            .toString()
+                                                            .split(':')[1]
+                                                            .substring(0, 2)
                                                     : null;
                                               },
                                             ),
@@ -686,14 +744,17 @@ class _WaterNotificationBodyState extends State<WaterNotificationBody> {
                                               height: 10,
                                             ),
                                             TextFormField(
-                                              keyboardType: TextInputType.number,
+                                              keyboardType:
+                                                  TextInputType.number,
                                               inputFormatters: <
                                                   TextInputFormatter>[
                                                 WhitelistingTextInputFormatter
                                                     .digitsOnly
                                               ],
-                                              validator: (value) => ValidationForm
-                                                  .waterGoalValidation(value),
+                                              validator: (value) =>
+                                                  ValidationForm
+                                                      .waterGoalValidation(
+                                                          value),
                                               onSaved: (value) =>
                                                   waterGoal = int.parse(value),
                                               controller: _goalController,
@@ -701,13 +762,16 @@ class _WaterNotificationBodyState extends State<WaterNotificationBody> {
                                                 labelText: 'Goal',
                                                 hintText: 'Input Goal',
                                                 prefixIcon: Icon(Icons.face),
-                                                focusedBorder: OutlineInputBorder(
-                                                    borderRadius:
-                                                        BorderRadius.all(
-                                                            Radius.circular(4)),
-                                                    borderSide: BorderSide(
-                                                        width: 1,
-                                                        color: Colors.blue)),
+                                                focusedBorder:
+                                                    OutlineInputBorder(
+                                                        borderRadius:
+                                                            BorderRadius.all(
+                                                                Radius.circular(
+                                                                    4)),
+                                                        borderSide: BorderSide(
+                                                            width: 1,
+                                                            color:
+                                                                Colors.blue)),
                                                 suffixIcon:
                                                     PopupMenuButton<String>(
                                                   icon: const Icon(
@@ -723,7 +787,8 @@ class _WaterNotificationBodyState extends State<WaterNotificationBody> {
                                                                 String>>(
                                                         (String value) {
                                                       return new PopupMenuItem(
-                                                          child: new Text(value),
+                                                          child:
+                                                              new Text(value),
                                                           value: value);
                                                     }).toList();
                                                   },
@@ -737,29 +802,137 @@ class _WaterNotificationBodyState extends State<WaterNotificationBody> {
                                     SizedBox(
                                       height: 10,
                                     ),
-                                    Container(
-                                      width: MediaQuery.of(context).size.width -
-                                          30,
-                                      height: 45,
-                                      child: RaisedButton.icon(
-                                        shape: RoundedRectangleBorder(
-                                            borderRadius:
-                                                BorderRadius.circular(18)),
-                                        color: Colors.blue[200],
-                                        splashColor: Colors.black38,
-                                        elevation: 10,
-                                        onPressed: validateAndSubmit,
-                                        icon: Icon(Icons.alarm),
-                                        label: Text('Set alarm'),
-                                      ),
-                                    ),
-                                    SizedBox(
-                                      height: 10,
-                                    ),
-                                    RaisedButton.icon(
-                                        onPressed: _showNotification,
-                                        icon: Icon(Icons.notifications_active),
-                                        label: Text('kushan')),
+                                    Row(
+                                      children: <Widget>[
+                                        Padding(
+                                          padding: EdgeInsets.only(
+                                              left: MediaQuery.of(context)
+                                                      .size
+                                                      .width *
+                                                  0.06),
+                                          child: CircularPercentIndicator(
+                                            progressColor: Colors.blueAccent,
+                                            lineWidth: 15,
+                                            radius: 150,
+                                            curve: Curves.ease,
+                                            circularStrokeCap:
+                                                CircularStrokeCap.round,
+                                            center: RaisedButton()
+//                                            waterData['monday'] == 1
+//                                                ? Text(
+//                                                    (waterData['monday'] * 100)
+//                                                            .toString() +
+//                                                        '%',
+//                                                    style: TextStyle(
+//                                                        fontSize: 25,
+//                                                        color: Colors.green,
+//                                                        fontWeight:
+//                                                            FontWeight.w800),
+//                                                  )
+//                                                : Text(
+//                                                    (waterData['monday'] * 100)
+//                                                            .toString()
+//                                                            .split('.')[0] +
+//                                                        '%',
+//                                                    style: TextStyle(
+//                                                        fontSize: 25,
+//                                                        color: Colors.black,
+//                                                        fontWeight:
+//                                                            FontWeight.w800),
+//                                                  ),
+                                          ,
+                                            percent: waterData['monday'] != null
+                                                ? (waterData['monday']
+                                                    .toDouble())
+                                                : 0
+                                            ,
+                                            animation: true,
+                                            animateFromLastPercent: true,
+                                            backgroundColor: Colors.black26,
+                                          ),
+                                        ),
+                                        Column(
+                                          children: <Widget>[
+                                            Text(
+                                              'Benefites of water',
+                                              style: TextStyle(
+                                                  fontSize: 14,
+                                                  fontWeight: FontWeight.w800),
+                                            ),
+                                            ConstrainedBox(
+                                              constraints:
+                                                  new BoxConstraints.loose(
+                                                      new Size(
+                                                          MediaQuery.of(context)
+                                                                  .size
+                                                                  .width *
+                                                              0.5,
+                                                          55.0)),
+                                              child: Swiper(
+                                                  itemCount: 8,
+                                                  autoplay: true,
+                                                  curve: Curves.ease,
+                                                  itemBuilder:
+                                                      (BuildContext context,
+                                                          int index) {
+                                                    return Padding(
+                                                      padding:
+                                                          const EdgeInsets.all(
+                                                              8.0),
+                                                      child: Text(
+                                                        waterMotivation[index],
+                                                        style: TextStyle(
+                                                            fontSize: 15,
+                                                            letterSpacing: 1),
+                                                        textAlign:
+                                                            TextAlign.center,
+                                                      ),
+                                                    );
+                                                  }),
+                                            ),
+                                            Padding(
+                                              padding: const EdgeInsets.all(8.0),
+                                              child: Container(
+                                                width:  MediaQuery.of(context)
+                                                    .size
+                                                    .width *
+                                                    0.5,
+                                                child: TextFormField(
+                                                  keyboardType:
+                                                  TextInputType.number,
+                                                  inputFormatters: <
+                                                      TextInputFormatter>[
+                                                    WhitelistingTextInputFormatter
+                                                        .digitsOnly
+                                                  ],
+                                                  validator: (value) =>
+                                                      ValidationForm
+                                                          .waterGoalValidation(
+                                                          value),
+                                                  onSaved: (value) =>
+                                                  drunkWater = int.parse(value),
+                                                  decoration: InputDecoration(
+                                                    labelText: 'Drinking amount',
+                                                    hintText: 'Drinking amount',
+                                                    prefixIcon: Icon(Icons.local_drink),
+                                                    focusedBorder:
+                                                    OutlineInputBorder(
+                                                        borderRadius:
+                                                        BorderRadius.all(
+                                                            Radius.circular(
+                                                                4)),
+                                                        borderSide: BorderSide(
+                                                            width: 1,
+                                                            color:
+                                                            Colors.blue)),
+                                                  ),
+                                                ),
+                                              ),
+                                            ),
+                                          ],
+                                        )
+                                      ],
+                                    )
                                   ],
                                 ),
                               ),
@@ -795,4 +968,26 @@ class _WaterNotificationBodyState extends State<WaterNotificationBody> {
     }
   }
 }
-
+//Container(
+//width: MediaQuery.of(context).size.width -
+//30,
+//height: 45,
+//child: RaisedButton.icon(
+//shape: RoundedRectangleBorder(
+//borderRadius:
+//BorderRadius.circular(18)),
+//color: Colors.blue[200],
+//splashColor: Colors.black38,
+//elevation: 10,
+//onPressed: validateAndSubmit,
+//icon: Icon(Icons.alarm),
+//label: Text('Set alarm'),
+//),
+//),
+//SizedBox(
+//height: 10,
+//),
+//RaisedButton.icon(
+//onPressed: _showNotification,
+//icon: Icon(Icons.notifications_active),
+//label: Text('kushan')),
