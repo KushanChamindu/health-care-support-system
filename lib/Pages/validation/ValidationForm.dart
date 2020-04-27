@@ -117,6 +117,14 @@ class ValidationForm {
       return 'Goal should be a number';
     }
   }
+  static String drinkWaterValidation(String value) {
+    try {
+      int goal = int.parse(value);
+      return null;
+    } catch (e) {
+      return 'Drink amount should be a number';
+    }
+  }
 
   static String confirmPassValidate(
       String value, TextEditingController _passwordController) {

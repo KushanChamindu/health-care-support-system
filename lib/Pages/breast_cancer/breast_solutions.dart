@@ -37,7 +37,7 @@ class BC_Solutions extends StatelessWidget {
               content: Column(
                 verticalDirection: VerticalDirection.down,
                 children: <Widget>[
-                  Image.asset('assets/connection_lost.gif', width: 250,height: 150,),
+                  Image.asset('assets/connection_lost .gif', width: 250,height: 150,),
                   Padding(
                     padding: const EdgeInsets.fromLTRB(8,0, 8, 0),
                     child: Text('SignOut problem',style: TextStyle(fontSize: 17),textAlign: TextAlign.center,),

@@ -68,13 +68,18 @@ class Auth implements BaseAuth {
     });
     await waterNotification.document(uid).setData({
       'firstday':getAboveSunday(),
-      'monday':null,
-      'tuesday':null,
-      'wednesday':null,
-      'thursday':null,
-      'friday':null,
-      'saturday':null,
-      'sunday ':null,
+      'monday':0,
+      'tuesday':0,
+      'wednesday':0,
+      'thursday':0,
+      'friday':0,
+      'saturday':0,
+      'sunday ':0,
+      'endTime':DateTime.now().add(Duration(hours: 2)),
+      'startTime':DateTime.now(),
+      'isAlermOn':false,
+      'goal':1000,
+      'isReset':true,
     });
   }
 //  static List days=['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];

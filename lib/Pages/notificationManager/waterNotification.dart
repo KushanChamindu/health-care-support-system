@@ -18,6 +18,8 @@ import 'package:percent_indicator/circular_percent_indicator.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 
+import 'Chart.dart';
+
 class WaterNotification extends StatefulWidget {
   final BaseAuth auth = Auth();
   final NotificationService notificationService = NotificationService();
@@ -197,12 +199,42 @@ class WaterNotificationBody extends StatefulWidget {
 
 class _WaterNotificationBodyState extends State<WaterNotificationBody> {
   final waterFormKey = new GlobalKey<FormState>();
+  final drinkWaterFormKey = new GlobalKey<FormState>();
   final formatTime = DateFormat("HH:mm");
   DateTime startTime;
   DateTime finishedTime;
   int waterGoal;
   int drunkWater;
+  double percentage;
   var visibility = true;
+  List<String> waterMotivation = [
+    'Promotes Proper Kidney Function',
+    'Fueling the body with oxygen delivery',
+    'Regulating temperature',
+    'Lubricating joints',
+    'Gastrointestinal health',
+    'Maintains a Healthy Digestion',
+    'Promotes Healthy Skin',
+    'Reduces Risk for Urinary Tract Infections',
+    'Helps Alleviate Mood'
+  ];
+  List<String> waterGoalList = [
+    '1000 ml',
+    '1500 ml',
+    '2000 ml',
+    '2500 ml',
+    '3000 ml',
+    '3500 ml',
+  ];
+  List<String> dayNames = [
+    'monday',
+    'tuesday',
+    'wednesday',
+    'thursday',
+    'friday',
+    'saturday',
+    'sunday'
+  ];
   FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
       new FlutterLocalNotificationsPlugin();
   var initializationSettingAndroid;
@@ -258,7 +290,8 @@ class _WaterNotificationBodyState extends State<WaterNotificationBody> {
     var iOSChannelSpecifics = IOSNotificationDetails();
     var platformChannelSpecifics = NotificationDetails(
         androidPlatformChannelSpecifics, iOSChannelSpecifics);
-    int difference = finishedTime.difference(startTime).inHours;
+    //TODO: demonstration only
+    int difference = finishedTime.difference(startTime).inMinutes;
     for (var i = 0; i < difference; i++) {
       await flutterLocalNotificationsPlugin.schedule(
           i,
@@ -292,6 +325,7 @@ class _WaterNotificationBodyState extends State<WaterNotificationBody> {
       var waterData = waterNotificationData.documents
           .firstWhere((doc) => doc.documentID == '${widget.uid}')
           .data;
+
       bool alermToggle = waterData['isAlermOn'] || false;
       final TextEditingController _goalController = new TextEditingController(
           text: (waterData['goal'] != 0) ? waterData['goal'].toString() : '0');
@@ -327,16 +361,8 @@ class _WaterNotificationBodyState extends State<WaterNotificationBody> {
                       .trim()
                       .split(':')[1]
               : '0');
-
-      bool validateAndSave() {
-        final form = waterFormKey.currentState;
-        if (form.validate()) {
-          form.save();
-          return true;
-        } else {
-          return false;
-        }
-      }
+      final TextEditingController _drinkWaterController =
+          new TextEditingController(text: '100');
 
       toggleButton() async {
         try {
@@ -352,36 +378,14 @@ class _WaterNotificationBodyState extends State<WaterNotificationBody> {
         });
       }
 
-      createAlertDialog(BuildContext context) {
-        return showDialog(
-            context: context,
-            builder: (context) {
-              return AlertDialog(
-                elevation: 20,
-                title: Text('Will you want to set alerm'),
-                actions: <Widget>[
-                  MaterialButton(
-                    elevation: 2.0,
-                    child: Text('Cancel'),
-                    onPressed: () {
-                      Navigator.of(context).pop();
-                    },
-                  ),
-                  MaterialButton(
-                    elevation: 2.0,
-                    child: Text('Submit'),
-                    onPressed: () {
-                      if (alermToggle == false) {
-                        toggleButton();
-                        Navigator.of(context).pop();
-                      } else {
-                        Navigator.of(context).pop();
-                      }
-                    },
-                  ),
-                ],
-              );
-            });
+      bool validateAndSave() {
+        final form = waterFormKey.currentState;
+        if (form.validate()) {
+          form.save();
+          return true;
+        } else {
+          return false;
+        }
       }
 
       void validateAndSubmit() async {
@@ -412,31 +416,71 @@ class _WaterNotificationBodyState extends State<WaterNotificationBody> {
         }
       }
 
-      List<String> waterMotivation = [
-        'Promotes Proper Kidney Function',
-        'Fueling the body with oxygen delivery',
-        'Regulating temperature',
-        'Lubricating joints',
-        'Gastrointestinal health',
-        'Maintains a Healthy Digestion',
-        'Promotes Healthy Skin',
-        'Reduces Risk for Urinary Tract Infections',
-        'Helps Alleviate Mood'
-      ];
-      List<String> waterGoalList = [
-        '1000 ml',
-        '1500 ml',
-        '2000 ml',
-        '2500 ml',
-        '3000 ml',
-        '3500 ml',
-      ];
+      createAlertDialog(BuildContext context, status) {
+        return showDialog(
+            context: context,
+            builder: (context) {
+              Future.delayed(Duration(milliseconds: 1000), () {
+                Navigator.of(context).pop(true);
+              });
+              return AlertDialog(
+                content: status == 'okey'
+                      ? Image.asset(
+                          'assets/NotificationManager/drinkwater.gif',
+                        )
+                      : Image.asset('assets/connection_lost.gif'),
+                elevation: 20,
+              );
+            });
+      }
+
+      void dinkWaterSubmit() async {
+        final drinkForm = drinkWaterFormKey.currentState;
+        if (drinkForm.validate()) {
+          drinkForm.save();
+          try {
+            await widget.notificationService.updateDrinkWater(widget.uid,
+                drunkWater, waterData[dayNames[DateTime.now().weekday - 1]]);
+            createAlertDialog(context, 'okey');
+          } catch (e) {
+            createAlertDialog(context, 'error');
+          }
+        }
+      }
+
+      //variable setting codes
+      if (waterData['firstday']
+                  .toDate()
+                  .difference(DateTime(DateTime.now().year,
+                      DateTime.now().month, DateTime.now().day))
+                  .inDays <=
+              0 &&
+          waterData['isReset'] == true) {
+          widget.notificationService.resetData(widget.uid).then((_) => {});
+      }
+      if (waterData['firstday']
+                  .toDate()
+                  .difference(DateTime(DateTime.now().year,
+                      DateTime.now().month, DateTime.now().day))
+                  .inDays <=
+              2 &&
+          waterData['isReset'] == false) {
+        widget.notificationService.setResetVariable(widget.uid);
+
+      }
       if (waterData['isAlermOn'] != null &&
           waterData['startTime'].toDate().day != DateTime.now().day &&
           waterData['isAlermOn'] == true) {
         toggleButton();
       }
-//      print(waterData['monday'].toDouble());
+      if (waterData[dayNames[DateTime.now().weekday - 1]] != null) {
+        percentage = ((waterData[dayNames[DateTime.now().weekday - 1]] /
+                waterData['goal'])
+            .toDouble());
+        if (percentage >= 1) percentage = 1;
+      } else {
+        percentage = 0.0;
+      }
       return Builder(
           builder: (context) => Scaffold(
                 bottomNavigationBar: CurvedNavigationBar(
@@ -817,35 +861,75 @@ class _WaterNotificationBodyState extends State<WaterNotificationBody> {
                                             curve: Curves.ease,
                                             circularStrokeCap:
                                                 CircularStrokeCap.round,
-                                            center: RaisedButton()
-//                                            waterData['monday'] == 1
-//                                                ? Text(
-//                                                    (waterData['monday'] * 100)
-//                                                            .toString() +
-//                                                        '%',
-//                                                    style: TextStyle(
-//                                                        fontSize: 25,
-//                                                        color: Colors.green,
-//                                                        fontWeight:
-//                                                            FontWeight.w800),
-//                                                  )
-//                                                : Text(
-//                                                    (waterData['monday'] * 100)
-//                                                            .toString()
-//                                                            .split('.')[0] +
-//                                                        '%',
-//                                                    style: TextStyle(
-//                                                        fontSize: 25,
-//                                                        color: Colors.black,
-//                                                        fontWeight:
-//                                                            FontWeight.w800),
-//                                                  ),
-                                          ,
-                                            percent: waterData['monday'] != null
-                                                ? (waterData['monday']
-                                                    .toDouble())
-                                                : 0
-                                            ,
+                                            center: Container(
+                                              width: 119,
+                                              height: 119,
+                                              child: RaisedButton(
+                                                color: Colors.white,
+                                                onPressed: dinkWaterSubmit,
+                                                child: Column(
+                                                  children: <Widget>[
+                                                    SizedBox(
+                                                      height: 30,
+                                                    ),
+                                                    Text('Tap to drink'),
+                                                    SizedBox(
+                                                      height: 5,
+                                                    ),
+                                                    (waterData[dayNames[DateTime
+                                                                            .now()
+                                                                        .weekday -
+                                                                    1]] /
+                                                                waterData[
+                                                                    'goal']) >=
+                                                            1
+                                                        ? Text(
+                                                            (waterData[dayNames[DateTime.now().weekday -
+                                                                            1]] /
+                                                                        waterData[
+                                                                            'goal'] *
+                                                                        100)
+                                                                    .toString()
+                                                                    .split(
+                                                                        '.')[0] +
+                                                                '%',
+                                                            style: TextStyle(
+                                                                fontSize: 25,
+                                                                color: Colors
+                                                                    .green,
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .w800),
+                                                          )
+                                                        : Text(
+                                                            (waterData[dayNames[DateTime.now().weekday -
+                                                                            1]] /
+                                                                        waterData[
+                                                                            'goal'] *
+                                                                        100)
+                                                                    .toString()
+                                                                    .split(
+                                                                        '.')[0] +
+                                                                '%',
+                                                            style: TextStyle(
+                                                                fontSize: 25,
+                                                                color: Colors
+                                                                    .black,
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .w800),
+                                                          ),
+                                                  ],
+                                                ),
+                                                shape: CircleBorder(
+                                                    side: BorderSide(
+                                                        width: 2,
+                                                        color: Colors.white,
+                                                        style:
+                                                            BorderStyle.solid)),
+                                              ),
+                                            ),
+                                            percent: percentage,
                                             animation: true,
                                             animateFromLastPercent: true,
                                             backgroundColor: Colors.black26,
@@ -891,40 +975,52 @@ class _WaterNotificationBodyState extends State<WaterNotificationBody> {
                                                   }),
                                             ),
                                             Padding(
-                                              padding: const EdgeInsets.all(8.0),
+                                              padding:
+                                                  const EdgeInsets.all(8.0),
                                               child: Container(
-                                                width:  MediaQuery.of(context)
-                                                    .size
-                                                    .width *
+                                                width: MediaQuery.of(context)
+                                                        .size
+                                                        .width *
                                                     0.5,
-                                                child: TextFormField(
-                                                  keyboardType:
-                                                  TextInputType.number,
-                                                  inputFormatters: <
-                                                      TextInputFormatter>[
-                                                    WhitelistingTextInputFormatter
-                                                        .digitsOnly
-                                                  ],
-                                                  validator: (value) =>
-                                                      ValidationForm
-                                                          .waterGoalValidation(
-                                                          value),
-                                                  onSaved: (value) =>
-                                                  drunkWater = int.parse(value),
-                                                  decoration: InputDecoration(
-                                                    labelText: 'Drinking amount',
-                                                    hintText: 'Drinking amount',
-                                                    prefixIcon: Icon(Icons.local_drink),
-                                                    focusedBorder:
-                                                    OutlineInputBorder(
-                                                        borderRadius:
-                                                        BorderRadius.all(
-                                                            Radius.circular(
-                                                                4)),
-                                                        borderSide: BorderSide(
-                                                            width: 1,
-                                                            color:
-                                                            Colors.blue)),
+                                                child: Form(
+                                                  key: drinkWaterFormKey,
+                                                  autovalidate: true,
+                                                  child: TextFormField(
+                                                    controller:
+                                                        _drinkWaterController,
+                                                    keyboardType:
+                                                        TextInputType.number,
+                                                    inputFormatters: <
+                                                        TextInputFormatter>[
+                                                      WhitelistingTextInputFormatter
+                                                          .digitsOnly
+                                                    ],
+                                                    validator: (value) =>
+                                                        ValidationForm
+                                                            .drinkWaterValidation(
+                                                                value),
+                                                    onSaved: (value) =>
+                                                        drunkWater =
+                                                            int.parse(value),
+                                                    decoration: InputDecoration(
+                                                      labelText:
+                                                          'Drinking amount',
+                                                      hintText:
+                                                          'Drinking amount',
+                                                      prefixIcon: Icon(
+                                                          Icons.local_drink),
+                                                      focusedBorder: OutlineInputBorder(
+                                                          borderRadius:
+                                                              BorderRadius.all(
+                                                                  Radius
+                                                                      .circular(
+                                                                          4)),
+                                                          borderSide:
+                                                              BorderSide(
+                                                                  width: 1,
+                                                                  color: Colors
+                                                                      .blue)),
+                                                    ),
                                                   ),
                                                 ),
                                               ),
@@ -941,16 +1037,16 @@ class _WaterNotificationBodyState extends State<WaterNotificationBody> {
                         ),
                         AnimatedContainer(
                           duration: Duration(milliseconds: 200),
+                          transform: !visibility
+                              ? Matrix4.rotationY(pi / 180)
+                              : Matrix4.rotationY(pi / 1),
                           alignment: !visibility
                               ? Alignment.topCenter
                               : AlignmentDirectional.topEnd,
                           curve: Curves.ease,
                           child: Visibility(
                             visible: !visibility,
-                            child: Container(
-                              color: Colors.blueAccent,
-                              child: Text('Graph'),
-                            ),
+                            child: visibility==false?BarChartSample1(waterData: waterData,isVisible: !visibility,):Text(''),
                           ),
                         )
                       ],
@@ -968,26 +1064,3 @@ class _WaterNotificationBodyState extends State<WaterNotificationBody> {
     }
   }
 }
-//Container(
-//width: MediaQuery.of(context).size.width -
-//30,
-//height: 45,
-//child: RaisedButton.icon(
-//shape: RoundedRectangleBorder(
-//borderRadius:
-//BorderRadius.circular(18)),
-//color: Colors.blue[200],
-//splashColor: Colors.black38,
-//elevation: 10,
-//onPressed: validateAndSubmit,
-//icon: Icon(Icons.alarm),
-//label: Text('Set alarm'),
-//),
-//),
-//SizedBox(
-//height: 10,
-//),
-//RaisedButton.icon(
-//onPressed: _showNotification,
-//icon: Icon(Icons.notifications_active),
-//label: Text('kushan')),
