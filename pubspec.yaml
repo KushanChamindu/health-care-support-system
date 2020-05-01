@@ -70,6 +70,7 @@ flutter:
     - assets/CKD_image/
     - assets/breast_cancer_image/
     - assets/NotificationManager/
+    - assets/OnboardScreen/
   #  - images/a_dot_ham.jpeg
 
   # An image asset can refer to one or more resolution-specific "variants", see

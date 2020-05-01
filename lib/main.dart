@@ -1,6 +1,9 @@
+
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:healthcaresupportsystem/Pages/Account.dart';
+import 'package:healthcaresupportsystem/Pages/Auth/Onboarding_screen/OnboardingScreen.dart';
 import 'package:healthcaresupportsystem/Pages/CKD_pages/CKD_precautions.dart';
 import 'package:healthcaresupportsystem/Pages/CKD_pages/CKD_symptom.dart';
 import 'package:healthcaresupportsystem/Pages/CKD_pages/CKD_webview.dart';
@@ -13,15 +16,17 @@ import 'package:healthcaresupportsystem/Pages/notificationManager/waterNotificat
 import 'Pages/Auth/LogIn.dart';
 import 'Pages/CKD_pages/CKD_message.dart';
 import 'Pages/CKD_pages/CKD_discription.dart';
+import 'Pages/SplashScreen.dart';
 import 'Pages/breast_cancer/breast_cancer.dart';
 
 void main() => runApp(MaterialApp(
       routes: {
 //    '/loading':(context) =>Loading(auth: Auth()),
-        '/': (context) => LogIn(),
+        '/':(context)=>SplashScreen(),
+        '/login': (context) => LogIn(),
+        '/onboard_screen':(context)=>OnboardingScreen(),
         '/account': (context) => Account(),
-        '/home': (context) => Home(
-            ),
+        '/home': (context) => Home(),
         '/CKD_message': (context) => CKD_message(),
         '/CKD_discription': (context) => CKD_discription(),
         '/CKD_webview': (context) => CKD_webview(),

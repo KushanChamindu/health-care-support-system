@@ -25,6 +25,7 @@ class _LogInState extends State<LogIn> {
   final formKey = new GlobalKey<FormState>();
   final TextEditingController _passwordController = TextEditingController();
   final TextEditingController _confirmPassController = TextEditingController();
+  final TextEditingController _controller = new TextEditingController();
   String App_bar_title = "LogIn";
   String _email;
   String _password;
@@ -89,7 +90,6 @@ class _LogInState extends State<LogIn> {
 
   @override
   Widget build(BuildContext context) {
-    final TextEditingController _controller = new TextEditingController();
     List<String> blood_groups = [
       'O−',
       'O+',
@@ -116,7 +116,7 @@ class _LogInState extends State<LogIn> {
                 focusedBorder: OutlineInputBorder(
                     borderRadius: BorderRadius.all(Radius.circular(4)),
                     borderSide: BorderSide(width: 1, color: Colors.blue))),
-            validator: (value)=> ValidationForm.emailValidate(value),
+            validator: (value) => ValidationForm.emailValidate(value),
             onSaved: (value) => _email = value,
           ),
           SizedBox(
@@ -147,7 +147,7 @@ class _LogInState extends State<LogIn> {
                 focusedBorder: OutlineInputBorder(
                     borderRadius: BorderRadius.all(Radius.circular(4)),
                     borderSide: BorderSide(width: 1, color: Colors.blue))),
-            validator:(value)=> ValidationForm.usernameValidate(value),
+            validator: (value) => ValidationForm.usernameValidate(value),
             onSaved: (value) => Username = value,
           ),
           SizedBox(
@@ -162,7 +162,7 @@ class _LogInState extends State<LogIn> {
                 focusedBorder: OutlineInputBorder(
                     borderRadius: BorderRadius.all(Radius.circular(4)),
                     borderSide: BorderSide(width: 1, color: Colors.blue))),
-            validator: (value)=> ValidationForm.emailValidate(value),
+            validator: (value) => ValidationForm.emailValidate(value),
             onSaved: (value) => _email = value,
           ),
           SizedBox(
@@ -196,7 +196,7 @@ class _LogInState extends State<LogIn> {
           ),
           TextFormField(
             key: ValueKey('registerBloodGroupField'),
-            validator: (value)=>ValidationForm.bloodValidate(value),
+            validator: (value) => ValidationForm.bloodValidate(value),
             onSaved: (value) => bloodGroup = value,
             controller: _controller,
             decoration: InputDecoration(
@@ -234,7 +234,7 @@ class _LogInState extends State<LogIn> {
                 labelText: 'Password',
                 hintText: 'Input Password',
                 prefixIcon: Icon(Icons.lock)),
-            validator: (value) =>ValidationForm.passwordValidate(value),
+            validator: (value) => ValidationForm.passwordValidate(value),
             obscureText: true,
             onSaved: (value) => _password = value,
           ),
@@ -251,7 +251,8 @@ class _LogInState extends State<LogIn> {
                 labelText: 'Confirm password',
                 hintText: 'Input same password',
                 prefixIcon: Icon(Icons.lock)),
-            validator: (value)=>ValidationForm.confirmPassValidate(value, _passwordController),
+            validator: (value) =>
+                ValidationForm.confirmPassValidate(value, _passwordController),
             obscureText: true,
           ),
         ];
@@ -282,13 +283,24 @@ class _LogInState extends State<LogIn> {
           ),
           body: Container(
             child: Padding(
-              padding: const EdgeInsets.all(16.0),
+              padding: const EdgeInsets.only(top:16.0,right: 16,left: 16),
               child: Form(
                   key: formKey,
                   child: SingleChildScrollView(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.stretch,
-                      children: buildInputs() + buildSubmitButtons(),
+                    child: Stack(
+                      children: <Widget>[
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.stretch,
+                          children: buildInputs(),
+                        ),
+                        Padding(
+                          padding: EdgeInsets.only(top:MediaQuery.of(context).size.height*0.7),
+                          child: Container(
+                            width: 400,
+                            child: Column(children: buildSubmitButtons()),
+                          ),
+                        ),
+                      ],
                     ),
                   )),
             ),
@@ -326,6 +338,7 @@ class _LogInState extends State<LogIn> {
         ),
         Container(
           height: 50,
+          width: MediaQuery.of(context).size.width*0.8,
           child: RaisedButton.icon(
             key: Key('logInButton'),
             shape:
@@ -358,6 +371,7 @@ class _LogInState extends State<LogIn> {
         ),
         Container(
           height: 50,
+          width: MediaQuery.of(context).size.width*0.8,
           child: RaisedButton.icon(
             shape:
                 RoundedRectangleBorder(borderRadius: BorderRadius.circular(18)),
@@ -366,8 +380,7 @@ class _LogInState extends State<LogIn> {
             elevation: 10,
             onPressed: validateAndSubmit,
             icon: Icon(Icons.create),
-            label: Text("Resgister",
-                key: ValueKey('registerButton')),
+            label: Text("Resgister", key: ValueKey('registerButton')),
           ),
         ),
         FlatButton(

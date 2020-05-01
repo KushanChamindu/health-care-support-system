@@ -88,7 +88,7 @@ class _LoadingState extends State<Loading> with SingleTickerProviderStateMixin {
         await widget.auth.setUserData(widget.user.uid, widget.user.Username,
             widget.user.Birthday, widget.user.bloodGroup);
         print("Registered user : ${userId}");
-        Navigator.pushReplacementNamed(context, '/home');
+        Navigator.pushReplacementNamed(context, '/onboard_screen');
         controller.stop();
       }
     } catch (e) {
