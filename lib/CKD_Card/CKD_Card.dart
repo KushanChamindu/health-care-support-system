@@ -2,8 +2,11 @@ import 'dart:ui';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:healthcaresupportsystem/Pages/Auth/Service/Auth.dart';
+import 'package:healthcaresupportsystem/Pages/Auth/UID.dart';
 
 class CKD_Cards extends StatefulWidget {
+  final BaseAuth auth=Auth();
   CKD_Cards();
   @override
   _CKD_CardsState createState() => _CKD_CardsState();
@@ -12,6 +15,7 @@ class CKD_Cards extends StatefulWidget {
 class _CKD_CardsState extends State<CKD_Cards> {
   @override
   bool viewVisible = false ;
+
   bool getVisible(){
     if(viewVisible==false){
       setState(() {
@@ -68,7 +72,7 @@ class _CKD_CardsState extends State<CKD_Cards> {
                         alignment: Alignment.centerLeft,
                         child: InkWell(
                           key: ValueKey('CKDdiscriptionButton'),
-                          onTap: (){
+                          onTap: ()async{
                             Navigator.pushNamed(context, '/CKD_discription');
                           },
                           child: Padding(
@@ -96,8 +100,9 @@ class _CKD_CardsState extends State<CKD_Cards> {
                         child:Align(
                           alignment: Alignment.centerRight,
                           child: InkWell(
-                            onTap: (){
-                              Navigator.pushNamed(context, '/CKD_message');
+                            onTap: ()async {
+                              String uid= await widget.auth.currentUser();
+                              Navigator.pushNamed(context, '/CKD_message',arguments:UID(uid: uid));
                             },
                             child: Row(
                               children: <Widget>[

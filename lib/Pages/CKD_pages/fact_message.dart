@@ -1,0 +1,64 @@
+import 'package:flutter/material.dart';
+
+class FactsMessage extends StatelessWidget {
+  FactsMessage({this.text, this.name, this.type, this.imageUrl});
+
+  final String text;
+  final String name;
+  final bool type;
+  final String imageUrl;
+
+  List<Widget> botMessage(context) {
+    return <Widget>[
+      Container(
+        margin: const EdgeInsets.only(right: 10.0),
+        child: CircleAvatar(radius:25,backgroundImage: AssetImage('assets/CKD_image/docProf.png'),),
+      ),
+      Expanded(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: <Widget>[
+            Text(this.name,
+                style: TextStyle(fontWeight: FontWeight.bold,fontSize: 16)),
+            Container(
+              margin: const EdgeInsets.only(top: 5.0),
+              child: Text(text,style: TextStyle(fontSize: 15),),
+            ),
+          ],
+        ),
+      ),
+    ];
+  }
+
+  List<Widget> userMessage(context) {
+    return <Widget>[
+      Expanded(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.end,
+          children: <Widget>[
+            Text(this.name, style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16)),
+            Container(
+              margin: const EdgeInsets.only(top: 5.0),
+              child: Text(text,style: TextStyle(fontSize: 15),),
+            ),
+          ],
+        ),
+      ),
+      Container(
+        margin: const EdgeInsets.only(left: 16.0),
+        child: CircleAvatar(radius: 25,backgroundImage: NetworkImage(imageUrl),),
+      ),
+    ];
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return new Container(
+      margin: const EdgeInsets.symmetric(vertical: 10.0),
+      child: new Row(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: this.type ? userMessage(context) : botMessage(context),
+      ),
+    );
+  }
+}

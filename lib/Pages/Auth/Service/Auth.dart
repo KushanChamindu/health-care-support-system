@@ -118,5 +118,4 @@ class Auth implements BaseAuth {
   Stream<QuerySnapshot> get user_data{
     return userData.snapshots();
   }
-
 }
