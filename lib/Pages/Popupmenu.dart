@@ -59,6 +59,7 @@ class _PopupmenuState extends State<Popupmenu> {
   @override
   Widget build(BuildContext context) {
     return PopupMenuButton<String>(
+      key: ValueKey('HomePopUpMenueButton'),
       onSelected: choiceAction,
       itemBuilder: (BuildContext context){
         return Constant.choice.map((String choice){
@@ -72,6 +73,7 @@ class _PopupmenuState extends State<Popupmenu> {
 
           }else if(choice=='SignOut'){
             return PopupMenuItem(
+              key: ValueKey("homeSignoutButton"),
                 value: choice,
                 child: Row(children: <Widget>[Padding(
                   padding: const EdgeInsets.all(8.0),

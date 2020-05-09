@@ -64,6 +64,7 @@ class _CKD_messageState extends State<CKD_message> {
     );
   }
 }
+
 class MessagePageBody extends StatefulWidget {
   final String uid;
   final BaseAuth auth;
@@ -92,7 +93,6 @@ class _MessagePageBodyState extends State<MessagePageBody> {
         Dialogflow dialogFlow =
         Dialogflow(authGoogle: authGoogle, language: Language.english);
         AIResponse response = await dialogFlow.detectIntent(query);
-
         FactsMessage message = FactsMessage(
           text: response.getMessage() ??
               CardDialogflow(response.getListMessage()[0]).title,
@@ -102,6 +102,12 @@ class _MessagePageBodyState extends State<MessagePageBody> {
         setState(() {
           _messages.insert(0, message);
         });
+        if(response.getMessage()!=null && response.getMessage().length>21){
+          if(response.getMessage().substring(0,20)=='Don\'t worry you have'){
+            widget.auth.setCKDPrediction(widget.uid,double.parse(response.getMessage().split(' ')[4].split('%')[0]));
+          }
+        }
+
       }
       void _submitQuery(String text) {
         _textController.clear();
@@ -127,7 +133,7 @@ class _MessagePageBodyState extends State<MessagePageBody> {
                     padding: const EdgeInsets.only(left:8.0),
                     child: TextField(
                       controller: _textController,
-//                onSubmitted: _submitQuery,
+                      onSubmitted: _submitQuery,
                       decoration: InputDecoration.collapsed(hintText: ("Send a message")),
                     ),
                   ),

@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class FactsMessage extends StatelessWidget {
@@ -19,10 +20,10 @@ class FactsMessage extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
             Text(this.name,
-                style: TextStyle(fontWeight: FontWeight.bold,fontSize: 16)),
+                style: TextStyle(fontWeight: FontWeight.bold,fontSize: 16,)),
             Container(
               margin: const EdgeInsets.only(top: 5.0),
-              child: Text(text,style: TextStyle(fontSize: 15),),
+              child: Text(text,style: TextStyle(fontSize: 15,letterSpacing: 0.5,fontWeight: FontWeight.w400),),
             ),
           ],
         ),
@@ -39,7 +40,7 @@ class FactsMessage extends StatelessWidget {
             Text(this.name, style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16)),
             Container(
               margin: const EdgeInsets.only(top: 5.0),
-              child: Text(text,style: TextStyle(fontSize: 15),),
+              child: Text(text,textAlign: TextAlign.end,style: TextStyle(fontSize: 15,letterSpacing: 1,fontWeight: FontWeight.w400),),
             ),
           ],
         ),

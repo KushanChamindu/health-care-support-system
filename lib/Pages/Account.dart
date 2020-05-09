@@ -209,8 +209,7 @@ class _AccountState extends State<Account> {
           ),
           body: AccountBody(
             uid: args.uid,
-          )
-      ),
+          )),
     );
   }
 }
@@ -243,22 +242,22 @@ class _AccountBodyState extends State<AccountBody> {
   @override
   Widget build(BuildContext context) {
     Future getImage() async {
-      try{
+      try {
         var image = await ImagePicker.pickImage(source: ImageSource.gallery);
         setState(() {
           _image = image;
           print('Path of image: $_image');
         });
-      }catch(e){
+      } catch (e) {
         print("Access deny!!!! ");
       }
     }
 
     Future uploadImage(BuildContext context) async {
-      if(_image!=null){
+      if (_image != null) {
         String filename = basename(_image.path);
         StorageReference firebaseStorageRef =
-        FirebaseStorage.instance.ref().child(filename);
+            FirebaseStorage.instance.ref().child(filename);
         StorageUploadTask uploadTask = firebaseStorageRef.putFile(_image);
         StorageTaskSnapshot takeSnapshot = await uploadTask.onComplete;
         String _downloadURL = await takeSnapshot.ref.getDownloadURL();
@@ -318,7 +317,10 @@ class _AccountBodyState extends State<AccountBody> {
       }
 
       createAlertDialog(BuildContext context) {
-        final TextEditingController _controller = new TextEditingController(text: (userData['bloodGroup']!=null)?userData['bloodGroup'] : 'Loading..' );
+        final TextEditingController _controller = new TextEditingController(
+            text: (userData['bloodGroup'] != null)
+                ? userData['bloodGroup']
+                : 'Loading..');
         List<String> blood_groups = [
           'O−',
           'O+',
@@ -347,7 +349,8 @@ class _AccountBodyState extends State<AccountBody> {
                               : 'Loading...',
                           decoration: InputDecoration(labelText: 'User name'),
                           // ignore: missing_return
-                          validator:(value)=> ValidationForm.usernameValidate(value),
+                          validator: (value) =>
+                              ValidationForm.usernameValidate(value),
                           onSaved: (value) => Username = value,
                         ),
                         Column(children: <Widget>[
@@ -377,7 +380,8 @@ class _AccountBodyState extends State<AccountBody> {
                                 : Text('Loading...'),
                             onSaved: (value) => Birthday = value,
                             // ignore: missing_return
-                            validator: (value) => ValidationForm.dateValidate(value),
+                            validator: (value) =>
+                                ValidationForm.dateValidate(value),
                             decoration: InputDecoration(labelText: 'Birthday'),
                             format: format,
                             onShowPicker: (context, currentValue) {
@@ -390,8 +394,9 @@ class _AccountBodyState extends State<AccountBody> {
                           ),
                         ]),
                         TextFormField(
-                         //_controller.text=userData['bloodGroup']
-                          validator: (value)=>ValidationForm.bloodValidate(value),
+                          //_controller.text=userData['bloodGroup']
+                          validator: (value) =>
+                              ValidationForm.bloodValidate(value),
                           onSaved: (value) => bloodGroup = value,
                           controller: _controller,
                           decoration: InputDecoration(
@@ -563,7 +568,7 @@ class _AccountBodyState extends State<AccountBody> {
                         Center(
                           child: Text(
                             (userData['Username'] != null)
-                                ?  '${userData['Username']}'
+                                ? '${userData['Username']}'
                                 : 'Loading...',
                             textAlign: TextAlign.center,
                             style: TextStyle(
@@ -637,7 +642,7 @@ class _AccountBodyState extends State<AccountBody> {
                                           padding: const EdgeInsets.fromLTRB(
                                               14, 0, 8, 8),
                                           child: Text(
-                                            'Percentage: ${userData['CKD'] == null ? 'Not predicted yet' : userData['CKD']}',
+                                            'Predicted Percentage: ${userData['CKD'] == null ? 'Not predicted yet' : '${userData['CKD'].split('_')[0]}%'}',
                                             style: TextStyle(fontSize: 15),
                                           ),
                                         ),
@@ -645,7 +650,14 @@ class _AccountBodyState extends State<AccountBody> {
                                           padding: const EdgeInsets.fromLTRB(
                                               14, 0, 8, 8),
                                           child: Text(
-                                              'Precautions according to precentage : ${''}',
+                                              'Predict date : ${userData['CKD'].split('_')[1].split('T')[0]}',
+                                              style: TextStyle(fontSize: 15)),
+                                        ),
+                                        Padding(
+                                          padding: const EdgeInsets.fromLTRB(
+                                              14, 0, 8, 8),
+                                          child: Text(
+                                              'Predict time : ${userData['CKD'].split('_')[1].split('T')[1].split(':')[0]}:${userData['CKD'].split('_')[1].split('T')[1].split(':')[1]}',
                                               style: TextStyle(fontSize: 15)),
                                         ),
                                       ],

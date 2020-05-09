@@ -15,10 +15,7 @@ abstract class BaseAuth {
   Future updateAccountDetails(
       String uid, String Username, String bloodGroup, DateTime Birthday);
   Future setUserImageDetails(String uid, String ImageURL);
-//  Future<void> updateWaterTimer(String uid, DateTime startTime,DateTime finishedTime,int goal);
-//  Future<void> updateIsAlarm (String uid, bool isAlermOn);
-//  // ignore: missing_return
-//  Stream<QuerySnapshot> get waterNotificationData;
+  Future setCKDPrediction(String uid, double percentage);
 }
 
 class Auth implements BaseAuth {
@@ -52,7 +49,12 @@ class Auth implements BaseAuth {
   Future<void> singOut() async {
     return FirebaseAuth.instance.signOut();
   }
-
+  Future setCKDPrediction(String uid, double percentage)async{
+    DateTime date= DateTime.now();
+    await userData.document(uid).updateData({
+      'CKD':'${percentage.toString()}_${date.toIso8601String()}'
+    });
+  }
   Future setUserData(
       String uid, String Username, DateTime Birthday, String bloodGroup) async {
     print("in updateUserData function ${uid}");

@@ -63,6 +63,12 @@ class MockAuth implements BaseAuth {
   @override
   Stream<QuerySnapshot> get user_data => null;
 
+  @override
+  Future setCKDPrediction(String uid, double percentage) {
+    // TODO: implement setCKDPrediction
+    return null;
+  }
+
 }
 
 MockFirebaseAuth _auth = MockFirebaseAuth();
@@ -71,7 +77,7 @@ MockFirestore Mockfirestore= MockFirestore();
 final MockAuth authClass = MockAuth();
 void main() {
 
-  group('logIn validation test', () {
+   group('logIn validation test', () {
 
 
     test('title', () {
@@ -145,8 +151,7 @@ void main() {
       expect(result, 'Not Match with password');
     });
   });
-
-  group('test Firbase methodes', () {
+   group('test Firbase methodes', () {
     when(_auth.signInWithEmailAndPassword(email: "email", password: "password"))
         .thenAnswer((_) async {
       _user.add(MockFirebaseUser());
@@ -203,3 +208,4 @@ void main() {
     });
   });
 }
+//TODO: do some test unit,widget and driver also
