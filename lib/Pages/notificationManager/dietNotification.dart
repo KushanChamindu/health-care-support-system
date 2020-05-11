@@ -101,7 +101,6 @@ class _DietNotificationBodyState extends State<DietNotificationBody> {
   DateTime breakfast;
   DateTime lunch;
   DateTime dinner;
-  bool alermToggle = true;
   FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
       new FlutterLocalNotificationsPlugin();
   var initializationSettingAndroid;
@@ -194,6 +193,7 @@ class _DietNotificationBodyState extends State<DietNotificationBody> {
       var dietData = dietNotificationData.documents
           .firstWhere((doc) => doc.documentID == '${widget.uid}')
           .data;
+      bool alermToggle = dietData['IsAlermOn'] || false;
       final TextEditingController _breakfastController =
           new TextEditingController(
               text: (dietData['breakfast'] != null)
