@@ -22,6 +22,8 @@ abstract class BaseAuth {
 class Auth implements BaseAuth {
   final CollectionReference waterNotification =
   Firestore.instance.collection('waterNotification');
+  final CollectionReference dietNotification =
+  Firestore.instance.collection('dietNotification');
   Future<String> signInWithEmailAndPassword(
       String email, String password) async {
     AuthResult result = await FirebaseAuth.instance
@@ -89,6 +91,12 @@ class Auth implements BaseAuth {
       'isAlermOn':false,
       'goal':1000,
       'isReset':true,
+    });
+    await dietNotification.document(uid).setData({
+      'breakfast':null,
+      'lunchtime':null,
+      'dinnertime':null,
+      'IsAlermOn':false
     });
   }
 //  static List days=['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];

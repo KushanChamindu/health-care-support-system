@@ -3,7 +3,7 @@ import 'package:datetime_picker_formfield/datetime_picker_formfield.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:healthcaresupportsystem/Pages/Auth/UID.dart';
-import 'package:healthcaresupportsystem/Pages/validation/ValidationForm.dart';
+import 'package:healthcaresupportsystem/Pages/validation/ValidationForm_userForms.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'Auth/Service/Auth.dart';
@@ -350,7 +350,7 @@ class _AccountBodyState extends State<AccountBody> {
                           decoration: InputDecoration(labelText: 'User name'),
                           // ignore: missing_return
                           validator: (value) =>
-                              ValidationForm.usernameValidate(value),
+                              ValidationForm_userForms.usernameValidate(value),
                           onSaved: (value) => Username = value,
                         ),
                         Column(children: <Widget>[
@@ -381,7 +381,7 @@ class _AccountBodyState extends State<AccountBody> {
                             onSaved: (value) => Birthday = value,
                             // ignore: missing_return
                             validator: (value) =>
-                                ValidationForm.dateValidate(value),
+                                ValidationForm_userForms.dateValidate(value),
                             decoration: InputDecoration(labelText: 'Birthday'),
                             format: format,
                             onShowPicker: (context, currentValue) {
@@ -396,7 +396,7 @@ class _AccountBodyState extends State<AccountBody> {
                         TextFormField(
                           //_controller.text=userData['bloodGroup']
                           validator: (value) =>
-                              ValidationForm.bloodValidate(value),
+                              ValidationForm_userForms.bloodValidate(value),
                           onSaved: (value) => bloodGroup = value,
                           controller: _controller,
                           decoration: InputDecoration(

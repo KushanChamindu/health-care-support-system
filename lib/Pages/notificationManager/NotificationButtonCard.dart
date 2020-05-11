@@ -3,13 +3,13 @@ import 'package:flutter_swiper/flutter_swiper.dart';
 import 'package:healthcaresupportsystem/Pages/Auth/Service/Auth.dart';
 import 'package:healthcaresupportsystem/Pages/Auth/UID.dart';
 
-class waterButtonCard extends StatefulWidget {
+class NotificationButtonCard extends StatefulWidget {
   final BaseAuth auth=Auth();
   @override
-  _waterButtonCardState createState() => _waterButtonCardState();
+  _NotificationButtonCardState createState() => _NotificationButtonCardState();
 }
 
-class _waterButtonCardState extends State<waterButtonCard> {
+class _NotificationButtonCardState extends State<NotificationButtonCard> {
   @override
   Widget build(BuildContext context) {
     return ConstrainedBox(

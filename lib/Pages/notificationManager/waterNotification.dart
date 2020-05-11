@@ -5,7 +5,8 @@ import 'package:flutter/rendering.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_swiper/flutter_swiper.dart';
 import 'package:healthcaresupportsystem/Pages/Auth/Service/NotificationService.dart';
-import 'package:healthcaresupportsystem/Pages/validation/ValidationForm.dart';
+import 'package:healthcaresupportsystem/Pages/validation/ValidationForm_userForms.dart';
+import 'package:healthcaresupportsystem/Pages/validation/Validation_of_Form_waternotification.dart';
 import 'package:intl/intl.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
@@ -36,7 +37,6 @@ class _WaterNotificationState extends State<WaterNotification> {
   @override
   Widget build(BuildContext context) {
     final UID args = ModalRoute.of(context).settings.arguments;
-
     return StreamProvider<QuerySnapshot>.value(
         value: widget.notificationService.waterNotificationData,
         child: Scaffold(
@@ -397,9 +397,9 @@ class _WaterNotificationBodyState extends State<WaterNotificationBody> {
                     changeVIsibility();
                   },
                 ),
-                body: Scaffold(
-                    backgroundColor: Colors.blueAccent,
-                    body: Stack(
+                body: Container(
+                    color: Colors.blueAccent,
+                    child: Stack(
                       children: <Widget>[
                         AnimatedContainer(
                           transform: visibility
@@ -465,7 +465,7 @@ class _WaterNotificationBodyState extends State<WaterNotificationBody> {
                                               children: <Widget>[
                                                 AnimatedPositioned(
                                                   duration: Duration(
-                                                      milliseconds: 400),
+                                                      milliseconds: 200),
                                                   curve: Curves.easeIn,
                                                   top: 3.0,
                                                   left:
@@ -491,7 +491,7 @@ class _WaterNotificationBodyState extends State<WaterNotificationBody> {
                                                       },
                                                       child: AnimatedSwitcher(
                                                         duration: Duration(
-                                                            milliseconds: 400),
+                                                            milliseconds: 100),
                                                         transitionBuilder:
                                                             (Widget child,
                                                                 Animation<
@@ -557,7 +557,7 @@ class _WaterNotificationBodyState extends State<WaterNotificationBody> {
                                               autovalidate:
                                                   true, //startTime =value,
                                               validator: (value) =>
-                                                  ValidationForm
+                                                  ValidationOfFormWater
                                                       .StartimeValidation(value,
                                                           _endController),
                                               readOnly: true,
@@ -629,7 +629,7 @@ class _WaterNotificationBodyState extends State<WaterNotificationBody> {
                                                           value.split(':')[1])),
                                               autovalidate: true,
                                               validator: (value) =>
-                                                  ValidationForm
+                                                  ValidationOfFormWater
                                                       .EndtimeValidation(value,
                                                           _startController),
                                               readOnly: true,
@@ -697,7 +697,7 @@ class _WaterNotificationBodyState extends State<WaterNotificationBody> {
                                                     .digitsOnly
                                               ],
                                               validator: (value) =>
-                                                  ValidationForm
+                                                  ValidationOfFormWater
                                                       .waterGoalValidation(
                                                           value),
                                               onSaved: (value) =>
@@ -897,7 +897,7 @@ class _WaterNotificationBodyState extends State<WaterNotificationBody> {
                                                           .digitsOnly
                                                     ],
                                                     validator: (value) =>
-                                                        ValidationForm
+                                                        ValidationOfFormWater
                                                             .drinkWaterValidation(
                                                                 value),
                                                     onSaved: (value) =>

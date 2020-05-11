@@ -5,6 +5,8 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 class NotificationService{
   final CollectionReference waterNotification =
   Firestore.instance.collection('waterNotification');
+  final CollectionReference dietNotification =
+  Firestore.instance.collection('dietNotification');
   DateTime getAboveSunday(){
     var today = DateTime(DateTime.now().year,DateTime.now().month,DateTime.now().day);
     print(today.weekday);
@@ -68,9 +70,26 @@ class NotificationService{
       'sunday ':0,
     });
   }
+
   Future<void> setResetVariable(String uid)async{
     await waterNotification.document(uid).updateData({
       'isReset':true,
     });
+  }
+
+  Future<void> dietAlerm(String uid,bool isAlarmOn)async{
+    await dietNotification.document(uid).updateData({
+      'IsAlermOn':isAlarmOn,
+    });
+  }
+  Future<void> updateDietTimes(String uid, DateTime breakfastTime,DateTime lunchTime,DateTime dinnerTime)async{
+    await dietNotification.document(uid).updateData({
+      'breakfast':breakfastTime,
+      'lunchtime':lunchTime,
+      'dinnertime':dinnerTime
+    });
+  }
+  Stream<QuerySnapshot> get dietNotificationStream{
+    return dietNotification.snapshots();
   }
 }

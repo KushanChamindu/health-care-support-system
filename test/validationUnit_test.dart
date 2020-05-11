@@ -2,7 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:healthcaresupportsystem/Pages/Auth/Service/Auth.dart';
-import 'package:healthcaresupportsystem/Pages/validation/ValidationForm.dart';
+import 'package:healthcaresupportsystem/Pages/validation/ValidationForm_userForms.dart';
 import 'package:mockito/mockito.dart';
 import 'package:rxdart/rxdart.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -92,50 +92,50 @@ void main() {
       // verify
     });
     test('Email should not be emplty', () {
-      var result = ValidationForm.emailValidate('');
+      var result = ValidationForm_userForms.emailValidate('');
       expect(result, 'Email con\'t be empty');
     });
     test('non-Empty email return null', () {
-      var result = ValidationForm.emailValidate('email@email.com');
+      var result = ValidationForm_userForms.emailValidate('email@email.com');
       expect(result, null);
     });
     test('Password should not be emplty', () {
-      var result = ValidationForm.passwordValidate('');
+      var result = ValidationForm_userForms.passwordValidate('');
       expect(result, 'Password con\'t be empty');
     });
     test('non-Empty password return null', () {
-      var result = ValidationForm.passwordValidate('asdkjasbk');
+      var result = ValidationForm_userForms.passwordValidate('asdkjasbk');
       expect(result, null);
     });
     test('Non-empty date return null', () {
-      var result = ValidationForm.dateValidate(DateTime(0));
+      var result = ValidationForm_userForms.dateValidate(DateTime(0));
       expect(result, null);
     });
     test('non-Empty age shoud more than 10 years', () {
-      var result = ValidationForm.dateValidate(DateTime.now());
+      var result = ValidationForm_userForms.dateValidate(DateTime.now());
       expect(result, 'Your age should be more than 10 years');
     });
     test('Date should not emplty', () {
-      var result = ValidationForm.dateValidate(null);
+      var result = ValidationForm_userForms.dateValidate(null);
       expect(result, 'Birthday is required');
     });
     test('Blood group should not be emplty', () {
-      var result = ValidationForm.bloodValidate('');
+      var result = ValidationForm_userForms.bloodValidate('');
       expect(result, 'Blood group con\'t be empty');
     });
     test('Blood group should correct as define', () {
-      var result = ValidationForm.bloodValidate('Z+');
+      var result = ValidationForm_userForms.bloodValidate('Z+');
       expect(result,
           'Blood group should be one of thses: O−	O+	A−	A+	B−	B+	AB−	AB+');
     });
     test('Correct blodd goup rreturn null', () {
-      var result = ValidationForm.bloodValidate('A+');
+      var result = ValidationForm_userForms.bloodValidate('A+');
       expect(result, null);
     });
     test('Confirm password should not be empty', () {
       final TextEditingController _passwordController =
           TextEditingController(text: 'kushan');
-      var result = ValidationForm.confirmPassValidate('', _passwordController);
+      var result = ValidationForm_userForms.confirmPassValidate('', _passwordController);
       expect(result, 'Password con\'t be empty');
     });
     test(
@@ -144,7 +144,7 @@ void main() {
       final TextEditingController _passwordController =
           TextEditingController(text: 'kushan');
       var result =
-          ValidationForm.confirmPassValidate('kushan', _passwordController);
+          ValidationForm_userForms.confirmPassValidate('kushan', _passwordController);
       expect(result, null);
     });
     test(
@@ -153,7 +153,7 @@ void main() {
       final TextEditingController _passwordController =
           TextEditingController(text: 'kushan');
       var result =
-          ValidationForm.confirmPassValidate('kshan', _passwordController);
+          ValidationForm_userForms.confirmPassValidate('kshan', _passwordController);
       expect(result, 'Not Match with password');
     });
   });

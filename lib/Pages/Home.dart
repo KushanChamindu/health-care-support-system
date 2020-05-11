@@ -42,7 +42,7 @@ class Home extends StatelessWidget {
                       margin:EdgeInsets.all(8.0),
                       child:Column(
                         children: <Widget>[
-                          waterButtonCard(),
+                          NotificationButtonCard(),
                           CKD_Cards(),
                           BC_Cards(),
                         ],

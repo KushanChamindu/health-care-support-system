@@ -5,7 +5,7 @@ import 'package:healthcaresupportsystem/Pages/Auth/Service/Auth.dart';
 import 'package:healthcaresupportsystem/Pages/Auth/User.dart';
 import 'package:healthcaresupportsystem/Pages/Loading.dart';
 import 'package:datetime_picker_formfield/datetime_picker_formfield.dart';
-import 'package:healthcaresupportsystem/Pages/validation/ValidationForm.dart';
+import 'package:healthcaresupportsystem/Pages/validation/ValidationForm_userForms.dart';
 import 'package:intl/intl.dart';
 
 ///test@test.com    test1234
@@ -116,7 +116,7 @@ class _LogInState extends State<LogIn> {
                 focusedBorder: OutlineInputBorder(
                     borderRadius: BorderRadius.all(Radius.circular(4)),
                     borderSide: BorderSide(width: 1, color: Colors.blue))),
-            validator: (value) => ValidationForm.emailValidate(value),
+            validator: (value) => ValidationForm_userForms.emailValidate(value),
             onSaved: (value) => _email = value,
           ),
           SizedBox(
@@ -131,7 +131,7 @@ class _LogInState extends State<LogIn> {
                 labelText: 'Password',
                 hintText: 'Input Password',
                 prefixIcon: Icon(Icons.lock)),
-            validator: (value) => ValidationForm.passwordValidate(value),
+            validator: (value) => ValidationForm_userForms.passwordValidate(value),
             obscureText: true,
             onSaved: (value) => _password = value,
           ),
@@ -147,7 +147,7 @@ class _LogInState extends State<LogIn> {
                 focusedBorder: OutlineInputBorder(
                     borderRadius: BorderRadius.all(Radius.circular(4)),
                     borderSide: BorderSide(width: 1, color: Colors.blue))),
-            validator: (value) => ValidationForm.usernameValidate(value),
+            validator: (value) => ValidationForm_userForms.usernameValidate(value),
             onSaved: (value) => Username = value,
           ),
           SizedBox(
@@ -162,7 +162,7 @@ class _LogInState extends State<LogIn> {
                 focusedBorder: OutlineInputBorder(
                     borderRadius: BorderRadius.all(Radius.circular(4)),
                     borderSide: BorderSide(width: 1, color: Colors.blue))),
-            validator: (value) => ValidationForm.emailValidate(value),
+            validator: (value) => ValidationForm_userForms.emailValidate(value),
             onSaved: (value) => _email = value,
           ),
           SizedBox(
@@ -173,7 +173,7 @@ class _LogInState extends State<LogIn> {
             DateTimeField(
               key: ValueKey('registerDateTimeField'),
               onSaved: (value) => Birthday = value,
-              validator: (value) => ValidationForm.dateValidate(value),
+              validator: (value) => ValidationForm_userForms.dateValidate(value),
               decoration: InputDecoration(
                   labelText: 'Birthday',
                   hintText: 'Input birthday',
@@ -196,7 +196,7 @@ class _LogInState extends State<LogIn> {
           ),
           TextFormField(
             key: ValueKey('registerBloodGroupField'),
-            validator: (value) => ValidationForm.bloodValidate(value),
+            validator: (value) => ValidationForm_userForms.bloodValidate(value),
             onSaved: (value) => bloodGroup = value,
             controller: _controller,
             decoration: InputDecoration(
@@ -234,7 +234,7 @@ class _LogInState extends State<LogIn> {
                 labelText: 'Password',
                 hintText: 'Input Password',
                 prefixIcon: Icon(Icons.lock)),
-            validator: (value) => ValidationForm.passwordValidate(value),
+            validator: (value) => ValidationForm_userForms.passwordValidate(value),
             obscureText: true,
             onSaved: (value) => _password = value,
           ),
@@ -252,7 +252,7 @@ class _LogInState extends State<LogIn> {
                 hintText: 'Input same password',
                 prefixIcon: Icon(Icons.lock)),
             validator: (value) =>
-                ValidationForm.confirmPassValidate(value, _passwordController),
+                ValidationForm_userForms.confirmPassValidate(value, _passwordController),
             obscureText: true,
           ),
         ];
