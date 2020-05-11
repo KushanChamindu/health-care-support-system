@@ -2,15 +2,18 @@ import 'dart:ui';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:healthcaresupportsystem/Pages/Auth/Service/Auth.dart';
+import 'package:healthcaresupportsystem/Pages/Auth/UID.dart';
 
 class BC_Cards extends StatefulWidget {
+  final BaseAuth auth=Auth();
   BC_Cards();
   @override
   _BC_CardsState createState() => _BC_CardsState();
 }
 
 class _BC_CardsState extends State<BC_Cards> {
-  @override
+
   bool viewVisible = false ;
   bool getVisible(){
     if(viewVisible==false){
@@ -23,7 +26,7 @@ class _BC_CardsState extends State<BC_Cards> {
       });
     }
   }
-
+  @override
   Widget build(BuildContext context) {
     return Card(
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(8.0))),
@@ -94,8 +97,9 @@ class _BC_CardsState extends State<BC_Cards> {
                       child:Align(
                         alignment: Alignment.centerRight,
                         child: InkWell(
-                          onTap: (){
-                            Navigator.pushNamed(context, '/CKD_message');
+                          onTap: ()async{
+                            String uid= await widget.auth.currentUser();
+                            Navigator.pushNamed(context, '/bc_prediction', arguments:UID(uid: uid));
                           },
                           child: Row(
                             children: <Widget>[
@@ -108,7 +112,7 @@ class _BC_CardsState extends State<BC_Cards> {
                                 ),
                               ),
                               Text(
-                                'Doctor',
+                                'Prediction',
                                 style: TextStyle(
                                     fontWeight: FontWeight.w500,
                                     fontSize: 16

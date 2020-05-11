@@ -69,6 +69,12 @@ class MockAuth implements BaseAuth {
     return null;
   }
 
+  @override
+  Future setBreastCancerPrediction(String uid, double percentage) {
+    // TODO: implement setBreastCancerPrediction
+    return null;
+  }
+
 }
 
 MockFirebaseAuth _auth = MockFirebaseAuth();

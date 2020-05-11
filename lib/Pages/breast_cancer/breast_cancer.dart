@@ -1,8 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:healthcaresupportsystem/Pages/Auth/Service/Auth.dart';
-import 'package:healthcaresupportsystem/Pages/Auth/UID.dart';
-import 'package:healthcaresupportsystem/Pages/CKD_pages/Constant.dart';
-
 import '../Popupmenu.dart';
 
 
@@ -36,7 +33,6 @@ class _BrestCancerState extends State<BrestCancer> {
                       ),
                     ),
                   ),
-                  
                 ],
               ),
             ),
@@ -68,6 +64,47 @@ class _BrestCancerState extends State<BrestCancer> {
         softWrap: true,  
       ),
     );
+    Widget textQuate = Container(
+      padding: const EdgeInsets.fromLTRB(16, 0, 16, 16),
+      child: Row(
+          children: [
+            Expanded(
+              /*1*/
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  /*2*/
+                  Container(
+                    padding: const EdgeInsets.only(bottom: 0),
+                    child: Text(
+                      '"Breast cancer doesn’t run in my family; it sprints.'
+                      'Now it was my turn, and I was determined to defeat this.'
+                       'I couldn’t change that I had cancer, but I could decide how to go after it."',
+                      style: TextStyle(
+                        fontWeight: FontWeight.w500,
+                        fontSize: 20.0,
+                        fontFamily: 'KaushanScript',
+                      ),
+                    ),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.fromLTRB(0.0, 8.0, 0.0, 0.0),
+                    child: Text(
+                        'Jessica Baladad'
+                          '(Breast Cancer Survivor and NBCF Supporter)',
+                        style: TextStyle(
+                          fontWeight: FontWeight.w100,
+                          fontSize: 16.0,
+                          fontFamily: 'KaushanScript',
+                        ),
+                      ),
+                  ),
+                ],
+              ),
+            ),
+          ],
+        ),
+    );
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.blueAccent,
@@ -95,6 +132,7 @@ class _BrestCancerState extends State<BrestCancer> {
           ),
           titleSection,
           textSection,
+          textQuate,
           buttonSection,
           
         ],
@@ -130,8 +168,7 @@ class _BrestCancerState extends State<BrestCancer> {
               ],
               ),
             ),
-//            backgroundColor: Colors.blueAccent,
-            color: Colors.blueAccent,
+            color: Colors.lightBlueAccent,
             ),
         ),
       ],

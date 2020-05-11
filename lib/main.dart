@@ -18,6 +18,10 @@ import 'Pages/CKD_pages/CKD_message.dart';
 import 'Pages/CKD_pages/CKD_discription.dart';
 import 'Pages/SplashScreen.dart';
 import 'Pages/breast_cancer/breast_cancer.dart';
+import 'Pages/breast_cancer/prediction/b_result.dart';
+import 'Pages/breast_cancer/prediction/breast_cancer_prediction.dart';
+import 'Pages/breast_cancer/prediction/g_result.dart';
+import 'Pages/breast_cancer/prediction/prediction_help.dart';
 
 void main() => runApp(MaterialApp(
       routes: {
@@ -40,6 +44,10 @@ void main() => runApp(MaterialApp(
         '/bc_symptoms':(context)=>BC_Symptoms(),
         '/bc_solutions':(context)=>BC_Solutions(),
         '/bc_more':(context)=>BC_More(),
+        '/bc_prediction':(context)=>BreastCancerPrediction(),
+        '/gresult':(context)=>Gresult(),
+        '/bresult':(context)=>Bresult(),
+        '/predictionhelp':(context)=>PredictionHelp(),
 
       },
     ));
