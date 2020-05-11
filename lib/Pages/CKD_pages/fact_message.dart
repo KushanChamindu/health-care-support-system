@@ -13,17 +13,29 @@ class FactsMessage extends StatelessWidget {
     return <Widget>[
       Container(
         margin: const EdgeInsets.only(right: 10.0),
-        child: CircleAvatar(radius:25,backgroundImage: AssetImage('assets/CKD_image/docProf.png'),),
+        child: CircleAvatar(
+          radius: 25,
+          backgroundImage: AssetImage('assets/CKD_image/docProf.png'),
+        ),
       ),
       Expanded(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
             Text(this.name,
-                style: TextStyle(fontWeight: FontWeight.bold,fontSize: 16,)),
+                style: TextStyle(
+                  fontWeight: FontWeight.bold,
+                  fontSize: 16,
+                )),
             Container(
               margin: const EdgeInsets.only(top: 5.0),
-              child: Text(text,style: TextStyle(fontSize: 15,letterSpacing: 0.5,fontWeight: FontWeight.w400),),
+              child: Text(
+                text,
+                style: TextStyle(
+                    fontSize: 15,
+                    letterSpacing: 0.5,
+                    fontWeight: FontWeight.w400),
+              ),
             ),
           ],
         ),
@@ -37,17 +49,33 @@ class FactsMessage extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.end,
           children: <Widget>[
-            Text(this.name, style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16)),
+            Text(this.name,
+                style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16)),
             Container(
               margin: const EdgeInsets.only(top: 5.0),
-              child: Text(text,textAlign: TextAlign.end,style: TextStyle(fontSize: 15,letterSpacing: 1,fontWeight: FontWeight.w400),),
+              child: Text(
+                text,
+                textAlign: TextAlign.end,
+                style: TextStyle(
+                    fontSize: 15,
+                    letterSpacing: 1,
+                    fontWeight: FontWeight.w400),
+              ),
             ),
           ],
         ),
       ),
       Container(
         margin: const EdgeInsets.only(left: 16.0),
-        child: CircleAvatar(radius: 25,backgroundImage: NetworkImage(imageUrl),),
+        child: imageUrl != null
+            ? CircleAvatar(
+                radius: 25,
+                backgroundImage: NetworkImage(imageUrl),
+              )
+            : CircleAvatar(
+                radius: 25,
+                child: Text(this.name[0], style: TextStyle(fontSize: 22),),
+              ),
       ),
     ];
   }
