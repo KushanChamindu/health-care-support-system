@@ -75,6 +75,12 @@ class MockAuth implements BaseAuth {
     return null;
   }
 
+  @override
+  Future sendPasswordResetEmail(String email) {
+    // TODO: implement sendPasswordResetEmail
+    return null;
+  }
+
 }
 
 MockFirebaseAuth _auth = MockFirebaseAuth();

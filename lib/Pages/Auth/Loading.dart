@@ -247,10 +247,13 @@ class _LoadingState extends State<Loading> with SingleTickerProviderStateMixin {
                     ),
                     actions: <Widget>[
                       CupertinoButton(
-                          child: Text("Ok",key: Key('error_box_ok_button'),),
-                          onPressed: () {
-                            Navigator.pushReplacementNamed(context, '/');
-                          },
+                        child: Text("Ok", key: Key('error_box_ok_button'),),
+                        onPressed: () {
+                          widget.user == null ? Navigator.pushReplacementNamed(
+                              context, '/login', arguments:{'config':'login',"email":widget.email,"password":widget.passwaord,"user":null}) :
+                          Navigator.pushReplacementNamed(
+                              context, '/login', arguments:{'config':'register',"email":widget.email,"password":widget.passwaord,"user":widget.user});
+                        },
                       ),
                     ],
                   )),

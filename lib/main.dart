@@ -16,7 +16,7 @@ import 'package:healthcaresupportsystem/Pages/notificationManager/waterNotificat
 import 'Pages/Auth/LogIn.dart';
 import 'Pages/CKD_pages/CKD_message.dart';
 import 'Pages/CKD_pages/CKD_discription.dart';
-import 'Pages/SplashScreen.dart';
+import 'Pages/Auth/SplashScreen.dart';
 import 'Pages/breast_cancer/breast_cancer.dart';
 import 'Pages/breast_cancer/prediction/b_result.dart';
 import 'Pages/breast_cancer/prediction/breast_cancer_prediction.dart';
