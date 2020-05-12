@@ -300,7 +300,7 @@ class _DietNotificationBodyState extends State<DietNotificationBody> {
           body: Container(
             decoration: BoxDecoration(
               image: DecorationImage(
-                image: AssetImage("assets/NotificationManager/alarm.png",),
+                image: AssetImage("assets/NotificationManager/backgroundDietpalan.png",),
                 fit: BoxFit.fill,
               ),),
             child: Padding(

@@ -4,9 +4,10 @@ import 'package:flutter/cupertino.dart';
 class ValidationOfFormDiet{
   static String BreakFastValidation(
       String value, TextEditingController _lunchController,TextEditingController _dinnerController) {
-    if (value == null) {
+    if (value == null || value == '0' ) {
       return 'Time is required';
-    } else if (!DateTime(
+    }
+    else if (!DateTime(
         DateTime.now().year,
         DateTime.now().month,
         DateTime.now().day,
@@ -31,13 +32,13 @@ class ValidationOfFormDiet{
         DateTime.now().day,
         int.parse(_dinnerController.text.split(':')[0]),
         int.parse(_dinnerController.text.split(':')[1])))) {
-      return 'BreakFasr time should be before dinner time';
+      return 'BreakFast time should be before dinner time';
     }
   }
 
   static String LunchValidation(
       String value, TextEditingController _breakfastController,TextEditingController _dinnerController) {
-    if (value == null) {
+    if (value == null || value == '0' ) {
       return 'Time is required';
     } else if (! DateTime(
         DateTime.now().year,
@@ -67,9 +68,10 @@ class ValidationOfFormDiet{
       return 'Lunch time time should be before dinner time';
     }
   }
+
   static String DinnerValidation(
       String value, TextEditingController _breakfastController,TextEditingController _lunchController) {
-    if (value == null) {
+    if (value == null|| value == '0' ) {
       return 'Time is required';
     } else if (!DateTime(
         DateTime.now().year,
@@ -83,7 +85,7 @@ class ValidationOfFormDiet{
         DateTime.now().day,
         int.parse(_breakfastController.text.split(':')[0]),
         int.parse(_breakfastController.text.split(':')[1])))) {
-      return 'Dinner time should be after brealfast time';
+      return 'Dinner time should be after breakfast time';
     } else if (!DateTime(
         DateTime.now().year,
         DateTime.now().month,

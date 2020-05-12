@@ -5,7 +5,9 @@ import 'package:healthcaresupportsystem/Pages/Auth/Service/Auth.dart';
 import 'package:healthcaresupportsystem/Pages/validation/ValidationForm_userForms.dart';
 import 'package:mockito/mockito.dart';
 import 'package:rxdart/rxdart.dart';
-import 'package:flutter_test/flutter_test.dart';
+import 'package:test/test.dart';
+import 'package:healthcaresupportsystem/Pages/validation/Validation_of_Form_waternotification.dart';
+import 'package:healthcaresupportsystem/Pages/validation/Validation_of_Form_dietNotification.dart';
 
 class MockFirebaseAuth extends Mock implements FirebaseAuth {}
 
@@ -87,6 +89,11 @@ MockFirebaseAuth _auth = MockFirebaseAuth();
 BehaviorSubject<MockFirebaseUser> _user = BehaviorSubject<MockFirebaseUser>();
 MockFirestore Mockfirestore= MockFirestore();
 final MockAuth authClass = MockAuth();
+final TextEditingController _startContoller=TextEditingController();
+final TextEditingController _endController=TextEditingController();
+final TextEditingController _breakfastController=TextEditingController(text: "06:00");
+final TextEditingController _lunchController=TextEditingController(text:"12:00");
+final TextEditingController _dinnerController=TextEditingController(text:"20:00");
 void main() {
 
    group('logIn validation test', () {
@@ -162,7 +169,85 @@ void main() {
           ValidationForm_userForms.confirmPassValidate('kshan', _passwordController);
       expect(result, 'Not Match with password');
     });
+
   });
+   group('water notiification validation test',(){
+     test('start time should not be null', (){
+       var result = ValidationOfFormWater.StartimeValidation(null, _endController);
+       expect(result, 'Time is required');
+     });
+     test('start time should not be before end time', (){
+       _endController.text='20:00';
+       var result = ValidationOfFormWater.StartimeValidation('20:20', _endController);
+       expect(result, 'Start time should be before end time');
+     });
+     test('start time should not be after now time', (){
+       _endController.text='20:00';
+       var result = ValidationOfFormWater.StartimeValidation('13:20', _endController);
+       expect(result, 'Time should after now time');
+     });
+     test('End time should not be null', (){
+       var result = ValidationOfFormWater.EndtimeValidation(null,_startContoller);
+       expect(result, 'Time is required');
+     });
+     test('End time should not be after end time', (){
+       _startContoller.text='20:20';
+       var result = ValidationOfFormWater.EndtimeValidation('20:00', _startContoller);
+       expect(result, 'End time should be after start time');
+     });
+     test('End time should not be after now time', (){
+       _startContoller.text='16:00';
+       var result = ValidationOfFormWater.EndtimeValidation('17:20', _startContoller);
+       expect(result, 'Time should after now time');
+     });
+     test("water goal should be number", (){
+       var result=ValidationOfFormWater.waterGoalValidation('jashd');
+       expect(result, 'Goal should be a number');
+     });
+     test("drink amount  should be number", (){
+       var result=ValidationOfFormWater.drinkWaterValidation('jashd');
+       expect(result, 'Drink amount should be a number');
+     });
+
+   });
+   group('diet notification validation', (){
+     test('breakfast time should not be null or 0',(){
+       var result1=ValidationOfFormDiet.BreakFastValidation(null, _lunchController, _dinnerController);
+       var result2=ValidationOfFormDiet.BreakFastValidation("0", _lunchController, _dinnerController);
+       expect(result1, 'Time is required');
+       expect(result2, 'Time is required');
+     });
+     test('breakfast time should before lunch and dinner time null or 0',(){
+       var result1=ValidationOfFormDiet.BreakFastValidation("13:00", _lunchController, _dinnerController);
+       var result2=ValidationOfFormDiet.BreakFastValidation("21:00", _lunchController, _dinnerController);
+       expect(result1, 'Breakfast time should be before lunch time');
+       expect(result2, 'Breakfast time should be before lunch time');
+     });
+     test('lunch time should not be null or 0',(){
+       var result1=ValidationOfFormDiet.LunchValidation(null, _breakfastController, _dinnerController);
+       var result2=ValidationOfFormDiet.LunchValidation("0", _breakfastController, _dinnerController);
+       expect(result1, 'Time is required');
+       expect(result2, 'Time is required');
+     });
+     test('Lunch time should before dinner and after breakfast time null or 0',(){
+       var result1=ValidationOfFormDiet.LunchValidation("21:00", _breakfastController, _dinnerController);
+       var result2=ValidationOfFormDiet.LunchValidation("05:00", _breakfastController, _dinnerController);
+       expect(result1, 'Lunch time time should be before dinner time');
+       expect(result2, 'Lunch time time should be after breakfast time');
+     });
+     test('Dinner time should not be null or 0',(){
+       var result1=ValidationOfFormDiet.DinnerValidation(null, _breakfastController, _lunchController);
+       var result2=ValidationOfFormDiet.DinnerValidation("0", _breakfastController, _lunchController);
+       expect(result1, 'Time is required');
+       expect(result2, 'Time is required');
+     });
+     test('Dinner time should after lunch and breakfast time null or 0',(){
+       var result1=ValidationOfFormDiet.DinnerValidation("05:00", _breakfastController, _dinnerController);
+       var result2=ValidationOfFormDiet.DinnerValidation("10:10", _breakfastController, _dinnerController);
+       expect(result1, 'Dinner time should be after breakfast time');
+       expect(result2, 'Dinner time should be after lunch time');
+     });
+   });
    group('test Firbase methodes', () {
     when(_auth.signInWithEmailAndPassword(email: "email", password: "password"))
         .thenAnswer((_) async {

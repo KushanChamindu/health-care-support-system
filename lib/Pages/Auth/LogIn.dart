@@ -267,7 +267,10 @@ class _LogInState extends State<LogIn> {
                   borderRadius: BorderRadius.all(Radius.circular(4)),
                   borderSide: BorderSide(width: 1, color: Colors.blue)),
               suffixIcon: PopupMenuButton<String>(
-                icon: const Icon(Icons.arrow_drop_down),
+                key: ValueKey('registerBloodGroup_dropdown'),
+                icon: const Icon(
+                    Icons.arrow_drop_down,
+                ),
                 onSelected: (String value) {
                   _controller.text = value;
                 },

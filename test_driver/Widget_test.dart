@@ -28,8 +28,10 @@ void main() {
     var registerEmailField = find.byValueKey('registerEmailField');
     var registerDateTimeField = find.byValueKey('registerDateTimeField');
     var registerBloodGroupField = find.byValueKey('registerBloodGroupField');
+    var registerBloodGroup_dropdown=find.byValueKey('registerBloodGroup_dropdown');
     var registerPasswordField = find.byValueKey('registerPasswordField');
     var registerConfirmPasswordField =find.byValueKey("registerConfirmPasswordField");
+    var login_switch_button=find.byValueKey('login_switch_button');
     var homePopUpMenueButton= find.byValueKey("HomePopUpMenueButton");
     var homeSignoutButton=find.byValueKey('homeSignoutButton');
     FlutterDriver driver;
@@ -104,7 +106,8 @@ void main() {
       await driver.tap(find.text('2009'));
       await driver.tap(find.text('OK'));
       await driver.tap(registerBloodGroupField);
-      await driver.enterText('A−');
+      await driver.tap(registerBloodGroup_dropdown);
+      await driver.tap(find.text('AB+'));
       await driver.tap(registerPasswordField);
       await driver.enterText('kushan1234');
       await driver.tap(registerConfirmPasswordField);
@@ -117,6 +120,7 @@ void main() {
       await Future.delayed(Duration(milliseconds: 2000), () {});
     });
     test('logIn Successfully', ()async{
+      await driver.tap(login_switch_button);
       await driver.tap(logInEmail);
       await driver.enterText('kushan@kushan.com');
       await driver.tap(logInPassword);

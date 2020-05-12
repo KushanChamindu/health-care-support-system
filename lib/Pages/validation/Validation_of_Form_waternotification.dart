@@ -56,6 +56,7 @@ class ValidationOfFormWater{
       return 'Time should after now time';
     }
   }
+
   static String waterGoalValidation(String value) {
     try {
       int goal = int.parse(value);
