@@ -496,10 +496,26 @@ class _AccountBodyState extends State<AccountBody> {
                                                 backgroundImage: AssetImage(
                                                     'assets/CKD_image/kidney_1.jpg'),
                                               )
-                                            : CircleAvatar(
-                                                backgroundImage: NetworkImage(
-                                                    userData['ProfilePic']),
-                                              )),
+//                                            : CircleAvatar(
+//                                                backgroundImage: NetworkImage(userData['ProfilePic'],),
+//                                              )),
+                                            : Container(
+                                          decoration: BoxDecoration(
+                                            color: Colors.white,
+                                            shape: BoxShape.circle
+                                          ),
+                                              child: ClipOval(
+                                                child:
+                                                    FadeInImage.assetNetwork(
+                                                  fadeInCurve:
+                                                      Curves.decelerate,
+                                                  fit: BoxFit.fill,
+                                                  placeholder: 'assets/loading.gif',
+                                                  image:
+                                                      userData['ProfilePic'],
+                                                ),
+                                              ),
+                                            )),
                               ),
                             ),
                             Visibility(
@@ -650,14 +666,14 @@ class _AccountBodyState extends State<AccountBody> {
                                           padding: const EdgeInsets.fromLTRB(
                                               14, 0, 8, 8),
                                           child: Text(
-                                              'Predict date : ${userData['CKD'] == null ? 'Not predicted yet':  '${userData['CKD'].split('_')[1].split('T')[0]}'}',
+                                              'Predict date : ${userData['CKD'] == null ? 'Not predicted yet' : '${userData['CKD'].split('_')[1].split('T')[0]}'}',
                                               style: TextStyle(fontSize: 15)),
                                         ),
                                         Padding(
                                           padding: const EdgeInsets.fromLTRB(
                                               14, 0, 8, 8),
                                           child: Text(
-                                              'Predict time : ${userData['CKD'] == null ? 'Not predicted yet': '${userData['CKD'].split('_')[1].split('T')[1].split(':')[0]}:${userData['CKD'].split('_')[1].split('T')[1].split(':')[1]}'}',
+                                              'Predict time : ${userData['CKD'] == null ? 'Not predicted yet' : '${userData['CKD'].split('_')[1].split('T')[1].split(':')[0]}:${userData['CKD'].split('_')[1].split('T')[1].split(':')[1]}'}',
                                               style: TextStyle(fontSize: 15)),
                                         ),
                                       ],
@@ -721,12 +737,11 @@ class _AccountBodyState extends State<AccountBody> {
                                                 fontWeight: FontWeight.w500),
                                           ),
                                         ),
-
                                         Padding(
                                           padding: const EdgeInsets.fromLTRB(
                                               14, 0, 8, 8),
                                           child: Text(
-                                            'Predicted Decision: ${userData['Breast_canser'] == null ? 'Not predicted yet' : "${userData['Breast_canser'].split('_')[0]}"=='3.0'?'Breast cancer does not exist':'Breast cancer exist'}',
+                                            'Predicted Decision: ${userData['Breast_canser'] == null ? 'Not predicted yet' : "${userData['Breast_canser'].split('_')[0]}" == '3.0' ? 'Breast cancer does not exist' : 'Breast cancer exist'}',
                                             style: TextStyle(fontSize: 15),
                                           ),
                                         ),
@@ -734,14 +749,14 @@ class _AccountBodyState extends State<AccountBody> {
                                           padding: const EdgeInsets.fromLTRB(
                                               14, 0, 8, 8),
                                           child: Text(
-                                              'Predict date : ${userData['Breast_canser'] == null ? 'Not predicted yet':  '${userData['Breast_canser'].split('_')[1].split('T')[0]}'}',
+                                              'Predict date : ${userData['Breast_canser'] == null ? 'Not predicted yet' : '${userData['Breast_canser'].split('_')[1].split('T')[0]}'}',
                                               style: TextStyle(fontSize: 15)),
                                         ),
                                         Padding(
                                           padding: const EdgeInsets.fromLTRB(
                                               14, 0, 8, 8),
                                           child: Text(
-                                              'Predict time : ${userData['Breast_canser'] == null ? 'Not predicted yet': '${userData['Breast_canser'].split('_')[1].split('T')[1].split(':')[0]}:${userData['Breast_canser'].split('_')[1].split('T')[1].split(':')[1]}'}',
+                                              'Predict time : ${userData['Breast_canser'] == null ? 'Not predicted yet' : '${userData['Breast_canser'].split('_')[1].split('T')[1].split(':')[0]}:${userData['Breast_canser'].split('_')[1].split('T')[1].split(':')[1]}'}',
                                               style: TextStyle(fontSize: 15)),
                                         ),
                                       ],

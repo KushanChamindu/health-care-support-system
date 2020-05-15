@@ -68,13 +68,24 @@ class FactsMessage extends StatelessWidget {
       Container(
         margin: const EdgeInsets.only(left: 16.0),
         child: imageUrl != null
-            ? CircleAvatar(
-                radius: 25,
-                backgroundImage: NetworkImage(imageUrl),
-              )
+            ? Container(
+          width: 55,
+                height: 56,
+                decoration:
+                    BoxDecoration(color: Colors.white, shape: BoxShape.circle),
+                child: ClipOval(
+                  child: FadeInImage.assetNetwork(
+                      fadeInCurve: Curves.decelerate,
+                      fit: BoxFit.fill,
+                      placeholder: 'assets/loading.gif',
+                      image: imageUrl),
+                ))
             : CircleAvatar(
                 radius: 25,
-                child: Text(this.name[0], style: TextStyle(fontSize: 22),),
+                child: Text(
+                  this.name[0],
+                  style: TextStyle(fontSize: 22),
+                ),
               ),
       ),
     ];

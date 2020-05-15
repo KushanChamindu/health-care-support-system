@@ -164,13 +164,13 @@ class _DietNotificationBodyState extends State<DietNotificationBody> {
         Time(breakfast.hour, breakfast.minute),
         platformChannelSpecifics);
     await flutterLocalNotificationsPlugin.showDailyAtTime(
-        0,
+        1,
         'Eating time reminder',
         'You shoud get your lunch now',
         Time(lunch.hour, lunch.minute),
         platformChannelSpecifics);
     await flutterLocalNotificationsPlugin.showDailyAtTime(
-        0,
+        2,
         'Eating time reminder',
         'You shoud get your dinner now',
         Time(dinner.hour, dinner.minute),
@@ -271,13 +271,21 @@ class _DietNotificationBodyState extends State<DietNotificationBody> {
           try {
             alermToggle == false ? toggleButton() : null;
             // ignore: unrelated_type_equality_checks
-            if (breakfast == dietData['breakfast'].toDate() &&
-                lunch == dietData['lunchtime'].toDate() &&
-                dinner == dietData['dinnertime'].toDate()) {
-              Scaffold.of(context).showSnackBar(SnackBar(
-                content: Text('Already Saved details'),
-              ));
-            } else {
+            if(dietData['breakfast']!=null && dietData['lunchtime']!=null && dietData['dinnertime']!=null){
+              if (breakfast == dietData['breakfast'].toDate() &&
+                  lunch == dietData['lunchtime'].toDate() &&
+                  dinner == dietData['dinnertime'].toDate()) {
+                Scaffold.of(context).showSnackBar(SnackBar(
+                  content: Text('Already Saved details'),
+                ));
+              }else {
+                await widget.notificationService
+                    .updateDietTimes(widget.uid, breakfast, lunch, dinner);
+                Scaffold.of(context).showSnackBar(SnackBar(
+                  content: Text('Saved changes'),
+                ));
+              }
+            }else {
               await widget.notificationService
                   .updateDietTimes(widget.uid, breakfast, lunch, dinner);
               Scaffold.of(context).showSnackBar(SnackBar(
@@ -285,7 +293,7 @@ class _DietNotificationBodyState extends State<DietNotificationBody> {
               ));
             }
 
-            await _showNotification();
+            _showNotification();
           } catch (e) {
             print('Error : $e');
             Scaffold.of(context).showSnackBar(SnackBar(

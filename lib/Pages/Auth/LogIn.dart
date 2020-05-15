@@ -38,13 +38,6 @@ class _LogInState extends State<LogIn> {
   @override
   void initState() {
     super.initState();
-    widget.auth.currentUser().then((value) {
-      setState(() {
-        if (value != null) {
-          Navigator.pushReplacementNamed(context, '/home');
-        }
-      });
-    });
   }
 
   @override

@@ -17,8 +17,12 @@ class _NotificationButtonCardState extends State<NotificationButtonCard> {
           new Size(MediaQuery.of(context).size.width, 265.0)),
       child: Swiper(
         itemCount: 2,
+//        scrollDirection: Axis.vertical,
+      layout:SwiperLayout.STACK,
+        itemWidth: 500,
         autoplay: true,
         curve: Curves.decelerate,
+
         itemBuilder: (BuildContext context, int index) {
           if (index == 0) {
             return Card(

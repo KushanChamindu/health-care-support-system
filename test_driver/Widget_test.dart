@@ -210,4 +210,7 @@ void main() {
       await driver.tap(webviewBackButton);
     });
   });
+  group('Account validation', (){
+
+  });
 }

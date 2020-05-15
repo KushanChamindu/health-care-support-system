@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
+
+import 'Service/Auth.dart';
 class SplashScreen extends StatefulWidget {
+  final BaseAuth auth = Auth();
   @override
   _SplashScreenState createState() => _SplashScreenState();
 }
@@ -9,8 +12,16 @@ class _SplashScreenState extends State<SplashScreen> {
   void initState() {
     super.initState();
     Future.delayed(const Duration(seconds: 2), () {
-// Here you can write your code
-    Navigator.pushReplacementNamed(context, '/login');
+      widget.auth.currentUser().then((value) {
+        setState(() {
+          if (value != null) {
+            Navigator.pushReplacementNamed(context, '/home');
+          }else{
+            // Here you can write your code
+            Navigator.pushReplacementNamed(context, '/login');
+          }
+        });
+      });
     });
   }
   @override
