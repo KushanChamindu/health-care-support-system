@@ -1,10 +1,7 @@
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:healthcaresupportsystem/Pages/Auth/Service/Auth.dart';
-import 'package:healthcaresupportsystem/Pages/Auth/UID.dart';
 import '../Popupmenu.dart';
-import 'Constant.dart';
 
 class CKD_symptoms extends StatefulWidget {
   final BaseAuth auth=Auth();
@@ -13,14 +10,8 @@ class CKD_symptoms extends StatefulWidget {
 }
 
 class _CKD_symptomsState extends State<CKD_symptoms> {
-  bool visible=true;
   @override
   Widget build(BuildContext context) {
-//    void set_visible(visi){
-//      setState(() {
-//        visible=!visi;
-//      });
-//    }
     return
       Scaffold(
         key: ValueKey('CKDsymptomPage'),
@@ -68,276 +59,18 @@ class _CKD_symptomsState extends State<CKD_symptoms> {
                 padding: const EdgeInsets.fromLTRB(8, 5, 8, 10),
                 child: Column(
                   children: <Widget>[
-                    Card(
-                      child: Row(
-                        children: <Widget>[
-                          Padding(
-                            padding:
-                                const EdgeInsets.fromLTRB(0, 15, 25, 15),
-                            child: new MyBullet(),
-                          ),
-                          Container(
-                            width: MediaQuery.of(context).size.width*0.5,
-                            child: new Text(
-                              'Blood in your pee (urine)',
-                              style: TextStyle(
-                                  fontSize: 16, fontWeight: FontWeight.w900),
-                            ),
-                          ),
-                          Expanded(
-                              child: Image.asset('assets/CKD_image/blood-in-pee.png', width: 30,height: 100,)),
-                        ],
-                      ),
-                    ),
-                    Card(
-                      key: ValueKey('sampleCKDsymptom'),
-                      child: Row(
-                        children: <Widget>[
-                          Padding(
-                            padding:
-                                const EdgeInsets.fromLTRB(0, 15, 25, 15),
-                            child: new MyBullet(),
-                          ),
-                          Container(
-                            width: MediaQuery.of(context).size.width*0.5,
-                            child: new Text(
-                              'Shortness of breath',
-                              style: TextStyle(
-                                  fontSize: 16, fontWeight: FontWeight.w900),
-                            ),
-                          ),
-                          Expanded(
-                              child: Padding(
-                                padding: const EdgeInsets.all(8.0),
-                                child: Image.asset('assets/CKD_image/shortness-breath.png',  width: 30,height: 70,),
-                              )),
-                        ],
-                      ),
-                    ),
-                    Card(
-                      child: Row(
-                        children: <Widget>[
-                          Padding(
-                            padding:
-                            const EdgeInsets.fromLTRB(0, 15, 25, 15),
-                            child: new MyBullet(),
-                          ),
-                          Container(
-                            width: MediaQuery.of(context).size.width*0.5,
-                            child: new Text(
-                              'Itchy skin',
-                              style: TextStyle(
-                                  fontSize: 16, fontWeight: FontWeight.w900),
-                            ),
-                          ),
-                          Expanded(
-                              child: Image.asset('assets/CKD_image/itchy-skin.png',  width: 30,height: 100,)),
-                        ],
-                      ),
-                    ),
-                    Card(
-                      child: Row(
-                        children: <Widget>[
-                          Padding(
-                            padding:
-                            const EdgeInsets.fromLTRB(0, 15, 25, 15),
-                            child: new MyBullet(),
-                          ),
-                          Container(
-                            width: MediaQuery.of(context).size.width*0.5,
-                            child: new Text(
-                              'Muscle cramps',
-                              style: TextStyle(
-                                  fontSize: 16, fontWeight: FontWeight.w900),
-                            ),
-                          ),
-                          Expanded(
-                              child: Padding(
-                                padding: const EdgeInsets.all(8.0),
-                                child: Image.asset('assets/CKD_image/Muscle-cramps.png',  width: 30,height: 70,),
-                              )),
-                        ],
-                      ),
-                    ),
-                    Card(
-                      child: Row(
-                        children: <Widget>[
-                          Padding(
-                            padding:
-                            const EdgeInsets.fromLTRB(0, 15, 25, 15),
-                            child: new MyBullet(),
-                          ),
-                          Container(
-                            width: MediaQuery.of(context).size.width*0.5,
-                            child: new Text(
-                              'Erectile dysfunction in men',
-                              style: TextStyle(
-                                  fontSize: 16, fontWeight: FontWeight.w900),
-                            ),
-                          ),
-                          Expanded(
-                              child: Image.asset('assets/CKD_image/Erectile.png',  width: 50,height: 100,)),
-                        ],
-                      ),
-                    ),
-                    Card(
-                      child: Row(
-                        children: <Widget>[
-                          Padding(
-                            padding:
-                            const EdgeInsets.fromLTRB(0, 15, 25, 15),
-                            child: new MyBullet(),
-                          ),
-                            Container(
-                              width: MediaQuery.of(context).size.width*0.6,
-                                child: new Text( 'Swollen ankles, feet or hands – as a result of water retention',
-                                  style: TextStyle(
-                                      fontSize: 15,),
-                                )
-                            ),
-                          Expanded(
-                              child: Image.asset('assets/CKD_image/Swollen-ankles.png',width: 30,height: 70,)),
-                        ],
-                      ),
-                    ),
-                    Card(
-                      child: Row(
-                        children: <Widget>[
-                          Padding(
-                            padding:
-                            const EdgeInsets.fromLTRB(0, 15, 25, 15),
-                            child: new MyBullet(),
-                          ),
-                          Container(
-                              width: MediaQuery.of(context).size.width*0.5,
-                              child: new Text( 'Weight loss and poor appetite',
-                                style: TextStyle(
-                                  fontSize: 15,),
-                              )
-                          ),
-                          Expanded(
-                              child: Padding(
-                                padding: const EdgeInsets.all(8.0),
-                                child: Image.asset('assets/CKD_image/poor-appatite.png',width: 30,height: 70,),
-                              )),
-                        ],
-                      ),
-                    ),
-                    Card(
-                      child: Row(
-                        children: <Widget>[
-                          Padding(
-                            padding:
-                            const EdgeInsets.fromLTRB(0, 15, 25, 15),
-                            child: new MyBullet(),
-                          ),
-                          Container(
-                              width: MediaQuery.of(context).size.width*0.5,
-                              child: new Text( 'Tiredness',
-                                style: TextStyle(
-                                  fontSize: 15,),
-                              )
-                          ),
-                          Expanded(
-                              child: Padding(
-                                padding: const EdgeInsets.all(8.0),
-                                child: Image.asset('assets/CKD_image/Tiredness.png',width: 30,height: 70,),
-                              )),
-                        ],
-                      ),
-                    ),
-                    Card(
-                      child: Row(
-                        children: <Widget>[
-                          Padding(
-                            padding:
-                            const EdgeInsets.fromLTRB(0, 15, 25, 15),
-                            child: new MyBullet(),
-                          ),
-                          Container(
-                              width: MediaQuery.of(context).size.width*0.5,
-                              child: new Text( 'An increased need to pee – particularly at night',
-                                style: TextStyle(
-                                  fontSize: 15,),
-                              )
-                          ),
-                          Expanded(
-                              child: Padding(
-                                padding: const EdgeInsets.all(8.0),
-                                child: Image.asset('assets/CKD_image/increase-pee.jpg',width: 30,height: 70,),
-                              )),
-                        ],
-                      ),
-                    ),
-                    Card(
-                      child: Row(
-                        children: <Widget>[
-                          Padding(
-                            padding:
-                            const EdgeInsets.fromLTRB(0, 15, 25, 15),
-                            child: new MyBullet(),
-                          ),
-                          Container(
-                              width: MediaQuery.of(context).size.width*0.6,
-                              child: new Text('Difficulty sleeping (insomnia)',
-                                style: TextStyle(
-                                  fontSize: 15,),
-                              )
-                          ),
-                          Expanded(
-                              child: Padding(
-                                padding: const EdgeInsets.all(8.0),
-                                child: Image.asset('assets/CKD_image/Difficulty-sleeping.jpeg',width: 30,height: 70,),
-                              )),
-                        ],
-                      ),
-                    ),
-                    Card(
-                      child: Row(
-                        children: <Widget>[
-                          Padding(
-                            padding:
-                            const EdgeInsets.fromLTRB(0, 15, 25, 15),
-                            child: new MyBullet(),
-                          ),
-                          Container(
-                              width: MediaQuery.of(context).size.width*0.5,
-                              child: new Text('feeling sick',
-                                style: TextStyle(
-                                  fontSize: 15,),
-                              )
-                          ),
-                          Expanded(
-                              child: Padding(
-                                padding: const EdgeInsets.all(8.0),
-                                child: Image.asset('assets/CKD_image/feeling-sick.png',width: 30,height: 70,),
-                              )),
-                        ],
-                      ),
-                    ),
-                    Card(
-                      child: Row(
-                        children: <Widget>[
-                          Padding(
-                            padding:
-                            const EdgeInsets.fromLTRB(0, 15, 25, 15),
-                            child: new MyBullet(),
-                          ),
-                          Container(
-                              width: MediaQuery.of(context).size.width*0.6,
-                              child: new Text('Headaches',
-                                style: TextStyle(
-                                  fontSize: 15,),
-                              )
-                          ),
-                          Expanded(
-                              child: Padding(
-                                padding: const EdgeInsets.fromLTRB(8, 0, 0, 8),
-                                child: Image.asset('assets/CKD_image/Headaches.png',width: 30,height: 70,),
-                              )),
-                        ],
-                      ),
-                    ),
+                    SymptomCard(text:'Blood in your pee (urine)',image: 'assets/CKD_image/blood-in-pee.png',imageHeight: 100.0,imageWidth: 30.0,isImapotant: true,),
+                    SymptomCard(text: 'Shortness of breath',image: 'assets/CKD_image/shortness-breath.png',imageWidth: 30.0,imageHeight: 70.0,isImapotant: true,),
+                    SymptomCard(text: 'Itchy skin',image: 'assets/CKD_image/itchy-skin.png',imageHeight: 100.0,imageWidth: 30.0,isImapotant: true,),
+                    SymptomCard(identifier: 'sampleCKDsymptom',text: 'Muscle cramps',image: 'assets/CKD_image/Muscle-cramps.png',imageHeight: 70.0,imageWidth: 30.0,isImapotant: true,),
+                    SymptomCard(text: 'Erectile dysfunction in men',image: 'assets/CKD_image/Erectile.png',imageWidth: 50.0,imageHeight: 100.0,isImapotant: true,),
+                    SymptomCard(text: 'Swollen ankles, feet or hands –> as a result of water retention',image: 'assets/CKD_image/Swollen-ankles.png',imageHeight: 70.0,imageWidth: 30.0,),
+                    SymptomCard(text: 'Weight loss and poor appetite',image: 'assets/CKD_image/poor-appatite.png',imageHeight: 70.0,imageWidth: 30.0,),
+                    SymptomCard(text: 'Tiredness',image: 'assets/CKD_image/Tiredness.png',imageHeight: 70.0,imageWidth: 30.0,),
+                    SymptomCard(text: 'An increased need to pee – particularly at night',image:'assets/CKD_image/increase-pee.jpg',imageHeight: 70.0,imageWidth: 30.0,),
+                    SymptomCard(text: 'Difficulty sleeping (insomnia)',image: 'assets/CKD_image/Difficulty-sleeping.jpeg',imageWidth: 30.0,imageHeight: 70.0,),
+                    SymptomCard(text: 'feeling sick',image: 'assets/CKD_image/feeling-sick.png',imageWidth: 30.0,imageHeight: 70.0,),
+                    SymptomCard(text: 'Headaches',image: 'assets/CKD_image/Headaches.png',imageHeight: 70.0,imageWidth: 30.0,),
                   ],
                 ))
           ],
@@ -363,3 +96,42 @@ class MyBullet extends StatelessWidget {
     );
   }
 }
+
+class SymptomCard extends StatelessWidget {
+  final text;
+  final image;
+  final imageWidth;
+  final imageHeight;
+  final isImapotant;
+  final String identifier;
+  SymptomCard({this.image,this.text,this.imageHeight,this.imageWidth,this.isImapotant,this.identifier});
+  @override
+  Widget build(BuildContext context) {
+    return Card(
+      key: identifier!=null?ValueKey(identifier):null,
+      child: Row(
+        children: <Widget>[
+          Padding(
+            padding:
+            const EdgeInsets.fromLTRB(0, 15, 25, 15),
+            child: new MyBullet(),
+          ),
+          Container(
+            width: MediaQuery.of(context).size.width*0.5,
+            child: new Text(
+              text,
+              style: TextStyle(
+                  fontSize: isImapotant==true?16:15, fontWeight: isImapotant==true?FontWeight.w900:null),
+            ),
+          ),
+          Expanded(
+              child: Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Image.asset(image, width: imageWidth,height: imageHeight,),
+              )),
+        ],
+      ),
+    );
+  }
+}
+

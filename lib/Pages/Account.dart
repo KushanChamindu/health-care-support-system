@@ -1,3 +1,5 @@
+
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:datetime_picker_formfield/datetime_picker_formfield.dart';
 import 'package:flutter/cupertino.dart';
@@ -26,14 +28,6 @@ class _AccountState extends State<Account> {
     super.initState();
   }
 
-//  Future<String> setUid()async {
-//    return await widget.auth.currentUser();
-//  }
-//  Future<String> setUid() async{
-//    setState(()async {
-//      return await widget.auth.currentUser();
-//    });
-//  }
   @override
   Widget build(BuildContext context) {
     final UID args = ModalRoute.of(context).settings.arguments;
@@ -42,7 +36,7 @@ class _AccountState extends State<Account> {
         print('SignOut');
         await widget.auth.singOut();
         if (await widget.auth.currentUser() == null) {
-          Navigator.pushReplacementNamed(context, '/');
+          Navigator.pushReplacementNamed(context, '/login');
         } else {
           showAboutDialog(BuildContext context) {
             AlertDialog alert = AlertDialog(
@@ -124,8 +118,8 @@ class _AccountState extends State<Account> {
       }
     }
 
-    return StreamProvider<QuerySnapshot>.value(
-      value: widget.auth.user_data,
+    return StreamProvider<DocumentSnapshot>.value(
+      value: widget.auth.user_data(args.uid),
       child: Scaffold(
           backgroundColor: Colors.blue[100],
           appBar: AppBar(
@@ -198,14 +192,6 @@ class _AccountState extends State<Account> {
             ],
             centerTitle: true,
             backgroundColor: Colors.blueAccent,
-//          leading: Padding(
-//            padding: EdgeInsets.all(8.0),
-//            child: CircleAvatar(
-//              backgroundImage: AssetImage('assets/CKD_image/Doctor.png'),
-//              radius: 30,
-//              backgroundColor: Colors.blueAccent,
-//            ),
-//          ),
           ),
           body: AccountBody(
             uid: args.uid,
@@ -253,30 +239,27 @@ class _AccountBodyState extends State<AccountBody> {
       }
     }
 
-    Future uploadImage(BuildContext context) async {
-      if (_image != null) {
-        String filename = basename(_image.path);
-        StorageReference firebaseStorageRef =
-            FirebaseStorage.instance.ref().child(filename);
-        StorageUploadTask uploadTask = firebaseStorageRef.putFile(_image);
-        StorageTaskSnapshot takeSnapshot = await uploadTask.onComplete;
-        String _downloadURL = await takeSnapshot.ref.getDownloadURL();
-        print(_downloadURL);
-        await widget.auth.setUserImageDetails(widget.uid, _downloadURL);
-        setState(() {
-          print('Profile picture uploaded');
-          Scaffold.of(context).showSnackBar(SnackBar(
-            content: Text('Profile picture uploaded'),
-          ));
-        });
-      }
-    }
-
-    final user_data = Provider.of<QuerySnapshot>(context);
+    final user_data = Provider.of<DocumentSnapshot>(context);
     try {
-      var userData = user_data.documents
-          .firstWhere((doc) => doc.documentID == '${widget.uid}')
-          .data;
+      var userData=user_data.data;
+      Future uploadImage(BuildContext context) async {
+        if (_image != null) {
+          String filename = basename(_image.path);
+          StorageReference firebaseStorageRef =
+          FirebaseStorage.instance.ref().child(userData['Username']);
+          StorageUploadTask uploadTask = firebaseStorageRef.putFile(_image);
+          StorageTaskSnapshot takeSnapshot = await uploadTask.onComplete;
+          String _downloadURL = await takeSnapshot.ref.getDownloadURL();
+          print(_downloadURL);
+          await widget.auth.setUserImageDetails(widget.uid, _downloadURL);
+          setState(() {
+            print('Profile picture uploaded');
+            Scaffold.of(context).showSnackBar(SnackBar(
+              content: Text('Profile picture uploaded'),
+            ));
+          });
+        }
+      }
       bool validateAndSave() {
         final form = formKey.currentState;
         if (form.validate()) {
@@ -300,9 +283,9 @@ class _AccountBodyState extends State<AccountBody> {
                 content: Text('Already Saved details'),
               ));
             } else {
+              Navigator.of(context).pop();
               await widget.auth.updateAccountDetails(
                   widget.uid, Username, bloodGroup, Birthday);
-              Navigator.of(context).pop();
               Scaffold.of(context).showSnackBar(SnackBar(
                 content: Text('Saved changes'),
               ));
@@ -336,6 +319,7 @@ class _AccountBodyState extends State<AccountBody> {
             context: context,
             builder: (context) {
               return SingleChildScrollView(
+                key: ValueKey('AccountEditBox'),
                 child: AlertDialog(
                   elevation: 20,
                   title: Text('Edit Account Details'),
@@ -344,6 +328,7 @@ class _AccountBodyState extends State<AccountBody> {
                     child: Column(
                       children: <Widget>[
                         TextFormField(
+                          key: ValueKey('AccountUsernameEdit'),
                           initialValue: (userData['Username'] != null)
                               ? userData['Username']
                               : 'Loading...',
@@ -356,6 +341,7 @@ class _AccountBodyState extends State<AccountBody> {
                         Column(children: <Widget>[
 //            Text('Basic date field (${format.pattern})'),
                           DateTimeField(
+                            key: ValueKey('AccountBirthdayEdit'),
                             initialValue: (userData['Birthday'] != null)
                                 ? DateTime(
                                     int.parse(userData['Birthday']
@@ -394,6 +380,7 @@ class _AccountBodyState extends State<AccountBody> {
                           ),
                         ]),
                         TextFormField(
+                          readOnly:true,
                           //_controller.text=userData['bloodGroup']
                           validator: (value) =>
                               ValidationForm_userForms.bloodValidate(value),
@@ -402,6 +389,7 @@ class _AccountBodyState extends State<AccountBody> {
                           decoration: InputDecoration(
                             labelText: 'Blood group',
                             suffixIcon: PopupMenuButton<String>(
+                              key: ValueKey('AccountBloodGoupEdit'),
                               icon: const Icon(Icons.arrow_drop_down),
                               onSelected: (String value) {
                                 _controller.text = value;
@@ -428,6 +416,7 @@ class _AccountBodyState extends State<AccountBody> {
                       },
                     ),
                     MaterialButton(
+                      key: ValueKey('AccountEditSubmitButton'),
                       elevation: 2.0,
                       child: Text('Submit'),
                       onPressed: () {
@@ -451,6 +440,7 @@ class _AccountBodyState extends State<AccountBody> {
         builder: (context) => Container(
           child: Scaffold(
             floatingActionButton: FloatingActionButton(
+              key: ValueKey('AccountEditButton'),
               onPressed: () {
                 createAlertDialog(context);
               },
@@ -478,6 +468,7 @@ class _AccountBodyState extends State<AccountBody> {
                             Padding(
                               padding: const EdgeInsets.only(left: 50.0),
                               child: Container(
+                                key: ValueKey('AccountProfilePic'),
                                 width: 150,
                                 height: 150,
                                 decoration: BoxDecoration(
@@ -507,6 +498,7 @@ class _AccountBodyState extends State<AccountBody> {
                                               child: ClipOval(
                                                 child:
                                                     FadeInImage.assetNetwork(
+                                                      imageCacheHeight:200,
                                                   fadeInCurve:
                                                       Curves.decelerate,
                                                   fit: BoxFit.fill,

@@ -54,6 +54,7 @@ class _CKD_webviewState extends State<CKD_webview> {
     hidden: true,
     withOverviewMode: true,
     initialChild: Container(
+      color: Colors.white,
       key: ValueKey('webviewInitialWidget'),
       child:Center(
         child: Padding(

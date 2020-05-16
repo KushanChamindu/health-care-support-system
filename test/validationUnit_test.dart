@@ -63,7 +63,7 @@ class MockAuth implements BaseAuth {
   }
 
   @override
-  Stream<QuerySnapshot> get user_data => null;
+  Stream<DocumentSnapshot>  user_data(uid) => null;
 
   @override
   Future setCKDPrediction(String uid, double percentage) {

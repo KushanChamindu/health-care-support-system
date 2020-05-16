@@ -27,8 +27,8 @@ class NotificationService{
       'goal':goal
     });
   }
-  Stream<QuerySnapshot> get waterNotificationData{
-    return waterNotification.snapshots();
+  Stream<DocumentSnapshot> waterNotificationData(uid){
+    return waterNotification.document(uid).snapshots();
   }
   Future<void> updateIsAlarm (String uid, bool isAlarmOn)async{
     await waterNotification.document(uid).updateData({
@@ -89,7 +89,7 @@ class NotificationService{
       'dinnertime':dinnerTime
     });
   }
-  Stream<QuerySnapshot> get dietNotificationStream{
-    return dietNotification.snapshots();
+  Stream<DocumentSnapshot> dietNotificationStream (uid){
+    return dietNotification.document(uid).snapshots();
   }
 }

@@ -72,6 +72,7 @@ class _PopupmenuState extends State<Popupmenu> {
         return Constant.choice.map((String choice) {
           if (choice == 'Account') {
             return PopupMenuItem(
+              key: ValueKey('gotoAccountButton'),
                 value: choice,
                 child: Row(
                   children: <Widget>[
@@ -87,7 +88,7 @@ class _PopupmenuState extends State<Popupmenu> {
                 ));
           } else if (choice == 'SignOut') {
             return PopupMenuItem(
-                key: ValueKey("homeSignoutButton"),
+                key: ValueKey("SignoutButton"),
                 value: choice,
                 child: Row(
                   children: <Widget>[

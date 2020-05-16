@@ -11,7 +11,7 @@ abstract class BaseAuth {
   Future<void> singOut();
   Future setUserData(
       String uid, String Username, DateTime Birthday, String bloodGroup);
-  Stream<QuerySnapshot> get user_data;
+  Stream<DocumentSnapshot> user_data(uid);
   Future updateAccountDetails(
       String uid, String Username, String bloodGroup, DateTime Birthday);
   Future setUserImageDetails(String uid, String ImageURL);
@@ -129,7 +129,7 @@ class Auth implements BaseAuth {
   //update account details
   Future updateAccountDetails(
       String uid, String Username, String bloodGroup, DateTime Birthday) async {
-    await Firestore.instance.collection('user_data').document(uid).updateData({
+    return await Firestore.instance.collection('user_data').document(uid).updateData({
       'Username': Username,
       'bloodGroup': bloodGroup,
       'Birthday': Birthday,
@@ -150,7 +150,7 @@ class Auth implements BaseAuth {
   }
 
   // ignore: non_constant_identifier_names
-  Stream<QuerySnapshot> get user_data{
-    return userData.snapshots();
+  Stream<DocumentSnapshot> user_data(uid){
+    return userData.document(uid).snapshots();
   }
 }

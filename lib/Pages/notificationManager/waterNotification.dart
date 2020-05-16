@@ -36,8 +36,8 @@ class _WaterNotificationState extends State<WaterNotification> {
   @override
   Widget build(BuildContext context) {
     final UID args = ModalRoute.of(context).settings.arguments;
-    return StreamProvider<QuerySnapshot>.value(
-        value: widget.notificationService.waterNotificationData,
+    return StreamProvider<DocumentSnapshot>.value(
+        value: widget.notificationService.waterNotificationData(args.uid),
         child: Scaffold(
             backgroundColor: Colors.grey[300],
             appBar: AppBar(
@@ -220,12 +220,9 @@ class _WaterNotificationBodyState extends State<WaterNotificationBody> {
 
   @override
   Widget build(BuildContext context) {
-    final waterNotificationData = Provider.of<QuerySnapshot>(context);
+    final waterNotificationData = Provider.of<DocumentSnapshot>(context);
     try {
-      var waterData = waterNotificationData.documents
-          .firstWhere((doc) => doc.documentID == '${widget.uid}')
-          .data;
-
+      var waterData=waterNotificationData.data;
       bool alermToggle = waterData['isAlermOn'] || false;
       final TextEditingController _goalController = new TextEditingController(
           text: (waterData['goal'] != 0) ? waterData['goal'].toString() : '0');
@@ -748,91 +745,97 @@ class _WaterNotificationBodyState extends State<WaterNotificationBody> {
                                     ),
                                     Row(
                                       children: <Widget>[
-                                        Padding(
-                                          padding: EdgeInsets.only(
-                                              left: MediaQuery.of(context)
-                                                      .size
-                                                      .width *
-                                                  0.06),
-                                          child: CircularPercentIndicator(
-                                            progressColor: Colors.blueAccent,
-                                            lineWidth: 15,
-                                            radius: 150,
-                                            curve: Curves.ease,
-                                            circularStrokeCap:
-                                                CircularStrokeCap.round,
-                                            center: Container(
-                                              width: 119,
-                                              height: 119,
-                                              child: RaisedButton(
-                                                color: Colors.white,
-                                                onPressed: dinkWaterSubmit,
-                                                child: Column(
-                                                  children: <Widget>[
-                                                    SizedBox(
-                                                      height: 30,
-                                                    ),
-                                                    Text('Tap to drink'),
-                                                    SizedBox(
-                                                      height: 5,
-                                                    ),
-                                                    (waterData[dayNames[DateTime
-                                                                            .now()
-                                                                        .weekday -
-                                                                    1]] /
-                                                                waterData[
-                                                                    'goal']) >=
-                                                            1
-                                                        ? Text(
-                                                            (waterData[dayNames[DateTime.now().weekday -
-                                                                            1]] /
-                                                                        waterData[
-                                                                            'goal'] *
-                                                                        100)
-                                                                    .toString()
-                                                                    .split(
-                                                                        '.')[0] +
-                                                                '%',
-                                                            style: TextStyle(
-                                                                fontSize: 25,
-                                                                color: Colors
-                                                                    .green,
-                                                                fontWeight:
-                                                                    FontWeight
-                                                                        .w800),
-                                                          )
-                                                        : Text(
-                                                            (waterData[dayNames[DateTime.now().weekday -
-                                                                            1]] /
-                                                                        waterData[
-                                                                            'goal'] *
-                                                                        100)
-                                                                    .toString()
-                                                                    .split(
-                                                                        '.')[0] +
-                                                                '%',
-                                                            style: TextStyle(
-                                                                fontSize: 25,
-                                                                color: Colors
-                                                                    .black,
-                                                                fontWeight:
-                                                                    FontWeight
-                                                                        .w800),
-                                                          ),
-                                                  ],
+                                        Container(
+                                          width: MediaQuery.of(context)
+                                        .size
+                                        .width *
+                                        0.42,
+                                          child: Padding(
+                                            padding: EdgeInsets.only(
+                                                left: MediaQuery.of(context)
+                                                        .size
+                                                        .width *
+                                                    0.06),
+                                            child: CircularPercentIndicator(
+                                              progressColor: Colors.blueAccent,
+                                              lineWidth: 15,
+                                              radius: 150,
+                                              curve: Curves.ease,
+                                              circularStrokeCap:
+                                                  CircularStrokeCap.round,
+                                              center: Container(
+                                                width: 119,
+                                                height: 119,
+                                                child: RaisedButton(
+                                                  color: Colors.white,
+                                                  onPressed: dinkWaterSubmit,
+                                                  child: Column(
+                                                    children: <Widget>[
+                                                      SizedBox(
+                                                        height: 30,
+                                                      ),
+                                                      Text('Tap to drink'),
+                                                      SizedBox(
+                                                        height: 5,
+                                                      ),
+                                                      (waterData[dayNames[DateTime
+                                                                              .now()
+                                                                          .weekday -
+                                                                      1]] /
+                                                                  waterData[
+                                                                      'goal']) >=
+                                                              1
+                                                          ? Text(
+                                                              (waterData[dayNames[DateTime.now().weekday -
+                                                                              1]] /
+                                                                          waterData[
+                                                                              'goal'] *
+                                                                          100)
+                                                                      .toString()
+                                                                      .split(
+                                                                          '.')[0] +
+                                                                  '%',
+                                                              style: TextStyle(
+                                                                  fontSize: 25,
+                                                                  color: Colors
+                                                                      .green,
+                                                                  fontWeight:
+                                                                      FontWeight
+                                                                          .w800),
+                                                            )
+                                                          : Text(
+                                                              (waterData[dayNames[DateTime.now().weekday -
+                                                                              1]] /
+                                                                          waterData[
+                                                                              'goal'] *
+                                                                          100)
+                                                                      .toString()
+                                                                      .split(
+                                                                          '.')[0] +
+                                                                  '%',
+                                                              style: TextStyle(
+                                                                  fontSize: 25,
+                                                                  color: Colors
+                                                                      .black,
+                                                                  fontWeight:
+                                                                      FontWeight
+                                                                          .w800),
+                                                            ),
+                                                    ],
+                                                  ),
+                                                  shape: CircleBorder(
+                                                      side: BorderSide(
+                                                          width: 2,
+                                                          color: Colors.white,
+                                                          style:
+                                                              BorderStyle.solid)),
                                                 ),
-                                                shape: CircleBorder(
-                                                    side: BorderSide(
-                                                        width: 2,
-                                                        color: Colors.white,
-                                                        style:
-                                                            BorderStyle.solid)),
                                               ),
+                                              percent: percentage,
+                                              animation: true,
+                                              animateFromLastPercent: true,
+                                              backgroundColor: Colors.black26,
                                             ),
-                                            percent: percentage,
-                                            animation: true,
-                                            animateFromLastPercent: true,
-                                            backgroundColor: Colors.black26,
                                           ),
                                         ),
                                         Column(

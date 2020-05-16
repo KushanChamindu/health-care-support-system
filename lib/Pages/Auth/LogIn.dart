@@ -59,7 +59,6 @@ class _LogInState extends State<LogIn> {
       Username = args['user'].Username;
       Birthday = args['user'].Birthday;
       bloodGroup = args['user'].bloodGroup;
-      _passwordController.text = _password;
       _controller.text = bloodGroup;
       setState(() {
         _formType = FormType.register;

@@ -4,7 +4,55 @@ import 'package:test/test.dart';
 //command for the run that test:  flutter drive --target=test_driver/Widget.dart
 
 void main() {
-  group('Loading widget', (){
+  //Loading widget essential variables
+  final logInEmail = find.byValueKey('loginEmailField');
+  final logInPassword = find.byValueKey('loginPasswordField');
+  final logInButton = find.byValueKey('logInButton');
+  final loadingpage = find.byValueKey('loadingContainer');
+  final loadingErrorContainer = find.byValueKey('LoadignErrorContainer');
+  final errorBoxOkButton = find.byValueKey('error_box_ok_button');
+  final registerSwitchButton = find.text('Create a account');
+  final loginSwitchButton = find.text('Have a account? LogIn');
+  final registerButton = find.byValueKey('registerButton');
+  final homePage = find.byValueKey('HomePage');
+  final registerUsernameField = find.byValueKey('registerUsernameField');
+  final registerEmailField = find.byValueKey('registerEmailField');
+  final registerDateTimeField = find.byValueKey('registerDateTimeField');
+  final registerBloodGroupField = find.byValueKey('registerBloodGroupField');
+  final registerBloodGroup_dropdown =
+      find.byValueKey('registerBloodGroup_dropdown');
+  final registerPasswordField = find.byValueKey('registerPasswordField');
+  final registerConfirmPasswordField =
+      find.byValueKey("registerConfirmPasswordField");
+  final login_switch_button = find.byValueKey('login_switch_button');
+  final HomePopUpMenueButton = find.byValueKey("HomePopUpMenueButton");
+  final SignoutButton = find.byValueKey('SignoutButton');
+
+  //home Page/CKD pages test essential variables
+  final CKDCard = find.byValueKey('CKD_Card');
+  final CKDdiscriptionButton = find.byValueKey('CKDdiscriptionButton');
+  final CKDdiscriptionPage = find.byValueKey('CKDdiscriptionPage');
+  final CKDsymptomButton = find.byValueKey('CKDsymptomButton');
+  final CKDprecautionButton = find.byValueKey('CKDprecautionButton');
+  final CKDprecautionBackButton = find.byValueKey('CKDprecautionBackButton');
+  final sampleCKDdirscription = find.byValueKey('sampleCKDdirscription');
+  final CKDprecautionPage = find.byValueKey('CKDprecautionPage');
+  final sampleCKDsymptom = find.byValueKey('sampleCKDsymptom');
+  final CKDsymptomPage = find.byValueKey('CKDsymptomPage');
+  final CKDsymptomBackButton = find.byValueKey('CKDsymptomBackButton');
+  final webviewBackButton = find.byValueKey('webviewBackButton');
+  final webviewInitialWidget = find.byValueKey('webviewInitialWidget');
+
+  //Account test
+  final AccountProfilePic = find.byValueKey('AccountProfilePic');
+  final gotoAccountButton = find.byValueKey('gotoAccountButton');
+  final AccountEditButton = find.byValueKey('AccountEditButton');
+  final AccountEditBox = find.byValueKey('AccountEditBox');
+  final AccountUsernameEdit = find.byValueKey('AccountUsernameEdit');
+  final AccountBirthdayEdit = find.byValueKey('AccountBirthdayEdit');
+  final AccountBloodGoupEdit = find.byValueKey('AccountBloodGoupEdit');
+  final AccountEditSubmitButton = find.byValueKey('AccountEditSubmitButton');
+  group('Loading widget', () {
     isPresent(SerializableFinder byValueKey, FlutterDriver driver,
         {Duration timeout = const Duration(seconds: 3)}) async {
       try {
@@ -14,26 +62,7 @@ void main() {
         return false;
       }
     }
-    var logInEmail = find.byValueKey('loginEmailField');
-    var logInPassword = find.byValueKey('loginPasswordField');
-    var logInButton = find.byValueKey('logInButton');
-    var loadingpage = find.byValueKey('loadingContainer');
-    var loadingErrorContainer = find.byValueKey('LoadignErrorContainer');
-    var errorBoxOkButton = find.byValueKey('error_box_ok_button');
-    var registerSwitchButton = find.text('Create a account');
-    var loginSwitchButton = find.text('Have a account? LogIn');
-    var registerButton = find.byValueKey('registerButton');
-    var homePage= find.byValueKey('HomePage');
-    var registerUsernameField = find.byValueKey('registerUsernameField');
-    var registerEmailField = find.byValueKey('registerEmailField');
-    var registerDateTimeField = find.byValueKey('registerDateTimeField');
-    var registerBloodGroupField = find.byValueKey('registerBloodGroupField');
-    var registerBloodGroup_dropdown=find.byValueKey('registerBloodGroup_dropdown');
-    var registerPasswordField = find.byValueKey('registerPasswordField');
-    var registerConfirmPasswordField =find.byValueKey("registerConfirmPasswordField");
-    var login_switch_button=find.byValueKey('login_switch_button');
-    var homePopUpMenueButton= find.byValueKey("HomePopUpMenueButton");
-    var homeSignoutButton=find.byValueKey('homeSignoutButton');
+
     FlutterDriver driver;
     setUpAll(() async {
       driver = await FlutterDriver.connect();
@@ -91,7 +120,7 @@ void main() {
       await driver.waitFor(registerSwitchButton);
       await Future.delayed(Duration(milliseconds: 2000), () {});
     });
-    test('can\'t create account with using same emial', () async {
+    test('can\'t create account with using email already used', () async {
       await driver.tap(registerSwitchButton);
       await driver.tap(registerUsernameField);
       await driver.enterText('kushan');
@@ -119,7 +148,7 @@ void main() {
       await driver.tap(errorBoxOkButton);
       await Future.delayed(Duration(milliseconds: 2000), () {});
     });
-    test('logIn Successfully', ()async{
+    test('logIn Successfully', () async {
       await driver.tap(login_switch_button);
       await driver.tap(logInEmail);
       await driver.enterText('kushan@kushan.com');
@@ -129,14 +158,14 @@ void main() {
       await driver.tap(logInButton);
       await driver.waitFor(homePage);
     });
-    test('Successfully logout', ()async{
-        await driver.tap(homePopUpMenueButton);
-        await driver.tap(homeSignoutButton);
-        await driver.waitFor(registerSwitchButton);
-        await Future.delayed(Duration(milliseconds: 2000), () {});
+    test('Successfully logout', () async {
+      await driver.tap(HomePopUpMenueButton);
+      await driver.tap(SignoutButton);
+      await driver.waitFor(registerSwitchButton);
+      await Future.delayed(Duration(milliseconds: 2000), () {});
     });
   });
-  group('home Page test',(){
+  group('home Page/CKD pages test', () {
     FlutterDriver driver;
     setUpAll(() async {
       driver = await FlutterDriver.connect();
@@ -146,24 +175,8 @@ void main() {
         driver.close();
       }
     });
-    var logInEmail = find.byValueKey('loginEmailField');
-    var logInPassword = find.byValueKey('loginPasswordField');
-    var logInButton = find.byValueKey('logInButton');
-    var homePage= find.byValueKey('HomePage');
-    var CKDCard=find.byValueKey('CKD_Card');
-    var CKDdiscriptionButton=find.byValueKey('CKDdiscriptionButton');
-    var CKDdiscriptionPage=find.byValueKey('CKDdiscriptionPage');
-    var CKDsymptomButton=find.byValueKey('CKDsymptomButton');
-    var CKDprecautionButton=find.byValueKey('CKDprecautionButton');
-    var CKDprecautionBackButton=find.byValueKey('CKDprecautionBackButton');
-    var sampleCKDdirscription=find.byValueKey('sampleCKDdirscription');
-    var sampleCKDprecaution=find.byValueKey('sampleCKDprecaution');
-    var sampleCKDsymptom=find.byValueKey('sampleCKDsymptom');
-    var CKDsymptomPage=find.byValueKey('CKDsymptomPage');
-    var CKDsymptomBackButton=find.byValueKey('CKDsymptomBackButton');
-    var webviewBackButton=find.byValueKey('webviewBackButton');
-    var webviewInitialWidget=find.byValueKey('webviewInitialWidget');
-    test('logIn Successfully', ()async{
+
+    test('logIn Successfully', () async {
       await driver.tap(logInEmail);
       await driver.enterText('kushan@kushan.com');
       await driver.tap(logInPassword);
@@ -173,7 +186,7 @@ void main() {
       await driver.waitFor(homePage);
       await driver.waitFor(CKDCard);
     });
-    test('Goto CKD discrption and CKD discription page UI test', ()async{
+    test('Goto CKD discrption and CKD discription page UI test', () async {
       await driver.tap(CKDCard);
       await driver.waitFor(CKDdiscriptionButton);
       await driver.tap(CKDdiscriptionButton);
@@ -195,7 +208,7 @@ void main() {
     });
     test('test UI of CKD precaution', ()async{
       await driver.tap(CKDprecautionButton);
-      await driver.waitFor(sampleCKDprecaution);
+      await driver.waitFor(CKDprecautionPage);
       await Future.delayed(Duration(milliseconds: 2000), () {});
       await driver.tap(CKDprecautionBackButton);
       await driver.waitFor(CKDdiscriptionPage);
@@ -210,7 +223,34 @@ void main() {
       await driver.tap(webviewBackButton);
     });
   });
-  group('Account validation', (){
-
+  group('Account test', () {
+    FlutterDriver driver;
+    setUpAll(() async {
+      driver = await FlutterDriver.connect();
+    });
+    tearDownAll(() async {
+      if (driver != null) {
+        driver.close();
+      }
+    });
+    test('go to the account page', () async {
+      await driver.tap(HomePopUpMenueButton);
+      await driver.tap(gotoAccountButton);
+      await driver.waitFor(AccountProfilePic);
+    });
+    test('account edit', () async {
+      await driver.tap(AccountEditButton);
+      await driver.waitFor(AccountEditBox);
+      await driver.tap(AccountUsernameEdit);
+      await driver.enterText("Kushan Nilanga");
+      await driver.tap(AccountBirthdayEdit);
+      await Future.delayed(Duration(milliseconds: 2000), () {});
+      await driver.tap(find.text('25'));
+      await driver.tap(find.text('OK'));
+      await driver.tap(AccountBloodGoupEdit);
+      await driver.tap(find.text('AB+'));
+      await driver.tap(AccountEditSubmitButton);
+      await Future.delayed(Duration(milliseconds: 2000), () {});
+    });
   });
 }

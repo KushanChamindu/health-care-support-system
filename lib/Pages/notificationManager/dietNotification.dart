@@ -34,8 +34,8 @@ class _DietNotificationState extends State<DietNotification> {
   @override
   Widget build(BuildContext context) {
     final UID args = ModalRoute.of(context).settings.arguments;
-    return StreamProvider<QuerySnapshot>.value(
-      value: widget.notificationService.dietNotificationStream,
+    return StreamProvider<DocumentSnapshot>.value(
+      value: widget.notificationService.dietNotificationStream(args.uid),
       child: Scaffold(
           backgroundColor: Colors.grey[300],
           appBar: AppBar(
@@ -188,11 +188,9 @@ class _DietNotificationBodyState extends State<DietNotificationBody> {
 
   @override
   Widget build(BuildContext context) {
-    final dietNotificationData = Provider.of<QuerySnapshot>(context);
+    final dietNotificationData = Provider.of<DocumentSnapshot>(context);
     try {
-      var dietData = dietNotificationData.documents
-          .firstWhere((doc) => doc.documentID == '${widget.uid}')
-          .data;
+      var dietData=dietNotificationData.data;
       bool alermToggle = dietData['IsAlermOn'] || false;
       final TextEditingController _breakfastController =
           new TextEditingController(

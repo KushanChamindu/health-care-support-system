@@ -27,6 +27,7 @@ class _SplashScreenState extends State<SplashScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.white,
       body: Column(
         children: <Widget>[
           Container(
@@ -39,7 +40,7 @@ class _SplashScreenState extends State<SplashScreen> {
           ),
           Text('Welcome',style: TextStyle(fontSize: 26,fontWeight: FontWeight.w800),),
           Container(
-            height: 100,
+            height: MediaQuery.of(context).size.height*0.2,
             width: 100,
             child: Image(
               image: AssetImage('assets/splashLoading.gif'),
