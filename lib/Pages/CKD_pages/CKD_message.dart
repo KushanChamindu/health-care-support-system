@@ -119,7 +119,6 @@ class _MessagePageBodyState extends State<MessagePageBody> {
           Dialogflow dialogFlow =
               Dialogflow(authGoogle: authGoogle, language: Language.english);
           AIResponse response = await dialogFlow.detectIntent(query);
-          print(response.queryResult.intent.displayName);
           FactsMessage message = FactsMessage(
             text: response.getMessage() ??
                 CardDialogflow(response.getListMessage()[0]).title,
@@ -129,23 +128,25 @@ class _MessagePageBodyState extends State<MessagePageBody> {
           setState(() {
             _messages.insert(0, message);
           });
-          if (response.getMessage() != null && response.webhookStatus != null) {
+          if (response.getMessage() != null && response.webhookStatus != null && response.queryResult.intent.displayName!=null) {
             widget.auth.setCKDPrediction(
                 widget.uid,
                 double.parse(
                     response.getMessage().split(' ')[4].split('%')[0]));
           }
           else if (response.queryResult.intent.displayName.toString() == 'telegrame') {
-            print('kushan');
-            print(response.getMessage());
-            print(response.getMessage()
-                .split(':')[1]);
-            Widget custommsg = Telegram(context,response);
-            setState((){
-              _messages.insert(0, custommsg);
-            });
+              print('kushan');
+              print(response.getMessage());
+              print(response.getMessage()
+                  .split(':')[1]);
+              Widget custommsg = Telegram(context,response);
+              setState((){
+                _messages.insert(0, custommsg);
+              });
 
-          }
+            }
+
+
         } catch (e) {
           debugPrint(e);
           _messages.insert(
