@@ -93,14 +93,29 @@ class _MessagePageBodyState extends State<MessagePageBody> {
       mainAxisAlignment: MainAxisAlignment.center,
       children: <Widget>[
         RaisedButton.icon(
-            icon: Icon(Icons.input),
+            icon: Icon(Icons.launch),
               shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(18)),
             color: Colors.blueAccent,
               onPressed:() async => await launch(
-                'https://'+response.getMessage()
-                    .split(':')[1].toString(),forceWebView:false,forceSafariVC: false),
+                'https://t.me/CKD_Doctor_bot',forceWebView:false,forceSafariVC: false),
               label: Text('Click this')),
+      ],
+    );
+
+  }
+  Widget Facebook(BuildContext context,AIResponse response){
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: <Widget>[
+        FlatButton.icon(
+            icon: Icon(Icons.launch),
+            shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(18)),
+            color: Colors.blue[500],
+            onPressed:() async => await launch(
+                'https://fb.me/MobileDoctorHealthCareSupport',forceWebView:false,forceSafariVC: false),
+            label: Text('Click this')),
       ],
     );
 
@@ -135,17 +150,16 @@ class _MessagePageBodyState extends State<MessagePageBody> {
                     response.getMessage().split(' ')[4].split('%')[0]));
           }
           else if (response.queryResult.intent.displayName.toString() == 'telegrame') {
-              print('kushan');
-              print(response.getMessage());
-              print(response.getMessage()
-                  .split(':')[1]);
-              Widget custommsg = Telegram(context,response);
+              Widget telegram_msg = Telegram(context,response);
               setState((){
-                _messages.insert(0, custommsg);
+                _messages.insert(0, telegram_msg);
               });
-
-            }
-
+          }else  if (response.queryResult.intent.displayName.toString() == 'FaceBook') {
+            Widget facebook_msg = Facebook(context, response);
+            setState(() {
+              _messages.insert(0, facebook_msg);
+            });
+          }
 
         } catch (e) {
           debugPrint(e);
