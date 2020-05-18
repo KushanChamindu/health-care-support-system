@@ -120,72 +120,101 @@ class _MessagePageBodyState extends State<MessagePageBody> {
     );
 
   }
+  void _dialogFlowResponse(query,userData) async {
+    _textController.clear();
+    try {
+      AuthGoogle authGoogle =
+      await AuthGoogle(fileJson: "assets/dialogflow/bot-cred.json")
+          .build();
+      Dialogflow dialogFlow =
+      Dialogflow(authGoogle: authGoogle, language: Language.english);
+      AIResponse response = await dialogFlow.detectIntent(query);
+      FactsMessage message = FactsMessage(
+        text: response.getMessage() ??
+            CardDialogflow(response.getListMessage()[0]).title,
+        name: "Doctor",
+        type: false,
+      );
+      setState(() {
+        _messages.insert(0, message);
+      });
+      if (response.getMessage() != null && response.webhookStatus != null && response.queryResult.intent.displayName!=null) {
+        widget.auth.setCKDPrediction(
+            widget.uid,
+            double.parse(
+                response.getMessage().split(' ')[4].split('%')[0]));
+      }
+      else if (response.queryResult.intent.displayName.toString() == 'telegrame') {
+        Widget telegram_msg = Telegram(context,response);
+        setState((){
+          _messages.insert(0, telegram_msg);
+        });
+      }else  if (response.queryResult.intent.displayName.toString() == 'FaceBook') {
+        Widget facebook_msg = Facebook(context, response);
+        setState(() {
+          _messages.insert(0, facebook_msg);
+        });
+      }else if(response.queryResult.intent.displayName.toString() == 'Default Welcome Intent'){
+        Widget instuction=Welcome(context,response,userData);
+        setState(() {
+          _messages.insert(0, instuction);
+        });
+      }
+
+    } catch (e) {
+      debugPrint(e);
+      _messages.insert(
+          0,
+          FactsMessage(
+            text: 'Check your internet connection',
+            name: "Dcotor",
+            type: false,
+          ));
+    }
+  }
+  Widget Welcome(BuildContext context,AIResponse response,userData){
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: <Widget>[
+        FlatButton.icon(
+            icon: Icon(Icons.perm_device_information),
+            shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(18)),
+            color: Colors.blue[500],
+            onPressed:(){
+              _submitQuery('I want CKD prediction',userData);
+            },
+            label: Text('CKD Predictions')),
+        SizedBox(width: 8,),
+        FlatButton.icon(
+            icon: Icon(Icons.device_unknown),
+            shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(18)),
+            color: Colors.blue[500],
+            onPressed:()=>_submitQuery('I have question about CKD',userData),
+            label: Text('CKD Questions')),
+      ],
+    );
+
+  }
+  void _submitQuery(String text,userData) {
+    _textController.clear();
+    FactsMessage message = new FactsMessage(
+      text: text,
+      name: userData['Username'].split(' ')[0],
+      type: true,
+      imageUrl: userData['ProfilePic'],
+    );
+    setState(() {
+      _messages.insert(0, message);
+    });
+    _dialogFlowResponse(text,userData);
+  }
   @override
   Widget build(BuildContext context) {
     final UserData = Provider.of<DocumentSnapshot>(context);
     try {
       var userData = UserData.data;
-      void _dialogFlowResponse(query) async {
-        _textController.clear();
-        try {
-          AuthGoogle authGoogle =
-              await AuthGoogle(fileJson: "assets/dialogflow/bot-cred.json")
-                  .build();
-          Dialogflow dialogFlow =
-              Dialogflow(authGoogle: authGoogle, language: Language.english);
-          AIResponse response = await dialogFlow.detectIntent(query);
-          FactsMessage message = FactsMessage(
-            text: response.getMessage() ??
-                CardDialogflow(response.getListMessage()[0]).title,
-            name: "Doctor",
-            type: false,
-          );
-          setState(() {
-            _messages.insert(0, message);
-          });
-          if (response.getMessage() != null && response.webhookStatus != null && response.queryResult.intent.displayName!=null) {
-            widget.auth.setCKDPrediction(
-                widget.uid,
-                double.parse(
-                    response.getMessage().split(' ')[4].split('%')[0]));
-          }
-          else if (response.queryResult.intent.displayName.toString() == 'telegrame') {
-              Widget telegram_msg = Telegram(context,response);
-              setState((){
-                _messages.insert(0, telegram_msg);
-              });
-          }else  if (response.queryResult.intent.displayName.toString() == 'FaceBook') {
-            Widget facebook_msg = Facebook(context, response);
-            setState(() {
-              _messages.insert(0, facebook_msg);
-            });
-          }
-
-        } catch (e) {
-          debugPrint(e);
-          _messages.insert(
-              0,
-              FactsMessage(
-                text: 'Check your internet connection',
-                name: "Dcotor",
-                type: false,
-              ));
-        }
-      }
-
-      void _submitQuery(String text) {
-        _textController.clear();
-        FactsMessage message = new FactsMessage(
-          text: text,
-          name: userData['Username'].split(' ')[0],
-          type: true,
-          imageUrl: userData['ProfilePic'],
-        );
-        setState(() {
-          _messages.insert(0, message);
-        });
-        _dialogFlowResponse(text);
-      }
 
       Widget _queryInputWidget(BuildContext context) {
         return Container(
@@ -198,7 +227,7 @@ class _MessagePageBodyState extends State<MessagePageBody> {
                     padding: const EdgeInsets.only(left: 8.0),
                     child: TextField(
                       controller: _textController,
-                      onSubmitted: _submitQuery,
+                      onSubmitted:(_textController){_submitQuery(_textController,userData);},
                       decoration: InputDecoration.collapsed(
                           hintText: ("Send a message")),
                     ),
@@ -211,7 +240,7 @@ class _MessagePageBodyState extends State<MessagePageBody> {
                         Icons.send,
                         size: 32,
                       ),
-                      onPressed: () => _submitQuery(_textController.text)),
+                      onPressed: () => _submitQuery(_textController.text,userData)),
                 ),
               ],
             ),
