@@ -1,0 +1,111 @@
+<link href="//netdna.bootstrapcdn.com/bootstrap/3.1.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+<script src="//netdna.bootstrapcdn.com/bootstrap/3.1.0/js/bootstrap.min.js"></script>
+<script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
+<!------ Include the above in your HEAD tag ---------->
+
+<div class="container">
+	<div class="row">
+      <div class="col-md-6 col-md-offset-3">
+        <div class="well well-sm">
+          <form class="{{ url_for('predict')}}" action="" method="post">
+          <fieldset>
+            <legend class="text-center">predict disease</legend>
+    
+            <!-- Name input-->
+            <div class="form-group">
+              <label class="col-md-3 control-label" for="name">Age</label>
+              <div class="col-md-9">
+                <input  name="age" type="number" placeholder="age" class="form-control">
+              </div>
+            </div>
+    
+            <!-- Email input-->
+            <div class="form-group">
+              <label class="col-md-3 control-label" for="name">sex</label>
+              <div class="col-md-9">
+                <input  name="sex" type="text"  class="form-control">
+              </div>
+            </div>
+    
+            
+            <div class="form-group">
+              <label class="col-md-3 control-label" >cp</label>
+              <div class="col-md-9">
+                <input class="form-control"  name="cp" type="number" >
+              </div>
+            </div>
+    
+	        <div class="form-group">
+              <label class="col-md-3 control-label" >trestbps</label>
+              <div class="col-md-9">
+                <input class="form-control"  name="trestbps" type="number" >
+              </div>
+            </div>
+			 <div class="form-group">
+              <label class="col-md-3 control-label" >chol</label>
+              <div class="col-md-9">
+                <input class="form-control"  name="chol" type="number" >
+              </div>
+            </div>
+			 <div class="form-group">
+              <label class="col-md-3 control-label" >restecg</label>
+              <div class="col-md-9">
+                <input class="form-control"  name="restecg" type="number" >
+              </div>
+            </div>
+			<div class="form-group">
+              <label class="col-md-3 control-label" >fbs</label>
+              <div class="col-md-9">
+                <input class="form-control"  name="fbs" type="number" >
+              </div>
+            </div>
+			<div class="form-group">
+              <label class="col-md-3 control-label" >thalach</label>
+              <div class="col-md-9">
+                <input class="form-control"  name="thalach" type="number" >
+              </div>
+            </div>
+			<div class="form-group">
+              <label class="col-md-3 control-label" >exang</label>
+              <div class="col-md-9">
+                <input class="form-control"  name="exang" type="number" >
+              </div>
+            </div>
+			<div class="form-group">
+              <label class="col-md-3 control-label" >oldpeak</label>
+              <div class="col-md-9">
+                <input class="form-control"  name="oldpeak" type="number" >
+              </div>
+            </div>
+			<div class="form-group">
+              <label class="col-md-3 control-label" >slope</label>
+              <div class="col-md-9">
+                <input class="form-control"  name="slope" type="number" >
+              </div>
+            </div>
+			<div class="form-group">
+              <label class="col-md-3 control-label" >ca</label>
+              <div class="col-md-9">
+                <input class="form-control"  name="ca" type="number" >
+              </div>
+            </div>
+			<div class="form-group">
+              <label class="col-md-3 control-label" >thal</label>
+              <div class="col-md-9">
+                <input class="form-control"  name="thal" type="number" >
+              </div>
+            </div>
+            <!-- Form actions -->
+            <div class="form-group">
+              <div class="col-md-12 text-right">
+                <button type="submit" class="btn btn-primary btn-lg">Predict</button>
+              </div>
+            </div>
+			
+          </fieldset>
+          </form>
+		  {{ prediction_text }}
+        </div>
+      </div>
+	</div>
+</div>
