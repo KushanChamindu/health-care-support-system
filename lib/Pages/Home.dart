@@ -2,6 +2,7 @@ import 'dart:ui';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:healthcaresupportsystem/CKD_Card/CKD_Card.dart';
+import 'package:healthcaresupportsystem/HTD_card/HTD_dart.dart';
 import 'package:healthcaresupportsystem/Pages/Auth/Service/Auth.dart';
 import 'package:healthcaresupportsystem/Pages/Auth/UID.dart';
 import 'package:healthcaresupportsystem/breast_cancer_Card/breast_cancer_Card.dart';
@@ -45,6 +46,7 @@ class Home extends StatelessWidget {
                           NotificationButtonCard(),
                           CKD_Cards(),
                           BC_Cards(),
+                          HTD_Cards(),
                         ],
                       )
                   ),

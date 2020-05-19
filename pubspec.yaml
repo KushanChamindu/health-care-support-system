@@ -39,6 +39,8 @@ dependencies:
   http: ^0.12.0+2
   flutter_spinkit: ^4.1.2+1
   url_launcher: ^5.4.7
+  flutter_speed_dial: ^1.2.1
+  folding_cell: ^0.1.2
 
 dev_dependencies:
   flutter_launcher_icons: ^0.7.4
@@ -68,12 +70,15 @@ flutter:
 
   # To add assets to your application, add an assets section, like this:
   assets:
+    - assets/CKD_image/kidney_1.jpg
     - assets/
     - assets/CKD_image/
     - assets/breast_cancer_image/
     - assets/NotificationManager/
     - assets/OnboardScreen/
     - assets/dialogflow/bot-cred.json
+    - assets/HTD/images/
+    - assets/HTD/
   #  - images/a_dot_ham.jpeg
 
   # An image asset can refer to one or more resolution-specific "variants", see
@@ -100,6 +105,9 @@ flutter:
          - asset: fonts/Baloo2-ExtraBold.ttf
          - asset: fonts/Baloo2-SemiBold.ttf
          - asset: fonts/Baloo2-Regular.ttf
+     - family: Poppins
+       fonts:
+         - asset: assets/HTD/Poppins-SemiBold.ttf
 
            #
   # For details regarding fonts from package dependencies,

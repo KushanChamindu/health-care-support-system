@@ -45,15 +45,15 @@ class _CKD_discriptionState extends State<CKD_discription> {
         ],
         backgroundColor: Colors.blueAccent,
       ),
-      body: SingleChildScrollView(
-        child: Column(
-          key: ValueKey('CKDdiscriptionPage'),
-          crossAxisAlignment: CrossAxisAlignment.start,
+      body: ListView(
+//        children:
+//        Column(
+//          key: ValueKey('CKDdiscriptionPage'),
+//          crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
-            Card(
-              child:
-              Image.asset('assets/CKD_image/kidney_1.jpg',
-              ),
+            Padding(
+              padding: const EdgeInsets.fromLTRB(4,4,4,0),
+              child: Image(image:AssetImage('assets/CKD_image/kidney_1.jpg',),),
             ),
             Row(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -177,7 +177,7 @@ class _CKD_discriptionState extends State<CKD_discription> {
               ],
             )),
           ],
-        ),
+//        ),
       ),
     );
   }

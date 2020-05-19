@@ -17,6 +17,7 @@ abstract class BaseAuth {
   Future setUserImageDetails(String uid, String ImageURL);
   Future setCKDPrediction(String uid, double percentage);
   Future setBreastCancerPrediction(String uid, double percentage);
+  Future setHTDPrediction(String uid, double percentage);
   Future sendPasswordResetEmail(String email);
 }
 
@@ -66,6 +67,13 @@ class Auth implements BaseAuth {
     DateTime date= DateTime.now();
     await userData.document(uid).updateData({
       'CKD':'${percentage.toString()}_${date.toIso8601String()}'
+    });
+  }
+  //set HTD predictions result
+  Future setHTDPrediction(String uid, double percentage)async{
+    DateTime date= DateTime.now();
+    await userData.document(uid).updateData({
+      'HeartIssue':'${percentage.toString()}_${date.toIso8601String()}'
     });
   }
 
