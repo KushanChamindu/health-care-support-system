@@ -100,9 +100,10 @@ class _CKD_CardsState extends State<CKD_Cards> {
                             Navigator.pushNamed(context, '/CKD_message',arguments:UID(uid: uid));
                           },
                           child: Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
                             children: <Widget>[
                               Padding(
-                                padding: const EdgeInsets.fromLTRB(50, 0, 7, 3),
+                              padding: EdgeInsets.only(right: 10),
                                 child: Image.asset(
                                   'assets/CKD_image/docIcon.png',
                                   height: 40,

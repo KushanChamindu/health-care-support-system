@@ -497,7 +497,7 @@ class _LogInState extends State<LogIn> {
                         ),
                         Padding(
                           padding: EdgeInsets.only(
-                              top: MediaQuery.of(context).size.height * 0.7),
+                              top: MediaQuery.of(context).size.height-204),
                           child: Container(
                             width: 400,
                             child: Column(children: buildSubmitButtons()),

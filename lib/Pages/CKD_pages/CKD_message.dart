@@ -88,46 +88,48 @@ class MessagePageBody extends StatefulWidget {
 class _MessagePageBodyState extends State<MessagePageBody> {
   final List<Widget> _messages = <Widget>[];
   final TextEditingController _textController = new TextEditingController();
-  Widget Telegram(BuildContext context,AIResponse response){
+
+  Widget Telegram(BuildContext context, AIResponse response) {
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
       children: <Widget>[
         RaisedButton.icon(
             icon: Icon(Icons.launch),
-              shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(18)),
+            shape:
+                RoundedRectangleBorder(borderRadius: BorderRadius.circular(18)),
             color: Colors.blueAccent,
-              onPressed:() async => await launch(
-                'https://t.me/CKD_Doctor_bot',forceWebView:false,forceSafariVC: false),
-              label: Text('Click this')),
+            onPressed: () async => await launch('https://t.me/CKD_Doctor_bot',
+                forceWebView: false, forceSafariVC: false),
+            label: Text('Click this')),
       ],
     );
-
   }
-  Widget Facebook(BuildContext context,AIResponse response){
+
+  Widget Facebook(BuildContext context, AIResponse response) {
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
       children: <Widget>[
         FlatButton.icon(
             icon: Icon(Icons.launch),
-            shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(18)),
+            shape:
+                RoundedRectangleBorder(borderRadius: BorderRadius.circular(18)),
             color: Colors.blue[500],
-            onPressed:() async => await launch(
-                'https://fb.me/MobileDoctorHealthCareSupport',forceWebView:false,forceSafariVC: false),
+            onPressed: () async => await launch(
+                'https://fb.me/MobileDoctorHealthCareSupport',
+                forceWebView: false,
+                forceSafariVC: false),
             label: Text('Click this')),
       ],
     );
-
   }
-  void _dialogFlowResponse(query,userData) async {
+
+  void _dialogFlowResponse(query, userData) async {
     _textController.clear();
     try {
       AuthGoogle authGoogle =
-      await AuthGoogle(fileJson: "assets/dialogflow/bot-cred.json")
-          .build();
+          await AuthGoogle(fileJson: "assets/dialogflow/bot-cred.json").build();
       Dialogflow dialogFlow =
-      Dialogflow(authGoogle: authGoogle, language: Language.english);
+          Dialogflow(authGoogle: authGoogle, language: Language.english);
       AIResponse response = await dialogFlow.detectIntent(query);
       FactsMessage message = FactsMessage(
         text: response.getMessage() ??
@@ -138,29 +140,36 @@ class _MessagePageBodyState extends State<MessagePageBody> {
       setState(() {
         _messages.insert(0, message);
       });
-      if (response.getMessage() != null && response.webhookStatus != null && response.queryResult.intent.displayName!=null) {
-        widget.auth.setCKDPrediction(
-            widget.uid,
-            double.parse(
-                response.getMessage().split(' ')[4].split('%')[0]));
-      }
-      else if (response.queryResult.intent.displayName.toString() == 'telegrame') {
-        Widget telegram_msg = Telegram(context,response);
-        setState((){
+      if (response.getMessage() != null &&
+          response.webhookStatus != null &&
+          response.queryResult.intent.displayName != null) {
+        widget.auth.setCKDPrediction(widget.uid,
+            double.parse(response.getMessage().split(' ')[4].split('%')[0]));
+      } else if (response.queryResult.intent.displayName.toString() ==
+          'telegrame') {
+        Widget telegram_msg = Telegram(context, response);
+        setState(() {
           _messages.insert(0, telegram_msg);
         });
-      }else  if (response.queryResult.intent.displayName.toString() == 'FaceBook') {
+      } else if (response.queryResult.intent.displayName.toString() ==
+          'FaceBook') {
         Widget facebook_msg = Facebook(context, response);
         setState(() {
           _messages.insert(0, facebook_msg);
         });
-      }else if(response.queryResult.intent.displayName.toString() == 'Default Welcome Intent'){
-        Widget instuction=Welcome(context,response,userData);
+      } else if (response.queryResult.intent.displayName.toString() ==
+          'Default Welcome Intent') {
+        Widget instuction = Welcome(context, response, userData);
         setState(() {
           _messages.insert(0, instuction);
         });
+      } else if (response.queryResult.intent.displayName.toString() ==
+          'Threatment_CKD') {
+        Widget treatment = Threatment(context, response, userData);
+        setState(() {
+          _messages.insert(0, treatment);
+        });
       }
-
     } catch (e) {
       debugPrint(e);
       _messages.insert(
@@ -172,32 +181,67 @@ class _MessagePageBodyState extends State<MessagePageBody> {
           ));
     }
   }
-  Widget Welcome(BuildContext context,AIResponse response,userData){
+
+  Widget Welcome(BuildContext context, AIResponse response, userData) {
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
       children: <Widget>[
         FlatButton.icon(
             icon: Icon(Icons.perm_device_information),
-            shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(18)),
+            shape:
+                RoundedRectangleBorder(borderRadius: BorderRadius.circular(18)),
             color: Colors.blue[500],
-            onPressed:(){
-              _submitQuery('I want CKD prediction',userData);
+            onPressed: () {
+              _submitQuery('I want CKD prediction', userData);
             },
             label: Text('CKD Predictions')),
-        SizedBox(width: 8,),
+        SizedBox(
+          width: 8,
+        ),
         FlatButton.icon(
             icon: Icon(Icons.device_unknown),
-            shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(18)),
+            shape:
+                RoundedRectangleBorder(borderRadius: BorderRadius.circular(18)),
             color: Colors.blue[500],
-            onPressed:()=>_submitQuery('I have question about CKD',userData),
+            onPressed: () =>
+                _submitQuery('I have question about CKD', userData),
             label: Text('CKD Questions')),
       ],
     );
-
   }
-  void _submitQuery(String text,userData) {
+
+  Widget Threatment(BuildContext context, AIResponse response, userData) {
+    var data = response.queryResult.fulfillmentMessages[0]['card'];
+    return Padding(
+      padding: const EdgeInsets.only(left:10.0,right: 10),
+      child: Column(
+        children: <Widget>[
+          Text(data['subtitle'],style: TextStyle(fontSize: 15,fontWeight: FontWeight.w500),),
+          FadeInImage.assetNetwork(
+            width: MediaQuery.of(context).size.width-20,
+              height: 200,
+              placeholder: 'assets/loading.gif', image: data['imageUri']),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: <Widget>[
+              RaisedButton.icon(
+                  icon: Icon(Icons.launch),
+                  shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(18)),
+                  color: Colors.blueAccent,
+                  onPressed: () async => await launch(
+                      data['buttons'][0]['postback'],
+                      forceWebView: false,
+                      forceSafariVC: false),
+                  label: Text(data['buttons'][0]['text'])),
+            ],
+          )
+        ],
+      ),
+    );
+  }
+
+  void _submitQuery(String text, userData) {
     _textController.clear();
     FactsMessage message = new FactsMessage(
       text: text,
@@ -208,8 +252,9 @@ class _MessagePageBodyState extends State<MessagePageBody> {
     setState(() {
       _messages.insert(0, message);
     });
-    _dialogFlowResponse(text,userData);
+    _dialogFlowResponse(text, userData);
   }
+
   @override
   Widget build(BuildContext context) {
     final UserData = Provider.of<DocumentSnapshot>(context);
@@ -227,7 +272,9 @@ class _MessagePageBodyState extends State<MessagePageBody> {
                     padding: const EdgeInsets.only(left: 8.0),
                     child: TextField(
                       controller: _textController,
-                      onSubmitted:(_textController){_submitQuery(_textController,userData);},
+                      onSubmitted: (_textController) {
+                        _submitQuery(_textController, userData);
+                      },
                       decoration: InputDecoration.collapsed(
                           hintText: ("Send a message")),
                     ),
@@ -240,7 +287,8 @@ class _MessagePageBodyState extends State<MessagePageBody> {
                         Icons.send,
                         size: 32,
                       ),
-                      onPressed: () => _submitQuery(_textController.text,userData)),
+                      onPressed: () =>
+                          _submitQuery(_textController.text, userData)),
                 ),
               ],
             ),
@@ -249,12 +297,12 @@ class _MessagePageBodyState extends State<MessagePageBody> {
       }
 
       return Builder(
-        builder: (context) => Column(
-            children: <Widget>[
+        builder: (context) => Column(children: <Widget>[
           Flexible(
               child: ListView.builder(
             padding: EdgeInsets.all(8.0),
-            reverse: true, //To keep the latest messages at the bottom
+            reverse: true,
+            //To keep the latest messages at the bottom
             itemBuilder: (_, int index) => _messages[index],
             itemCount: _messages.length,
           )),

@@ -102,9 +102,10 @@ class _BC_CardsState extends State<BC_Cards> {
                             Navigator.pushNamed(context, '/bc_prediction', arguments:UID(uid: uid));
                           },
                           child: Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
                             children: <Widget>[
                               Padding(
-                                padding: const EdgeInsets.fromLTRB(50, 0, 7, 3),
+                              padding: EdgeInsets.only(right: 7),
                                 child: Image.asset(
                                   'assets/CKD_image/docIcon.png',
                                   height: 40,
