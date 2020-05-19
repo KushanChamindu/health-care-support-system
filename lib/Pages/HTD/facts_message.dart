@@ -26,7 +26,11 @@ class Facts extends StatelessWidget {
             Card(
               elevation: 3,
               shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.all(Radius.circular(16))
+                borderRadius:BorderRadius.only(
+                  topRight: Radius.circular(15),
+                  bottomLeft: Radius.circular(15),
+                  bottomRight: Radius.circular(15),
+                ),
               ),
                 child: Padding(
                   padding: const EdgeInsets.all(8.0),
@@ -50,7 +54,11 @@ class Facts extends StatelessWidget {
             Card(
                 color: Colors.lightBlue[400],
                 shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.all(Radius.circular(16))
+                    borderRadius: BorderRadius.only(
+                      topLeft: Radius.circular(15),
+                      bottomLeft: Radius.circular(15),
+                      bottomRight: Radius.circular(15),
+                    ),
                 ),
                 child: Padding(
                   padding: const EdgeInsets.all(8.0),

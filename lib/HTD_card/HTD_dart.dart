@@ -66,7 +66,8 @@ class _HTD_CardsState extends State<HTD_Cards> {
                   children: <Widget>[
                     Expanded(
                       child: InkWell(
-                          onTap: (){
+                          key: ValueKey('CKDdiscriptionButton'),
+                          onTap: ()async{
                             Navigator.push (
                               context,
                               MaterialPageRoute(
@@ -74,17 +75,16 @@ class _HTD_CardsState extends State<HTD_Cards> {
                               ),
                             );
                           },
-                          child: Center(
+                          child: Padding(
+                            padding: const EdgeInsets.fromLTRB(15,0, 0, 0),
                             child: Row(
+                              crossAxisAlignment: CrossAxisAlignment.center,
                               children: <Widget>[
-                                Padding(
-                                  padding: const EdgeInsets.fromLTRB(50, 0, 5, 2),
-                                  child: Icon(
-                                    Icons.local_hospital,
-                                    size: 40,),
-                                ),
+                                Icon(
+                                  Icons.local_hospital,
+                                  size: 40,),
                                 Text(
-                                  'Description',
+                                  'Discription',
                                   style: TextStyle(
                                     fontWeight: FontWeight.w500,
                                     fontSize: 16,

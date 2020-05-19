@@ -177,7 +177,7 @@ class _HTDMessagePageBodyState extends State<HTDMessagePageBody> {
   void agentResponse(query,userData) async {
     _textController.clear();
     AuthGoogle authGoogle =
-    await AuthGoogle(fileJson: "assets/HTD/doctor-cqfxkd-b2d5091fc816.json").build();
+    await AuthGoogle(fileJson: "assets/HTD/doctor-cqfxkd-9ebecdc5f002.json").build();
     Dialogflow dialogFlow =
     Dialogflow(authGoogle: authGoogle, language: Language.english);
     AIResponse response = await dialogFlow.detectIntent(query);
@@ -263,12 +263,15 @@ class _HTDMessagePageBodyState extends State<HTDMessagePageBody> {
             child: Row(
               children: <Widget>[
                 Flexible(
-                  child: TextField(
-                    controller: _textController,
-                    onSubmitted: (_textController) {
-                      _submitQuery(_textController, userData);
-                    },
-                    decoration: InputDecoration.collapsed(hintText: "Send a message"),
+                  child: Padding(
+                    padding: const EdgeInsets.only(left:10.0),
+                    child: TextField(
+                      controller: _textController,
+                      onSubmitted: (_textController) {
+                        _submitQuery(_textController, userData);
+                      },
+                      decoration: InputDecoration.collapsed(hintText: "Send a message"),
+                    ),
                   ),
                 ),
                 Container(

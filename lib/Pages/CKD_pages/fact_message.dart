@@ -24,17 +24,30 @@ class FactsMessage extends StatelessWidget {
           children: <Widget>[
             Text(this.name,
                 style: TextStyle(
-                  fontWeight: FontWeight.bold,
+                  fontWeight: FontWeight.w900,
                   fontSize: 16,
                 )),
             Container(
+              padding: EdgeInsets.all(8),
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.only(
+                  topRight: Radius.circular(15),
+                  bottomLeft: Radius.circular(15),
+                  bottomRight: Radius.circular(15),
+                ),
+                gradient: LinearGradient(
+                  colors: [Colors.grey[400],Colors.grey[200]],
+                  begin: Alignment.topCenter,
+                  end: Alignment.bottomCenter
+                )
+              ),
               margin: const EdgeInsets.only(top: 5.0),
               child: Text(
                 text,
                 style: TextStyle(
                     fontSize: 15,
                     letterSpacing: 0.5,
-                    fontWeight: FontWeight.w400),
+                    fontWeight: FontWeight.w500),
               ),
             ),
           ],
@@ -52,6 +65,19 @@ class FactsMessage extends StatelessWidget {
             Text(this.name,
                 style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16)),
             Container(
+              padding: EdgeInsets.all(8),
+              decoration: BoxDecoration(
+                  borderRadius: BorderRadius.only(
+                    topLeft: Radius.circular(15),
+                    bottomLeft: Radius.circular(15),
+                    bottomRight: Radius.circular(15),
+                  ),
+                  gradient: LinearGradient(
+                      colors: [Colors.grey[400],Colors.grey[200]],
+                      begin: Alignment.topCenter,
+                      end: Alignment.bottomCenter
+                  )
+              ),
               margin: const EdgeInsets.only(top: 5.0),
               child: Text(
                 text,

@@ -1,6 +1,7 @@
 import 'dart:ui';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:healthcaresupportsystem/Pages/Auth/Service/Auth.dart';
 import 'package:flutter_dialogflow/dialogflow_v2.dart';
@@ -90,6 +91,8 @@ class _MessagePageBodyState extends State<MessagePageBody> {
   final TextEditingController _textController = new TextEditingController();
 
   Widget Telegram(BuildContext context, AIResponse response) {
+     var data=response.queryResult.fulfillmentMessages.where((m) => m['platform'] !='FACEBOOK' && m['platform'] !='TELEGRAM').toList()[0]['payload'];
+     print(data);
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
       children: <Widget>[
@@ -98,14 +101,16 @@ class _MessagePageBodyState extends State<MessagePageBody> {
             shape:
                 RoundedRectangleBorder(borderRadius: BorderRadius.circular(18)),
             color: Colors.blueAccent,
-            onPressed: () async => await launch('https://t.me/CKD_Doctor_bot',
+            onPressed: () async => await launch(data['click-button']['button-link'],
                 forceWebView: false, forceSafariVC: false),
-            label: Text('Click this')),
+            label: Text(data['click-button']['button-text'])),
       ],
     );
   }
 
   Widget Facebook(BuildContext context, AIResponse response) {
+    var data=response.queryResult.fulfillmentMessages.where((m) => m['platform'] !='FACEBOOK' && m['platform'] !='TELEGRAM').toList()[0]['payload'];
+    print(data);
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
       children: <Widget>[
@@ -115,10 +120,10 @@ class _MessagePageBodyState extends State<MessagePageBody> {
                 RoundedRectangleBorder(borderRadius: BorderRadius.circular(18)),
             color: Colors.blue[500],
             onPressed: () async => await launch(
-                'https://fb.me/MobileDoctorHealthCareSupport',
+                data['click-button']['button-link'],
                 forceWebView: false,
                 forceSafariVC: false),
-            label: Text('Click this')),
+            label: Text(data['click-button']['button-text'])),
       ],
     );
   }
@@ -131,43 +136,86 @@ class _MessagePageBodyState extends State<MessagePageBody> {
       Dialogflow dialogFlow =
           Dialogflow(authGoogle: authGoogle, language: Language.english);
       AIResponse response = await dialogFlow.detectIntent(query);
-      FactsMessage message = FactsMessage(
-        text: response.getMessage() ??
-            CardDialogflow(response.getListMessage()[0]).title,
-        name: "Doctor",
-        type: false,
-      );
-      setState(() {
-        _messages.insert(0, message);
-      });
+//      var data_q=response.queryResult.fulfillmentMessages.where((m) => m['platform'] !='FACEBOOK' && m['platform'] !='TELEGRAM');
       if (response.getMessage() != null &&
           response.webhookStatus != null &&
           response.queryResult.intent.displayName != null) {
+        FactsMessage message = FactsMessage(
+          text: response.getMessage() ??
+              CardDialogflow(response.getListMessage()[0]).title,
+          name: "Doctor",
+          type: false,
+        );
+        setState(() {
+          _messages.insert(0, message);
+        });
         widget.auth.setCKDPrediction(widget.uid,
             double.parse(response.getMessage().split(' ')[4].split('%')[0]));
       } else if (response.queryResult.intent.displayName.toString() ==
           'telegrame') {
+        var response_data=response.queryResult.fulfillmentMessages.where((m) =>m['platform'] =='FACEBOOK').toList();
         Widget telegram_msg = Telegram(context, response);
+        FactsMessage message = FactsMessage(
+          text: response.getMessage() ??
+              CardDialogflow(response_data[0]).title,
+          name: "Doctor",
+          type: false,
+        );
         setState(() {
+          _messages.insert(0, message);
           _messages.insert(0, telegram_msg);
         });
       } else if (response.queryResult.intent.displayName.toString() ==
           'FaceBook') {
+        var response_data=response.queryResult.fulfillmentMessages.where((m) =>m['platform'] =='TELEGRAM').toList();
         Widget facebook_msg = Facebook(context, response);
+        FactsMessage message = FactsMessage(
+          text: response.getMessage() ??
+              CardDialogflow(response_data[0]).title,
+          name: "Doctor",
+          type: false,
+        );
         setState(() {
+          _messages.insert(0, message);
           _messages.insert(0, facebook_msg);
         });
       } else if (response.queryResult.intent.displayName.toString() ==
-          'Default Welcome Intent') {
-        Widget instuction = Welcome(context, response, userData);
+          'Default Welcome Intent' || response.queryResult.intent.displayName.toString() =='Services_offer_ask') {
+        var response_data=response.queryResult.fulfillmentMessages.where((m) =>m['platform'] =='TELEGRAM' || m['platform'] =='FACEBOOK' ).toList();
+        Widget instuction = Services(context, response, userData);
+        FactsMessage message = FactsMessage(
+          text: response.getMessage() ??
+              CardDialogflow(response_data[0]).title,
+          name: "Doctor",
+          type: false,
+        );
         setState(() {
+          _messages.insert(0, message);
           _messages.insert(0, instuction);
         });
       } else if (response.queryResult.intent.displayName.toString() ==
           'Threatment_CKD') {
+        var response_data=response.queryResult.fulfillmentMessages.where((m) =>m['platform'] =='TELEGRAM' || m['platform'] =='FACEBOOK' ).toList();
         Widget treatment = Threatment(context, response, userData);
+        FactsMessage message = FactsMessage(
+          text: response.getMessage() ??
+              CardDialogflow(response_data[0]).title,
+          name: "Doctor",
+          type: false,
+        );
         setState(() {
+          _messages.insert(0, message);
           _messages.insert(0, treatment);
+        });
+      }else{
+        FactsMessage message = FactsMessage(
+          text: response.getMessage() ??
+              CardDialogflow(response.getListMessage()[0]).title,
+          name: "Doctor",
+          type: false,
+        );
+        setState(() {
+          _messages.insert(0, message);
         });
       }
     } catch (e) {
@@ -182,19 +230,22 @@ class _MessagePageBodyState extends State<MessagePageBody> {
     }
   }
 
-  Widget Welcome(BuildContext context, AIResponse response, userData) {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.center,
+  Widget Services(BuildContext context, AIResponse response, userData) {
+    var data=response.queryResult.fulfillmentMessages.where((m) => m['platform'] !='FACEBOOK' && m['platform'] !='TELEGRAM').toList()[0]['payload'];
+    return Wrap(
+      alignment: WrapAlignment.center,
+      crossAxisAlignment: WrapCrossAlignment.center,
       children: <Widget>[
+        SizedBox(width: 50,),
         FlatButton.icon(
             icon: Icon(Icons.perm_device_information),
             shape:
                 RoundedRectangleBorder(borderRadius: BorderRadius.circular(18)),
             color: Colors.blue[500],
             onPressed: () {
-              _submitQuery('I want CKD prediction', userData);
+              _submitQuery(data['service-button-1']['postback-text'], userData);
             },
-            label: Text('CKD Predictions')),
+            label: Text(data['service-button-1']['button-title'])),
         SizedBox(
           width: 8,
         ),
@@ -204,23 +255,25 @@ class _MessagePageBodyState extends State<MessagePageBody> {
                 RoundedRectangleBorder(borderRadius: BorderRadius.circular(18)),
             color: Colors.blue[500],
             onPressed: () =>
-                _submitQuery('I have question about CKD', userData),
-            label: Text('CKD Questions')),
+                _submitQuery(data['service-button-2']['postback-text'], userData),
+            label: Text(data['service-button-2']['button-title'])),
       ],
     );
   }
 
   Widget Threatment(BuildContext context, AIResponse response, userData) {
-    var data = response.queryResult.fulfillmentMessages[0]['card'];
+//    var data = response.queryResult.fulfillmentMessages[0]['card'];
+    var data=response.queryResult.fulfillmentMessages.where((m) => m['platform'] !='FACEBOOK' && m['platform'] !='TELEGRAM').toList()[0]['payload'];
+    print(data);
     return Padding(
       padding: const EdgeInsets.only(left:10.0,right: 10),
       child: Column(
         children: <Widget>[
-          Text(data['subtitle'],style: TextStyle(fontSize: 15,fontWeight: FontWeight.w500),),
+          FactsMessage(type: false,name: 'Doctor',text: data['image-description'],),
           FadeInImage.assetNetwork(
             width: MediaQuery.of(context).size.width-20,
               height: 200,
-              placeholder: 'assets/loading.gif', image: data['imageUri']),
+              placeholder: 'assets/loading.gif', image: data['image-url']),
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
@@ -230,10 +283,10 @@ class _MessagePageBodyState extends State<MessagePageBody> {
                       borderRadius: BorderRadius.circular(18)),
                   color: Colors.blueAccent,
                   onPressed: () async => await launch(
-                      data['buttons'][0]['postback'],
+                      data['button-url'],
                       forceWebView: false,
                       forceSafariVC: false),
-                  label: Text(data['buttons'][0]['text'])),
+                  label: Text(data['button-label'])),
             ],
           )
         ],
