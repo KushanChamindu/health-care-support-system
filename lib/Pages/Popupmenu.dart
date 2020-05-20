@@ -17,8 +17,8 @@ class _PopupmenuState extends State<Popupmenu> {
   void choiceAction(String choice) async {
     if (choice == 'Account') {
       try {
-        String uid = await widget.auth.currentUser();
-        Navigator.pushNamed(context, '/account', arguments: UID(uid: uid));
+        var user= await widget.auth.getCurrentUser();
+        Navigator.pushNamed(context, '/account', arguments: UID(uid: user.uid,email: user.email));
       } catch (e) {
         Scaffold.of(context).showSnackBar(SnackBar(
           content: Text('Check your internet connection'),

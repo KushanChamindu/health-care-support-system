@@ -1,3 +1,5 @@
+import 'dart:ui';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:datetime_picker_formfield/datetime_picker_formfield.dart';
 import 'package:flutter/cupertino.dart';
@@ -193,6 +195,7 @@ class _AccountState extends State<Account> {
           ),
           body: AccountBody(
             uid: args.uid,
+            email: args.email,
           )),
     );
   }
@@ -201,8 +204,9 @@ class _AccountState extends State<Account> {
 class AccountBody extends StatefulWidget {
   final Auth auth = Auth();
   final String uid;
+  final String email;
 
-  AccountBody({this.uid});
+  AccountBody({this.uid, this.email});
 
   @override
   _AccountBodyState createState() => _AccountBodyState();
@@ -576,17 +580,25 @@ class _AccountBodyState extends State<AccountBody> {
                           'User name',
                           style: TextStyle(color: Colors.black38),
                         ),
-                        Center(
-                          child: Text(
-                            (userData['Username'] != null)
-                                ? '${userData['Username']}'
-                                : 'Loading...',
-                            textAlign: TextAlign.center,
-                            style: TextStyle(
-                                fontWeight: FontWeight.bold,
-                                fontSize: 28,
-                                color: Colors.black),
-                          ),
+                        Text(
+                          (userData['Username'] != null)
+                              ? '${userData['Username']}'
+                              : 'Loading...',
+                          textAlign: TextAlign.center,
+                          style: TextStyle(
+                              fontWeight: FontWeight.bold,
+                              fontSize: 28,
+                              color: Colors.black),
+                        ),
+                        Text(
+                          (widget.email != null)
+                              ? widget.email
+                              : 'Loading...',
+                          textAlign: TextAlign.center,
+                          style: TextStyle(
+                              fontWeight: FontWeight.w500,
+                              fontSize: 16,
+                              color: Colors.black),
                         ),
                         SizedBox(
                           height: 10,

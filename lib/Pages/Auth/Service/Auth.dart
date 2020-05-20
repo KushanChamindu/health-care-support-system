@@ -19,6 +19,7 @@ abstract class BaseAuth {
   Future setBreastCancerPrediction(String uid, double percentage);
   Future setHTDPrediction(String uid, double percentage);
   Future sendPasswordResetEmail(String email);
+  Future<FirebaseUser> getCurrentUser();
 }
 
 class Auth implements BaseAuth {
@@ -37,7 +38,14 @@ class Auth implements BaseAuth {
     FirebaseUser user = result.user;
     return user.uid;
   }
-
+  Future<FirebaseUser> getCurrentUser()async{
+    FirebaseUser user = await FirebaseAuth.instance.currentUser();
+    if (user == null) {
+      return null;
+    } else {
+      return user;
+    }
+  }
   //create user
   Future<String> createUserWithEmailAndPassword(
       String email, String password) async {
