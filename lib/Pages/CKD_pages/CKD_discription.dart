@@ -206,31 +206,31 @@ class _TitlesState extends State<Titles> {
   @override
   Widget build(BuildContext context) {
     return Card(
-      child: Container(
-          child: Column(
+      margin: EdgeInsets.fromLTRB(0, 3, 0, 3),
+      child: Column(
         children: <Widget>[
-          FlatButton.icon(
-              onPressed: () {
-                get_visible();
-              },
-              icon: Icon(Icons.list),
-              label: Expanded(
-                  child: Text(widget.text1, style: TextStyle(fontSize: 16)))),
-          Visibility(
-              visible: widget.visible,
-              child: Padding(
-                padding: const EdgeInsets.fromLTRB(20, 0, 8, 15),
-                child: Text(
-                  widget.text2,
-                  style: TextStyle(
-                      fontSize: 15,
-                      height: 1.5,
-                      fontWeight: FontWeight.w400,
-                      letterSpacing: 0.5),
-                ),
-              ))
+      FlatButton.icon(
+          onPressed: () {
+            get_visible();
+          },
+          icon: Icon(Icons.list),
+          label: Expanded(
+              child: Text(widget.text1, style: TextStyle(fontSize: 16)))),
+      Visibility(
+          visible: widget.visible,
+          child: Padding(
+            padding: const EdgeInsets.fromLTRB(20, 0, 8, 15),
+            child: Text(
+              widget.text2,
+              style: TextStyle(
+                  fontSize: 15,
+                  height: 1.5,
+                  fontWeight: FontWeight.w400,
+                  letterSpacing: 0.5),
+            ),
+          ))
         ],
-      )),
+      ),
     );
   }
 }
