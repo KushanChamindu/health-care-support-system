@@ -92,7 +92,6 @@ class _MessagePageBodyState extends State<MessagePageBody> {
 
   Widget Telegram(BuildContext context, AIResponse response) {
      var data=response.queryResult.fulfillmentMessages.where((m) => m['platform'] !='FACEBOOK' && m['platform'] !='TELEGRAM').toList()[0]['payload'];
-     print(data);
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
       children: <Widget>[
@@ -110,7 +109,6 @@ class _MessagePageBodyState extends State<MessagePageBody> {
 
   Widget Facebook(BuildContext context, AIResponse response) {
     var data=response.queryResult.fulfillmentMessages.where((m) => m['platform'] !='FACEBOOK' && m['platform'] !='TELEGRAM').toList()[0]['payload'];
-    print(data);
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
       children: <Widget>[
@@ -264,7 +262,6 @@ class _MessagePageBodyState extends State<MessagePageBody> {
   Widget Threatment(BuildContext context, AIResponse response, userData) {
 //    var data = response.queryResult.fulfillmentMessages[0]['card'];
     var data=response.queryResult.fulfillmentMessages.where((m) => m['platform'] !='FACEBOOK' && m['platform'] !='TELEGRAM').toList()[0]['payload'];
-    print(data);
     return Padding(
       padding: const EdgeInsets.only(left:10.0,right: 10),
       child: Column(

@@ -199,7 +199,7 @@ class _HTDMessagePageBodyState extends State<HTDMessagePageBody> {
     print(response.queryResult.fulfillmentMessages);
     print(response.getMessage());
     print(response.queryResult.intent.displayName);
-    print(response.webhookStatus);
+    print(response.webhookStatus==null);
 //    else if (response.getMessage() != null &&
 //        response.webhookStatus != null &&
 //        response.queryResult.intent.displayName != null) {

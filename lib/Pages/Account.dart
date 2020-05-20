@@ -1,5 +1,3 @@
-
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:datetime_picker_formfield/datetime_picker_formfield.dart';
 import 'package:flutter/cupertino.dart';
@@ -241,12 +239,12 @@ class _AccountBodyState extends State<AccountBody> {
 
     final user_data = Provider.of<DocumentSnapshot>(context);
     try {
-      var userData=user_data.data;
+      var userData = user_data.data;
       Future uploadImage(BuildContext context) async {
         if (_image != null) {
           String filename = basename(_image.path);
           StorageReference firebaseStorageRef =
-          FirebaseStorage.instance.ref().child(userData['Username']);
+              FirebaseStorage.instance.ref().child(userData['Username']);
           StorageUploadTask uploadTask = firebaseStorageRef.putFile(_image);
           StorageTaskSnapshot takeSnapshot = await uploadTask.onComplete;
           String _downloadURL = await takeSnapshot.ref.getDownloadURL();
@@ -260,6 +258,7 @@ class _AccountBodyState extends State<AccountBody> {
           });
         }
       }
+
       bool validateAndSave() {
         final form = formKey.currentState;
         if (form.validate()) {
@@ -380,7 +379,7 @@ class _AccountBodyState extends State<AccountBody> {
                           ),
                         ]),
                         TextFormField(
-                          readOnly:true,
+                          readOnly: true,
                           //_controller.text=userData['bloodGroup']
                           validator: (value) =>
                               ValidationForm_userForms.bloodValidate(value),
@@ -477,37 +476,41 @@ class _AccountBodyState extends State<AccountBody> {
                                         color: Colors.white60, width: 2.0)),
                                 padding: EdgeInsets.all(8.0),
                                 child: (_image != null)
-                                    ? CircleAvatar(
-                                        backgroundImage: FileImage(
-                                        _image,
-                                      ))
+                                    ? ClipOval(
+                                        child: Image(
+                                          image: FileImage(
+                                            _image,
+                                          ),
+                                          fit: BoxFit.fill,
+                                        ),
+                                      )
                                     : Container(
                                         child: (userData['ProfilePic'] == null)
                                             ? CircleAvatar(
                                                 backgroundImage: AssetImage(
-                                                    'assets/CKD_image/kidney_1.jpg'),
+                                                    'assets/CKD_image/default_profile.jpg'),
                                               )
 //                                            : CircleAvatar(
 //                                                backgroundImage: NetworkImage(userData['ProfilePic'],),
 //                                              )),
                                             : Container(
-                                          decoration: BoxDecoration(
-                                            color: Colors.white,
-                                            shape: BoxShape.circle
-                                          ),
-                                              child: ClipOval(
-                                                child:
-                                                    FadeInImage.assetNetwork(
-                                                      imageCacheHeight:200,
-                                                  fadeInCurve:
-                                                      Curves.decelerate,
-                                                  fit: BoxFit.fill,
-                                                  placeholder: 'assets/loading.gif',
-                                                  image:
-                                                      userData['ProfilePic'],
+                                                decoration: BoxDecoration(
+                                                    color: Colors.white,
+                                                    shape: BoxShape.circle),
+                                                child: ClipOval(
+                                                  child:
+                                                      FadeInImage.assetNetwork(
+                                                    imageCacheHeight: 200,
+                                                    fadeInCurve:
+                                                        Curves.decelerate,
+                                                    fit: BoxFit.fill,
+                                                    placeholder:
+                                                        'assets/loading.gif',
+                                                    image:
+                                                        userData['ProfilePic'],
+                                                  ),
                                                 ),
-                                              ),
-                                            )),
+                                              )),
                               ),
                             ),
                             Visibility(

@@ -51,9 +51,8 @@ class _CKD_discriptionState extends State<CKD_discription> {
 //          key: ValueKey('CKDdiscriptionPage'),
 //          crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
-            Padding(
-              padding: const EdgeInsets.fromLTRB(4,4,4,0),
-              child: Image(image:AssetImage('assets/CKD_image/kidney_1.jpg',),),
+            Card(
+              child: Image(image:AssetImage('assets/CKD_image/kidney_1.jpg',),fit: BoxFit.fill,),
             ),
             Row(
               crossAxisAlignment: CrossAxisAlignment.start,

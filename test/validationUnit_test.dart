@@ -83,6 +83,12 @@ class MockAuth implements BaseAuth {
     return null;
   }
 
+  @override
+  Future setHTDPrediction(String uid, double percentage) {
+    // TODO: implement setHTDPrediction
+    return null;
+  }
+
 }
 
 MockFirebaseAuth _auth = MockFirebaseAuth();
