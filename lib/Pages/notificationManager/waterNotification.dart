@@ -304,7 +304,6 @@ class _WaterNotificationBodyState extends State<WaterNotificationBody> {
                 content: Text('Saved changes'),
               ));
             }
-
             await _showNotification();
           } catch (e) {
             print('Error : $e');
