@@ -192,12 +192,13 @@ class _WaterNotificationBodyState extends State<WaterNotificationBody> {
         androidPlatformChannelSpecifics, iOSChannelSpecifics);
     //TODO: demonstration only
     int difference = finishedTime.difference(startTime).inMinutes;
+    var alarmStartTime=DateTime(startTime.year,startTime.month,startTime.day,startTime.hour,startTime.minute,0);
     for (var i = 0; i < difference; i++) {
       await flutterLocalNotificationsPlugin.schedule(
           i,
-          'Water Alerm',
+          'Water Alerm $i',
           ('Time to drink water and update your water tracking system'),
-          startTime.add(Duration(seconds: i * 2)),
+          alarmStartTime.add(Duration(seconds: i * 2)),
           platformChannelSpecifics,
           payload: '/WaterNotification');
     }
@@ -287,6 +288,7 @@ class _WaterNotificationBodyState extends State<WaterNotificationBody> {
 
       void validateAndSubmit() async {
         if (validateAndSave()) {
+          alermToggle == false ? toggleButton() : null;
           try {
             // ignore: unrelated_type_equality_checks
             if (startTime == waterData['startTime'].toDate() &&
@@ -302,7 +304,7 @@ class _WaterNotificationBodyState extends State<WaterNotificationBody> {
                 content: Text('Saved changes'),
               ));
             }
-            alermToggle == false ? toggleButton() : null;
+
             await _showNotification();
           } catch (e) {
             print('Error : $e');

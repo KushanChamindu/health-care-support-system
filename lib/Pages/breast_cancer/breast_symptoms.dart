@@ -51,13 +51,18 @@ class _BC_SymptomsState extends State<BC_Symptoms> {
             length: 2,
             child: Scaffold(
               appBar: AppBar(
+                leading: IconButton(
+                  key: ValueKey("BCSymptomBackButton"),
+                  icon: Icon(Icons.arrow_back),
+                  onPressed: ()=>Navigator.of(context).pop(),
+                ),
                 backgroundColor: Colors.blueAccent,
                 actions: <Widget>[
                   Popupmenu(auth: widget.auth,)
                 ],
                 bottom: TabBar(tabs: [
-                  Tab(text: 'Early'),
-                  Tab(text: 'Invasive'),
+                  Tab(text: 'Early',key: ValueKey('BCSymptomSampleEarly'),),
+                  Tab(text: 'Invasive',key: ValueKey('BCSymptomSampleInvasive'),),
             ]),
             title: Text(
               "Symptoms...  - Breast Cancer",

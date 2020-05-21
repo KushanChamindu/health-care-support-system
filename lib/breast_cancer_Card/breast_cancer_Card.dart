@@ -29,6 +29,7 @@ class _BC_CardsState extends State<BC_Cards> {
   @override
   Widget build(BuildContext context) {
     return Card(
+      key: ValueKey('BC_Card'),
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(8.0))),
       child: InkWell(
         onTap: (){getVisible();},
@@ -69,6 +70,7 @@ class _BC_CardsState extends State<BC_Cards> {
                       child: Align(
                         alignment: Alignment.centerLeft,
                         child: InkWell(
+                            key: ValueKey('BCdiscriptionButton'),
                             onTap: (){
                               Navigator.pushNamed(context, '/breastcancer');
                             },

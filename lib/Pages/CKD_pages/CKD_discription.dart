@@ -15,6 +15,11 @@ class _CKD_discriptionState extends State<CKD_discription> {
     return Scaffold(
       backgroundColor: Colors.grey[300],
       appBar:  AppBar(
+        leading: IconButton(
+          key: ValueKey('CKDDiscriptionBackButton'),
+          icon: Icon(Icons.arrow_back,),
+          onPressed: () => Navigator.of(context).pop(),
+        ),
         title: Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
@@ -46,10 +51,7 @@ class _CKD_discriptionState extends State<CKD_discription> {
         backgroundColor: Colors.blueAccent,
       ),
       body: ListView(
-//        children:
-//        Column(
-//          key: ValueKey('CKDdiscriptionPage'),
-//          crossAxisAlignment: CrossAxisAlignment.start,
+          key: ValueKey('CKDdiscriptionPage'),
           children: <Widget>[
             Card(
               child: Image(image:AssetImage('assets/CKD_image/kidney_1.jpg',),fit: BoxFit.fill,),

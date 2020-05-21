@@ -34,6 +34,11 @@ class BC_Solutions extends StatelessWidget {
   
     return Scaffold(
       appBar: AppBar(
+        leading: IconButton(
+          key: ValueKey("BCSolutionBackButton"),
+          icon: Icon(Icons.arrow_back),
+          onPressed: ()=>Navigator.of(context).pop(),
+        ),
         backgroundColor: Colors.blueAccent,
         actions: <Widget>[
           Popupmenu(auth: auth,)
@@ -54,6 +59,7 @@ class BC_Solutions extends StatelessWidget {
           itemCount: precautions.length,
           itemBuilder: (context,index){
             return Card(
+              key: ValueKey('BCSolutionPage'),
                  child: Row(
                   children: <Widget>[
                     Padding(

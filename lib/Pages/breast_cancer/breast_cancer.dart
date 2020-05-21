@@ -45,9 +45,9 @@ class _BrestCancerState extends State<BrestCancer> {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: [
-          _buildButtonColumn(color, Icons.call, 'Symptoms' ,'/bc_symptoms'),
-          _buildButtonColumn(color, Icons.security, 'Precausion', '/bc_solutions'),
-          _buildButtonColumn(color, Icons.share, 'More...', '/bc_more'),
+          _buildButtonColumn('BCSymptomsButton',color, Icons.call, 'Symptoms' ,'/bc_symptoms'),
+          _buildButtonColumn('BCSolutionButton',color, Icons.security, 'Precausion', '/bc_solutions'),
+          _buildButtonColumn('BCMoreButton',color, Icons.share, 'More...', '/bc_more'),
         ],
       ),
     );
@@ -106,7 +106,13 @@ class _BrestCancerState extends State<BrestCancer> {
         ),
     );
     return Scaffold(
+      key: ValueKey('BCdiscriptionPage'),
       appBar: AppBar(
+        leading: IconButton(
+          key: ValueKey('BCdiscriptionBackButton'),
+          onPressed: ()=>Navigator.of(context).pop(),
+          icon: Icon(Icons.arrow_back),
+        ),
         backgroundColor: Colors.blueAccent,
         actions: <Widget>[
           Popupmenu(auth: widget.auth,)
@@ -139,8 +145,9 @@ class _BrestCancerState extends State<BrestCancer> {
       )
     );
   }
-  Column _buildButtonColumn(Color color, IconData icon, String label, String url) {
+  Column _buildButtonColumn(String id,Color color, IconData icon, String label, String url) {
     return Column(
+      key: ValueKey(id),
       mainAxisSize: MainAxisSize.min,
       mainAxisAlignment: MainAxisAlignment.center,
       children: [

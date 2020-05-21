@@ -161,19 +161,19 @@ class _DietNotificationBodyState extends State<DietNotificationBody> {
         0,
         'Eating time reminder',
         'You shoud get your breakfast now',
-        Time(breakfast.hour, breakfast.minute),
+        Time(breakfast.hour, breakfast.minute,0),
         platformChannelSpecifics);
     await flutterLocalNotificationsPlugin.showDailyAtTime(
         1,
         'Eating time reminder',
         'You shoud get your lunch now',
-        Time(lunch.hour, lunch.minute),
+        Time(lunch.hour, lunch.minute,0),
         platformChannelSpecifics);
     await flutterLocalNotificationsPlugin.showDailyAtTime(
         2,
         'Eating time reminder',
         'You shoud get your dinner now',
-        Time(dinner.hour, dinner.minute),
+        Time(dinner.hour, dinner.minute,0),
         platformChannelSpecifics);
   }
 

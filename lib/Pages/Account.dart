@@ -123,6 +123,11 @@ class _AccountState extends State<Account> {
       child: Scaffold(
           backgroundColor: Colors.blue[100],
           appBar: AppBar(
+            leading: IconButton(
+              key: ValueKey('AccountBackButton'),
+              icon: Icon(Icons.arrow_back,),
+              onPressed: () => Navigator.of(context).pop(),
+            ),
             title: Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
@@ -248,7 +253,7 @@ class _AccountBodyState extends State<AccountBody> {
         if (_image != null) {
           String filename = basename(_image.path);
           StorageReference firebaseStorageRef =
-              FirebaseStorage.instance.ref().child(userData['Username']);
+              FirebaseStorage.instance.ref().child(widget.uid);
           StorageUploadTask uploadTask = firebaseStorageRef.putFile(_image);
           StorageTaskSnapshot takeSnapshot = await uploadTask.onComplete;
           String _downloadURL = await takeSnapshot.ref.getDownloadURL();
@@ -591,9 +596,7 @@ class _AccountBodyState extends State<AccountBody> {
                               color: Colors.black),
                         ),
                         Text(
-                          (widget.email != null)
-                              ? widget.email
-                              : 'Loading...',
+                          (widget.email != null) ? widget.email : 'Loading...',
                           textAlign: TextAlign.center,
                           style: TextStyle(
                               fontWeight: FontWeight.w500,
@@ -658,16 +661,36 @@ class _AccountBodyState extends State<AccountBody> {
                                           child: Text(
                                             'Chronic Kidney Disease',
                                             style: TextStyle(
-                                                fontWeight: FontWeight.w500),
+                                                fontWeight: FontWeight.w700),
                                           ),
                                         ),
                                         Padding(
                                           padding: const EdgeInsets.fromLTRB(
                                               14, 0, 8, 8),
-                                          child: Text(
-                                            'Predicted Percentage: ${userData['CKD'] == null ? 'Not predicted yet' : '${userData['CKD'].split('_')[0]}%'}',
-                                            style: TextStyle(fontSize: 15),
-                                          ),
+                                          child: RichText(
+                                              text: TextSpan(
+                                                  text:
+                                                      ('Predicted Percentage: '),
+                                                  style: TextStyle(
+                                                      fontSize: 15,
+                                                      color: Colors.black),
+                                                  children: [
+                                                TextSpan(
+                                                    text:
+                                                        '${userData['CKD'] == null ? 'Not predicted yet' : '${userData['CKD'].split('_')[0]}%'}',
+                                                    style: TextStyle(
+                                                        fontWeight:
+                                                            FontWeight.bold,
+                                                        color: userData['CKD'] !=
+                                                                    null &&
+                                                                double.parse(userData[
+                                                                            'CKD']
+                                                                        .split(
+                                                                            '_')[0]) >
+                                                                    30
+                                                            ? Colors.red
+                                                            : Colors.green))
+                                              ])),
                                         ),
                                         Padding(
                                           padding: const EdgeInsets.fromLTRB(
@@ -747,10 +770,29 @@ class _AccountBodyState extends State<AccountBody> {
                                         Padding(
                                           padding: const EdgeInsets.fromLTRB(
                                               14, 0, 8, 8),
-                                          child: Text(
-                                            'Predicted Decision: ${userData['Breast_canser'] == null ? 'Not predicted yet' : "${userData['Breast_canser'].split('_')[0]}" == '3.0' ? 'Breast cancer does not exist' : 'Breast cancer exist'}',
-                                            style: TextStyle(fontSize: 15),
-                                          ),
+                                          child: RichText(
+                                              text: TextSpan(
+                                                  text:
+                                                      ('Predicted Decision: '),
+                                                  style: TextStyle(
+                                                      fontSize: 15,
+                                                      color: Colors.black),
+                                                  children: [
+                                                TextSpan(
+                                                    text:
+                                                        '${userData['Breast_canser'] == null ? 'Not predicted yet' : "${userData['Breast_canser'].split('_')[0]}" == '3.0' ? 'Breast cancer does not exist' : 'Breast cancer exist'}',
+                                                    style: TextStyle(
+                                                        fontWeight:
+                                                            FontWeight.bold,
+                                                        color: userData['Breast_canser'] !=
+                                                                    null &&
+                                                                userData['Breast_canser']
+                                                                        .split(
+                                                                            '_')[0] !=
+                                                                    '3.0'
+                                                            ? Colors.red
+                                                            : Colors.green))
+                                              ])),
                                         ),
                                         Padding(
                                           padding: const EdgeInsets.fromLTRB(
@@ -792,16 +834,43 @@ class _AccountBodyState extends State<AccountBody> {
                                         Padding(
                                           padding: const EdgeInsets.fromLTRB(
                                               14, 0, 8, 8),
-                                          child: Text(
-                                            'Percentage: ${userData['HeartIssue'] == null ? 'Not predicted yet' : userData['HeartIssue']}',
-                                            style: TextStyle(fontSize: 15),
-                                          ),
+                                          child: RichText(
+                                              text: TextSpan(
+                                                  text:
+                                                      ('Predicted Percentage: '),
+                                                  style: TextStyle(
+                                                      fontSize: 15,
+                                                      color: Colors.black),
+                                                  children: [
+                                                TextSpan(
+                                                    text:
+                                                        '${userData['HeartIssue'] == null ? 'Not predicted yet' : '${userData['HeartIssue'].split('_')[0]}%'}',
+                                                    style: TextStyle(
+                                                        fontWeight:
+                                                            FontWeight.bold,
+                                                        color: userData['HeartIssue'] !=
+                                                                    null &&
+                                                                double.parse(userData[
+                                                                            'HeartIssue']
+                                                                        .split(
+                                                                            '_')[0]) >
+                                                                    30
+                                                            ? Colors.red
+                                                            : Colors.green))
+                                              ])),
                                         ),
                                         Padding(
                                           padding: const EdgeInsets.fromLTRB(
                                               14, 0, 8, 8),
                                           child: Text(
-                                              'Precautions according to precentage : ${''}',
+                                              'Predict date : ${userData['HeartIssue'] == null ? 'Not predicted yet' : '${userData['HeartIssue'].split('_')[1].split('T')[0]}'}',
+                                              style: TextStyle(fontSize: 15)),
+                                        ),
+                                        Padding(
+                                          padding: const EdgeInsets.fromLTRB(
+                                              14, 0, 8, 8),
+                                          child: Text(
+                                              'Predict time : ${userData['HeartIssue'] == null ? 'Not predicted yet' : '${userData['HeartIssue'].split('_')[1].split('T')[1].split(':')[0]}:${userData['HeartIssue'].split('_')[1].split('T')[1].split(':')[1]}'}',
                                               style: TextStyle(fontSize: 15)),
                                         ),
                                       ],

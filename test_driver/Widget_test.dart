@@ -1,4 +1,5 @@
 import 'package:flutter_driver/flutter_driver.dart';
+import 'package:flutter_launcher_icons/constants.dart';
 import 'package:test/test.dart';
 
 //command for the run that test:  flutter drive --target=test_driver/Widget.dart
@@ -52,6 +53,43 @@ void main() {
   final AccountBirthdayEdit = find.byValueKey('AccountBirthdayEdit');
   final AccountBloodGoupEdit = find.byValueKey('AccountBloodGoupEdit');
   final AccountEditSubmitButton = find.byValueKey('AccountEditSubmitButton');
+  final AccountBackButton=find.byValueKey('AccountBackButton');
+  final CKDDiscriptionBackButton=find.byValueKey('CKDDiscriptionBackButton');
+
+  //Breast cancer widget test
+  final BC_Card=find.byValueKey('BC_Card');
+  final BCdiscriptionButton=find.byValueKey('BCdiscriptionButton');
+  final BCdiscriptionPage=find.byValueKey('BCdiscriptionPage');
+  final BCSymptomsButton=find.byValueKey('BCSymptomsButton');
+  final BCSolutionButton=find.byValueKey('BCSolutionButton');
+  final BCMoreButton=find.byValueKey('BCMoreButton');
+  final BCSymptomSampleEarly=find.byValueKey('BCSymptomSampleEarly');
+  final BCSymptomSampleInvasive=find.byValueKey('BCSymptomSampleInvasive');
+  final BCSymptomBackButton=find.byValueKey('BCSymptomBackButton');
+  final BCSolutionBackButton=find.byValueKey('BCSolutionBackButton');
+  final BCSolutionPage=find.byValueKey('BCSolutionPage');
+  final BCMoreBackButton=find.byValueKey('BCMoreBackButton');
+  final BCMoreSample=find.byValueKey('BCMoreSample');
+  final BCdiscriptionBackButton=find.byValueKey('BCdiscriptionBackButton');
+
+  //Heart issue widget test
+  final HTD_Card=find.byValueKey('HTD_Card');
+  final HTDdiscriptionButton=find.byValueKey('HTDdiscriptionButton');
+  final HTDdiscriptionPage=find.byValueKey('HTDdiscriptionPage');
+  final HTDSpeedDial=find.byTooltip('HTDSpeedDial');
+  final HTDSymptomsbutton=find.byValueKey('HTDSymptomsbutton');
+  final HTDPrecautionsbutton=find.byValueKey('HTDPrecautionsbutton');
+  final HTDMorebutton=find.byValueKey('HTDMorebutton');
+  final HTD_symptompage=find.byValueKey('HTD_symptompage');
+  final HTDSymptomsSample=find.text('Symptoms of heart disease in your blood vessels (atherosclerotic disease)');
+  final HTDBackbutton=find.byValueKey('HTDBackbutton');
+  final HTDPrecuationBackButton=find.byValueKey('HTDPrecuationBackButton');
+  final HTDMoreBackButton=find.byValueKey('HTDMoreBackButton');
+  final HTDPrecautionsSample=find.text("Don't smoke or use tobacco");
+  final HTD_precautionpage=find.byValueKey('HTD_precautionpage');
+  final HTD_Morepage=find.byValueKey('HTD_Morepage');
+  final HTDMoreSample=find.text('How the heart functions?');
+
   group('Loading widget', () {
     isPresent(SerializableFinder byValueKey, FlutterDriver driver,
         {Duration timeout = const Duration(seconds: 3)}) async {
@@ -190,7 +228,9 @@ void main() {
       await driver.tap(CKDCard);
       await driver.waitFor(CKDdiscriptionButton);
       await driver.tap(CKDdiscriptionButton);
+      print('kushan');
       await driver.waitFor(CKDdiscriptionPage);
+      print('kushan1');
       await Future.delayed(Duration(milliseconds: 2000), () {});
       await driver.tap(sampleCKDdirscription);
       await Future.delayed(Duration(milliseconds: 2000), () {});
@@ -251,6 +291,113 @@ void main() {
       await driver.tap(find.text('AB+'));
       await driver.tap(AccountEditSubmitButton);
       await Future.delayed(Duration(milliseconds: 2000), () {});
+      await driver.tap(AccountBackButton);
+      await driver.tap(CKDDiscriptionBackButton);
+      await driver.waitFor(homePage);
+    });
+  });
+  group('braest cancer UI test', () {
+    FlutterDriver driver;
+    setUpAll(() async {
+      driver = await FlutterDriver.connect();
+    });
+    tearDownAll(() async {
+      if (driver != null) {
+        driver.close();
+      }
+    });
+    test('breast cancer description test', () async {
+      await driver.scroll(
+          CKDCard, 0, -800, Duration(milliseconds: 500));
+      await driver.tap(BC_Card);
+      await driver.waitFor(BCdiscriptionButton);
+      await driver.tap(BCdiscriptionButton);
+      await driver.waitFor(BCdiscriptionPage);
+      await Future.delayed(Duration(milliseconds: 2000), () {});
+    });
+    test('breast cancer symptom', () async {
+      await driver.scroll(
+          find.text('What is breast cancer...?'), 0, -800,
+          Duration(milliseconds: 500));
+      await driver.tap(BCSymptomsButton);
+      await driver.waitFor(BCSymptomSampleEarly);
+      await driver.tap(BCSymptomSampleInvasive);
+      await Future.delayed(Duration(milliseconds: 2000), () {});
+      await driver.tap(BCSymptomSampleEarly);
+      await driver.tap(BCSymptomBackButton);
+      await driver.waitFor(BCdiscriptionPage);
+    });
+    test('breast cancer solution', () async {
+      await driver.tap(BCSolutionButton);
+      await driver.waitFor(BCSolutionPage);
+      await Future.delayed(Duration(milliseconds: 2000), () {});
+      await driver.tap(BCSolutionBackButton);
+      await driver.waitFor(BCdiscriptionPage);
+    });
+    test('breast cancer more pagee', () async {
+      await driver.tap(BCMoreButton);
+      await driver.waitFor(BCMoreSample);
+      await driver.tap(find.text('Ductal carcinoma symptoms'));
+      await driver.scroll(
+          BCMoreSample, 0, -800, Duration(milliseconds: 500));
+      await driver.tap(BCMoreBackButton);
+      await driver.waitFor(BCdiscriptionPage);
+      await driver.tap(BCdiscriptionBackButton);
+      await driver.scroll(
+          BC_Card, 0, 800, Duration(milliseconds: 500));
+    });
+  });
+  group('HTD UI test', (){
+    FlutterDriver driver;
+    setUpAll(() async {
+      driver = await FlutterDriver.connect();
+    });
+    tearDownAll(() async {
+      if (driver != null) {
+        driver.close();
+      }
+    });
+    test('HTD description UI test', ()async{
+      await driver.scroll(
+          CKDCard, 0, -800, Duration(milliseconds: 500));
+      await driver.tap(HTD_Card);
+      await driver.scroll(
+          HTD_Card, 0, -100, Duration(milliseconds: 500));
+      await driver.tap(HTDdiscriptionButton);
+      await driver.waitFor(HTDdiscriptionPage);
+      await driver.waitFor(HTDSpeedDial);
+    });
+    
+    test('HTD symptom UI test', ()async{
+      await driver.tap(HTDSpeedDial);
+      await driver.waitFor(HTDSymptomsbutton);
+      await driver.tap(HTDSymptomsbutton);
+      await driver.waitFor(HTD_symptompage);
+      await driver.tap(HTDSymptomsSample);
+      await Future.delayed(Duration(milliseconds: 2000), () {});
+      await driver.tap(HTDBackbutton);
+      await driver.waitFor(HTDdiscriptionPage);
+    });
+    test('HTD precaution UI test', ()async{
+      await driver.tap(HTDPrecautionsbutton);
+      await driver.waitFor(HTD_precautionpage);
+      await driver.tap(HTDPrecautionsSample);
+      await Future.delayed(Duration(milliseconds: 2000), () {});
+      await driver.tap(HTDPrecuationBackButton);
+      await driver.waitFor(HTD_precautionpage);
+      await driver.tap(HTDBackbutton);
+      await driver.waitFor(HTDdiscriptionPage);
+    });
+    test('HTD More-info UI test', ()async{
+      await driver.tap(HTDMorebutton);
+      await driver.waitFor(HTD_Morepage);
+      await driver.tap(HTDMoreSample);
+      await Future.delayed(Duration(milliseconds: 2000), () {});
+      await driver.tap(HTDMoreBackButton);
+      await driver.waitFor(HTD_Morepage);
+      await driver.tap(HTDBackbutton);
+      await driver.waitFor(HTDdiscriptionPage);
+      await driver.tap(HTDBackbutton);
     });
   });
 }

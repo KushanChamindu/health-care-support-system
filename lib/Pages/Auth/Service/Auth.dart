@@ -73,15 +73,17 @@ class Auth implements BaseAuth {
   //set ckd predictions result
   Future setCKDPrediction(String uid, double percentage)async{
     DateTime date= DateTime.now();
+    var percent=percentage.toStringAsFixed(2);
     await userData.document(uid).updateData({
-      'CKD':'${percentage.toString()}_${date.toIso8601String()}'
+      'CKD':'${percent.toString()}_${date.toIso8601String()}'
     });
   }
   //set HTD predictions result
   Future setHTDPrediction(String uid, double percentage)async{
     DateTime date= DateTime.now();
+    var percent=percentage.toStringAsFixed(2);
     await userData.document(uid).updateData({
-      'HeartIssue':'${percentage.toString()}_${date.toIso8601String()}'
+      'HeartIssue':'${percent.toString()}_${date.toIso8601String()}'
     });
   }
 
@@ -89,7 +91,7 @@ class Auth implements BaseAuth {
   Future setBreastCancerPrediction(String uid, double percentage)async{
     DateTime date= DateTime.now();
     await userData.document(uid).updateData({
-      'Breast_canser':'${percentage.toString()}_${date.toIso8601String()}'
+      'Breast_canser':'${percentage.toStringAsFixed(2).toString()}_${date.toIso8601String()}'
     });
   }
 

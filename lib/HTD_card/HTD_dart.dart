@@ -29,6 +29,7 @@ class _HTD_CardsState extends State<HTD_Cards> {
 
   Widget build(BuildContext context) {
     return Card(
+      key: ValueKey('HTD_Card'),
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(8.0))),
       child: InkWell(
         onTap: (){getVisible();},
@@ -66,7 +67,7 @@ class _HTD_CardsState extends State<HTD_Cards> {
                   children: <Widget>[
                     Expanded(
                       child: InkWell(
-                          key: ValueKey('CKDdiscriptionButton'),
+                          key: ValueKey('HTDdiscriptionButton'),
                           onTap: ()async{
                             Navigator.push (
                               context,
