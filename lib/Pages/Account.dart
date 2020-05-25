@@ -229,7 +229,6 @@ class _AccountBodyState extends State<AccountBody> {
   @override
   void initState() {
     super.initState();
-    print(widget.uid);
   }
 
   @override
@@ -251,18 +250,19 @@ class _AccountBodyState extends State<AccountBody> {
       var userData = user_data.data;
       Future uploadImage(BuildContext context) async {
         if (_image != null) {
-          String filename = basename(_image.path);
           StorageReference firebaseStorageRef =
               FirebaseStorage.instance.ref().child(widget.uid);
           StorageUploadTask uploadTask = firebaseStorageRef.putFile(_image);
           StorageTaskSnapshot takeSnapshot = await uploadTask.onComplete;
           String _downloadURL = await takeSnapshot.ref.getDownloadURL();
-          print(_downloadURL);
           await widget.auth.setUserImageDetails(widget.uid, _downloadURL);
           setState(() {
             print('Profile picture uploaded');
             Scaffold.of(context).showSnackBar(SnackBar(
+              duration: Duration(seconds: 2),
               content: Text('Profile picture uploaded'),
+              backgroundColor: Colors.blue[900],
+              action: new SnackBarAction(textColor: Colors.white,label: 'OK', onPressed: (){}),
             ));
           });
         }
@@ -288,7 +288,10 @@ class _AccountBodyState extends State<AccountBody> {
                 bloodGroup == userData['bloodGroup']) {
               Navigator.of(context).pop();
               Scaffold.of(context).showSnackBar(SnackBar(
+                duration: Duration(seconds: 2),
                 content: Text('Already Saved details'),
+                backgroundColor: Colors.blue[900],
+                action: new SnackBarAction(textColor: Colors.white,label: 'OK', onPressed: (){}),
               ));
             } else {
               Navigator.of(context).pop();
@@ -296,12 +299,18 @@ class _AccountBodyState extends State<AccountBody> {
                   widget.uid, Username, bloodGroup, Birthday);
               Scaffold.of(context).showSnackBar(SnackBar(
                 content: Text('Saved changes'),
+                duration: Duration(seconds: 2),
+                backgroundColor: Colors.blue[900],
+                action: new SnackBarAction(textColor: Colors.white,label: 'OK', onPressed: (){}),
               ));
             }
           } catch (e) {
             print('Error : $e');
             Scaffold.of(context).showSnackBar(SnackBar(
+              duration: Duration(seconds: 2),
               content: Text('Check your internet connection'),
+              backgroundColor: Colors.blue[900],
+              action: new SnackBarAction(textColor: Colors.white,label: 'OK', onPressed: (){}),
             ));
           }
         }
@@ -452,10 +461,9 @@ class _AccountBodyState extends State<AccountBody> {
               onPressed: () {
                 createAlertDialog(context);
               },
-              hoverColor: Colors.white,
               tooltip: 'Edit your account details',
               elevation: 10,
-              splashColor: Colors.black,
+              splashColor: Colors.white,
               child: Text("Edit"),
             ),
             body: SingleChildScrollView(

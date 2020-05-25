@@ -7,6 +7,7 @@ import 'package:healthcaresupportsystem/Pages/Auth/Loading.dart';
 import 'package:datetime_picker_formfield/datetime_picker_formfield.dart';
 import 'package:healthcaresupportsystem/Pages/validation/ValidationForm_userForms.dart';
 import 'package:intl/intl.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 ///test@test.com    test1234
 
@@ -296,7 +297,7 @@ class _LogInState extends State<LogIn> {
         actions: <Widget>[
           MaterialButton(
             elevation: 2.0,
-            child: Text('Ok'),
+            child: Text('OK'),
             onPressed: () {
               Navigator.of(context).pop();
               if(resetEmailValidation){
@@ -304,6 +305,17 @@ class _LogInState extends State<LogIn> {
               }
             },
           ),
+          resetEmailValidation==true?MaterialButton(
+            elevation: 2.0,
+            child: Text('Ckeck email'),
+            onPressed: () {
+              Navigator.of(context).pop();
+              if(resetEmailValidation){
+                switchForm(FormType.logIn);
+              }
+              launch('mailto:');
+            },
+          ):null,
         ],
       );
     });

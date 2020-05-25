@@ -139,7 +139,8 @@ class _DietNotificationBodyState extends State<DietNotificationBody> {
             ));
   }
 
-  void _showNotification() async {
+  void _showNotification(a) async {
+    print(a);
     await _demoNotification();
   }
 
@@ -158,19 +159,19 @@ class _DietNotificationBodyState extends State<DietNotificationBody> {
     var platformChannelSpecifics = NotificationDetails(
         androidPlatformChannelSpecifics, iOSChannelSpecifics);
     await flutterLocalNotificationsPlugin.showDailyAtTime(
-        0,
+        -1,
         'Eating time reminder',
         'You shoud get your breakfast now',
         Time(breakfast.hour, breakfast.minute,0),
         platformChannelSpecifics);
     await flutterLocalNotificationsPlugin.showDailyAtTime(
-        1,
+        -2,
         'Eating time reminder',
         'You shoud get your lunch now',
         Time(lunch.hour, lunch.minute,0),
         platformChannelSpecifics);
     await flutterLocalNotificationsPlugin.showDailyAtTime(
-        2,
+        -3,
         'Eating time reminder',
         'You shoud get your dinner now',
         Time(dinner.hour, dinner.minute,0),
@@ -244,14 +245,17 @@ class _DietNotificationBodyState extends State<DietNotificationBody> {
       toggleButton() async {
         try {
           await widget.notificationService.dietAlerm(widget.uid, !alermToggle);
+          setState(() {
+            alermToggle = !alermToggle;
+          });
         } catch (e) {
           Scaffold.of(context).showSnackBar(SnackBar(
             content: Text('Connection problem'),
+            backgroundColor: Colors.blue[900],
+            duration: Duration(milliseconds: 800),
+            action: new SnackBarAction(textColor: Colors.white,label: 'OK', onPressed: (){}),
           ));
         }
-        setState(() {
-          alermToggle = !alermToggle;
-        });
       }
 
       bool validateAndSave() {
@@ -267,20 +271,26 @@ class _DietNotificationBodyState extends State<DietNotificationBody> {
       void validateAndSubmit() async {
         if (validateAndSave()) {
           try {
-            alermToggle == false ? toggleButton() : null;
+            alermToggle == false ? await toggleButton() : null;
             // ignore: unrelated_type_equality_checks
             if(dietData['breakfast']!=null && dietData['lunchtime']!=null && dietData['dinnertime']!=null){
               if (breakfast == dietData['breakfast'].toDate() &&
                   lunch == dietData['lunchtime'].toDate() &&
                   dinner == dietData['dinnertime'].toDate()) {
                 Scaffold.of(context).showSnackBar(SnackBar(
+                  duration: Duration(seconds: 2),
                   content: Text('Already Saved details'),
+                  backgroundColor: Colors.blue[900],
+                  action: new SnackBarAction(textColor: Colors.white,label: 'OK', onPressed: (){}),
                 ));
               }else {
                 await widget.notificationService
                     .updateDietTimes(widget.uid, breakfast, lunch, dinner);
                 Scaffold.of(context).showSnackBar(SnackBar(
                   content: Text('Saved changes'),
+                  duration: Duration(seconds: 2),
+                  backgroundColor: Colors.blue[900],
+                  action: new SnackBarAction(textColor: Colors.white,label: 'OK', onPressed: (){}),
                 ));
               }
             }else {
@@ -288,14 +298,20 @@ class _DietNotificationBodyState extends State<DietNotificationBody> {
                   .updateDietTimes(widget.uid, breakfast, lunch, dinner);
               Scaffold.of(context).showSnackBar(SnackBar(
                 content: Text('Saved changes'),
+                duration: Duration(seconds: 2),
+                backgroundColor: Colors.blue[900],
+                action: new SnackBarAction(textColor: Colors.white,label: 'OK', onPressed: (){}),
               ));
             }
 
-            _showNotification();
+            _showNotification(alermToggle);
           } catch (e) {
             print('Error : $e');
             Scaffold.of(context).showSnackBar(SnackBar(
+              duration: Duration(seconds: 2),
               content: Text('Check your internet connection'),
+              backgroundColor: Colors.blue[900],
+              action: new SnackBarAction(textColor: Colors.white,label: 'OK', onPressed: (){}),
             ));
           }
         }
@@ -312,6 +328,7 @@ class _DietNotificationBodyState extends State<DietNotificationBody> {
             child: Padding(
               padding: const EdgeInsets.only(top:8.0,left: 8),
               child: Form(
+                autovalidate: true,
                 key: dietForm,
                 onChanged: () {
                   if (alermToggle == true) {

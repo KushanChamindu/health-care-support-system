@@ -101,6 +101,7 @@ class _WaterNotificationBodyState extends State<WaterNotificationBody> {
   final waterFormKey = new GlobalKey<FormState>();
   final drinkWaterFormKey = new GlobalKey<FormState>();
   final formatTime = DateFormat("HH:mm");
+
   DateTime startTime;
   DateTime finishedTime;
   int waterGoal;
@@ -213,9 +214,14 @@ class _WaterNotificationBodyState extends State<WaterNotificationBody> {
 //    debugPrint(ModalRoute.of(context).settings.name ==null? 'on selected null': 'on selected notnull');
   }
 
-  void changeVIsibility() {
+  void changeVIsibility(index) {
     setState(() {
-      visibility = !visibility;
+      if(index==1){
+        visibility = false;
+      }else{
+        visibility=true;
+      }
+
     });
   }
 
@@ -269,6 +275,9 @@ class _WaterNotificationBodyState extends State<WaterNotificationBody> {
         } catch (e) {
           Scaffold.of(context).showSnackBar(SnackBar(
             content: Text('Connection problem'),
+            backgroundColor: Colors.blue[900],
+            duration: Duration(seconds: 1),
+            action: new SnackBarAction(textColor: Colors.white,label: 'OK', onPressed: (){}),
           ));
         }
         setState(() {
@@ -295,20 +304,29 @@ class _WaterNotificationBodyState extends State<WaterNotificationBody> {
                 finishedTime == waterData['endTime'].toDate() &&
                 waterGoal == waterData['goal']) {
               Scaffold.of(context).showSnackBar(SnackBar(
+                duration: Duration(seconds: 1),
                 content: Text('Already Saved details'),
+                backgroundColor: Colors.blue[900],
+                action: new SnackBarAction(textColor: Colors.white,label: 'OK', onPressed: (){}),
               ));
             } else {
               await widget.notificationService.updateWaterTimer(
                   widget.uid, startTime, finishedTime, waterGoal);
               Scaffold.of(context).showSnackBar(SnackBar(
                 content: Text('Saved changes'),
+                  duration: Duration(seconds: 1),
+                  backgroundColor: Colors.blue[900],
+                action: new SnackBarAction(textColor: Colors.white,label: 'OK', onPressed: (){}),
               ));
             }
             await _showNotification();
           } catch (e) {
             print('Error : $e');
             Scaffold.of(context).showSnackBar(SnackBar(
+              duration: Duration(seconds: 1),
               content: Text('Check your internet connection'),
+              backgroundColor: Colors.blue[900],
+              action: new SnackBarAction(textColor: Colors.white,label: 'OK', onPressed: (){}),
             ));
           }
         }
@@ -322,13 +340,29 @@ class _WaterNotificationBodyState extends State<WaterNotificationBody> {
                 Navigator.of(context).pop(true);
               });
               return AlertDialog(
-                content: status == 'okey'
-                      ? Image.asset(
-                          'assets/NotificationManager/drinkwater.gif',
+                backgroundColor: Colors.transparent,
+                  content: status == 'okey'
+                        ? Container(
+                    width: MediaQuery.of(context).size.width*0.6,
+                    height: MediaQuery.of(context).size.width*0.5,
+                    decoration: BoxDecoration(
+                      shape: BoxShape.circle,
+//                      borderRadius: BorderRadius.circular(10),
+                      color: Colors.green,
+                      image: DecorationImage(fit: BoxFit.fill,image: AssetImage('assets/NotificationManager/drinkwater.gif'))
+                    ),
                         )
-                      : Image.asset('assets/connection_lost.gif'),
-                elevation: 20,
+                        : Container(
+                    width: MediaQuery.of(context).size.width,
+                    height: 200,
+                    decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(10),
+                        color: Colors.green,
+                        image: DecorationImage(fit: BoxFit.fill,image: AssetImage('assets/connection_lost.gif'))
+                    ),
+                  )
               );
+
             });
       }
 
@@ -339,7 +373,7 @@ class _WaterNotificationBodyState extends State<WaterNotificationBody> {
           try {
             await widget.notificationService.updateDrinkWater(widget.uid,
                 drunkWater, waterData[dayNames[DateTime.now().weekday - 1]]);
-            createAlertDialog(context, 'okey');
+//            createAlertDialog(context, 'okey');
           } catch (e) {
             createAlertDialog(context, 'error');
           }
@@ -381,17 +415,22 @@ class _WaterNotificationBodyState extends State<WaterNotificationBody> {
       }
       return Builder(
           builder: (context) => Scaffold(
+            key: ValueKey('waterNotificationPage'),
                 bottomNavigationBar: CurvedNavigationBar(
                   backgroundColor: Colors.blueAccent,
                   height: 50,
                   animationDuration: Duration(milliseconds: 200),
                   animationCurve: Curves.decelerate,
                   items: <Widget>[
-                    Icon(Icons.alarm, size: 30),
-                    Icon(Icons.assessment, size: 30),
+                    Icon(
+                      Icons.alarm, size: 30,
+                        key:ValueKey('waterNotificationDrinkPageButton')),
+                    Icon(Icons.assessment, size: 30,
+                    key:ValueKey('waterNotificationChartPageButton'),
+                    ),
                   ],
                   onTap: (index) {
-                    changeVIsibility();
+                    changeVIsibility(index);
                   },
                 ),
                 body: Container(
@@ -475,14 +514,15 @@ class _WaterNotificationBodyState extends State<WaterNotificationBody> {
                                                         ? 'first add valide data'
                                                         : 'submit form',
                                                     child: InkWell(
+                                                      key: ValueKey('waterNotificationBellButton'),
                                                       onTap: () async {
                                                         if (alermToggle ==
                                                             false) {
                                                           await validateAndSubmit();
                                                         } else {
+                                                          toggleButton();
                                                           await flutterLocalNotificationsPlugin
                                                               .cancelAll();
-                                                          toggleButton();
                                                         }
                                                         ;
                                                       },
@@ -542,6 +582,7 @@ class _WaterNotificationBodyState extends State<WaterNotificationBody> {
                                         child: Column(
                                           children: <Widget>[
                                             TextFormField(
+                                              key:ValueKey('waterNotificationStartTime'),
                                               onSaved: (value) => startTime =
                                                   DateTime(
                                                       DateTime.now().year,
@@ -615,6 +656,7 @@ class _WaterNotificationBodyState extends State<WaterNotificationBody> {
                                               height: 10,
                                             ),
                                             TextFormField(
+                                              key:ValueKey('waterNotificationEndTime'),
                                               onSaved: (value) => finishedTime =
                                                   DateTime(
                                                       DateTime.now().year,
@@ -717,7 +759,9 @@ class _WaterNotificationBodyState extends State<WaterNotificationBody> {
                                                 suffixIcon:
                                                     PopupMenuButton<String>(
                                                   icon: const Icon(
-                                                      Icons.arrow_drop_down),
+                                                      Icons.arrow_drop_down,
+                                                  key: ValueKey('waterNotificationGoal'),
+                                                  ),
                                                   onSelected: (String value) {
                                                     _goalController.text =
                                                         value.substring(0, 4);
@@ -768,8 +812,12 @@ class _WaterNotificationBodyState extends State<WaterNotificationBody> {
                                                 width: 119,
                                                 height: 119,
                                                 child: RaisedButton(
+                                                  key: ValueKey('waterNotificationDrinkButton'),
                                                   color: Colors.white,
-                                                  onPressed: dinkWaterSubmit,
+                                                  onPressed: (){
+                                                    dinkWaterSubmit();
+
+                                                  },
                                                   child: Column(
                                                     children: <Widget>[
                                                       SizedBox(

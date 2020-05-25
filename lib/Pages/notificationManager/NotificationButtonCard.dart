@@ -14,6 +14,7 @@ class NotificationButtonCard extends StatefulWidget {
 class _NotificationButtonCardState extends State<NotificationButtonCard> {
   Widget WaterCard(BuildContext context){
     return Card(
+      key: ValueKey('waterNotificationCard'),
       shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.all(Radius.circular(8.0))),
       child: InkWell(

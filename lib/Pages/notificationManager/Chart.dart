@@ -45,6 +45,7 @@ class BarChartSample1State extends State<BarChartSample1> {
     return AspectRatio(
       aspectRatio: 1,
       child: Card(
+        key: ValueKey('waterNotificationChart'),
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(18)),
         color: Colors.white,
         child: Stack(
