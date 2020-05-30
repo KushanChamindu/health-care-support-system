@@ -52,8 +52,8 @@ class _CKD_precautionsState extends State<CKD_precautions> {
           ],
           backgroundColor: Colors.blueAccent,
         ),
-        body: SingleChildScrollView(
-          child: Column(
+        body: ListView(
+            itemExtent: 115,
             children: <Widget>[
               PrecautionCard(image: 'assets/CKD_image/fruit.png',text: 'Follow a low-salt, low-fat diet'),
               PrecautionCard(text:  'Exercise at least 30 minutes on most days of the week',image:  'assets/CKD_image/excersis.gif',),
@@ -62,7 +62,7 @@ class _CKD_precautionsState extends State<CKD_precautions> {
               PrecautionCard(text: 'Limit alcohol',image:  'assets/CKD_image/noAlcohol.jpeg',),
             ],
           ),
-        ));
+        );
   }
 }
 

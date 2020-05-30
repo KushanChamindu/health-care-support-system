@@ -505,7 +505,23 @@ class _LogInState extends State<LogIn> {
                 child: Form(
                     key: formKey,
                     child: SingleChildScrollView(
-                      child: Stack(
+                      child: _formType==FormType.register?
+                      Column(
+                        children: <Widget>[
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.stretch,
+                            children: buildInputs(),
+                          ),
+                          Padding(
+                            padding: EdgeInsets.only(
+                                top: 15),
+                            child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                children: buildSubmitButtons()),
+                          ),
+                        ],
+                      )
+                          :Stack(
                         children: <Widget>[
                           Column(
                             crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -515,7 +531,7 @@ class _LogInState extends State<LogIn> {
                             child: _formType == FormType.logIn
                                 ? Padding(
                                     padding: EdgeInsets.only(
-                                        top: 160,
+                                        top: 158,
                                         left: MediaQuery.of(context).size.width -
                                             185),
                                     child: InkWell(
@@ -533,9 +549,11 @@ class _LogInState extends State<LogIn> {
                           Padding(
                             padding: EdgeInsets.only(
                                 top: MediaQuery.of(context).size.height-204),
-                            child: Container(
-                              width: 400,
-                              child: Column(children: buildSubmitButtons()),
+                            child: Align(
+                              alignment: Alignment.center,
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                  children: buildSubmitButtons()),
                             ),
                           ),
                         ],

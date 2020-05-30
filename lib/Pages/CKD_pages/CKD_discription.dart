@@ -57,50 +57,41 @@ class _CKD_discriptionState extends State<CKD_discription> {
               child: Image(image:AssetImage('assets/CKD_image/kidney_1.jpg',),fit: BoxFit.fill,),
             ),
             Row(
-              crossAxisAlignment: CrossAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.center,
               children: <Widget>[
-                Expanded(
-                  child: Align(
-                      alignment: Alignment.centerLeft,
-                      child: Container(
-                        width: 250,
-                        child: Card(
-                          key: ValueKey('CKDsymptomButton'),
-                          child: FlatButton.icon(
-                              onPressed: () {
-                                Navigator.pushNamed(context, '/CKD_symptom');
-                              },
-                              icon: Icon(
-                                Icons.touch_app,
-                                size: 25,
-                              ),
-                              label: Text("CKD Symptoms",
-                                  style: TextStyle(
-                                      fontSize: 15, fontWeight: FontWeight.w900))),
+                Container(
+                  width: MediaQuery.of(context).size.width/2,
+                  child: Card(
+                    key: ValueKey('CKDsymptomButton'),
+                    child: FlatButton.icon(
+                        onPressed: () {
+                          Navigator.pushNamed(context, '/CKD_symptom');
+                        },
+                        icon: Icon(
+                          Icons.touch_app,
+                          size: 25,
                         ),
-                      ),
-                    ),
+                        label: Text("CKD Symptoms",
+                            style: TextStyle(
+                                fontSize: 15, fontWeight: FontWeight.w900))),
+                  ),
                 ),
-                Expanded(
-                  child: Align(
-                    alignment: Alignment.centerRight,
-                    child: Container(
-                      width: 200,
-                      child: Card(
-                        key: ValueKey('CKDprecautionButton'),
-                        child: FlatButton.icon(
-                            onPressed: () {
-                              Navigator.pushNamed(context, '/CKD_precaution');
-                            },
-                            icon: Icon(
-                              Icons.local_pharmacy,
-                              size: 25,
-                            ),
-                            label: Text("CKD precautions",
-                                style: TextStyle(
-                                    fontSize: 14, fontWeight: FontWeight.w900))),
-                      ),
-                    ),
+                Spacer(),
+                Container(
+                  width: MediaQuery.of(context).size.width/2,
+                  child: Card(
+                    key: ValueKey('CKDprecautionButton'),
+                    child: FlatButton.icon(
+                        onPressed: () {
+                          Navigator.pushNamed(context, '/CKD_precaution');
+                        },
+                        icon: Icon(
+                          Icons.local_pharmacy,
+                          size: 25,
+                        ),
+                        label: Text("CKD Precautions",
+                            style: TextStyle(
+                                fontSize: 15, fontWeight: FontWeight.w900))),
                   ),
                 ),
               ],

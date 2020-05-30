@@ -74,7 +74,7 @@ class _CKD_CardsState extends State<CKD_Cards> {
                           Navigator.pushNamed(context, '/CKD_discription');
                         },
                         child: Padding(
-                          padding: const EdgeInsets.fromLTRB(15,0, 0, 0),
+                          padding: const EdgeInsets.only(left :15),
                           child: Row(
                             crossAxisAlignment: CrossAxisAlignment.center,
                             children: <Widget>[

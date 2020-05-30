@@ -125,7 +125,9 @@ class _AccountState extends State<Account> {
           appBar: AppBar(
             leading: IconButton(
               key: ValueKey('AccountBackButton'),
-              icon: Icon(Icons.arrow_back,),
+              icon: Icon(
+                Icons.arrow_back,
+              ),
               onPressed: () => Navigator.of(context).pop(),
             ),
             title: Row(
@@ -235,7 +237,7 @@ class _AccountBodyState extends State<AccountBody> {
   Widget build(BuildContext context) {
     Future getImage() async {
       try {
-        var image = await ImagePicker.pickImage(source: ImageSource.gallery);
+        var image = await ImagePicker.pickImage(source: ImageSource.gallery,imageQuality: 70);
         setState(() {
           _image = image;
           print('Path of image: $_image');
@@ -262,7 +264,8 @@ class _AccountBodyState extends State<AccountBody> {
               duration: Duration(seconds: 2),
               content: Text('Profile picture uploaded'),
               backgroundColor: Colors.blue[900],
-              action: new SnackBarAction(textColor: Colors.white,label: 'OK', onPressed: (){}),
+              action: new SnackBarAction(
+                  textColor: Colors.white, label: 'OK', onPressed: () {}),
             ));
           });
         }
@@ -291,7 +294,8 @@ class _AccountBodyState extends State<AccountBody> {
                 duration: Duration(seconds: 2),
                 content: Text('Already Saved details'),
                 backgroundColor: Colors.blue[900],
-                action: new SnackBarAction(textColor: Colors.white,label: 'OK', onPressed: (){}),
+                action: new SnackBarAction(
+                    textColor: Colors.white, label: 'OK', onPressed: () {}),
               ));
             } else {
               Navigator.of(context).pop();
@@ -301,7 +305,8 @@ class _AccountBodyState extends State<AccountBody> {
                 content: Text('Saved changes'),
                 duration: Duration(seconds: 2),
                 backgroundColor: Colors.blue[900],
-                action: new SnackBarAction(textColor: Colors.white,label: 'OK', onPressed: (){}),
+                action: new SnackBarAction(
+                    textColor: Colors.white, label: 'OK', onPressed: () {}),
               ));
             }
           } catch (e) {
@@ -310,7 +315,8 @@ class _AccountBodyState extends State<AccountBody> {
               duration: Duration(seconds: 2),
               content: Text('Check your internet connection'),
               backgroundColor: Colors.blue[900],
-              action: new SnackBarAction(textColor: Colors.white,label: 'OK', onPressed: (){}),
+              action: new SnackBarAction(
+                  textColor: Colors.white, label: 'OK', onPressed: () {}),
             ));
           }
         }
@@ -476,7 +482,7 @@ class _AccountBodyState extends State<AccountBody> {
                   Padding(
                     padding: const EdgeInsets.only(top: 16.0),
                     child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.center,
+//                      crossAxisAlignment: CrossAxisAlignment.center,
                       children: <Widget>[
                         Row(
                           mainAxisAlignment: MainAxisAlignment.center,
@@ -515,8 +521,7 @@ class _AccountBodyState extends State<AccountBody> {
                                                     color: Colors.white,
                                                     shape: BoxShape.circle),
                                                 child: ClipOval(
-                                                  child:
-                                                      FadeInImage.assetNetwork(
+                                                  child: FadeInImage.assetNetwork(
                                                     imageCacheHeight: 200,
                                                     fadeInCurve:
                                                         Curves.decelerate,

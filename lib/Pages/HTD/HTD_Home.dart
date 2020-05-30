@@ -11,7 +11,7 @@ class HTD_Home extends StatelessWidget {
   Widget build(BuildContext context) {
     return new Scaffold(
       key: ValueKey('HTDdiscriptionPage'),
-      body: new Column(
+      body: new ListView(
         key: Key('HomePage'),
         children: <Widget>[
           SafeArea(child: new GradientAppBar("Heart Disease", '/home')),
