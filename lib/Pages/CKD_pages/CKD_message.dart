@@ -91,7 +91,10 @@ class _MessagePageBodyState extends State<MessagePageBody> {
   final TextEditingController _textController = new TextEditingController();
 
   Widget Telegram(BuildContext context, AIResponse response) {
-     var data=response.queryResult.fulfillmentMessages.where((m) => m['platform'] !='FACEBOOK' && m['platform'] !='TELEGRAM').toList()[0]['payload'];
+    var data = response.queryResult.fulfillmentMessages
+        .where(
+            (m) => m['platform'] != 'FACEBOOK' && m['platform'] != 'TELEGRAM')
+        .toList()[0]['payload'];
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
       children: <Widget>[
@@ -100,15 +103,20 @@ class _MessagePageBodyState extends State<MessagePageBody> {
             shape:
                 RoundedRectangleBorder(borderRadius: BorderRadius.circular(18)),
             color: Colors.blueAccent,
-            onPressed: () async => await launch(data['click-button']['button-link'],
-                forceWebView: false, forceSafariVC: false),
+            onPressed: () async => await launch(
+                data['click-button']['button-link'],
+                forceWebView: false,
+                forceSafariVC: false),
             label: Text(data['click-button']['button-text'])),
       ],
     );
   }
 
   Widget Facebook(BuildContext context, AIResponse response) {
-    var data=response.queryResult.fulfillmentMessages.where((m) => m['platform'] !='FACEBOOK' && m['platform'] !='TELEGRAM').toList()[0]['payload'];
+    var data = response.queryResult.fulfillmentMessages
+        .where(
+            (m) => m['platform'] != 'FACEBOOK' && m['platform'] != 'TELEGRAM')
+        .toList()[0]['payload'];
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
       children: <Widget>[
@@ -151,11 +159,12 @@ class _MessagePageBodyState extends State<MessagePageBody> {
             double.parse(response.getMessage().split(' ')[4].split('%')[0]));
       } else if (response.queryResult.intent.displayName.toString() ==
           'telegrame') {
-        var response_data=response.queryResult.fulfillmentMessages.where((m) =>m['platform'] =='FACEBOOK').toList();
+        var response_data = response.queryResult.fulfillmentMessages
+            .where((m) => m['platform'] == 'FACEBOOK')
+            .toList();
         Widget telegram_msg = Telegram(context, response);
         FactsMessage message = FactsMessage(
-          text: response.getMessage() ??
-              CardDialogflow(response_data[0]).title,
+          text: response.getMessage() ?? CardDialogflow(response_data[0]).title,
           name: "Doctor",
           type: false,
         );
@@ -165,11 +174,12 @@ class _MessagePageBodyState extends State<MessagePageBody> {
         });
       } else if (response.queryResult.intent.displayName.toString() ==
           'FaceBook') {
-        var response_data=response.queryResult.fulfillmentMessages.where((m) =>m['platform'] =='TELEGRAM').toList();
+        var response_data = response.queryResult.fulfillmentMessages
+            .where((m) => m['platform'] == 'TELEGRAM')
+            .toList();
         Widget facebook_msg = Facebook(context, response);
         FactsMessage message = FactsMessage(
-          text: response.getMessage() ??
-              CardDialogflow(response_data[0]).title,
+          text: response.getMessage() ?? CardDialogflow(response_data[0]).title,
           name: "Doctor",
           type: false,
         );
@@ -178,12 +188,16 @@ class _MessagePageBodyState extends State<MessagePageBody> {
           _messages.insert(0, facebook_msg);
         });
       } else if (response.queryResult.intent.displayName.toString() ==
-          'Default Welcome Intent' || response.queryResult.intent.displayName.toString() =='Services_offer_ask') {
-        var response_data=response.queryResult.fulfillmentMessages.where((m) =>m['platform'] =='TELEGRAM' || m['platform'] =='FACEBOOK' ).toList();
+              'Default Welcome Intent' ||
+          response.queryResult.intent.displayName.toString() ==
+              'Services_offer_ask') {
+        var response_data = response.queryResult.fulfillmentMessages
+            .where((m) =>
+                m['platform'] == 'TELEGRAM' || m['platform'] == 'FACEBOOK')
+            .toList();
         Widget instuction = Services(context, response, userData);
         FactsMessage message = FactsMessage(
-          text: response.getMessage() ??
-              CardDialogflow(response_data[0]).title,
+          text: response.getMessage() ?? CardDialogflow(response_data[0]).title,
           name: "Doctor",
           type: false,
         );
@@ -193,11 +207,13 @@ class _MessagePageBodyState extends State<MessagePageBody> {
         });
       } else if (response.queryResult.intent.displayName.toString() ==
           'Threatment_CKD') {
-        var response_data=response.queryResult.fulfillmentMessages.where((m) =>m['platform'] =='TELEGRAM' || m['platform'] =='FACEBOOK' ).toList();
+        var response_data = response.queryResult.fulfillmentMessages
+            .where((m) =>
+                m['platform'] == 'TELEGRAM' || m['platform'] == 'FACEBOOK')
+            .toList();
         Widget treatment = Threatment(context, response, userData);
         FactsMessage message = FactsMessage(
-          text: response.getMessage() ??
-              CardDialogflow(response_data[0]).title,
+          text: response.getMessage() ?? CardDialogflow(response_data[0]).title,
           name: "Doctor",
           type: false,
         );
@@ -205,7 +221,7 @@ class _MessagePageBodyState extends State<MessagePageBody> {
           _messages.insert(0, message);
           _messages.insert(0, treatment);
         });
-      }else{
+      } else {
         FactsMessage message = FactsMessage(
           text: response.getMessage() ??
               CardDialogflow(response.getListMessage()[0]).title,
@@ -229,12 +245,17 @@ class _MessagePageBodyState extends State<MessagePageBody> {
   }
 
   Widget Services(BuildContext context, AIResponse response, userData) {
-    var data=response.queryResult.fulfillmentMessages.where((m) => m['platform'] !='FACEBOOK' && m['platform'] !='TELEGRAM').toList()[0]['payload'];
+    var data = response.queryResult.fulfillmentMessages
+        .where(
+            (m) => m['platform'] != 'FACEBOOK' && m['platform'] != 'TELEGRAM')
+        .toList()[0]['payload'];
     return Wrap(
       alignment: WrapAlignment.center,
       crossAxisAlignment: WrapCrossAlignment.center,
       children: <Widget>[
-        SizedBox(width: 50,),
+        SizedBox(
+          width: 50,
+        ),
         FlatButton.icon(
             icon: Icon(Icons.perm_device_information),
             shape:
@@ -252,8 +273,8 @@ class _MessagePageBodyState extends State<MessagePageBody> {
             shape:
                 RoundedRectangleBorder(borderRadius: BorderRadius.circular(18)),
             color: Colors.blue[500],
-            onPressed: () =>
-                _submitQuery(data['service-button-2']['postback-text'], userData),
+            onPressed: () => _submitQuery(
+                data['service-button-2']['postback-text'], userData),
             label: Text(data['service-button-2']['button-title'])),
       ],
     );
@@ -261,16 +282,24 @@ class _MessagePageBodyState extends State<MessagePageBody> {
 
   Widget Threatment(BuildContext context, AIResponse response, userData) {
 //    var data = response.queryResult.fulfillmentMessages[0]['card'];
-    var data=response.queryResult.fulfillmentMessages.where((m) => m['platform'] !='FACEBOOK' && m['platform'] !='TELEGRAM').toList()[0]['payload'];
+    var data = response.queryResult.fulfillmentMessages
+        .where(
+            (m) => m['platform'] != 'FACEBOOK' && m['platform'] != 'TELEGRAM')
+        .toList()[0]['payload'];
     return Padding(
-      padding: const EdgeInsets.only(left:10.0,right: 10),
+      padding: const EdgeInsets.only(left: 10.0, right: 10),
       child: Column(
         children: <Widget>[
-          FactsMessage(type: false,name: 'Doctor',text: data['image-description'],),
+          FactsMessage(
+            type: false,
+            name: 'Doctor',
+            text: data['image-description'],
+          ),
           FadeInImage.assetNetwork(
-            width: MediaQuery.of(context).size.width-20,
+              width: MediaQuery.of(context).size.width - 20,
               height: 200,
-              placeholder: 'assets/loading.gif', image: data['image-url']),
+              placeholder: 'assets/loading.gif',
+              image: data['image-url']),
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
@@ -279,10 +308,8 @@ class _MessagePageBodyState extends State<MessagePageBody> {
                   shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(18)),
                   color: Colors.blueAccent,
-                  onPressed: () async => await launch(
-                      data['button-url'],
-                      forceWebView: false,
-                      forceSafariVC: false),
+                  onPressed: () async => await launch(data['button-url'],
+                      forceWebView: false, forceSafariVC: false),
                   label: Text(data['button-label'])),
             ],
           )
