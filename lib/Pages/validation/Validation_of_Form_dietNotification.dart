@@ -6,8 +6,9 @@ class ValidationOfFormDiet{
       String value, TextEditingController _lunchController,TextEditingController _dinnerController) {
     if (value == null || value == '0' ) {
       return 'Time is required';
-    }
-    else if (!DateTime(
+    }else if(_lunchController.text=='0' || _dinnerController.text=='0'){
+      return null;
+    }else if (!DateTime(
         DateTime.now().year,
         DateTime.now().month,
         DateTime.now().day,
@@ -38,9 +39,11 @@ class ValidationOfFormDiet{
 
   static String LunchValidation(
       String value, TextEditingController _breakfastController,TextEditingController _dinnerController) {
-    if (value == null || value == '0' ) {
+    if (value == null || value == '0') {
       return 'Time is required';
-    } else if (! DateTime(
+    }else if(_breakfastController.text=='0' ||_dinnerController.text=='0'){
+      return null;
+    }else if (! DateTime(
         DateTime.now().year,
         DateTime.now().month,
         DateTime.now().day,
@@ -71,9 +74,11 @@ class ValidationOfFormDiet{
 
   static String DinnerValidation(
       String value, TextEditingController _breakfastController,TextEditingController _lunchController) {
-    if (value == null|| value == '0' ) {
+    if (value == null|| value == '0') {
       return 'Time is required';
-    } else if (!DateTime(
+    }else if(_breakfastController.text== '0'||_lunchController.text=='0'){
+      return null;
+    }else if (!DateTime(
         DateTime.now().year,
         DateTime.now().month,
         DateTime.now().day,

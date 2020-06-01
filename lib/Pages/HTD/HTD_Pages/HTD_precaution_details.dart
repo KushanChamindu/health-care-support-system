@@ -80,7 +80,8 @@ class DetailPage extends StatelessWidget{
               .of(context)
               .padding
               .top),
-      child: new BackButton(color :Colors.black),
+      child: new BackButton(key:ValueKey('HTDPrecuationBackButton')
+          ,color :Colors.black),
     );
 
   }

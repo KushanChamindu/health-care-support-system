@@ -59,13 +59,13 @@ class _BreastCancerPredictionState extends State<BreastCancerPrediction> {
         actions: <Widget>[
           Popupmenu(auth: widget.auth,)
         ],
-        title: Text(
-          "Predictions...- Breast Cancer",
-          style: TextStyle(
-            fontSize: 20.0,
-            fontWeight: FontWeight.w300,
-            color: Colors.black,
-            fontFamily: 'KaushanScript'
+        title: Align(
+          alignment: Alignment.center,
+          child: Text(
+            "Predictions...- Breast Cancer",
+            style: TextStyle(
+              fontSize: 20.0,
+            ),
           ),
         ),
         //centerTitle: true,
@@ -86,9 +86,9 @@ class _BreastCancerPredictionState extends State<BreastCancerPrediction> {
               'Get acquainted with our system before getting started',
               style: TextStyle(
                           fontSize: 20.0,
-                          fontFamily: 'KaushanScript',
+                          fontFamily: 'Cairo',
                           backgroundColor: Colors.grey[300],
-                          fontWeight: FontWeight.w100
+                          fontWeight: FontWeight.w600
               ),
               softWrap: true,
               ),
@@ -99,7 +99,7 @@ class _BreastCancerPredictionState extends State<BreastCancerPrediction> {
               onPressed: (){
                 Navigator.pushNamed(context, '/predictionhelp');
               }, 
-                child: Text('About'),
+                child: Text('About', style: TextStyle(fontSize: 17),),
                 color: Colors.blueAccent,
            ),
             ),
@@ -109,9 +109,8 @@ class _BreastCancerPredictionState extends State<BreastCancerPrediction> {
                 "Take your time to fill the information (provide values atleast four decimal places)",
                 style: TextStyle(
                 fontSize: 18.0,
-                //fontWeight: FontWeight.w300,
-                color: Colors.black,
-                fontFamily: 'KaushanScript'
+//                fontWeight: FontWeight.w300,
+                fontFamily: 'Cairo'
                 ),
               ),
             ),
@@ -131,9 +130,9 @@ class _BreastCancerPredictionState extends State<BreastCancerPrediction> {
                               "  Breast Radius  ",
                               style: TextStyle(
                                 fontSize: 16.0,
-                                fontFamily: 'KaushanScript',
+                                fontFamily: 'Cairo',
                                 backgroundColor: Colors.grey[300],
-                                fontWeight: FontWeight.w100
+                                fontWeight: FontWeight.w600
                               ),
                             )
                           ),
@@ -213,9 +212,9 @@ class _BreastCancerPredictionState extends State<BreastCancerPrediction> {
                               "  Texture of a Breast  ",
                               style: TextStyle(
                                 fontSize: 16.0,
-                                fontFamily: 'KaushanScript',
+                                fontFamily: 'Cairo',
                                 backgroundColor: Colors.grey[300],
-                                fontWeight: FontWeight.w100
+                                fontWeight: FontWeight.w600
                               ),
                               ),
                           ),
@@ -295,9 +294,9 @@ class _BreastCancerPredictionState extends State<BreastCancerPrediction> {
                               "  Breast Perimeter  ",
                               style: TextStyle(
                                 fontSize: 16.0,
-                                fontFamily: 'KaushanScript',
+                                fontFamily: 'Cairo',
                                 backgroundColor: Colors.grey[300],
-                                fontWeight: FontWeight.w100
+                                fontWeight: FontWeight.w600
                               ),
                               ),
                           ),
@@ -377,9 +376,9 @@ class _BreastCancerPredictionState extends State<BreastCancerPrediction> {
                               "  Area of the Breast  ",
                               style: TextStyle(
                                 fontSize: 16.0,
-                                fontFamily: 'KaushanScript',
+                                fontFamily: 'Cairo',
                                 backgroundColor: Colors.grey[300],
-                                fontWeight: FontWeight.w100
+                                fontWeight: FontWeight.w600
                               ),
                               ),
                           ),
@@ -459,9 +458,9 @@ class _BreastCancerPredictionState extends State<BreastCancerPrediction> {
                               "  Smoothness of Breast  ",
                               style: TextStyle(
                                 fontSize: 16.0,
-                                fontFamily: 'KaushanScript',
+                                fontFamily: 'Cairo',
                                 backgroundColor: Colors.grey[300],
-                                fontWeight: FontWeight.w100
+                                fontWeight: FontWeight.w600
                               ),
                               ),
                           ),
@@ -541,9 +540,9 @@ class _BreastCancerPredictionState extends State<BreastCancerPrediction> {
                               "  Breast Compactness  ",
                               style: TextStyle(
                                 fontSize: 16.0,
-                                fontFamily: 'KaushanScript',
+                                fontFamily: 'Cairo',
                                 backgroundColor: Colors.grey[300],
-                                fontWeight: FontWeight.w100
+                                fontWeight: FontWeight.w600
                               ),
                               ),
                           ),
@@ -623,9 +622,9 @@ class _BreastCancerPredictionState extends State<BreastCancerPrediction> {
                               "  Concavity in Breast  ",
                               style: TextStyle(
                                 fontSize: 16.0,
-                                fontFamily: 'KaushanScript',
+                                fontFamily: 'Cairo',
                                 backgroundColor: Colors.grey[300],
-                                fontWeight: FontWeight.w100
+                                fontWeight: FontWeight.w600
                               ),
                               ),
                           ),
@@ -705,9 +704,9 @@ class _BreastCancerPredictionState extends State<BreastCancerPrediction> {
                               "  Concave Points (Number of concave portions of the contour)  ",
                               style: TextStyle(
                                 fontSize: 16.0,
-                                fontFamily: 'KaushanScript',
+                                fontFamily: 'Cairo',
                                 backgroundColor: Colors.grey[300],
-                                fontWeight: FontWeight.w100
+                                fontWeight: FontWeight.w600
                               ),
                               ),
                           ),
@@ -787,9 +786,9 @@ class _BreastCancerPredictionState extends State<BreastCancerPrediction> {
                               "  Breast Symmetry  ",
                               style: TextStyle(
                                 fontSize: 16.0,
-                                fontFamily: 'KaushanScript',
+                                fontFamily: 'Cairo',
                                 backgroundColor: Colors.grey[300],
-                                fontWeight: FontWeight.w100
+                                fontWeight: FontWeight.w600
                               ),
                               ),
                           ),
@@ -869,9 +868,9 @@ class _BreastCancerPredictionState extends State<BreastCancerPrediction> {
                               "  Fractal Dimension  ",
                               style: TextStyle(
                                 fontSize: 16.0,
-                                fontFamily: 'KaushanScript',
+                                fontFamily: 'Cairo',
                                 backgroundColor: Colors.grey[300],
-                                fontWeight: FontWeight.w100
+                                fontWeight: FontWeight.w600
                               ),
                               ),
                           ),

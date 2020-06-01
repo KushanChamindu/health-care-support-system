@@ -92,7 +92,7 @@ class FactsMessage extends StatelessWidget {
         ),
       ),
       Container(
-        margin: const EdgeInsets.only(left: 16.0),
+        margin: const EdgeInsets.only(left: 4.0),
         child: imageUrl != null
             ? Container(
           width: 55,

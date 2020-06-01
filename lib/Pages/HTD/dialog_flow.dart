@@ -195,18 +195,9 @@ class _HTDMessagePageBodyState extends State<HTDMessagePageBody> {
       setState(() {
         messageList.insert(0,instruction);
       });
+    }else if(response.queryResult.fulfillmentMessages[0]['text']['text'][0].toString().substring(0,8) =="You have" && response.queryResult.fulfillmentMessages[0]['text']['text'][0].toString().split('%')[1].trim().split('.')[0]=='possibility of having heart disease'){
+      widget.auth.setHTDPrediction(widget.uid,  double.parse(response.queryResult.fulfillmentMessages[0]['text']['text'][0].toString().split('%')[0].split(' ')[2]));
     }
-    print(response.queryResult.fulfillmentMessages);
-    print(response.getMessage());
-    print(response.queryResult.intent.displayName);
-    print(response.webhookStatus);
-//    else if (response.getMessage() != null &&
-//        response.webhookStatus != null &&
-//        response.queryResult.intent.displayName != null) {
-//      print(response.queryResult.fulfillmentMessages);
-//      widget.auth.setHTDPrediction(widget.uid,
-//          double.parse(response.getMessage().split(' ')[4].split('%')[0]));
-//    }
   }
 
 

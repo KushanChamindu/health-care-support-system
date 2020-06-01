@@ -15,6 +15,11 @@ class _CKD_discriptionState extends State<CKD_discription> {
     return Scaffold(
       backgroundColor: Colors.grey[300],
       appBar:  AppBar(
+        leading: IconButton(
+          key: ValueKey('CKDDiscriptionBackButton'),
+          icon: Icon(Icons.arrow_back,),
+          onPressed: () => Navigator.of(context).pop(),
+        ),
         title: Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
@@ -46,60 +51,47 @@ class _CKD_discriptionState extends State<CKD_discription> {
         backgroundColor: Colors.blueAccent,
       ),
       body: ListView(
-//        children:
-//        Column(
-//          key: ValueKey('CKDdiscriptionPage'),
-//          crossAxisAlignment: CrossAxisAlignment.start,
+          key: ValueKey('CKDdiscriptionPage'),
           children: <Widget>[
-            Padding(
-              padding: const EdgeInsets.fromLTRB(4,4,4,0),
-              child: Image(image:AssetImage('assets/CKD_image/kidney_1.jpg',),),
+            Card(
+              child: Image(image:AssetImage('assets/CKD_image/kidney_1.jpg',),fit: BoxFit.fill,),
             ),
             Row(
-              crossAxisAlignment: CrossAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.center,
               children: <Widget>[
-                Expanded(
-                  child: Align(
-                      alignment: Alignment.centerLeft,
-                      child: Container(
-                        width: 250,
-                        child: Card(
-                          key: ValueKey('CKDsymptomButton'),
-                          child: FlatButton.icon(
-                              onPressed: () {
-                                Navigator.pushNamed(context, '/CKD_symptom');
-                              },
-                              icon: Icon(
-                                Icons.touch_app,
-                                size: 25,
-                              ),
-                              label: Text("CKD Symptoms",
-                                  style: TextStyle(
-                                      fontSize: 15, fontWeight: FontWeight.w900))),
+                Container(
+                  width: MediaQuery.of(context).size.width/2,
+                  child: Card(
+                    key: ValueKey('CKDsymptomButton'),
+                    child: FlatButton.icon(
+                        onPressed: () {
+                          Navigator.pushNamed(context, '/CKD_symptom');
+                        },
+                        icon: Icon(
+                          Icons.touch_app,
+                          size: 25,
                         ),
-                      ),
-                    ),
+                        label: Text("CKD Symptoms",
+                            style: TextStyle(
+                                fontSize: 15, fontWeight: FontWeight.w900))),
+                  ),
                 ),
-                Expanded(
-                  child: Align(
-                    alignment: Alignment.centerRight,
-                    child: Container(
-                      width: 200,
-                      child: Card(
-                        key: ValueKey('CKDprecautionButton'),
-                        child: FlatButton.icon(
-                            onPressed: () {
-                              Navigator.pushNamed(context, '/CKD_precaution');
-                            },
-                            icon: Icon(
-                              Icons.local_pharmacy,
-                              size: 25,
-                            ),
-                            label: Text("CKD precautions",
-                                style: TextStyle(
-                                    fontSize: 14, fontWeight: FontWeight.w900))),
-                      ),
-                    ),
+                Spacer(),
+                Container(
+                  width: MediaQuery.of(context).size.width/2,
+                  child: Card(
+                    key: ValueKey('CKDprecautionButton'),
+                    child: FlatButton.icon(
+                        onPressed: () {
+                          Navigator.pushNamed(context, '/CKD_precaution');
+                        },
+                        icon: Icon(
+                          Icons.local_pharmacy,
+                          size: 25,
+                        ),
+                        label: Text("CKD Precautions",
+                            style: TextStyle(
+                                fontSize: 15, fontWeight: FontWeight.w900))),
                   ),
                 ),
               ],
@@ -207,31 +199,31 @@ class _TitlesState extends State<Titles> {
   @override
   Widget build(BuildContext context) {
     return Card(
-      child: Container(
-          child: Column(
+      margin: EdgeInsets.fromLTRB(0, 3, 0, 3),
+      child: Column(
         children: <Widget>[
-          FlatButton.icon(
-              onPressed: () {
-                get_visible();
-              },
-              icon: Icon(Icons.list),
-              label: Expanded(
-                  child: Text(widget.text1, style: TextStyle(fontSize: 16)))),
-          Visibility(
-              visible: widget.visible,
-              child: Padding(
-                padding: const EdgeInsets.fromLTRB(20, 0, 8, 15),
-                child: Text(
-                  widget.text2,
-                  style: TextStyle(
-                      fontSize: 15,
-                      height: 1.5,
-                      fontWeight: FontWeight.w400,
-                      letterSpacing: 0.5),
-                ),
-              ))
+      FlatButton.icon(
+          onPressed: () {
+            get_visible();
+          },
+          icon: Icon(Icons.list),
+          label: Expanded(
+              child: Text(widget.text1, style: TextStyle(fontSize: 16)))),
+      Visibility(
+          visible: widget.visible,
+          child: Padding(
+            padding: const EdgeInsets.fromLTRB(20, 0, 8, 15),
+            child: Text(
+              widget.text2,
+              style: TextStyle(
+                  fontSize: 15,
+                  height: 1.5,
+                  fontWeight: FontWeight.w400,
+                  letterSpacing: 0.5),
+            ),
+          ))
         ],
-      )),
+      ),
     );
   }
 }

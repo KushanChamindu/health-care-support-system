@@ -51,21 +51,25 @@ class _BC_SymptomsState extends State<BC_Symptoms> {
             length: 2,
             child: Scaffold(
               appBar: AppBar(
+                leading: IconButton(
+                  key: ValueKey("BCSymptomBackButton"),
+                  icon: Icon(Icons.arrow_back),
+                  onPressed: ()=>Navigator.of(context).pop(),
+                ),
                 backgroundColor: Colors.blueAccent,
                 actions: <Widget>[
                   Popupmenu(auth: widget.auth,)
                 ],
                 bottom: TabBar(tabs: [
-                  Tab(text: 'Early'),
-                  Tab(text: 'Invasive'),
+                  Tab(text: 'Early',key: ValueKey('BCSymptomSampleEarly'),),
+                  Tab(text: 'Invasive',key: ValueKey('BCSymptomSampleInvasive'),),
             ]),
-            title: Text(
-              "Symptoms...  - Breast Cancer",
-              style: TextStyle(
-                fontSize: 20.0,
-                fontWeight: FontWeight.w300,
-                color: Colors.black,
-                fontFamily: 'KaushanScript'
+            title: Align(
+              alignment: Alignment.center,
+              child: Text(
+                "Symptoms...  - Breast Cancer",
+                style: TextStyle(
+                ),
               ),
             ),
             //centerTitle: true,
@@ -86,7 +90,6 @@ class _BC_SymptomsState extends State<BC_Symptoms> {
                                     child: Text(early[index], 
                                     style: TextStyle(
                                       fontSize: 16,
-                                      fontFamily: 'KaushanScript',
                                       ),
                                     ),
                                   ),
@@ -116,7 +119,7 @@ class _BC_SymptomsState extends State<BC_Symptoms> {
                                     child: Text(invasive[index], 
                                     style: TextStyle(
                                       fontSize: 16,
-                                      fontFamily: 'KaushanScript',
+                                      fontFamily: 'Cario',
                                       ),
                                     ),
                                   ),

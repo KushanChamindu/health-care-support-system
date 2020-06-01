@@ -45,8 +45,9 @@ class BarChartSample1State extends State<BarChartSample1> {
     return AspectRatio(
       aspectRatio: 1,
       child: Card(
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(18)),
+        key: ValueKey('waterNotificationChart'),
         color: Colors.white,
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(18)),
         child: Stack(
           children: <Widget>[
             Padding(
@@ -92,7 +93,6 @@ class BarChartSample1State extends State<BarChartSample1> {
       ),
     );
   }
-
   BarChartGroupData makeGroupData(
       int x,
       double y, {

@@ -19,6 +19,7 @@ abstract class BaseAuth {
   Future setBreastCancerPrediction(String uid, double percentage);
   Future setHTDPrediction(String uid, double percentage);
   Future sendPasswordResetEmail(String email);
+  Future<FirebaseUser> getCurrentUser();
 }
 
 class Auth implements BaseAuth {
@@ -37,7 +38,14 @@ class Auth implements BaseAuth {
     FirebaseUser user = result.user;
     return user.uid;
   }
-
+  Future<FirebaseUser> getCurrentUser()async{
+    FirebaseUser user = await FirebaseAuth.instance.currentUser();
+    if (user == null) {
+      return null;
+    } else {
+      return user;
+    }
+  }
   //create user
   Future<String> createUserWithEmailAndPassword(
       String email, String password) async {
@@ -65,15 +73,17 @@ class Auth implements BaseAuth {
   //set ckd predictions result
   Future setCKDPrediction(String uid, double percentage)async{
     DateTime date= DateTime.now();
+    var percent=percentage.toStringAsFixed(2);
     await userData.document(uid).updateData({
-      'CKD':'${percentage.toString()}_${date.toIso8601String()}'
+      'CKD':'${percent.toString()}_${date.toIso8601String()}'
     });
   }
   //set HTD predictions result
   Future setHTDPrediction(String uid, double percentage)async{
     DateTime date= DateTime.now();
+    var percent=percentage.toStringAsFixed(2);
     await userData.document(uid).updateData({
-      'HeartIssue':'${percentage.toString()}_${date.toIso8601String()}'
+      'HeartIssue':'${percent.toString()}_${date.toIso8601String()}'
     });
   }
 
@@ -81,7 +91,7 @@ class Auth implements BaseAuth {
   Future setBreastCancerPrediction(String uid, double percentage)async{
     DateTime date= DateTime.now();
     await userData.document(uid).updateData({
-      'Breast_canser':'${percentage.toString()}_${date.toIso8601String()}'
+      'Breast_canser':'${percentage.toStringAsFixed(2).toString()}_${date.toIso8601String()}'
     });
   }
 

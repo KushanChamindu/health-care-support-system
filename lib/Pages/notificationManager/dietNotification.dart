@@ -139,7 +139,7 @@ class _DietNotificationBodyState extends State<DietNotificationBody> {
             ));
   }
 
-  void _showNotification() async {
+  void _showNotification(a) async {
     await _demoNotification();
   }
 
@@ -158,22 +158,22 @@ class _DietNotificationBodyState extends State<DietNotificationBody> {
     var platformChannelSpecifics = NotificationDetails(
         androidPlatformChannelSpecifics, iOSChannelSpecifics);
     await flutterLocalNotificationsPlugin.showDailyAtTime(
-        0,
+        1000,
         'Eating time reminder',
         'You shoud get your breakfast now',
-        Time(breakfast.hour, breakfast.minute),
+        Time(breakfast.hour, breakfast.minute, 0),
         platformChannelSpecifics);
     await flutterLocalNotificationsPlugin.showDailyAtTime(
-        1,
+        1001,
         'Eating time reminder',
         'You shoud get your lunch now',
-        Time(lunch.hour, lunch.minute),
+        Time(lunch.hour, lunch.minute, 0),
         platformChannelSpecifics);
     await flutterLocalNotificationsPlugin.showDailyAtTime(
-        2,
+        1002,
         'Eating time reminder',
         'You shoud get your dinner now',
-        Time(dinner.hour, dinner.minute),
+        Time(dinner.hour, dinner.minute, 0),
         platformChannelSpecifics);
   }
 
@@ -190,7 +190,7 @@ class _DietNotificationBodyState extends State<DietNotificationBody> {
   Widget build(BuildContext context) {
     final dietNotificationData = Provider.of<DocumentSnapshot>(context);
     try {
-      var dietData=dietNotificationData.data;
+      var dietData = dietNotificationData.data;
       bool alermToggle = dietData['IsAlermOn'] || false;
       final TextEditingController _breakfastController =
           new TextEditingController(
@@ -244,14 +244,18 @@ class _DietNotificationBodyState extends State<DietNotificationBody> {
       toggleButton() async {
         try {
           await widget.notificationService.dietAlerm(widget.uid, !alermToggle);
+          setState(() {
+            alermToggle = !alermToggle;
+          });
         } catch (e) {
           Scaffold.of(context).showSnackBar(SnackBar(
             content: Text('Connection problem'),
+            backgroundColor: Colors.blue[900],
+            duration: Duration(milliseconds: 800),
+            action: new SnackBarAction(
+                textColor: Colors.white, label: 'OK', onPressed: () {}),
           ));
         }
-        setState(() {
-          alermToggle = !alermToggle;
-        });
       }
 
       bool validateAndSave() {
@@ -267,35 +271,53 @@ class _DietNotificationBodyState extends State<DietNotificationBody> {
       void validateAndSubmit() async {
         if (validateAndSave()) {
           try {
-            alermToggle == false ? toggleButton() : null;
+            alermToggle == false ? await toggleButton() : null;
             // ignore: unrelated_type_equality_checks
-            if(dietData['breakfast']!=null && dietData['lunchtime']!=null && dietData['dinnertime']!=null){
+            if (dietData['breakfast'] != null &&
+                dietData['lunchtime'] != null &&
+                dietData['dinnertime'] != null) {
               if (breakfast == dietData['breakfast'].toDate() &&
                   lunch == dietData['lunchtime'].toDate() &&
                   dinner == dietData['dinnertime'].toDate()) {
                 Scaffold.of(context).showSnackBar(SnackBar(
+                  duration: Duration(seconds: 2),
                   content: Text('Already Saved details'),
+                  backgroundColor: Colors.blue[900],
+                  action: new SnackBarAction(
+                      textColor: Colors.white, label: 'OK', onPressed: () {}),
                 ));
-              }else {
+              } else {
                 await widget.notificationService
                     .updateDietTimes(widget.uid, breakfast, lunch, dinner);
                 Scaffold.of(context).showSnackBar(SnackBar(
                   content: Text('Saved changes'),
+                  duration: Duration(seconds: 2),
+                  backgroundColor: Colors.blue[900],
+                  action: new SnackBarAction(
+                      textColor: Colors.white, label: 'OK', onPressed: () {}),
                 ));
               }
-            }else {
+            } else {
               await widget.notificationService
                   .updateDietTimes(widget.uid, breakfast, lunch, dinner);
               Scaffold.of(context).showSnackBar(SnackBar(
                 content: Text('Saved changes'),
+                duration: Duration(seconds: 2),
+                backgroundColor: Colors.blue[900],
+                action: new SnackBarAction(
+                    textColor: Colors.white, label: 'OK', onPressed: () {}),
               ));
             }
 
-            _showNotification();
+            _showNotification(alermToggle);
           } catch (e) {
             print('Error : $e');
             Scaffold.of(context).showSnackBar(SnackBar(
+              duration: Duration(seconds: 2),
               content: Text('Check your internet connection'),
+              backgroundColor: Colors.blue[900],
+              action: new SnackBarAction(
+                  textColor: Colors.white, label: 'OK', onPressed: () {}),
             ));
           }
         }
@@ -306,121 +328,127 @@ class _DietNotificationBodyState extends State<DietNotificationBody> {
           body: Container(
             decoration: BoxDecoration(
               image: DecorationImage(
-                image: AssetImage("assets/NotificationManager/backgroundDietpalan.png",),
+                image: AssetImage(
+                  "assets/NotificationManager/backgroundDietpalan.png",
+                ),
                 fit: BoxFit.fill,
-              ),),
+              ),
+            ),
             child: Padding(
-              padding: const EdgeInsets.only(top:8.0,left: 8),
-              child: Form(
-                key: dietForm,
-                onChanged: () {
-                  if (alermToggle == true) {
-                    validateAndSubmit();
-                  }
-                },
-                child: Column(
-                  children: <Widget>[
-                    Row(
-                      children: <Widget>[
-                        Container(
-                          width: (MediaQuery.of(context).size.width - 125),
-                          height: 50,
-                          child: Align(
-                            alignment: Alignment.centerLeft,
-                            child: Padding(
-                              padding: const EdgeInsets.only(left: 8),
-                              child: Text(
-                                (alermToggle == true)
-                                    ? 'Diet notification turn on'
-                                    : "Diet notification turn off",
-                                textAlign: TextAlign.left,
-                                style: TextStyle(
-                                    fontSize: 16,
-                                    fontWeight: FontWeight.w800,
-                                    letterSpacing: 1),
-                              ),
+              padding: const EdgeInsets.only(top: 8.0, left: 8),
+              child: Column(
+                children: <Widget>[
+                  Row(
+                    children: <Widget>[
+                      Container(
+                        width: (MediaQuery.of(context).size.width - 125),
+                        height: 50,
+                        child: Align(
+                          alignment: Alignment.centerLeft,
+                          child: Padding(
+                            padding: const EdgeInsets.only(left: 8),
+                            child: Text(
+                              (alermToggle == true)
+                                  ? 'Diet notification turn on'
+                                  : "Diet notification turn off",
+                              textAlign: TextAlign.left,
+                              style: TextStyle(
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.w800,
+                                  letterSpacing: 1),
                             ),
                           ),
                         ),
-                        Container(
-                            child: Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: AnimatedContainer(
-                            duration: Duration(milliseconds: 400),
-                            height: 35,
-                            width: 100,
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(20),
-                              color: alermToggle
-                                  ? Colors.green[100]
-                                  : Colors.red[100],
-                            ),
-                            child: Stack(
-                              children: <Widget>[
-                                AnimatedPositioned(
-                                  duration: Duration(milliseconds: 200),
-                                  curve: Curves.easeIn,
-                                  top: 3.0,
-                                  left: alermToggle ? 55.0 : 0.0,
-                                  right: alermToggle ? 0.0 : 55.0,
-                                  child: Tooltip(
-                                    message: alermToggle == false
-                                        ? 'first add valide data'
-                                        : 'submit form',
-                                    child: InkWell(
-                                      onTap: () async {
-                                        if (alermToggle == false) {
-                                          validateAndSubmit();
-                                        } else {
-                                          await flutterLocalNotificationsPlugin
-                                              .cancelAll();
-                                          toggleButton();
-                                        }
+                      ),
+                      Container(
+                          child: Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: AnimatedContainer(
+                          duration: Duration(milliseconds: 400),
+                          height: 35,
+                          width: 100,
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(20),
+                            color: alermToggle
+                                ? Colors.green[100]
+                                : Colors.red[100],
+                          ),
+                          child: Stack(
+                            children: <Widget>[
+                              AnimatedPositioned(
+                                duration: Duration(milliseconds: 200),
+                                curve: Curves.easeIn,
+                                top: 3.0,
+                                left: alermToggle ? 55.0 : 0.0,
+                                right: alermToggle ? 0.0 : 55.0,
+                                child: Tooltip(
+                                  message: alermToggle == false
+                                      ? 'first add valide data'
+                                      : 'submit form',
+                                  child: InkWell(
+                                    onTap: () async {
+                                      if (alermToggle == false) {
+                                        validateAndSubmit();
+                                      } else {
+                                        await flutterLocalNotificationsPlugin
+                                            .cancelAll();
+                                        toggleButton();
+                                      }
+                                    },
+                                    child: AnimatedSwitcher(
+                                      duration: Duration(milliseconds: 100),
+                                      transitionBuilder: (Widget child,
+                                          Animation<double> animation) {
+                                        return ScaleTransition(
+                                          child: child,
+                                          scale: animation,
+                                        );
                                       },
-                                      child: AnimatedSwitcher(
-                                        duration: Duration(milliseconds: 100),
-                                        transitionBuilder: (Widget child,
-                                            Animation<double> animation) {
-                                          return ScaleTransition(
-                                            child: child,
-                                            scale: animation,
-                                          );
-                                        },
-                                        child: alermToggle
-                                            ? Icon(
-                                                Icons.notifications_active,
-                                                color: Colors.green,
-                                                size: 30,
-                                                key: UniqueKey(),
-                                              )
-                                            : Icon(
-                                                Icons.notifications,
-                                                color: Colors.red,
-                                                size: 30,
-                                                key: UniqueKey(),
-                                              ),
-                                      ),
+                                      child: alermToggle
+                                          ? Icon(
+                                              Icons.notifications_active,
+                                              color: Colors.green,
+                                              size: 30,
+                                              key: UniqueKey(),
+                                            )
+                                          : Icon(
+                                              Icons.notifications,
+                                              color: Colors.red,
+                                              size: 30,
+                                              key: UniqueKey(),
+                                            ),
                                     ),
                                   ),
-                                )
-                              ],
-                            ),
+                                ),
+                              )
+                            ],
                           ),
-                        )),
-                      ],
-                    ),
-                    SizedBox(
-                      height: 10,
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.only(left: 10.0, right: 10),
-                      child: TextFormField(
-                          readOnly: true,
-                        onTap: () async {
-                          final time = (await showTimePicker(
-                              context: context,
-                              initialTime: dietData['breakfast'] != null
-                                  ? TimeOfDay(
+                        ),
+                      )),
+                    ],
+                  ),
+                  SizedBox(
+                    height: 10,
+                  ),
+                  Form(
+                    autovalidate: true,
+                    key: dietForm,
+                    onChanged: () {
+                      if (alermToggle == true) {
+                        validateAndSubmit();
+                      }
+                    },
+                    child: Column(
+                      children: <Widget>[
+                        Padding(
+                          padding: const EdgeInsets.only(left: 10.0, right: 10),
+                          child: TextFormField(
+                            readOnly: true,
+                            onTap: () async {
+                              final time = (await showTimePicker(
+                                  context: context,
+                                  initialTime: dietData['breakfast'] != null
+                                      ? TimeOfDay(
                                       hour: int.parse(dietData['breakfast']
                                           .toDate()
                                           .toString()
@@ -433,49 +461,49 @@ class _DietNotificationBodyState extends State<DietNotificationBody> {
                                           .split(' ')[1]
                                           .trim()
                                           .split(':')[1]))
-                                  : TimeOfDay.now()));
-                          (time != null)
-                              ? _breakfastController.text = time
-                                      .toString()
-                                      .split(':')[0]
-                                      .substring(10, 12) +
+                                      : TimeOfDay.now()));
+                              (time != null)
+                                  ? _breakfastController.text = time
+                                  .toString()
+                                  .split(':')[0]
+                                  .substring(10, 12) +
                                   ":" +
                                   time.toString().split(':')[1].substring(0, 2)
-                              : null;
-                        },
-                        onSaved: (value) => breakfast = DateTime(
-                            DateTime.now().year,
-                            DateTime.now().month,
-                            DateTime.now().day,
-                            int.parse(value.split(':')[0]),
-                            int.parse(value.split(':')[1])),
-                        validator: (value) =>
-                            ValidationOfFormDiet.BreakFastValidation(
-                                value, _lunchController, _dinnerController),
-                        controller: _breakfastController,
-                        decoration: InputDecoration(
-                            labelText: 'Breakfast',
-                            hintText: 'Input breakfast time',
-                            prefixIcon: Icon(Icons.free_breakfast),
-                            focusedBorder: OutlineInputBorder(
-                                borderRadius:
+                                  : null;
+                            },
+                            onSaved: (value) => breakfast = DateTime(
+                                DateTime.now().year,
+                                DateTime.now().month,
+                                DateTime.now().day,
+                                int.parse(value.split(':')[0]),
+                                int.parse(value.split(':')[1])),
+                            validator: (value) =>
+                                ValidationOfFormDiet.BreakFastValidation(
+                                    value, _lunchController, _dinnerController),
+                            controller: _breakfastController,
+                            decoration: InputDecoration(
+                                labelText: 'Breakfast',
+                                hintText: 'Input breakfast time',
+                                prefixIcon: Icon(Icons.free_breakfast),
+                                focusedBorder: OutlineInputBorder(
+                                    borderRadius:
                                     BorderRadius.all(Radius.circular(4)),
-                                borderSide:
+                                    borderSide:
                                     BorderSide(width: 1, color: Colors.blue))),
-                      ),
-                    ),
-                    SizedBox(
-                      height: 15,
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.only(left: 10.0, right: 10),
-                      child: TextFormField(
-                        readOnly: true,
-                        onTap: () async {
-                          final time = (await showTimePicker(
-                              context: context,
-                              initialTime: dietData['lunchtime'] != null
-                                  ? TimeOfDay(
+                          ),
+                        ),
+                        SizedBox(
+                          height: 15,
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.only(left: 10.0, right: 10),
+                          child: TextFormField(
+                            readOnly: true,
+                            onTap: () async {
+                              final time = (await showTimePicker(
+                                  context: context,
+                                  initialTime: dietData['lunchtime'] != null
+                                      ? TimeOfDay(
                                       hour: int.parse(dietData['lunchtime']
                                           .toDate()
                                           .toString()
@@ -488,49 +516,49 @@ class _DietNotificationBodyState extends State<DietNotificationBody> {
                                           .split(' ')[1]
                                           .trim()
                                           .split(':')[1]))
-                                  : TimeOfDay.now()));
-                          (time != null)
-                              ? _lunchController.text = time
-                                      .toString()
-                                      .split(':')[0]
-                                      .substring(10, 12) +
+                                      : TimeOfDay.now()));
+                              (time != null)
+                                  ? _lunchController.text = time
+                                  .toString()
+                                  .split(':')[0]
+                                  .substring(10, 12) +
                                   ":" +
                                   time.toString().split(':')[1].substring(0, 2)
-                              : null;
-                        },
-                        onSaved: (value) => lunch = DateTime(
-                            DateTime.now().year,
-                            DateTime.now().month,
-                            DateTime.now().day,
-                            int.parse(value.split(':')[0]),
-                            int.parse(value.split(':')[1])),
-                        validator: (value) =>
-                            ValidationOfFormDiet.LunchValidation(
-                                value, _breakfastController, _dinnerController),
-                        controller: _lunchController,
-                        decoration: InputDecoration(
-                            labelText: 'Lunch',
-                            hintText: 'Input lunch time',
-                            prefixIcon: Icon(Icons.fastfood),
-                            focusedBorder: OutlineInputBorder(
-                                borderRadius:
+                                  : null;
+                            },
+                            onSaved: (value) => lunch = DateTime(
+                                DateTime.now().year,
+                                DateTime.now().month,
+                                DateTime.now().day,
+                                int.parse(value.split(':')[0]),
+                                int.parse(value.split(':')[1])),
+                            validator: (value) =>
+                                ValidationOfFormDiet.LunchValidation(
+                                    value, _breakfastController, _dinnerController),
+                            controller: _lunchController,
+                            decoration: InputDecoration(
+                                labelText: 'Lunch',
+                                hintText: 'Input lunch time',
+                                prefixIcon: Icon(Icons.fastfood),
+                                focusedBorder: OutlineInputBorder(
+                                    borderRadius:
                                     BorderRadius.all(Radius.circular(4)),
-                                borderSide:
+                                    borderSide:
                                     BorderSide(width: 1, color: Colors.blue))),
-                      ),
-                    ),
-                    SizedBox(
-                      height: 15,
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.only(left: 10.0, right: 10),
-                      child: TextFormField(
-                        readOnly: true,
-                        onTap: () async {
-                          final time = (await showTimePicker(
-                              context: context,
-                              initialTime: dietData['dinnertime'] != null
-                                  ? TimeOfDay(
+                          ),
+                        ),
+                        SizedBox(
+                          height: 15,
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.only(left: 10.0, right: 10),
+                          child: TextFormField(
+                            readOnly: true,
+                            onTap: () async {
+                              final time = (await showTimePicker(
+                                  context: context,
+                                  initialTime: dietData['dinnertime'] != null
+                                      ? TimeOfDay(
                                       hour: int.parse(dietData['dinnertime']
                                           .toDate()
                                           .toString()
@@ -543,39 +571,41 @@ class _DietNotificationBodyState extends State<DietNotificationBody> {
                                           .split(' ')[1]
                                           .trim()
                                           .split(':')[1]))
-                                  : TimeOfDay.now()));
-                          (time != null)
-                              ? _dinnerController.text = time
-                                      .toString()
-                                      .split(':')[0]
-                                      .substring(10, 12) +
+                                      : TimeOfDay.now()));
+                              (time != null)
+                                  ? _dinnerController.text = time
+                                  .toString()
+                                  .split(':')[0]
+                                  .substring(10, 12) +
                                   ":" +
                                   time.toString().split(':')[1].substring(0, 2)
-                              : null;
-                        },
-                        onSaved: (value) => dinner = DateTime(
-                            DateTime.now().year,
-                            DateTime.now().month,
-                            DateTime.now().day,
-                            int.parse(value.split(':')[0]),
-                            int.parse(value.split(':')[1])),
-                        validator: (value) =>
-                            ValidationOfFormDiet.DinnerValidation(
-                                value, _breakfastController, _lunchController),
-                        controller: _dinnerController,
-                        decoration: InputDecoration(
-                            labelText: 'Dinner',
-                            hintText: 'Input dinner time',
-                            prefixIcon: Icon(Icons.local_dining),
-                            focusedBorder: OutlineInputBorder(
-                                borderRadius:
+                                  : null;
+                            },
+                            onSaved: (value) => dinner = DateTime(
+                                DateTime.now().year,
+                                DateTime.now().month,
+                                DateTime.now().day,
+                                int.parse(value.split(':')[0]),
+                                int.parse(value.split(':')[1])),
+                            validator: (value) =>
+                                ValidationOfFormDiet.DinnerValidation(
+                                    value, _breakfastController, _lunchController),
+                            controller: _dinnerController,
+                            decoration: InputDecoration(
+                                labelText: 'Dinner',
+                                hintText: 'Input dinner time',
+                                prefixIcon: Icon(Icons.local_dining),
+                                focusedBorder: OutlineInputBorder(
+                                    borderRadius:
                                     BorderRadius.all(Radius.circular(4)),
-                                borderSide:
+                                    borderSide:
                                     BorderSide(width: 1, color: Colors.blue))),
-                      ),
-                    )
-                  ],
-                ),
+                          ),
+                        )
+                      ],
+                    ),
+                  ),
+                ],
               ),
             ),
           ),
@@ -584,9 +614,13 @@ class _DietNotificationBodyState extends State<DietNotificationBody> {
     } catch (e) {
       return Builder(
         builder: (context) => Center(
-            child: Text(
-          'Loading....',
-          style: TextStyle(fontSize: 25, fontWeight: FontWeight.w800),
+            child: Container(
+          decoration: BoxDecoration(
+            color: Colors.white,
+            image: DecorationImage(
+              image: AssetImage('assets/loading.gif'),
+            ),
+          ),
         )),
       );
     }

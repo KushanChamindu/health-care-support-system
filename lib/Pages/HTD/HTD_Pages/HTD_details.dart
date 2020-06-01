@@ -80,7 +80,7 @@ Container _getToolbar(BuildContext context){
            .of(context)
            .padding
            .top),
-     child: new BackButton(color :Colors.black),
+     child: new BackButton(color :Colors.white,key: ValueKey('HTDMoreBackButton'),),
      );
 
 }

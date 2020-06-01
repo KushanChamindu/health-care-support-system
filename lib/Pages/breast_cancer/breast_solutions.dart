@@ -28,55 +28,59 @@ class BC_Solutions extends StatelessWidget {
       'assets/breast_cancer_image/nosmoke.gif',
       'assets/breast_cancer_image/noweight.gif',
       'assets/breast_cancer_image/feed.gif',
-      'assets/breast_cancer_image/nosmoke.gif',
-      'assets/breast_cancer_image/nosmoke.gif',
+      'assets/breast_cancer_image/Hormone_Therapy.jpg',
+      'assets/breast_cancer_image/pollution.jpg',
     ];
-  
+
+
     return Scaffold(
       appBar: AppBar(
+        leading: IconButton(
+          key: ValueKey("BCSolutionBackButton"),
+          icon: Icon(Icons.arrow_back),
+          onPressed: ()=>Navigator.of(context).pop(),
+        ),
         backgroundColor: Colors.blueAccent,
         actions: <Widget>[
           Popupmenu(auth: auth,)
         ],
-        title: Text(
-          "Precautions...- Breast Cancer",
-          style: TextStyle(
-            fontSize: 20.0,
-            fontWeight: FontWeight.w300,
-            color: Colors.black,
-            fontFamily: 'KaushanScript'
+        title: Align(
+          alignment: Alignment.center,
+          child: Text(
+            "Precautions...- Breast Cancer",
+            style: TextStyle(fontSize: 16),
           ),
         ),
         //centerTitle: true,
 //        backgroundColor: Colors.lightBlue,
       ),
        body:ListView.builder(
-          itemCount: precautions.length,
-          itemBuilder: (context,index){
-            return Card(
-                 child: Row(
-                  children: <Widget>[
-                    Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Icon(Icons.blur_linear),
-                    ),
-                    Expanded(
-                      child: Text(precautions[index],
-                      style: TextStyle(
-                        fontSize:17, 
-                        fontWeight: FontWeight.w800,
-                        fontFamily: 'KaushanScript',
-                        ) 
-                      )
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.all(3.0),
-                      child: Image.asset(image[index], width: 110,height: 100,),
-                    ),
-                  ],
-                ),
-            );        
-                  }
+           itemCount: precautions.length,
+           itemBuilder: (context,index){
+             return Card(
+               child: Row(
+                 children: <Widget>[
+                   Padding(
+                     padding: const EdgeInsets.all(8.0),
+                     child: Icon(Icons.blur_linear),
+                   ),
+                   Expanded(
+                       child: Text(precautions[index],
+                           style: TextStyle(
+                             fontSize:17,
+                             fontWeight: FontWeight.w800,
+                             fontFamily: 'Cairo',
+                           )
+                       )
+                   ),
+                   Padding(
+                     padding: const EdgeInsets.all(3.0),
+                     child: Image.asset(image[index], width: 110,height: 100,),
+                   ),
+                 ],
+               ),
+             );
+           }
        ),
     );
   }

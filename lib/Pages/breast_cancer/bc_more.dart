@@ -41,29 +41,34 @@ class _BC_MoreState extends State<BC_More> {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: [
-          _buildContainerColumn(color, Icons.call, cancer[0], description[0], 'assets/breast_cancer_image/DCIS-1.jpg' ),
-          _buildContainerColumn(color, Icons.security, cancer[1], description[1],'assets/breast_cancer_image/LCIS-1.webp'),
-          _buildContainerColumn(color, Icons.share, cancer[2], description[2],'assets/breast_cancer_image/IBCS-1.jpg'),
-          _buildContainerColumn(color, Icons.share, cancer[3], description[3],'assets/breast_cancer_image/MBCS-1.jpg'),
-          _buildContainerColumn(color, Icons.share, cancer[4], description[4],'assets/breast_cancer_image/PCS-1.jpg'),
-          _buildContainerColumn(color, Icons.share, cancer[5], description[5],'assets/breast_cancer_image/TNBS-1.jpg'),
-          _buildContainerColumn(color, Icons.share, cancer[6], description[6],'assets/breast_cancer_image/MB-2.jpg'),
+          _buildContainerColumn('BCMoreSample',color, Icons.call, cancer[0], description[0], 'assets/breast_cancer_image/DCIS-1.jpg' ),
+          _buildContainerColumn(null,color, Icons.security, cancer[1], description[1],'assets/breast_cancer_image/LCIS-1.webp'),
+          _buildContainerColumn(null,color, Icons.share, cancer[2], description[2],'assets/breast_cancer_image/IBCS-1.jpg'),
+          _buildContainerColumn(null,color, Icons.share, cancer[3], description[3],'assets/breast_cancer_image/MBCS-1.jpg'),
+          _buildContainerColumn(null,color, Icons.share, cancer[4], description[4],'assets/breast_cancer_image/PCS-1.jpg'),
+          _buildContainerColumn(null,color, Icons.share, cancer[5], description[5],'assets/breast_cancer_image/TNBS-1.jpg'),
+          _buildContainerColumn(null,color, Icons.share, cancer[6], description[6],'assets/breast_cancer_image/MB-2.jpg'),
         ],
       ),
     );
     return Scaffold(
       appBar: AppBar(
+        leading: IconButton(
+          key: ValueKey("BCMoreBackButton"),
+          icon: Icon(Icons.arrow_back),
+          onPressed: ()=>Navigator.of(context).pop(),
+        ),
         backgroundColor: Colors.blueAccent,
         actions: <Widget>[
           Popupmenu(auth: widget.auth,)
         ],
-        title: Text(
-          "More...  - Breast Cancer",
-          style: TextStyle(
-            fontSize: 20.0,
-            fontWeight: FontWeight.w300,
-            color: Colors.black,
-            fontFamily: 'KaushanScript'
+        title: Align(
+          alignment: Alignment.center,
+          child: Text(
+            "More...  - Breast Cancer",
+            style: TextStyle(
+              fontSize: 20.0,
+            ),
           ),
         ),
         //centerTitle: true,
@@ -78,7 +83,7 @@ class _BC_MoreState extends State<BC_More> {
     );
   }
 
-   Column _buildContainerColumn(Color color, IconData icon, String label,String description, String url) {
+   Column _buildContainerColumn(String id,Color color, IconData icon, String label,String description, String url) {
     return Column(
       mainAxisSize: MainAxisSize.min,
       mainAxisAlignment: MainAxisAlignment.center,
@@ -91,6 +96,7 @@ class _BC_MoreState extends State<BC_More> {
               ),
             ),
             Padding(
+              key: ValueKey(id),
               padding: const EdgeInsets.fromLTRB(0, 0, 0, 16),
               child: Image.asset(
               url,
@@ -110,7 +116,7 @@ class Titles extends StatefulWidget {
   final String text1, text2;
   bool visible = false;
 
-  Titles({this.text1, this.text2 });
+  Titles({this.text1, this.text2});
 
   @override
   _TitlesState createState() => _TitlesState();
@@ -142,7 +148,6 @@ class _TitlesState extends State<Titles> {
                   child: Text(widget.text1, 
                   style: TextStyle(
                     fontSize: 16,
-                    fontFamily: 'KaushanScript',
                     ),
                   ),
                 ),
@@ -155,11 +160,10 @@ class _TitlesState extends State<Titles> {
                 child: Text(
                   widget.text2,
                   style: TextStyle(
-                      fontSize: 14,
+                      fontSize: 15,
                       height: 1.5,
                       fontWeight: FontWeight.w400,
                       letterSpacing: 0.5,
-                      fontFamily: 'KaushanScript',
                       ),
                 ), 
               )

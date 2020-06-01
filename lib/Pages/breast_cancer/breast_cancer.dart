@@ -27,9 +27,9 @@ class _BrestCancerState extends State<BrestCancer> {
                     child: Text(
                       'What is breast cancer...?',
                       style: TextStyle(
-                        fontWeight: FontWeight.w500,
+                        fontWeight: FontWeight.w600,
                         fontSize: 28.0,
-                        fontFamily: 'KaushanScript',
+                        fontFamily: 'Cairo',
                       ),
                     ),
                   ),
@@ -45,9 +45,9 @@ class _BrestCancerState extends State<BrestCancer> {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: [
-          _buildButtonColumn(color, Icons.call, 'Symptoms' ,'/bc_symptoms'),
-          _buildButtonColumn(color, Icons.security, 'Precausion', '/bc_solutions'),
-          _buildButtonColumn(color, Icons.share, 'More...', '/bc_more'),
+          _buildButtonColumn('BCSymptomsButton',color, Icons.call, 'Symptoms' ,'/bc_symptoms'),
+          _buildButtonColumn('BCSolutionButton',color, Icons.security, 'Precausion', '/bc_solutions'),
+          _buildButtonColumn('BCMoreButton',color, Icons.share, 'More...', '/bc_more'),
         ],
       ),
     );
@@ -58,8 +58,8 @@ class _BrestCancerState extends State<BrestCancer> {
             'There are different kinds of breast cancer. '
             'The kind of breast cancer depends on which cells in the breast turn into cancer ',
             style: TextStyle(
-                        fontSize: 16.0,
-                        fontFamily: 'KaushanScript',
+                        fontSize: 17.0,
+              fontFamily: 'Cairo',
             ),
         softWrap: true,  
       ),
@@ -81,9 +81,9 @@ class _BrestCancerState extends State<BrestCancer> {
                       'Now it was my turn, and I was determined to defeat this.'
                        'I couldn’t change that I had cancer, but I could decide how to go after it."',
                       style: TextStyle(
-                        fontWeight: FontWeight.w500,
+                        fontWeight: FontWeight.w600,
                         fontSize: 20.0,
-                        fontFamily: 'KaushanScript',
+                        fontFamily: 'Cairo',
                       ),
                     ),
                   ),
@@ -93,9 +93,9 @@ class _BrestCancerState extends State<BrestCancer> {
                         'Jessica Baladad'
                           '(Breast Cancer Survivor and NBCF Supporter)',
                         style: TextStyle(
-                          fontWeight: FontWeight.w100,
+                          fontWeight: FontWeight.w500,
                           fontSize: 16.0,
-                          fontFamily: 'KaushanScript',
+                          fontFamily: 'Cairo',
                         ),
                       ),
                   ),
@@ -106,18 +106,25 @@ class _BrestCancerState extends State<BrestCancer> {
         ),
     );
     return Scaffold(
+      key: ValueKey('BCdiscriptionPage'),
       appBar: AppBar(
+        leading: IconButton(
+          key: ValueKey('BCdiscriptionBackButton'),
+          onPressed: ()=>Navigator.of(context).pop(),
+          icon: Icon(Icons.arrow_back),
+        ),
         backgroundColor: Colors.blueAccent,
         actions: <Widget>[
           Popupmenu(auth: widget.auth,)
         ],
-        title: Text(
-          "Breast Cancer",
-          style: TextStyle(
-            fontSize: 30.0,
-            fontWeight: FontWeight.w300,
-            color: Colors.black,
-            fontFamily: 'KaushanScript'
+        title: Align(
+          alignment: Alignment.center,
+          child: Text(
+            "Breast Cancer",
+            style: TextStyle(
+              fontSize: 20.0,
+              fontFamily: 'Cairo',
+            ),
           ),
         ),
         //centerTitle: true,
@@ -139,38 +146,35 @@ class _BrestCancerState extends State<BrestCancer> {
       )
     );
   }
-  Column _buildButtonColumn(Color color, IconData icon, String label, String url) {
+  Column _buildButtonColumn(String id,Color color, IconData icon, String label, String url) {
     return Column(
+      key: ValueKey(id),
       mainAxisSize: MainAxisSize.min,
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
         Container(
-          margin: const EdgeInsets.fromLTRB(0, 8, 0, 8),
-          height: 80,
-          width: 110,
-          child: FlatButton(
-            onPressed: () {
-              Navigator.pushNamed(context, url);
-            },
-            child: Center(
-              child: Column(
-                children: <Widget>[
-                //Icon(icon, color: color),
-                Padding(
-                  padding: const EdgeInsets.fromLTRB(2, 24, 2, 4),
-                  child: Text(
-                    label,
-                    style: TextStyle(
-                      fontFamily: 'KaushanScript',
-                    ),
-                    ),
-                ),
-              ],
+            margin: const EdgeInsets.only(bottom: 8),
+//          height: 80,
+//          width: 110,
+            child: FlatButton(
+              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(18)),
+              padding: EdgeInsets.all(15),
+              onPressed: () {
+                Navigator.pushNamed(context, url);
+              },
+              child: Center(
+                child: Text(
+                  label,
+                  style: TextStyle(
+                    fontSize: 16,
+                    fontWeight: FontWeight.w600,
+                    fontFamily: 'Cairo',
+                  ),
+                  ),
               ),
-            ),
-            color: Colors.lightBlueAccent,
-            ),
-        ),
+              color: Colors.lightBlueAccent,
+              ),
+          ),
       ],
     );
   }

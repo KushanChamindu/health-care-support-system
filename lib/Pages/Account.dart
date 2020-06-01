@@ -1,4 +1,4 @@
-
+import 'dart:ui';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:datetime_picker_formfield/datetime_picker_formfield.dart';
@@ -11,7 +11,7 @@ import 'package:provider/provider.dart';
 import 'Auth/Service/Auth.dart';
 import 'CKD_pages/Constant.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:path/path.dart';
+//import 'package:path/path.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'dart:io';
 
@@ -97,7 +97,7 @@ class _AccountState extends State<Account> {
             applicationName: "Mobile Doctor",
             applicationVersion: '0.0.1',
             applicationLegalese:
-                'This software developed by HCSS PVT LMD. Copyright © 2020 Arnoud Engelfriet. Some rights reserved.',
+            'This software developed by HCSS PVT LMD. Copyright © 2020 Arnoud Engelfriet. Some rights reserved.',
             children: <Widget>[
               Padding(
                 padding: const EdgeInsets.fromLTRB(0, 10, 0, 0),
@@ -123,6 +123,13 @@ class _AccountState extends State<Account> {
       child: Scaffold(
           backgroundColor: Colors.blue[100],
           appBar: AppBar(
+            leading: IconButton(
+              key: ValueKey('AccountBackButton'),
+              icon: Icon(
+                Icons.arrow_back,
+              ),
+              onPressed: () => Navigator.of(context).pop(),
+            ),
             title: Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
@@ -195,6 +202,7 @@ class _AccountState extends State<Account> {
           ),
           body: AccountBody(
             uid: args.uid,
+            email: args.email,
           )),
     );
   }
@@ -203,8 +211,9 @@ class _AccountState extends State<Account> {
 class AccountBody extends StatefulWidget {
   final Auth auth = Auth();
   final String uid;
+  final String email;
 
-  AccountBody({this.uid});
+  AccountBody({this.uid, this.email});
 
   @override
   _AccountBodyState createState() => _AccountBodyState();
@@ -222,14 +231,13 @@ class _AccountBodyState extends State<AccountBody> {
   @override
   void initState() {
     super.initState();
-    print(widget.uid);
   }
 
   @override
   Widget build(BuildContext context) {
     Future getImage() async {
       try {
-        var image = await ImagePicker.pickImage(source: ImageSource.gallery);
+        var image = await ImagePicker.pickImage(source: ImageSource.gallery,imageQuality: 70);
         setState(() {
           _image = image;
           print('Path of image: $_image');
@@ -241,25 +249,29 @@ class _AccountBodyState extends State<AccountBody> {
 
     final user_data = Provider.of<DocumentSnapshot>(context);
     try {
-      var userData=user_data.data;
+      var defaultUserData={'Breast_canser': null, 'bloodGroup': null, 'Username': null, 'Diabetits': null, 'ProfilePic': null, 'Birthday':null, 'CKD': null, 'HeartIssue': null};
+      var userData = user_data.data!=null?user_data.data:defaultUserData;
       Future uploadImage(BuildContext context) async {
         if (_image != null) {
-          String filename = basename(_image.path);
           StorageReference firebaseStorageRef =
-          FirebaseStorage.instance.ref().child(userData['Username']);
+          FirebaseStorage.instance.ref().child(widget.uid);
           StorageUploadTask uploadTask = firebaseStorageRef.putFile(_image);
           StorageTaskSnapshot takeSnapshot = await uploadTask.onComplete;
           String _downloadURL = await takeSnapshot.ref.getDownloadURL();
-          print(_downloadURL);
           await widget.auth.setUserImageDetails(widget.uid, _downloadURL);
           setState(() {
             print('Profile picture uploaded');
             Scaffold.of(context).showSnackBar(SnackBar(
+              duration: Duration(seconds: 2),
               content: Text('Profile picture uploaded'),
+              backgroundColor: Colors.blue[900],
+              action: new SnackBarAction(
+                  textColor: Colors.white, label: 'OK', onPressed: () {}),
             ));
           });
         }
       }
+
       bool validateAndSave() {
         final form = formKey.currentState;
         if (form.validate()) {
@@ -280,7 +292,11 @@ class _AccountBodyState extends State<AccountBody> {
                 bloodGroup == userData['bloodGroup']) {
               Navigator.of(context).pop();
               Scaffold.of(context).showSnackBar(SnackBar(
+                duration: Duration(seconds: 2),
                 content: Text('Already Saved details'),
+                backgroundColor: Colors.blue[900],
+                action: new SnackBarAction(
+                    textColor: Colors.white, label: 'OK', onPressed: () {}),
               ));
             } else {
               Navigator.of(context).pop();
@@ -288,12 +304,20 @@ class _AccountBodyState extends State<AccountBody> {
                   widget.uid, Username, bloodGroup, Birthday);
               Scaffold.of(context).showSnackBar(SnackBar(
                 content: Text('Saved changes'),
+                duration: Duration(seconds: 2),
+                backgroundColor: Colors.blue[900],
+                action: new SnackBarAction(
+                    textColor: Colors.white, label: 'OK', onPressed: () {}),
               ));
             }
           } catch (e) {
             print('Error : $e');
             Scaffold.of(context).showSnackBar(SnackBar(
+              duration: Duration(seconds: 2),
               content: Text('Check your internet connection'),
+              backgroundColor: Colors.blue[900],
+              action: new SnackBarAction(
+                  textColor: Colors.white, label: 'OK', onPressed: () {}),
             ));
           }
         }
@@ -344,25 +368,25 @@ class _AccountBodyState extends State<AccountBody> {
                             key: ValueKey('AccountBirthdayEdit'),
                             initialValue: (userData['Birthday'] != null)
                                 ? DateTime(
-                                    int.parse(userData['Birthday']
-                                        .toDate()
-                                        .toString()
-                                        .split(' ')[0]
-                                        .trim()
-                                        .split('-')[0]),
-                                    int.parse(userData['Birthday']
-                                        .toDate()
-                                        .toString()
-                                        .split(' ')[0]
-                                        .trim()
-                                        .split('-')[1]),
-                                    int.parse(userData['Birthday']
-                                        .toDate()
-                                        .toString()
-                                        .split(' ')[0]
-                                        .trim()
-                                        .split('-')[2]),
-                                  )
+                              int.parse(userData['Birthday']
+                                  .toDate()
+                                  .toString()
+                                  .split(' ')[0]
+                                  .trim()
+                                  .split('-')[0]),
+                              int.parse(userData['Birthday']
+                                  .toDate()
+                                  .toString()
+                                  .split(' ')[0]
+                                  .trim()
+                                  .split('-')[1]),
+                              int.parse(userData['Birthday']
+                                  .toDate()
+                                  .toString()
+                                  .split(' ')[0]
+                                  .trim()
+                                  .split('-')[2]),
+                            )
                                 : Text('Loading...'),
                             onSaved: (value) => Birthday = value,
                             // ignore: missing_return
@@ -380,7 +404,7 @@ class _AccountBodyState extends State<AccountBody> {
                           ),
                         ]),
                         TextFormField(
-                          readOnly:true,
+                          readOnly: true,
                           //_controller.text=userData['bloodGroup']
                           validator: (value) =>
                               ValidationForm_userForms.bloodValidate(value),
@@ -444,378 +468,454 @@ class _AccountBodyState extends State<AccountBody> {
               onPressed: () {
                 createAlertDialog(context);
               },
-              hoverColor: Colors.white,
               tooltip: 'Edit your account details',
               elevation: 10,
-              splashColor: Colors.black,
+              splashColor: Colors.white,
               child: Text("Edit"),
             ),
             body: SingleChildScrollView(
                 child: Container(
-              decoration: BoxDecoration(
-                  gradient:
+                  decoration: BoxDecoration(
+                      gradient:
                       LinearGradient(colors: [Colors.blue, Colors.white])),
-              child: Stack(
-                children: <Widget>[
-                  Padding(
-                    padding: const EdgeInsets.only(top: 16.0),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: <Widget>[
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
+                  child: Stack(
+                    children: <Widget>[
+                      Padding(
+                        padding: const EdgeInsets.only(top: 16.0),
+                        child: Column(
+//                      crossAxisAlignment: CrossAxisAlignment.center,
                           children: <Widget>[
-                            Padding(
-                              padding: const EdgeInsets.only(left: 50.0),
-                              child: Container(
-                                key: ValueKey('AccountProfilePic'),
-                                width: 150,
-                                height: 150,
-                                decoration: BoxDecoration(
-                                    shape: BoxShape.circle,
-                                    border: Border.all(
-                                        color: Colors.white60, width: 2.0)),
-                                padding: EdgeInsets.all(8.0),
-                                child: (_image != null)
-                                    ? CircleAvatar(
-                                        backgroundImage: FileImage(
-                                        _image,
-                                      ))
-                                    : Container(
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: <Widget>[
+                                Padding(
+                                  padding: const EdgeInsets.only(left: 50.0),
+                                  child: Container(
+                                    key: ValueKey('AccountProfilePic'),
+                                    width: 150,
+                                    height: 150,
+                                    decoration: BoxDecoration(
+                                        shape: BoxShape.circle,
+                                        border: Border.all(
+                                            color: Colors.white60, width: 2.0)),
+                                    padding: EdgeInsets.all(8.0),
+                                    child: (_image != null)
+                                        ? ClipOval(
+                                      child: Image(
+                                        image: FileImage(
+                                          _image,
+                                        ),
+                                        fit: BoxFit.fill,
+                                      ),
+                                    )
+                                        : Container(
                                         child: (userData['ProfilePic'] == null)
                                             ? CircleAvatar(
-                                                backgroundImage: AssetImage(
-                                                    'assets/CKD_image/kidney_1.jpg'),
-                                              )
+                                          backgroundImage: AssetImage(
+                                              'assets/CKD_image/default_profile.jpg'),
+                                        )
 //                                            : CircleAvatar(
 //                                                backgroundImage: NetworkImage(userData['ProfilePic'],),
 //                                              )),
                                             : Container(
                                           decoration: BoxDecoration(
-                                            color: Colors.white,
-                                            shape: BoxShape.circle
+                                              color: Colors.white,
+                                              shape: BoxShape.circle),
+                                          child: ClipOval(
+                                            child: FadeInImage.assetNetwork(
+                                              imageCacheHeight: 200,
+                                              fadeInCurve:
+                                              Curves.decelerate,
+                                              fit: BoxFit.fill,
+                                              placeholder:
+                                              'assets/loading.gif',
+                                              image:
+                                              userData['ProfilePic'],
+                                            ),
                                           ),
-                                              child: ClipOval(
-                                                child:
-                                                    FadeInImage.assetNetwork(
-                                                      imageCacheHeight:200,
-                                                  fadeInCurve:
-                                                      Curves.decelerate,
-                                                  fit: BoxFit.fill,
-                                                  placeholder: 'assets/loading.gif',
-                                                  image:
-                                                      userData['ProfilePic'],
-                                                ),
-                                              ),
-                                            )),
-                              ),
-                            ),
-                            Visibility(
-                              visible: _visibility,
-                              child: Padding(
-                                padding: EdgeInsets.only(top: 60),
-                                child: IconButton(
-                                  icon: Icon(
-                                    Icons.camera_enhance,
-                                    size: 30.0,
-                                    color: Colors.black,
+                                        )),
                                   ),
-                                  onPressed: () {
-                                    change_visibility();
-                                    getImage();
-                                  },
                                 ),
-                              ),
-                            ),
-                            Visibility(
-                              visible: !(_visibility),
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.center,
-                                children: <Widget>[
-                                  IconButton(
-                                    icon: Icon(
-                                      Icons.cloud_upload,
-                                      size: 30.0,
-                                      color: Colors.black,
+                                Visibility(
+                                  visible: _visibility,
+                                  child: Padding(
+                                    padding: EdgeInsets.only(top: 60),
+                                    child: IconButton(
+                                      icon: Icon(
+                                        Icons.camera_enhance,
+                                        size: 30.0,
+                                        color: Colors.black,
+                                      ),
+                                      onPressed: () {
+                                        change_visibility();
+                                        getImage();
+                                      },
                                     ),
-                                    onPressed: () {
-                                      uploadImage(context);
-                                      change_visibility();
-                                    },
-                                    splashColor: Colors.grey,
                                   ),
-                                  Text('Submit'),
-                                  IconButton(
-                                    icon: Icon(
-                                      Icons.cloud_off,
-                                      size: 30.0,
-                                      color: Colors.black,
-                                    ),
-                                    onPressed: () {
+                                ),
+                                Visibility(
+                                  visible: !(_visibility),
+                                  child: Column(
+                                    crossAxisAlignment: CrossAxisAlignment.center,
+                                    children: <Widget>[
+                                      IconButton(
+                                        icon: Icon(
+                                          Icons.cloud_upload,
+                                          size: 30.0,
+                                          color: Colors.black,
+                                        ),
+                                        onPressed: () {
+                                          uploadImage(context);
+                                          change_visibility();
+                                        },
+                                        splashColor: Colors.grey,
+                                      ),
+                                      Text('Submit'),
+                                      IconButton(
+                                        icon: Icon(
+                                          Icons.cloud_off,
+                                          size: 30.0,
+                                          color: Colors.black,
+                                        ),
+                                        onPressed: () {
 //                                      uploadImage();
-                                      change_visibility();
-                                      setState(() {
-                                        _image = null;
-                                      });
-                                    },
-                                    splashColor: Colors.grey,
+                                          change_visibility();
+                                          setState(() {
+                                            _image = null;
+                                          });
+                                        },
+                                        splashColor: Colors.grey,
+                                      ),
+                                      Text('Cancel')
+                                    ],
                                   ),
-                                  Text('Cancel')
-                                ],
-                              ),
+                                ),
+                              ],
                             ),
+                            SizedBox(
+                              height: 12,
+                            ),
+                            Text(
+                              'User name',
+                              style: TextStyle(color: Colors.black38),
+                            ),
+                            Text(
+                              (userData['Username'] != null)
+                                  ? '${userData['Username']}'
+                                  : 'Loading...',
+                              textAlign: TextAlign.center,
+                              style: TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 28,
+                                  color: Colors.black),
+                            ),
+                            Text(
+                              (widget.email != null) ? widget.email : 'Loading...',
+                              textAlign: TextAlign.center,
+                              style: TextStyle(
+                                  fontWeight: FontWeight.w500,
+                                  fontSize: 16,
+                                  color: Colors.black),
+                            ),
+                            SizedBox(
+                              height: 10,
+                            ),
+                            Text(
+                              'Birthday',
+                              style: TextStyle(color: Colors.black38),
+                            ),
+                            SizedBox(
+                              height: 5,
+                            ),
+                            Text(
+                              (userData['Birthday'] != null)
+                                  ? '${userData['Birthday'].toDate().toString().split(' ')[0].trim()}'
+                                  : 'Loading...',
+                              style: TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 17,
+                                  color: Colors.black),
+                            ),
+                            SizedBox(
+                              height: 10,
+                            ),
+                            Text(
+                              'Blood group',
+                              style: TextStyle(color: Colors.black38),
+                            ),
+                            SizedBox(
+                              height: 5,
+                            ),
+                            Text(
+                              (userData['bloodGroup'] != null)
+                                  ? '${userData['bloodGroup']}'
+                                  : 'Loading...',
+                              style: TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 17,
+                                  color: Colors.black),
+                            ),
+                            SizedBox(
+                              height: 50,
+                            ),
+                            Column(
+                              crossAxisAlignment: CrossAxisAlignment.stretch,
+                              children: <Widget>[
+                                Padding(
+                                  padding: const EdgeInsets.fromLTRB(8, 0, 8, 4),
+                                  child: Card(
+                                    child: Container(
+                                      child: ListTile(
+                                        title: Column(
+                                          crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                          children: <Widget>[
+                                            Padding(
+                                              padding: const EdgeInsets.all(8.0),
+                                              child: Text(
+                                                'Chronic Kidney Disease',
+                                                style: TextStyle(
+                                                    fontWeight: FontWeight.w700),
+                                              ),
+                                            ),
+                                            Padding(
+                                              padding: const EdgeInsets.fromLTRB(
+                                                  14, 0, 8, 8),
+                                              child: RichText(
+                                                  text: TextSpan(
+                                                      text:
+                                                      ('Predicted Percentage: '),
+                                                      style: TextStyle(
+                                                          fontSize: 15,
+                                                          color: Colors.black),
+                                                      children: [
+                                                        TextSpan(
+                                                            text:
+                                                            '${userData['CKD'] == null ? 'Not predicted yet' : '${userData['CKD'].split('_')[0]}%'}',
+                                                            style: TextStyle(
+                                                                fontWeight:
+                                                                FontWeight.bold,
+                                                                color: userData['CKD'] !=
+                                                                    null &&
+                                                                    double.parse(userData[
+                                                                    'CKD']
+                                                                        .split(
+                                                                        '_')[0]) >
+                                                                        30
+                                                                    ? Colors.red
+                                                                    : Colors.green))
+                                                      ])),
+                                            ),
+                                            Padding(
+                                              padding: const EdgeInsets.fromLTRB(
+                                                  14, 0, 8, 8),
+                                              child: Text(
+                                                  'Predict date : ${userData['CKD'] == null ? 'Not predicted yet' : '${userData['CKD'].split('_')[1].split('T')[0]}'}',
+                                                  style: TextStyle(fontSize: 15)),
+                                            ),
+                                            Padding(
+                                              padding: const EdgeInsets.fromLTRB(
+                                                  14, 0, 8, 8),
+                                              child: Text(
+                                                  'Predict time : ${userData['CKD'] == null ? 'Not predicted yet' : '${userData['CKD'].split('_')[1].split('T')[1].split(':')[0]}:${userData['CKD'].split('_')[1].split('T')[1].split(':')[1]}'}',
+                                                  style: TextStyle(fontSize: 15)),
+                                            ),
+                                          ],
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                                Padding(
+                                  padding: const EdgeInsets.fromLTRB(8, 0, 8, 4),
+                                  child: Card(
+                                    child: Container(
+                                      child: ListTile(
+                                        title: Column(
+                                          crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                          children: <Widget>[
+                                            Padding(
+                                              padding: const EdgeInsets.all(8.0),
+                                              child: Text(
+                                                'Diabetits',
+                                                style: TextStyle(
+                                                    fontWeight: FontWeight.w500),
+                                              ),
+                                            ),
+                                            Padding(
+                                              padding: const EdgeInsets.fromLTRB(
+                                                  14, 0, 8, 8),
+                                              child: Text(
+                                                'Percentage: ${userData['Diabetits'] == null ? 'Not predicted yet' : userData['Diabetits']}',
+                                                style: TextStyle(fontSize: 15),
+                                              ),
+                                            ),
+                                            Padding(
+                                              padding: const EdgeInsets.fromLTRB(
+                                                  14, 0, 8, 8),
+                                              child: Text(
+                                                  'Precautions according to precentage : ${''}',
+                                                  style: TextStyle(fontSize: 15)),
+                                            ),
+                                          ],
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                                Padding(
+                                  padding: const EdgeInsets.fromLTRB(8, 0, 8, 4),
+                                  child: Card(
+                                    child: Container(
+                                      child: ListTile(
+                                        title: Column(
+                                          crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                          children: <Widget>[
+                                            Padding(
+                                              padding: const EdgeInsets.all(8.0),
+                                              child: Text(
+                                                'Breast Canser',
+                                                style: TextStyle(
+                                                    fontWeight: FontWeight.w500),
+                                              ),
+                                            ),
+                                            Padding(
+                                              padding: const EdgeInsets.fromLTRB(
+                                                  14, 0, 8, 8),
+                                              child: RichText(
+                                                  text: TextSpan(
+                                                      text:
+                                                      ('Predicted Decision: '),
+                                                      style: TextStyle(
+                                                          fontSize: 15,
+                                                          color: Colors.black),
+                                                      children: [
+                                                        TextSpan(
+                                                            text:
+                                                            '${userData['Breast_canser'] == null ? 'Not predicted yet' : "${userData['Breast_canser'].split('_')[0]}" == '3.0' ? 'Breast cancer does not exist' : 'Breast cancer exist'}',
+                                                            style: TextStyle(
+                                                                fontWeight:
+                                                                FontWeight.bold,
+                                                                color: userData['Breast_canser'] !=
+                                                                    null &&
+                                                                    userData['Breast_canser']
+                                                                        .split(
+                                                                        '_')[0] !=
+                                                                        '3.0'
+                                                                    ? Colors.red
+                                                                    : Colors.green))
+                                                      ])),
+                                            ),
+                                            Padding(
+                                              padding: const EdgeInsets.fromLTRB(
+                                                  14, 0, 8, 8),
+                                              child: Text(
+                                                  'Predict date : ${userData['Breast_canser'] == null ? 'Not predicted yet' : '${userData['Breast_canser'].split('_')[1].split('T')[0]}'}',
+                                                  style: TextStyle(fontSize: 15)),
+                                            ),
+                                            Padding(
+                                              padding: const EdgeInsets.fromLTRB(
+                                                  14, 0, 8, 8),
+                                              child: Text(
+                                                  'Predict time : ${userData['Breast_canser'] == null ? 'Not predicted yet' : '${userData['Breast_canser'].split('_')[1].split('T')[1].split(':')[0]}:${userData['Breast_canser'].split('_')[1].split('T')[1].split(':')[1]}'}',
+                                                  style: TextStyle(fontSize: 15)),
+                                            ),
+                                          ],
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                                Padding(
+                                  padding: const EdgeInsets.fromLTRB(8, 0, 8, 4),
+                                  child: Card(
+                                    child: Container(
+                                      child: ListTile(
+                                        title: Column(
+                                          crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                          children: <Widget>[
+                                            Padding(
+                                              padding: const EdgeInsets.all(8.0),
+                                              child: Text(
+                                                'Heart Disease',
+                                                style: TextStyle(
+                                                    fontWeight: FontWeight.w500),
+                                              ),
+                                            ),
+                                            Padding(
+                                              padding: const EdgeInsets.fromLTRB(
+                                                  14, 0, 8, 8),
+                                              child: RichText(
+                                                  text: TextSpan(
+                                                      text:
+                                                      ('Predicted Percentage: '),
+                                                      style: TextStyle(
+                                                          fontSize: 15,
+                                                          color: Colors.black),
+                                                      children: [
+                                                        TextSpan(
+                                                            text:
+                                                            '${userData['HeartIssue'] == null ? 'Not predicted yet' : '${userData['HeartIssue'].split('_')[0]}%'}',
+                                                            style: TextStyle(
+                                                                fontWeight:
+                                                                FontWeight.bold,
+                                                                color: userData['HeartIssue'] !=
+                                                                    null &&
+                                                                    double.parse(userData[
+                                                                    'HeartIssue']
+                                                                        .split(
+                                                                        '_')[0]) >
+                                                                        30
+                                                                    ? Colors.red
+                                                                    : Colors.green))
+                                                      ])),
+                                            ),
+                                            Padding(
+                                              padding: const EdgeInsets.fromLTRB(
+                                                  14, 0, 8, 8),
+                                              child: Text(
+                                                  'Predict date : ${userData['HeartIssue'] == null ? 'Not predicted yet' : '${userData['HeartIssue'].split('_')[1].split('T')[0]}'}',
+                                                  style: TextStyle(fontSize: 15)),
+                                            ),
+                                            Padding(
+                                              padding: const EdgeInsets.fromLTRB(
+                                                  14, 0, 8, 8),
+                                              child: Text(
+                                                  'Predict time : ${userData['HeartIssue'] == null ? 'Not predicted yet' : '${userData['HeartIssue'].split('_')[1].split('T')[1].split(':')[0]}:${userData['HeartIssue'].split('_')[1].split('T')[1].split(':')[1]}'}',
+                                                  style: TextStyle(fontSize: 15)),
+                                            ),
+                                          ],
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            )
                           ],
                         ),
-                        SizedBox(
-                          height: 12,
-                        ),
-                        Text(
-                          'User name',
-                          style: TextStyle(color: Colors.black38),
-                        ),
-                        Center(
-                          child: Text(
-                            (userData['Username'] != null)
-                                ? '${userData['Username']}'
-                                : 'Loading...',
-                            textAlign: TextAlign.center,
-                            style: TextStyle(
-                                fontWeight: FontWeight.bold,
-                                fontSize: 28,
-                                color: Colors.black),
-                          ),
-                        ),
-                        SizedBox(
-                          height: 10,
-                        ),
-                        Text(
-                          'Birthday',
-                          style: TextStyle(color: Colors.black38),
-                        ),
-                        SizedBox(
-                          height: 5,
-                        ),
-                        Text(
-                          (userData['Birthday'] != null)
-                              ? '${userData['Birthday'].toDate().toString().split(' ')[0].trim()}'
-                              : 'Loading...',
-                          style: TextStyle(
-                              fontWeight: FontWeight.bold,
-                              fontSize: 17,
-                              color: Colors.black),
-                        ),
-                        SizedBox(
-                          height: 10,
-                        ),
-                        Text(
-                          'Blood group',
-                          style: TextStyle(color: Colors.black38),
-                        ),
-                        SizedBox(
-                          height: 5,
-                        ),
-                        Text(
-                          (userData['bloodGroup'] != null)
-                              ? '${userData['bloodGroup']}'
-                              : 'Loading...',
-                          style: TextStyle(
-                              fontWeight: FontWeight.bold,
-                              fontSize: 17,
-                              color: Colors.black),
-                        ),
-                        SizedBox(
-                          height: 50,
-                        ),
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.stretch,
-                          children: <Widget>[
-                            Padding(
-                              padding: const EdgeInsets.fromLTRB(8, 0, 8, 4),
-                              child: Card(
-                                child: Container(
-                                  child: ListTile(
-                                    title: Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      children: <Widget>[
-                                        Padding(
-                                          padding: const EdgeInsets.all(8.0),
-                                          child: Text(
-                                            'Chronic Kidney Disease',
-                                            style: TextStyle(
-                                                fontWeight: FontWeight.w500),
-                                          ),
-                                        ),
-                                        Padding(
-                                          padding: const EdgeInsets.fromLTRB(
-                                              14, 0, 8, 8),
-                                          child: Text(
-                                            'Predicted Percentage: ${userData['CKD'] == null ? 'Not predicted yet' : '${userData['CKD'].split('_')[0]}%'}',
-                                            style: TextStyle(fontSize: 15),
-                                          ),
-                                        ),
-                                        Padding(
-                                          padding: const EdgeInsets.fromLTRB(
-                                              14, 0, 8, 8),
-                                          child: Text(
-                                              'Predict date : ${userData['CKD'] == null ? 'Not predicted yet' : '${userData['CKD'].split('_')[1].split('T')[0]}'}',
-                                              style: TextStyle(fontSize: 15)),
-                                        ),
-                                        Padding(
-                                          padding: const EdgeInsets.fromLTRB(
-                                              14, 0, 8, 8),
-                                          child: Text(
-                                              'Predict time : ${userData['CKD'] == null ? 'Not predicted yet' : '${userData['CKD'].split('_')[1].split('T')[1].split(':')[0]}:${userData['CKD'].split('_')[1].split('T')[1].split(':')[1]}'}',
-                                              style: TextStyle(fontSize: 15)),
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                ),
-                              ),
-                            ),
-                            Padding(
-                              padding: const EdgeInsets.fromLTRB(8, 0, 8, 4),
-                              child: Card(
-                                child: Container(
-                                  child: ListTile(
-                                    title: Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      children: <Widget>[
-                                        Padding(
-                                          padding: const EdgeInsets.all(8.0),
-                                          child: Text(
-                                            'Diabetits',
-                                            style: TextStyle(
-                                                fontWeight: FontWeight.w500),
-                                          ),
-                                        ),
-                                        Padding(
-                                          padding: const EdgeInsets.fromLTRB(
-                                              14, 0, 8, 8),
-                                          child: Text(
-                                            'Percentage: ${userData['Diabetits'] == null ? 'Not predicted yet' : userData['Diabetits']}',
-                                            style: TextStyle(fontSize: 15),
-                                          ),
-                                        ),
-                                        Padding(
-                                          padding: const EdgeInsets.fromLTRB(
-                                              14, 0, 8, 8),
-                                          child: Text(
-                                              'Precautions according to precentage : ${''}',
-                                              style: TextStyle(fontSize: 15)),
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                ),
-                              ),
-                            ),
-                            Padding(
-                              padding: const EdgeInsets.fromLTRB(8, 0, 8, 4),
-                              child: Card(
-                                child: Container(
-                                  child: ListTile(
-                                    title: Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      children: <Widget>[
-                                        Padding(
-                                          padding: const EdgeInsets.all(8.0),
-                                          child: Text(
-                                            'Breast Canser',
-                                            style: TextStyle(
-                                                fontWeight: FontWeight.w500),
-                                          ),
-                                        ),
-                                        Padding(
-                                          padding: const EdgeInsets.fromLTRB(
-                                              14, 0, 8, 8),
-                                          child: Text(
-                                            'Predicted Decision: ${userData['Breast_canser'] == null ? 'Not predicted yet' : "${userData['Breast_canser'].split('_')[0]}" == '3.0' ? 'Breast cancer does not exist' : 'Breast cancer exist'}',
-                                            style: TextStyle(fontSize: 15),
-                                          ),
-                                        ),
-                                        Padding(
-                                          padding: const EdgeInsets.fromLTRB(
-                                              14, 0, 8, 8),
-                                          child: Text(
-                                              'Predict date : ${userData['Breast_canser'] == null ? 'Not predicted yet' : '${userData['Breast_canser'].split('_')[1].split('T')[0]}'}',
-                                              style: TextStyle(fontSize: 15)),
-                                        ),
-                                        Padding(
-                                          padding: const EdgeInsets.fromLTRB(
-                                              14, 0, 8, 8),
-                                          child: Text(
-                                              'Predict time : ${userData['Breast_canser'] == null ? 'Not predicted yet' : '${userData['Breast_canser'].split('_')[1].split('T')[1].split(':')[0]}:${userData['Breast_canser'].split('_')[1].split('T')[1].split(':')[1]}'}',
-                                              style: TextStyle(fontSize: 15)),
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                ),
-                              ),
-                            ),
-                            Padding(
-                              padding: const EdgeInsets.fromLTRB(8, 0, 8, 4),
-                              child: Card(
-                                child: Container(
-                                  child: ListTile(
-                                    title: Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      children: <Widget>[
-                                        Padding(
-                                          padding: const EdgeInsets.all(8.0),
-                                          child: Text(
-                                            'Heart Disease',
-                                            style: TextStyle(
-                                                fontWeight: FontWeight.w500),
-                                          ),
-                                        ),
-                                        Padding(
-                                          padding: const EdgeInsets.fromLTRB(
-                                              14, 0, 8, 8),
-                                          child: Text(
-                                            'Percentage: ${userData['HeartIssue'] == null ? 'Not predicted yet' : userData['HeartIssue']}',
-                                            style: TextStyle(fontSize: 15),
-                                          ),
-                                        ),
-                                        Padding(
-                                          padding: const EdgeInsets.fromLTRB(
-                                              14, 0, 8, 8),
-                                          child: Text(
-                                              'Precautions according to precentage : ${''}',
-                                              style: TextStyle(fontSize: 15)),
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                ),
-                              ),
-                            ),
-                          ],
-                        )
-                      ],
-                    ),
+                      ),
+                    ],
                   ),
-                ],
-              ),
-            )),
+                )),
           ),
         ),
       );
     } catch (e) {
       print('Error :$e');
       return Builder(
-        builder: (context) => Container(
-          child: Center(
-              child: Text(
-            'Loading....',
-            style: TextStyle(fontSize: 25, fontWeight: FontWeight.w800),
-          )),
-        ),
+        builder: (context) => Center(
+            child: Container(
+              decoration: BoxDecoration(
+                color: Colors.white,
+                image: DecorationImage(
+                  image: AssetImage('assets/loading.gif'),
+                ),
+              ),
+            )),
       );
     }
   }

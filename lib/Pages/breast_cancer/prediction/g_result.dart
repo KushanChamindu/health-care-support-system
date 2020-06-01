@@ -28,9 +28,9 @@ class _GresultState extends State<Gresult> {
                     child: Text(
                       'You have a Good News...!',
                       style: TextStyle(
-                        fontWeight: FontWeight.w500,
-                        fontSize: 32.0,
-                        fontFamily: 'KaushanScript',
+                        fontWeight: FontWeight.w600,
+                        fontSize: 28.0,
+                        fontFamily: 'Cairo',
                       ),
                     ),
                   ),
@@ -48,8 +48,8 @@ class _GresultState extends State<Gresult> {
         'Good news....!! You have only 3% of havin cancer.  '
             '',
             style: TextStyle(
-                        fontSize: 16.0,
-                        fontFamily: 'KaushanScript',
+                        fontSize: 18.0,
+                        fontFamily: 'Cairo',
             ),
         softWrap: true,  
       ),
@@ -64,7 +64,7 @@ class _GresultState extends State<Gresult> {
             'Before you leave be aware of precausions',
             style: TextStyle(
                         fontSize: 16.0,
-                        fontFamily: 'KaushanScript',
+                        fontFamily: 'Cairo',
                         backgroundColor: Colors.grey[200],
                         fontWeight: FontWeight.w100
             ),
@@ -84,18 +84,18 @@ class _GresultState extends State<Gresult> {
 
     return Scaffold(
       appBar: AppBar(
+        title: Align(
+          alignment: Alignment.center,
+          child: Text(
+            "Results...- Breast Cancer",
+            style: TextStyle(
+              fontSize: 20.0,
+            ),
+          ),
+        ),
         actions: <Widget>[
           Popupmenu(auth: widget.auth,)
         ],
-        title: Text(
-          "Results...- Breast Cancer",
-          style: TextStyle(
-            fontSize: 20.0,
-            fontWeight: FontWeight.w300,
-            color: Colors.black,
-            fontFamily: 'KaushanScript'
-          ),
-        ),
         //centerTitle: true,
         backgroundColor: Colors.blueAccent,
       ),
@@ -117,8 +117,6 @@ class _GresultState extends State<Gresult> {
             fit: BoxFit.cover,
           ),
           SizedBox(height: 3.0),
-          
-          
         ],
       )
       

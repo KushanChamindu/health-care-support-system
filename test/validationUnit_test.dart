@@ -89,6 +89,11 @@ class MockAuth implements BaseAuth {
     return null;
   }
 
+  @override
+  Future<FirebaseUser> getCurrentUser() {
+    // TODO: implement getCurrentUser
+    return null;
+  }
 }
 
 MockFirebaseAuth _auth = MockFirebaseAuth();

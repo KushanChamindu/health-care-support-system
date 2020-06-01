@@ -1,5 +1,6 @@
 
 class UID{
   final String uid;
-  UID({this.uid});
+  final String email;
+  UID({this.uid,this.email});
 }
