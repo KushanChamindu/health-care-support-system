@@ -48,7 +48,7 @@ class BC_Solutions extends StatelessWidget {
           alignment: Alignment.center,
           child: Text(
             "Precautions...- Breast Cancer",
-            style: TextStyle(fontSize: 15),
+            style: TextStyle(fontSize: 16),
           ),
         ),
         //centerTitle: true,

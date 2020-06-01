@@ -20,13 +20,13 @@ class _PredictionHelpState extends State<PredictionHelp> {
         actions: <Widget>[
           Popupmenu(auth: widget.auth,)
         ],
-        title: Text(
-          "PredictionHelp...- Breast Cancer",
-          style: TextStyle(
-            fontSize: 20.0,
-            fontWeight: FontWeight.w300,
-            color: Colors.black,
-            fontFamily: 'KaushanScript'
+        title: Align(
+          alignment: Alignment.center,
+          child: Text(
+            "PredictionHelp- Breast Cancer",
+            style: TextStyle(
+              fontSize: 18.0,
+            ),
           ),
         ),
         //centerTitle: true,
@@ -74,9 +74,9 @@ class _PredictionHelpState extends State<PredictionHelp> {
                   child: Text(
                     label ,
                     style: TextStyle(
-                      fontWeight: FontWeight.w500,
-                      fontSize: 28.0,
-                      fontFamily: 'KaushanScript',
+                      fontWeight: FontWeight.w600,
+                      fontSize: 25.0,
+                      fontFamily: 'Cairo',
                     ),
                   ),
                 ),   
@@ -94,8 +94,8 @@ class _PredictionHelpState extends State<PredictionHelp> {
       child: Text(
         text,
             style: TextStyle(
-                        fontSize: 16.0,
-                        fontFamily: 'KaushanScript',
+                        fontSize: 17.0,
+                        fontFamily: 'Cairo',
             ),
         softWrap: true,  
       ),
@@ -108,9 +108,9 @@ class _PredictionHelpState extends State<PredictionHelp> {
       child: Text(
         text,
           style: TextStyle(
-            fontWeight: FontWeight.w500,
+            fontWeight: FontWeight.w600,
             fontSize: 20.0,
-            fontFamily: 'KaushanScript',
+            fontFamily: 'Cairo',
             backgroundColor: Colors.grey[400],
           ),
         ),
@@ -129,9 +129,9 @@ class _PredictionHelpState extends State<PredictionHelp> {
                 child:Text(
                   label,
                   style: TextStyle(
-                        fontWeight: FontWeight.w500,
+                        fontWeight: FontWeight.w600,
                         fontSize: 20.0,
-                        fontFamily: 'KaushanScript',
+                        fontFamily: 'Cairo',
                       ),
                   ),
               ),
@@ -145,7 +145,7 @@ class _PredictionHelpState extends State<PredictionHelp> {
                 style: TextStyle(
                         fontWeight: FontWeight.w500,
                         fontSize: 16.0,
-                        fontFamily: 'KaushanScript',
+                        fontFamily: 'Cairo',
                       ),
                 ),
               ),

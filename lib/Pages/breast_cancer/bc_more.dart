@@ -68,7 +68,6 @@ class _BC_MoreState extends State<BC_More> {
             "More...  - Breast Cancer",
             style: TextStyle(
               fontSize: 20.0,
-              fontFamily: 'Cario'
             ),
           ),
         ),
@@ -149,7 +148,6 @@ class _TitlesState extends State<Titles> {
                   child: Text(widget.text1, 
                   style: TextStyle(
                     fontSize: 16,
-                    fontFamily: 'Cario',
                     ),
                   ),
                 ),
@@ -166,7 +164,6 @@ class _TitlesState extends State<Titles> {
                       height: 1.5,
                       fontWeight: FontWeight.w400,
                       letterSpacing: 0.5,
-                      fontFamily: 'Cario',
                       ),
                 ), 
               )

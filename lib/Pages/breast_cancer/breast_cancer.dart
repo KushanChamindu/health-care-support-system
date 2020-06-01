@@ -27,7 +27,7 @@ class _BrestCancerState extends State<BrestCancer> {
                     child: Text(
                       'What is breast cancer...?',
                       style: TextStyle(
-                        fontWeight: FontWeight.w500,
+                        fontWeight: FontWeight.w600,
                         fontSize: 28.0,
                         fontFamily: 'Cairo',
                       ),
@@ -58,7 +58,7 @@ class _BrestCancerState extends State<BrestCancer> {
             'There are different kinds of breast cancer. '
             'The kind of breast cancer depends on which cells in the breast turn into cancer ',
             style: TextStyle(
-                        fontSize: 16.0,
+                        fontSize: 17.0,
               fontFamily: 'Cairo',
             ),
         softWrap: true,  
@@ -81,7 +81,7 @@ class _BrestCancerState extends State<BrestCancer> {
                       'Now it was my turn, and I was determined to defeat this.'
                        'I couldn’t change that I had cancer, but I could decide how to go after it."',
                       style: TextStyle(
-                        fontWeight: FontWeight.w500,
+                        fontWeight: FontWeight.w600,
                         fontSize: 20.0,
                         fontFamily: 'Cairo',
                       ),
@@ -93,7 +93,7 @@ class _BrestCancerState extends State<BrestCancer> {
                         'Jessica Baladad'
                           '(Breast Cancer Survivor and NBCF Supporter)',
                         style: TextStyle(
-                          fontWeight: FontWeight.w400,
+                          fontWeight: FontWeight.w500,
                           fontSize: 16.0,
                           fontFamily: 'Cairo',
                         ),
@@ -158,7 +158,7 @@ class _BrestCancerState extends State<BrestCancer> {
 //          width: 110,
             child: FlatButton(
               shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(18)),
-              padding: EdgeInsets.all(20),
+              padding: EdgeInsets.all(15),
               onPressed: () {
                 Navigator.pushNamed(context, url);
               },
@@ -166,6 +166,8 @@ class _BrestCancerState extends State<BrestCancer> {
                 child: Text(
                   label,
                   style: TextStyle(
+                    fontSize: 16,
+                    fontWeight: FontWeight.w600,
                     fontFamily: 'Cairo',
                   ),
                   ),

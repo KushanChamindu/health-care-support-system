@@ -23,13 +23,12 @@ class _BresultState extends State<Bresult> {
                 children: [
                   /*2*/
                   Container(
-                    padding: const EdgeInsets.only(bottom: 0),
                     child: Text(
                       "Result is't good...!",
                       style: TextStyle(
-                        fontWeight: FontWeight.w500,
-                        fontSize: 32.0,
-                        fontFamily: 'KaushanScript',
+                        fontWeight: FontWeight.w600,
+                        fontSize: 30.0,
+                        fontFamily: 'Cairo',
                       ),
                     ),
                   ),
@@ -48,8 +47,8 @@ class _BresultState extends State<Bresult> {
             'This doesn’t define you.. '
             'Meet your doctor immediately ',
             style: TextStyle(
-                        fontSize: 16.0,
-                        fontFamily: 'KaushanScript',
+                        fontSize: 18.0,
+                        fontFamily: 'Cairo',
             ),
         softWrap: true,  
       ),
@@ -64,9 +63,8 @@ class _BresultState extends State<Bresult> {
             'Before you leave be aware of precausions',
             style: TextStyle(
                         fontSize: 16.0,
-                        fontFamily: 'KaushanScript',
+                        fontFamily: 'Cairo',
                         backgroundColor: Colors.grey[200],
-                        fontWeight: FontWeight.w100
             ),
         softWrap: true,
         ),
@@ -81,7 +79,7 @@ class _BresultState extends State<Bresult> {
             'Check if you have the following symptoms',
             style: TextStyle(
                         fontSize: 16.0,
-                        fontFamily: 'KaushanScript',
+                        fontFamily: 'Cairo',
                         backgroundColor: Colors.grey[200],
                         fontWeight: FontWeight.w100
             ),
@@ -105,13 +103,13 @@ class _BresultState extends State<Bresult> {
         actions: <Widget>[
           Popupmenu(auth: widget.auth,)
         ],
-        title: Text(
-          "Results...- Breast Cancer",
-          style: TextStyle(
-            fontSize: 20.0,
-            fontWeight: FontWeight.w300,
-            color: Colors.black,
-            fontFamily: 'KaushanScript'
+        title: Align(
+          alignment: Alignment.center,
+          child: Text(
+            "Results...- Breast Cancer",
+            style: TextStyle(
+              fontSize: 20.0,
+            ),
           ),
         ),
         //centerTitle: true,

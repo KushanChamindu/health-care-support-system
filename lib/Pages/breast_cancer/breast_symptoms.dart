@@ -69,8 +69,6 @@ class _BC_SymptomsState extends State<BC_Symptoms> {
               child: Text(
                 "Symptoms...  - Breast Cancer",
                 style: TextStyle(
-                  fontSize: 20.0,
-                  fontFamily: 'Cario'
                 ),
               ),
             ),
@@ -92,7 +90,6 @@ class _BC_SymptomsState extends State<BC_Symptoms> {
                                     child: Text(early[index], 
                                     style: TextStyle(
                                       fontSize: 16,
-                                      fontFamily: 'Cario',
                                       ),
                                     ),
                                   ),
