@@ -92,23 +92,34 @@ flutter:
   # "family" key with the font family name, and a "fonts" key with a
   # list giving the asset and other descriptors for the font. For
   # example:
+#  fonts:
+#     - family: KaushanScript
+#       fonts:
+#         - asset: fonts/KaushanScript-Regular.ttf
+##         - asset: fonts/Schyler-Italic.ttf
+##           style: italic
+#     - family: Baloo2
+#       fonts:
+#         - asset: fonts/Baloo2-Medium.ttf
+#         - asset: fonts/Baloo2-Bold.ttf
+#         - asset: fonts/Baloo2-ExtraBold.ttf
+#         - asset: fonts/Baloo2-SemiBold.ttf
+#         - asset: fonts/Baloo2-Regular.ttf
+#     - family: Poppins
+#       fonts:
+#         - asset: assets/HTD/Poppins-SemiBold.ttf
   fonts:
-     - family: KaushanScript
-       fonts:
-         - asset: fonts/KaushanScript-Regular.ttf
-#         - asset: fonts/Schyler-Italic.ttf
-#           style: italic
-     - family: Baloo2
-       fonts:
-         - asset: fonts/Baloo2-Medium.ttf
-         - asset: fonts/Baloo2-Bold.ttf
-         - asset: fonts/Baloo2-ExtraBold.ttf
-         - asset: fonts/Baloo2-SemiBold.ttf
-         - asset: fonts/Baloo2-Regular.ttf
-     - family: Poppins
-       fonts:
-         - asset: assets/HTD/Poppins-SemiBold.ttf
-
+    - family: KaushanScript
+      fonts:
+        - asset: fonts/KaushanScript-Regular.ttf
+    #       - asset: fonts/Schyler-Italic.ttf
+    #         style: italic
+    - family: Baloo2
+      fonts:
+        - asset: fonts/Baloo2-Regular.ttf
+    - family: Cairo
+      fonts:
+        - asset: fonts/Baloo2-Regular.ttf
            #
   # For details regarding fonts from package dependencies,
   # see https://flutter.dev/custom-fonts/#from-packages

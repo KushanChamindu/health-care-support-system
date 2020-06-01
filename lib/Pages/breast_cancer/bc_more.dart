@@ -62,13 +62,14 @@ class _BC_MoreState extends State<BC_More> {
         actions: <Widget>[
           Popupmenu(auth: widget.auth,)
         ],
-        title: Text(
-          "More...  - Breast Cancer",
-          style: TextStyle(
-            fontSize: 20.0,
-            fontWeight: FontWeight.w300,
-            color: Colors.black,
-            fontFamily: 'KaushanScript'
+        title: Align(
+          alignment: Alignment.center,
+          child: Text(
+            "More...  - Breast Cancer",
+            style: TextStyle(
+              fontSize: 20.0,
+              fontFamily: 'Cario'
+            ),
           ),
         ),
         //centerTitle: true,
@@ -148,7 +149,7 @@ class _TitlesState extends State<Titles> {
                   child: Text(widget.text1, 
                   style: TextStyle(
                     fontSize: 16,
-                    fontFamily: 'KaushanScript',
+                    fontFamily: 'Cario',
                     ),
                   ),
                 ),
@@ -161,11 +162,11 @@ class _TitlesState extends State<Titles> {
                 child: Text(
                   widget.text2,
                   style: TextStyle(
-                      fontSize: 14,
+                      fontSize: 15,
                       height: 1.5,
                       fontWeight: FontWeight.w400,
                       letterSpacing: 0.5,
-                      fontFamily: 'KaushanScript',
+                      fontFamily: 'Cario',
                       ),
                 ), 
               )

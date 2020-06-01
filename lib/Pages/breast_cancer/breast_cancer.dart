@@ -29,7 +29,7 @@ class _BrestCancerState extends State<BrestCancer> {
                       style: TextStyle(
                         fontWeight: FontWeight.w500,
                         fontSize: 28.0,
-                        fontFamily: 'KaushanScript',
+                        fontFamily: 'Cairo',
                       ),
                     ),
                   ),
@@ -59,7 +59,7 @@ class _BrestCancerState extends State<BrestCancer> {
             'The kind of breast cancer depends on which cells in the breast turn into cancer ',
             style: TextStyle(
                         fontSize: 16.0,
-                        fontFamily: 'KaushanScript',
+              fontFamily: 'Cairo',
             ),
         softWrap: true,  
       ),
@@ -83,7 +83,7 @@ class _BrestCancerState extends State<BrestCancer> {
                       style: TextStyle(
                         fontWeight: FontWeight.w500,
                         fontSize: 20.0,
-                        fontFamily: 'KaushanScript',
+                        fontFamily: 'Cairo',
                       ),
                     ),
                   ),
@@ -93,9 +93,9 @@ class _BrestCancerState extends State<BrestCancer> {
                         'Jessica Baladad'
                           '(Breast Cancer Survivor and NBCF Supporter)',
                         style: TextStyle(
-                          fontWeight: FontWeight.w100,
+                          fontWeight: FontWeight.w400,
                           fontSize: 16.0,
-                          fontFamily: 'KaushanScript',
+                          fontFamily: 'Cairo',
                         ),
                       ),
                   ),
@@ -117,13 +117,14 @@ class _BrestCancerState extends State<BrestCancer> {
         actions: <Widget>[
           Popupmenu(auth: widget.auth,)
         ],
-        title: Text(
-          "Breast Cancer",
-          style: TextStyle(
-            fontSize: 30.0,
-            fontWeight: FontWeight.w300,
-            color: Colors.black,
-            fontFamily: 'KaushanScript'
+        title: Align(
+          alignment: Alignment.center,
+          child: Text(
+            "Breast Cancer",
+            style: TextStyle(
+              fontSize: 20.0,
+              fontFamily: 'Cairo',
+            ),
           ),
         ),
         //centerTitle: true,
@@ -152,32 +153,26 @@ class _BrestCancerState extends State<BrestCancer> {
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
         Container(
-          margin: const EdgeInsets.fromLTRB(0, 8, 0, 8),
-          height: 80,
-          width: 110,
-          child: FlatButton(
-            onPressed: () {
-              Navigator.pushNamed(context, url);
-            },
-            child: Center(
-              child: Column(
-                children: <Widget>[
-                //Icon(icon, color: color),
-                Padding(
-                  padding: const EdgeInsets.fromLTRB(2, 24, 2, 4),
-                  child: Text(
-                    label,
-                    style: TextStyle(
-                      fontFamily: 'KaushanScript',
-                    ),
-                    ),
-                ),
-              ],
+            margin: const EdgeInsets.only(bottom: 8),
+//          height: 80,
+//          width: 110,
+            child: FlatButton(
+              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(18)),
+              padding: EdgeInsets.all(20),
+              onPressed: () {
+                Navigator.pushNamed(context, url);
+              },
+              child: Center(
+                child: Text(
+                  label,
+                  style: TextStyle(
+                    fontFamily: 'Cairo',
+                  ),
+                  ),
               ),
-            ),
-            color: Colors.lightBlueAccent,
-            ),
-        ),
+              color: Colors.lightBlueAccent,
+              ),
+          ),
       ],
     );
   }
