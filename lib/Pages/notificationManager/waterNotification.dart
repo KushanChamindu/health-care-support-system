@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:math';
-import 'dart:ui';
+
+//import 'dart:ui';
 import 'package:flutter/rendering.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_swiper/flutter_swiper.dart';
@@ -23,6 +24,7 @@ import 'Chart.dart';
 class WaterNotification extends StatefulWidget {
   final BaseAuth auth = Auth();
   final NotificationService notificationService = NotificationService();
+
   @override
   _WaterNotificationState createState() => _WaterNotificationState();
 }
@@ -71,7 +73,9 @@ class _WaterNotificationState extends State<WaterNotification> {
                 ],
               ),
               actions: <Widget>[
-                Popupmenu(auth: widget.auth,)
+                Popupmenu(
+                  auth: widget.auth,
+                )
               ],
               backgroundColor: Colors.blueAccent,
             ),
@@ -92,7 +96,9 @@ class WaterNotificationBody extends StatefulWidget {
   final String uid;
   final BaseAuth auth;
   final NotificationService notificationService;
+
   WaterNotificationBody({this.uid, this.auth, this.notificationService});
+
   @override
   _WaterNotificationBodyState createState() => _WaterNotificationBodyState();
 }
@@ -141,6 +147,7 @@ class _WaterNotificationBodyState extends State<WaterNotificationBody> {
   var initializationSettingAndroid;
   var initializationSettingIOS;
   var initializationSettings;
+
   @override
   void initState() {
     super.initState();
@@ -193,7 +200,8 @@ class _WaterNotificationBodyState extends State<WaterNotificationBody> {
         androidPlatformChannelSpecifics, iOSChannelSpecifics);
     //TODO: demonstration only
     int difference = finishedTime.difference(startTime).inMinutes;
-    var alarmStartTime=DateTime(startTime.year,startTime.month,startTime.day,startTime.hour,startTime.minute,0);
+    var alarmStartTime = DateTime(startTime.year, startTime.month,
+        startTime.day, startTime.hour, startTime.minute, 0);
     for (var i = 0; i < difference; i++) {
       await flutterLocalNotificationsPlugin.schedule(
           i,
@@ -216,12 +224,11 @@ class _WaterNotificationBodyState extends State<WaterNotificationBody> {
 
   void changeVIsibility(index) {
     setState(() {
-      if(index==1){
+      if (index == 1) {
         visibility = false;
-      }else{
-        visibility=true;
+      } else {
+        visibility = true;
       }
-
     });
   }
 
@@ -229,7 +236,7 @@ class _WaterNotificationBodyState extends State<WaterNotificationBody> {
   Widget build(BuildContext context) {
     final waterNotificationData = Provider.of<DocumentSnapshot>(context);
     try {
-      var waterData=waterNotificationData.data;
+      var waterData = waterNotificationData.data;
       bool alermToggle = waterData['isAlermOn'] || false;
       final TextEditingController _goalController = new TextEditingController(
           text: (waterData['goal'] != 0) ? waterData['goal'].toString() : '0');
@@ -277,7 +284,8 @@ class _WaterNotificationBodyState extends State<WaterNotificationBody> {
             content: Text('Connection problem'),
             backgroundColor: Colors.blue[900],
             duration: Duration(seconds: 1),
-            action: new SnackBarAction(textColor: Colors.white,label: 'OK', onPressed: (){}),
+            action: new SnackBarAction(
+                textColor: Colors.white, label: 'OK', onPressed: () {}),
           ));
         }
         setState(() {
@@ -307,16 +315,18 @@ class _WaterNotificationBodyState extends State<WaterNotificationBody> {
                 duration: Duration(seconds: 1),
                 content: Text('Already Saved details'),
                 backgroundColor: Colors.blue[900],
-                action: new SnackBarAction(textColor: Colors.white,label: 'OK', onPressed: (){}),
+                action: new SnackBarAction(
+                    textColor: Colors.white, label: 'OK', onPressed: () {}),
               ));
             } else {
               await widget.notificationService.updateWaterTimer(
                   widget.uid, startTime, finishedTime, waterGoal);
               Scaffold.of(context).showSnackBar(SnackBar(
                 content: Text('Saved changes'),
-                  duration: Duration(seconds: 1),
-                  backgroundColor: Colors.blue[900],
-                action: new SnackBarAction(textColor: Colors.white,label: 'OK', onPressed: (){}),
+                duration: Duration(seconds: 1),
+                backgroundColor: Colors.blue[900],
+                action: new SnackBarAction(
+                    textColor: Colors.white, label: 'OK', onPressed: () {}),
               ));
             }
             await _showNotification();
@@ -326,7 +336,8 @@ class _WaterNotificationBodyState extends State<WaterNotificationBody> {
               duration: Duration(seconds: 1),
               content: Text('Check your internet connection'),
               backgroundColor: Colors.blue[900],
-              action: new SnackBarAction(textColor: Colors.white,label: 'OK', onPressed: (){}),
+              action: new SnackBarAction(
+                  textColor: Colors.white, label: 'OK', onPressed: () {}),
             ));
           }
         }
@@ -340,29 +351,31 @@ class _WaterNotificationBodyState extends State<WaterNotificationBody> {
                 Navigator.of(context).pop(true);
               });
               return AlertDialog(
-                backgroundColor: Colors.transparent,
+                  backgroundColor: Colors.transparent,
                   content: status == 'okey'
-                        ? Container(
-                    width: MediaQuery.of(context).size.width*0.6,
-                    height: MediaQuery.of(context).size.width*0.5,
-                    decoration: BoxDecoration(
-                      shape: BoxShape.circle,
+                      ? Container(
+                          width: MediaQuery.of(context).size.width * 0.6,
+                          height: MediaQuery.of(context).size.width * 0.5,
+                          decoration: BoxDecoration(
+                              shape: BoxShape.circle,
 //                      borderRadius: BorderRadius.circular(10),
-                      color: Colors.green,
-                      image: DecorationImage(fit: BoxFit.fill,image: AssetImage('assets/NotificationManager/drinkwater.gif'))
-                    ),
+                              color: Colors.green,
+                              image: DecorationImage(
+                                  fit: BoxFit.fill,
+                                  image: AssetImage(
+                                      'assets/NotificationManager/drinkwater.gif'))),
                         )
-                        : Container(
-                    width: MediaQuery.of(context).size.width,
-                    height: 200,
-                    decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(10),
-                        color: Colors.green,
-                        image: DecorationImage(fit: BoxFit.fill,image: AssetImage('assets/connection_lost.gif'))
-                    ),
-                  )
-              );
-
+                      : Container(
+                          width: MediaQuery.of(context).size.width,
+                          height: 200,
+                          decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(10),
+                              color: Colors.green,
+                              image: DecorationImage(
+                                  fit: BoxFit.fill,
+                                  image: AssetImage(
+                                      'assets/connection_lost.gif'))),
+                        ));
             });
       }
 
@@ -388,7 +401,7 @@ class _WaterNotificationBodyState extends State<WaterNotificationBody> {
                   .inDays <=
               0 &&
           waterData['isReset'] == true) {
-          widget.notificationService.resetData(widget.uid).then((_) => {});
+        widget.notificationService.resetData(widget.uid).then((_) => {});
       }
       if (waterData['firstday']
                   .toDate()
@@ -398,7 +411,6 @@ class _WaterNotificationBodyState extends State<WaterNotificationBody> {
               2 &&
           waterData['isReset'] == false) {
         widget.notificationService.setResetVariable(widget.uid);
-
       }
       if (waterData['isAlermOn'] != null &&
           waterData['startTime'].toDate().day != DateTime.now().day &&
@@ -415,18 +427,20 @@ class _WaterNotificationBodyState extends State<WaterNotificationBody> {
       }
       return Builder(
           builder: (context) => Scaffold(
-            key: ValueKey('waterNotificationPage'),
+                key: ValueKey('waterNotificationPage'),
                 bottomNavigationBar: CurvedNavigationBar(
                   backgroundColor: Colors.blueAccent,
                   height: 50,
                   animationDuration: Duration(milliseconds: 200),
                   animationCurve: Curves.decelerate,
                   items: <Widget>[
+                    Icon(Icons.alarm,
+                        size: 30,
+                        key: ValueKey('waterNotificationDrinkPageButton')),
                     Icon(
-                      Icons.alarm, size: 30,
-                        key:ValueKey('waterNotificationDrinkPageButton')),
-                    Icon(Icons.assessment, size: 30,
-                    key:ValueKey('waterNotificationChartPageButton'),
+                      Icons.assessment,
+                      size: 30,
+                      key: ValueKey('waterNotificationChartPageButton'),
                     ),
                   ],
                   onTap: (index) {
@@ -514,7 +528,8 @@ class _WaterNotificationBodyState extends State<WaterNotificationBody> {
                                                         ? 'first add valide data'
                                                         : 'submit form',
                                                     child: InkWell(
-                                                      key: ValueKey('waterNotificationBellButton'),
+                                                      key: ValueKey(
+                                                          'waterNotificationBellButton'),
                                                       onTap: () async {
                                                         if (alermToggle ==
                                                             false) {
@@ -582,7 +597,8 @@ class _WaterNotificationBodyState extends State<WaterNotificationBody> {
                                         child: Column(
                                           children: <Widget>[
                                             TextFormField(
-                                              key:ValueKey('waterNotificationStartTime'),
+                                              key: ValueKey(
+                                                  'waterNotificationStartTime'),
                                               onSaved: (value) => startTime =
                                                   DateTime(
                                                       DateTime.now().year,
@@ -592,8 +608,8 @@ class _WaterNotificationBodyState extends State<WaterNotificationBody> {
                                                           value.split(':')[0]),
                                                       int.parse(
                                                           value.split(':')[1])),
-                                              autovalidate:
-                                                  true, //startTime =value,
+                                              autovalidate: true,
+                                              //startTime =value,
                                               validator: (value) =>
                                                   ValidationOfFormWater
                                                       .StartimeValidation(value,
@@ -656,7 +672,8 @@ class _WaterNotificationBodyState extends State<WaterNotificationBody> {
                                               height: 10,
                                             ),
                                             TextFormField(
-                                              key:ValueKey('waterNotificationEndTime'),
+                                              key: ValueKey(
+                                                  'waterNotificationEndTime'),
                                               onSaved: (value) => finishedTime =
                                                   DateTime(
                                                       DateTime.now().year,
@@ -759,8 +776,9 @@ class _WaterNotificationBodyState extends State<WaterNotificationBody> {
                                                 suffixIcon:
                                                     PopupMenuButton<String>(
                                                   icon: const Icon(
-                                                      Icons.arrow_drop_down,
-                                                  key: ValueKey('waterNotificationGoal'),
+                                                    Icons.arrow_drop_down,
+                                                    key: ValueKey(
+                                                        'waterNotificationGoal'),
                                                   ),
                                                   onSelected: (String value) {
                                                     _goalController.text =
@@ -792,9 +810,9 @@ class _WaterNotificationBodyState extends State<WaterNotificationBody> {
                                       children: <Widget>[
                                         Container(
                                           width: MediaQuery.of(context)
-                                        .size
-                                        .width *
-                                        0.42,
+                                                  .size
+                                                  .width *
+                                              0.42,
                                           child: Padding(
                                             padding: EdgeInsets.only(
                                                 left: MediaQuery.of(context)
@@ -812,11 +830,11 @@ class _WaterNotificationBodyState extends State<WaterNotificationBody> {
                                                 width: 119,
                                                 height: 119,
                                                 child: RaisedButton(
-                                                  key: ValueKey('waterNotificationDrinkButton'),
+                                                  key: ValueKey(
+                                                      'waterNotificationDrinkButton'),
                                                   color: Colors.white,
-                                                  onPressed: (){
+                                                  onPressed: () {
                                                     dinkWaterSubmit();
-
                                                   },
                                                   child: Column(
                                                     children: <Widget>[
@@ -876,8 +894,8 @@ class _WaterNotificationBodyState extends State<WaterNotificationBody> {
                                                       side: BorderSide(
                                                           width: 2,
                                                           color: Colors.white,
-                                                          style:
-                                                              BorderStyle.solid)),
+                                                          style: BorderStyle
+                                                              .solid)),
                                                 ),
                                               ),
                                               percent: percentage,
@@ -998,7 +1016,12 @@ class _WaterNotificationBodyState extends State<WaterNotificationBody> {
                           curve: Curves.ease,
                           child: Visibility(
                             visible: !visibility,
-                            child: visibility==false?BarChartSample1(waterData: waterData,isVisible: !visibility,):Text(''),
+                            child: visibility == false
+                                ? BarChartSample1(
+                                    waterData: waterData,
+                                    isVisible: !visibility,
+                                  )
+                                : Text(''),
                           ),
                         )
                       ],
@@ -1008,9 +1031,13 @@ class _WaterNotificationBodyState extends State<WaterNotificationBody> {
       print(e);
       return Builder(
         builder: (context) => Center(
-            child: Text(
-          'Loading....',
-          style: TextStyle(fontSize: 25, fontWeight: FontWeight.w800),
+            child: Container(
+          decoration: BoxDecoration(
+            color: Colors.white,
+            image: DecorationImage(
+              image: AssetImage('assets/loading.gif'),
+            ),
+          ),
         )),
       );
     }
