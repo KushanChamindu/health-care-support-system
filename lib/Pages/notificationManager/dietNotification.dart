@@ -331,7 +331,8 @@ class _DietNotificationBodyState extends State<DietNotificationBody> {
                 image: AssetImage(
                   "assets/NotificationManager/backgroundDietpalan.png",
                 ),
-                fit: BoxFit.fill,
+
+                fit: BoxFit.cover,
               ),
             ),
             child: Padding(
@@ -428,7 +429,7 @@ class _DietNotificationBodyState extends State<DietNotificationBody> {
                     ],
                   ),
                   SizedBox(
-                    height: 10,
+                    height: 15,
                   ),
                   Form(
                     autovalidate: true,
@@ -493,7 +494,7 @@ class _DietNotificationBodyState extends State<DietNotificationBody> {
                           ),
                         ),
                         SizedBox(
-                          height: 15,
+                          height: 20,
                         ),
                         Padding(
                           padding: const EdgeInsets.only(left: 10.0, right: 10),
@@ -548,7 +549,7 @@ class _DietNotificationBodyState extends State<DietNotificationBody> {
                           ),
                         ),
                         SizedBox(
-                          height: 15,
+                          height: 20,
                         ),
                         Padding(
                           padding: const EdgeInsets.only(left: 10.0, right: 10),
