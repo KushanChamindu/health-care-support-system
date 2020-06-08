@@ -18,8 +18,14 @@ class _CKD_webviewState extends State<CKD_webview> {
       shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.all(Radius.circular(8.0))),
       child: ExpansionTile(
-        leading: Icon(Icons.bubble_chart),
-        title: Text(data[0]),
+        leading: Icon(
+          Icons.bubble_chart,
+          color: Colors.black,
+        ),
+        title: Text(
+          data[0],
+          style: TextStyle(fontWeight: FontWeight.w500),
+        ),
         children: <Widget>[
           aboveTitle == true
               ? Padding(
@@ -91,7 +97,7 @@ class _CKD_webviewState extends State<CKD_webview> {
     return _listWidget;
   }
 
-  List<Widget> _extraKnowledge(List data, String image,bool isDividerExist) {
+  List<Widget> _extraKnowledge(List data, String image, bool isDividerExist) {
     return [
       Image.asset(
         image,
@@ -125,10 +131,12 @@ class _CKD_webviewState extends State<CKD_webview> {
           ),
         ),
       ),
-      isDividerExist==true?Divider(
-        height: 10,
-        color: Colors.black87,
-      ):Container(),
+      isDividerExist == true
+          ? Divider(
+              height: 10,
+              color: Colors.black87,
+            )
+          : Container(),
     ];
   }
 
@@ -304,24 +312,44 @@ class _CKD_webviewState extends State<CKD_webview> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
-            Image.asset(
-              'assets/CKD_image/readingTime.png',
-              width: MediaQuery.of(context).size.width * 0.5,
+            Container(
+              width: MediaQuery.of(context).size.width,
+              height: 100,
+              child: Stack(
+                alignment: Alignment.topLeft,
+                children: <Widget>[
+                  Container(
+                    width: MediaQuery.of(context).size.width * 0.6,
+                    height: 100,
+                    child: Image.asset(
+                      'assets/CKD_image/readingTime.png',
+                      fit: BoxFit.fill,
+                    ),
+                  ),
+                  Image.asset(
+                    'assets/CKD_image/raeadinf-time2.png',
+                    fit: BoxFit.fill,
+                    width: MediaQuery.of(context).size.width,
+                  ),
+                ],
+              ),
             ),
             Card(
               child: ExpansionTile(
-                title: Text(
-                  'Extra knowledge',
+                title: Text('Extra knowledge',
+                    style: TextStyle(fontWeight: FontWeight.w500)),
+                leading: Icon(
+                  Icons.bubble_chart,
+                  color: Colors.black,
                 ),
-                leading: Icon(Icons.bubble_chart),
                 children: <Widget>[
                   Column(
-                    children: _extraKnowledge(
-                            extra_1, 'assets/CKD_image/diseases-kidney.jpg',true) +
-                        _extraKnowledge(
-                            extra_2, 'assets/CKD_image/diseases-kidney-2.jpg',true) +
-                        _extraKnowledge(
-                            extra_3, 'assets/CKD_image/diseases-kidney-3.jpg',false),
+                    children: _extraKnowledge(extra_1,
+                            'assets/CKD_image/diseases-kidney.jpg', true) +
+                        _extraKnowledge(extra_2,
+                            'assets/CKD_image/diseases-kidney-2.jpg', true) +
+                        _extraKnowledge(extra_3,
+                            'assets/CKD_image/diseases-kidney-3.jpg', false),
                   )
                 ],
               ),
@@ -334,11 +362,15 @@ class _CKD_webviewState extends State<CKD_webview> {
             _BuildTiles(Prevention, false, false),
             Card(
               child: ExpansionTile(
-                leading: Icon(Icons.bubble_chart),
+                leading: Icon(
+                  Icons.bubble_chart,
+                  color: Colors.black,
+                ),
                 title: Padding(
-                  padding: const EdgeInsets.fromLTRB(0.0,8,8,8),
+                  padding: const EdgeInsets.fromLTRB(0.0, 8, 8, 8),
                   child: Text(
                     ' Video resources',
+                    style: TextStyle(fontWeight: FontWeight.w500),
                   ),
                 ),
                 children: <Widget>[

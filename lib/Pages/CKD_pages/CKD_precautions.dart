@@ -55,7 +55,7 @@ class _CKD_precautionsState extends State<CKD_precautions> {
         body: ListView(
             itemExtent: 115,
             children: <Widget>[
-              PrecautionCard(image: 'assets/CKD_image/fruit.png',text: 'Follow a low-salt, low-fat diet'),
+              PrecautionCard(image: 'assets/CKD_image/food.png',text: 'Follow a low-salt, low-fat diet'),
               PrecautionCard(text:  'Exercise at least 30 minutes on most days of the week',image:  'assets/CKD_image/excersis.gif',),
               PrecautionCard(text: 'Have regular check-ups with your doctor',image: 'assets/CKD_image/meet_doctor.gif',),
               PrecautionCard(text: 'Do not smoke or use tobacco',image: 'assets/CKD_image/nosmoke.gif',),

@@ -9,7 +9,7 @@ import 'package:healthcaresupportsystem/Pages/Account.dart';
 import 'package:healthcaresupportsystem/Pages/Auth/Onboarding_screen/OnboardingScreen.dart';
 import 'package:healthcaresupportsystem/Pages/CKD_pages/CKD_precautions.dart';
 import 'package:healthcaresupportsystem/Pages/CKD_pages/CKD_symptom.dart';
-import 'package:healthcaresupportsystem/Pages/CKD_pages/CKD_webview.dart';
+import 'package:healthcaresupportsystem/Pages/CKD_pages/CKD_moreInfo.dart';
 import 'package:healthcaresupportsystem/Pages/HTD/HTD_Home.dart';
 import 'package:healthcaresupportsystem/Pages/Home.dart';
 import 'package:healthcaresupportsystem/Pages/breast_cancer/bc_more.dart';
