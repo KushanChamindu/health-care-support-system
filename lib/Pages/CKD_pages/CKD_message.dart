@@ -307,8 +307,9 @@ class _MessagePageBodyState extends State<MessagePageBody> {
                   shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(18)),
                   color: Colors.blueAccent,
-                  onPressed: () async => await launch(data['button-url'],
-                      forceWebView: false, forceSafariVC: false),
+                  onPressed: () async =>  Navigator.pushNamed(context, '/CKD_webview'),
+//                  await launch(data['button-url'],
+//                      forceWebView: false, forceSafariVC: false),
                   label: Text(data['button-label'])),
             ],
           )
