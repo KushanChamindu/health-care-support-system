@@ -427,35 +427,37 @@ void main() {
       await driver.waitFor(HTDdiscriptionPage);
       await driver.tap(HTDBackbutton);
       await driver.scroll(
-          CKDCard, 0, 8800, Duration(milliseconds: 500));
+          BC_Card, 0, 8800, Duration(milliseconds: 500));
     });
   });
-    group('water notification page ui validation', (){
-      FlutterDriver driver;
-      setUpAll(() async {
-        driver = await FlutterDriver.connect();
-      });
-      tearDownAll(() async {
-        if (driver != null) {
-          driver.close();
-        }
-      });
-      test('Go to water notofocaition page', ()async{
-        await driver.tap(waterNotificationCard);
-        await driver.waitFor(waterNotificationBellButton);
-      });
-      test('Good path of alarm creation', ()async{
-        await driver.tap(waterNotificationStartTime);
-        DateTime time=DateTime.now();
-        String formattedDate1 = DateFormat('jm').format(time).split(' ')[0];
-        print(formattedDate1);
-        print(formattedDate1.split(':')[0]);
-        print(formattedDate1.split(':')[1]);
-//        await driver.
-        await driver.tap(find.text('1'));
-        await driver.tap(find.text('10'));
-        await Future.delayed(Duration(milliseconds: 2000), () {});
-        await driver.tap(find.text('OK'));
-      });
-    });
+//    group('water notification page ui validation', (){
+//      FlutterDriver driver;
+//      setUpAll(() async {
+//        driver = await FlutterDriver.connect();
+//      });
+//      tearDownAll(() async {
+//        if (driver != null) {
+//          driver.close();
+//        }
+//      });
+//      test('Go to water notofocaition page', ()async{
+//        await driver.scroll(
+//            BC_Card, 0, 8800, Duration(milliseconds: 500));
+//        await driver.tap(waterNotificationCard);
+//        await driver.waitFor(waterNotificationBellButton);
+//      });
+//      test('Good path of alarm creation', ()async{
+//        await driver.tap(waterNotificationStartTime);
+//        DateTime time=DateTime.now();
+//        String formattedDate1 = DateFormat('jm').format(time).split(' ')[0];
+//        print(formattedDate1);
+//        print(formattedDate1.split(':')[0]);
+//        print(formattedDate1.split(':')[1]);
+////        await driver.
+//        await driver.tap(find.text('1'));
+//        await driver.tap(find.text('10'));
+//        await Future.delayed(Duration(milliseconds: 2000), () {});
+//        await driver.tap(find.text('OK'));
+//      });
+//    });
 }
