@@ -272,7 +272,7 @@ class _CKD_webviewState extends State<CKD_webview> {
     return Scaffold(
       appBar: AppBar(
         leading: IconButton(
-          key: ValueKey('CKDsymptomBackButton'),
+          key: ValueKey('webviewBackButton'),
           icon: Icon(Icons.arrow_back),
           onPressed: () => Navigator.of(context).pop(),
         ),
