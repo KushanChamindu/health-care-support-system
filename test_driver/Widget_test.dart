@@ -21,10 +21,10 @@ void main() {
   final registerDateTimeField = find.byValueKey('registerDateTimeField');
   final registerBloodGroupField = find.byValueKey('registerBloodGroupField');
   final registerBloodGroup_dropdown =
-      find.byValueKey('registerBloodGroup_dropdown');
+  find.byValueKey('registerBloodGroup_dropdown');
   final registerPasswordField = find.byValueKey('registerPasswordField');
   final registerConfirmPasswordField =
-      find.byValueKey("registerConfirmPasswordField");
+  find.byValueKey("registerConfirmPasswordField");
   final login_switch_button = find.byValueKey('login_switch_button');
   final HomePopUpMenueButton = find.byValueKey("HomePopUpMenueButton");
   final SignoutButton = find.byValueKey('SignoutButton');
@@ -42,6 +42,7 @@ void main() {
   final CKDsymptomPage = find.byValueKey('CKDsymptomPage');
   final CKDsymptomBackButton = find.byValueKey('CKDsymptomBackButton');
   final webviewBackButton = find.byValueKey('webviewBackButton');
+  final webviewInitialWidget = find.byValueKey('webviewInitialWidget');
 
   //Account test
   final AccountProfilePic = find.byValueKey('AccountProfilePic');
@@ -100,6 +101,11 @@ void main() {
   final waterNotificationGoal=find.byValueKey('waterNotificationGoal');
   final waterNotificationDrinkButton=find.byValueKey('waterNotificationDrinkButton');
   final waterNotificationChart=find.byValueKey('waterNotificationChart');
+  final waterNotificationAmount=find.byValueKey('waterNotificationAmount');
+  final dietNotificationBellButton=find.byValueKey('dietNotificationBellButton');
+  final dietNotificationSnackBar=find.byValueKey('dietNotificationSnackBar');
+  final waterNotificationBackButton=find.byValueKey('waterNotificationBackButton');
+  final dietNotificationCard=find.byValueKey('dietNotificationCard');
   group('Loading widget', () {
     isPresent(SerializableFinder byValueKey, FlutterDriver driver,
         {Duration timeout = const Duration(seconds: 3)}) async {
@@ -175,7 +181,7 @@ void main() {
       await driver.tap(registerEmailField);
       await driver.enterText('kushan@kushan.com');
       await driver.tap(registerDateTimeField);
-      await driver.tap(find.text('June 2020'));
+      await driver.tap(find.text('May 2020'));
       await Future.delayed(Duration(milliseconds: 2000), () {});
       await driver.scroll(
           find.text('2021'), 0, 200, Duration(milliseconds: 500));
@@ -430,23 +436,33 @@ void main() {
           BC_Card, 0, 8800, Duration(milliseconds: 500));
     });
   });
-//    group('water notification page ui validation', (){
-//      FlutterDriver driver;
-//      setUpAll(() async {
-//        driver = await FlutterDriver.connect();
+  group('water notification page and diet notification ui validation', (){
+    FlutterDriver driver;
+    setUpAll(() async {
+      driver = await FlutterDriver.connect();
+    });
+    tearDownAll(() async {
+      if (driver != null) {
+        driver.close();
+      }
+    });
+//      test('logIn Successfully', () async {
+//        await driver.tap(logInEmail);
+//        await driver.enterText('kushan@kushan.com');
+//        await driver.tap(logInPassword);
+//        await driver.enterText('kushan1234');
+//        await Future.delayed(Duration(milliseconds: 2000), () {});
+//        await driver.tap(logInButton);
+//        await driver.waitFor(homePage);
+//        await driver.waitFor(CKDCard);
 //      });
-//      tearDownAll(() async {
-//        if (driver != null) {
-//          driver.close();
-//        }
-//      });
-//      test('Go to water notofocaition page', ()async{
-//        await driver.scroll(
-//            BC_Card, 0, 8800, Duration(milliseconds: 500));
-//        await driver.tap(waterNotificationCard);
-//        await driver.waitFor(waterNotificationBellButton);
-//      });
-//      test('Good path of alarm creation', ()async{
+    test('Go to water notofocaition page', ()async{
+      await driver.scroll(
+          BC_Card, 0, 8800, Duration(milliseconds: 500));
+      await driver.tap(waterNotificationCard);
+      await driver.waitFor(waterNotificationBellButton);
+    });
+    test(' water notification test', ()async{
 //        await driver.tap(waterNotificationStartTime);
 //        DateTime time=DateTime.now();
 //        String formattedDate1 = DateFormat('jm').format(time).split(' ')[0];
@@ -458,6 +474,29 @@ void main() {
 //        await driver.tap(find.text('10'));
 //        await Future.delayed(Duration(milliseconds: 2000), () {});
 //        await driver.tap(find.text('OK'));
-//      });
-//    });
+      await driver.tap(waterNotificationChartPageButton);
+      await driver.waitFor(waterNotificationChart);
+      await Future.delayed(Duration(milliseconds: 2000), () {});
+      await driver.tap(waterNotificationDrinkPageButton);
+      await driver.waitFor(waterNotificationDrinkButton);
+      await driver.tap(waterNotificationBellButton);
+      await driver.tap(waterNotificationAmount);
+      await driver.enterText('500');
+      await driver.tap(waterNotificationDrinkButton);
+      await Future.delayed(Duration(milliseconds: 2000), () {});
+      await driver.tap(waterNotificationChartPageButton);
+      await driver.waitFor(waterNotificationChart);
+      await Future.delayed(Duration(milliseconds: 2000), () {});
+      await driver.tap(waterNotificationBackButton);
+    });
+
+    test('diet notification', ()async{
+      await driver.waitFor(dietNotificationCard);
+      await driver.tap(dietNotificationCard);
+      await driver.waitFor(dietNotificationBellButton);
+      await driver.tap(dietNotificationBellButton);
+//        await driver.waitFor(dietNotificationSnackBar);
+    });
+
+  });
 }

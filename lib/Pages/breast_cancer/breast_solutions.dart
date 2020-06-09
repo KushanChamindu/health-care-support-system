@@ -55,7 +55,7 @@ class BC_Solutions extends StatelessWidget {
 //        backgroundColor: Colors.lightBlue,
       ),
        body:ListView.builder(
-         key: ValueKey('BCSolutionPage'),
+           key: ValueKey('BCSolutionPage'),
            itemCount: precautions.length,
            itemBuilder: (context,index){
              return Card(
