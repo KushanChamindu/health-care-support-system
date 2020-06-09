@@ -44,6 +44,7 @@ class _WaterNotificationState extends State<WaterNotification> {
             backgroundColor: Colors.grey[300],
             appBar: AppBar(
               leading: IconButton(
+                key: ValueKey('waterNotificationBackButton'),
                 icon: Icon(Icons.arrow_back),
                 onPressed: () => Navigator.of(context).pop(),
               ),
@@ -956,6 +957,7 @@ class _WaterNotificationBodyState extends State<WaterNotificationBody> {
                                                   key: drinkWaterFormKey,
                                                   autovalidate: true,
                                                   child: TextFormField(
+                                                    key: ValueKey("waterNotificationAmount"),
                                                     controller:
                                                         _drinkWaterController,
                                                     keyboardType:

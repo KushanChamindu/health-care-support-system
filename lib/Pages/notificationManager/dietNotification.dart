@@ -249,6 +249,7 @@ class _DietNotificationBodyState extends State<DietNotificationBody> {
           });
         } catch (e) {
           Scaffold.of(context).showSnackBar(SnackBar(
+            key: ValueKey('dietNotificationSnackBar'),
             content: Text('Connection problem'),
             backgroundColor: Colors.blue[900],
             duration: Duration(milliseconds: 800),
@@ -280,6 +281,7 @@ class _DietNotificationBodyState extends State<DietNotificationBody> {
                   lunch == dietData['lunchtime'].toDate() &&
                   dinner == dietData['dinnertime'].toDate()) {
                 Scaffold.of(context).showSnackBar(SnackBar(
+                  key: ValueKey('dietNotificationSnackBar'),
                   duration: Duration(seconds: 2),
                   content: Text('Already Saved details'),
                   backgroundColor: Colors.blue[900],
@@ -290,6 +292,7 @@ class _DietNotificationBodyState extends State<DietNotificationBody> {
                 await widget.notificationService
                     .updateDietTimes(widget.uid, breakfast, lunch, dinner);
                 Scaffold.of(context).showSnackBar(SnackBar(
+                  key: ValueKey('dietNotificationSnackBar'),
                   content: Text('Saved changes'),
                   duration: Duration(seconds: 2),
                   backgroundColor: Colors.blue[900],
@@ -301,6 +304,7 @@ class _DietNotificationBodyState extends State<DietNotificationBody> {
               await widget.notificationService
                   .updateDietTimes(widget.uid, breakfast, lunch, dinner);
               Scaffold.of(context).showSnackBar(SnackBar(
+                key: ValueKey('dietNotificationSnackBar'),
                 content: Text('Saved changes'),
                 duration: Duration(seconds: 2),
                 backgroundColor: Colors.blue[900],
@@ -313,6 +317,7 @@ class _DietNotificationBodyState extends State<DietNotificationBody> {
           } catch (e) {
             print('Error : $e');
             Scaffold.of(context).showSnackBar(SnackBar(
+              key: ValueKey('dietNotificationSnackBar'),
               duration: Duration(seconds: 2),
               content: Text('Check your internet connection'),
               backgroundColor: Colors.blue[900],
@@ -387,6 +392,7 @@ class _DietNotificationBodyState extends State<DietNotificationBody> {
                                       ? 'first add valide data'
                                       : 'submit form',
                                   child: InkWell(
+                                    key: ValueKey('dietNotificationBellButton'),
                                     onTap: () async {
                                       if (alermToggle == false) {
                                         validateAndSubmit();

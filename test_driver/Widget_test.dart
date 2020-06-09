@@ -21,10 +21,10 @@ void main() {
   final registerDateTimeField = find.byValueKey('registerDateTimeField');
   final registerBloodGroupField = find.byValueKey('registerBloodGroupField');
   final registerBloodGroup_dropdown =
-      find.byValueKey('registerBloodGroup_dropdown');
+  find.byValueKey('registerBloodGroup_dropdown');
   final registerPasswordField = find.byValueKey('registerPasswordField');
   final registerConfirmPasswordField =
-      find.byValueKey("registerConfirmPasswordField");
+  find.byValueKey("registerConfirmPasswordField");
   final login_switch_button = find.byValueKey('login_switch_button');
   final HomePopUpMenueButton = find.byValueKey("HomePopUpMenueButton");
   final SignoutButton = find.byValueKey('SignoutButton');
@@ -42,7 +42,6 @@ void main() {
   final CKDsymptomPage = find.byValueKey('CKDsymptomPage');
   final CKDsymptomBackButton = find.byValueKey('CKDsymptomBackButton');
   final webviewBackButton = find.byValueKey('webviewBackButton');
-  final webviewInitialWidget = find.byValueKey('webviewInitialWidget');
 
   //Account test
   final AccountProfilePic = find.byValueKey('AccountProfilePic');
@@ -101,6 +100,11 @@ void main() {
   final waterNotificationGoal=find.byValueKey('waterNotificationGoal');
   final waterNotificationDrinkButton=find.byValueKey('waterNotificationDrinkButton');
   final waterNotificationChart=find.byValueKey('waterNotificationChart');
+  final waterNotificationAmount=find.byValueKey('waterNotificationAmount');
+  final dietNotificationBellButton=find.byValueKey('dietNotificationBellButton');
+  final dietNotificationSnackBar=find.byValueKey('dietNotificationSnackBar');
+  final waterNotificationBackButton=find.byValueKey('waterNotificationBackButton');
+  final dietNotificationCard=find.byValueKey('dietNotificationCard');
   group('Loading widget', () {
     isPresent(SerializableFinder byValueKey, FlutterDriver driver,
         {Duration timeout = const Duration(seconds: 3)}) async {
@@ -176,7 +180,7 @@ void main() {
       await driver.tap(registerEmailField);
       await driver.enterText('kushan@kushan.com');
       await driver.tap(registerDateTimeField);
-      await driver.tap(find.text('May 2020'));
+      await driver.tap(find.text('June 2020'));
       await Future.delayed(Duration(milliseconds: 2000), () {});
       await driver.scroll(
           find.text('2021'), 0, 200, Duration(milliseconds: 500));
@@ -232,220 +236,232 @@ void main() {
       summary.writeTimelineToFile('scrolling_timeline', pretty: true);
     });
   });
-//  group('home Page/CKD pages test', () {
-//    FlutterDriver driver;
-//    setUpAll(() async {
-//      driver = await FlutterDriver.connect();
-//    });
-//    tearDownAll(() async {
-//      if (driver != null) {
-//        driver.close();
-//      }
-//    });
-//
-//    test('logIn Successfully', () async {
-//      await driver.tap(logInEmail);
-//      await driver.enterText('kushan@kushan.com');
-//      await driver.tap(logInPassword);
-//      await driver.enterText('kushan1234');
-//      await Future.delayed(Duration(milliseconds: 2000), () {});
-//      await driver.tap(logInButton);
-//      await driver.waitFor(homePage);
-//      await driver.waitFor(CKDCard);
-//    });
-//    test('Goto CKD discrption and CKD discription page UI test', () async {
-//      await driver.tap(CKDCard);
-//      await driver.waitFor(CKDdiscriptionButton);
-//      await driver.tap(CKDdiscriptionButton);
-//      print('kushan');
-//      await driver.waitFor(CKDdiscriptionPage);
-//      print('kushan1');
-//      await Future.delayed(Duration(milliseconds: 2000), () {});
-//      await driver.tap(sampleCKDdirscription);
-//      await Future.delayed(Duration(milliseconds: 2000), () {});
-//      await driver.tap(sampleCKDdirscription);
-//    });
-//    test('test UI of CKD symptopm page', ()async{
-//      await driver.tap(CKDsymptomButton);
-//      await driver.waitFor(CKDsymptomPage);
-//      await Future.delayed(Duration(milliseconds: 2000), () {});
-//      await driver.scroll(
-//          sampleCKDsymptom, 0, -800, Duration(milliseconds: 500));
-//      await Future.delayed(Duration(milliseconds: 2000), () {});
-//      await driver.tap(CKDsymptomBackButton);
-//      await driver.waitFor(CKDdiscriptionPage);
-//    });
-//    test('test UI of CKD precaution', ()async{
-//      await driver.tap(CKDprecautionButton);
-//      await driver.waitFor(CKDprecautionPage);
-//      await Future.delayed(Duration(milliseconds: 2000), () {});
-//      await driver.tap(CKDprecautionBackButton);
-//      await driver.waitFor(CKDdiscriptionPage);
-//    });
-//    test('test web view', ()async{
-//      await driver.scroll(
-//          sampleCKDdirscription, 0, -880, Duration(milliseconds: 500));
-//      await Future.delayed(Duration(milliseconds: 2000), () {});
-//      await driver.tap(find.text('Open More Info'));
-//      await driver.waitFor(webviewInitialWidget);
-//      await Future.delayed(Duration(milliseconds: 10000), () {});
-//      await driver.tap(webviewBackButton);
-//    });
-//  });
-//  group('Account test', () {
-//    FlutterDriver driver;
-//    setUpAll(() async {
-//      driver = await FlutterDriver.connect();
-//    });
-//    tearDownAll(() async {
-//      if (driver != null) {
-//        driver.close();
-//      }
-//    });
-//    test('go to the account page', () async {
-//      await driver.tap(HomePopUpMenueButton);
-//      await driver.tap(gotoAccountButton);
-//      await driver.waitFor(AccountProfilePic);
-//    });
-//    test('account edit', () async {
-//      await driver.tap(AccountEditButton);
-//      await driver.waitFor(AccountEditBox);
-//      await driver.tap(AccountUsernameEdit);
-//      await driver.enterText("Kushan Nilanga");
-//      await driver.tap(AccountBirthdayEdit);
-//      await Future.delayed(Duration(milliseconds: 2000), () {});
-//      await driver.tap(find.text('25'));
-//      await driver.tap(find.text('OK'));
-//      await driver.tap(AccountBloodGoupEdit);
-//      await driver.tap(find.text('AB+'));
-//      await driver.tap(AccountEditSubmitButton);
-//      await Future.delayed(Duration(milliseconds: 2000), () {});
-//      await driver.tap(AccountBackButton);
-//      await driver.tap(CKDDiscriptionBackButton);
-//      await driver.waitFor(homePage);
-//    });
-//  });
-//  group('braest cancer UI test', () {
-//    FlutterDriver driver;
-//    setUpAll(() async {
-//      driver = await FlutterDriver.connect();
-//    });
-//    tearDownAll(() async {
-//      if (driver != null) {
-//        driver.close();
-//      }
-//    });
-//    test('breast cancer description test', () async {
-//      await driver.scroll(
-//          CKDCard, 0, -800, Duration(milliseconds: 500));
-//      await driver.tap(BC_Card);
-//      await driver.waitFor(BCdiscriptionButton);
-//      await driver.tap(BCdiscriptionButton);
-//      await driver.waitFor(BCdiscriptionPage);
-//      await Future.delayed(Duration(milliseconds: 2000), () {});
-//    });
-//    test('breast cancer symptom', () async {
-//      await driver.scroll(
-//          find.text('What is breast cancer...?'), 0, -800,
-//          Duration(milliseconds: 500));
-//      await driver.tap(BCSymptomsButton);
-//      await driver.waitFor(BCSymptomSampleEarly);
-//      await driver.tap(BCSymptomSampleInvasive);
-//      await Future.delayed(Duration(milliseconds: 2000), () {});
-//      await driver.tap(BCSymptomSampleEarly);
-//      await driver.tap(BCSymptomBackButton);
-//      await driver.waitFor(BCdiscriptionPage);
-//    });
-//    test('breast cancer solution', () async {
-//      await driver.tap(BCSolutionButton);
-//      await driver.waitFor(BCSolutionPage);
-//      await Future.delayed(Duration(milliseconds: 2000), () {});
-//      await driver.tap(BCSolutionBackButton);
-//      await driver.waitFor(BCdiscriptionPage);
-//    });
-//    test('breast cancer more pagee', () async {
-//      await driver.tap(BCMoreButton);
-//      await driver.waitFor(BCMoreSample);
-//      await driver.tap(find.text('Ductal carcinoma symptoms'));
-//      await driver.scroll(
-//          BCMoreSample, 0, -800, Duration(milliseconds: 500));
-//      await driver.tap(BCMoreBackButton);
-//      await driver.waitFor(BCdiscriptionPage);
-//      await driver.tap(BCdiscriptionBackButton);
-//      await driver.scroll(
-//          BC_Card, 0, 800, Duration(milliseconds: 500));
-//    });
-//  });
-//  group('HTD UI test', (){
-//    FlutterDriver driver;
-//    setUpAll(() async {
-//      driver = await FlutterDriver.connect();
-//    });
-//    tearDownAll(() async {
-//      if (driver != null) {
-//        driver.close();
-//      }
-//    });
-//    test('HTD description UI test', ()async{
-//      await driver.scroll(
-//          CKDCard, 0, -800, Duration(milliseconds: 500));
-//      await driver.tap(HTD_Card);
-//      await driver.scroll(
-//          HTD_Card, 0, -100, Duration(milliseconds: 500));
-//      await driver.tap(HTDdiscriptionButton);
-//      await driver.waitFor(HTDdiscriptionPage);
-//      await driver.waitFor(HTDSpeedDial);
-//    });
-//
-//    test('HTD symptom UI test', ()async{
-//      await driver.tap(HTDSpeedDial);
-//      await driver.waitFor(HTDSymptomsbutton);
-//      await driver.tap(HTDSymptomsbutton);
-//      await driver.waitFor(HTD_symptompage);
-//      await driver.tap(HTDSymptomsSample);
-//      await Future.delayed(Duration(milliseconds: 2000), () {});
-//      await driver.tap(HTDBackbutton);
-//      await driver.waitFor(HTDdiscriptionPage);
-//    });
-//    test('HTD precaution UI test', ()async{
-//      await driver.tap(HTDPrecautionsbutton);
-//      await driver.waitFor(HTD_precautionpage);
-//      await driver.tap(HTDPrecautionsSample);
-//      await Future.delayed(Duration(milliseconds: 2000), () {});
-//      await driver.tap(HTDPrecuationBackButton);
-//      await driver.waitFor(HTD_precautionpage);
-//      await driver.tap(HTDBackbutton);
-//      await driver.waitFor(HTDdiscriptionPage);
-//    });
-//    test('HTD More-info UI test', ()async{
-//      await driver.tap(HTDMorebutton);
-//      await driver.waitFor(HTD_Morepage);
-//      await driver.tap(HTDMoreSample);
-//      await Future.delayed(Duration(milliseconds: 2000), () {});
-//      await driver.tap(HTDMoreBackButton);
-//      await driver.waitFor(HTD_Morepage);
-//      await driver.tap(HTDBackbutton);
-//      await driver.waitFor(HTDdiscriptionPage);
-//      await driver.tap(HTDBackbutton);
-//      await driver.scroll(
-//          CKDCard, 0, 8800, Duration(milliseconds: 500));
-//    });
-//  });
-//    group('water notification page ui validation', (){
-//      FlutterDriver driver;
-//      setUpAll(() async {
-//        driver = await FlutterDriver.connect();
+  group('home Page/CKD pages test', () {
+    FlutterDriver driver;
+    setUpAll(() async {
+      driver = await FlutterDriver.connect();
+    });
+    tearDownAll(() async {
+      if (driver != null) {
+        driver.close();
+      }
+    });
+
+    test('logIn Successfully', () async {
+      await driver.tap(logInEmail);
+      await driver.enterText('kushan@kushan.com');
+      await driver.tap(logInPassword);
+      await driver.enterText('kushan1234');
+      await Future.delayed(Duration(milliseconds: 2000), () {});
+      await driver.tap(logInButton);
+      await driver.waitFor(homePage);
+      await driver.waitFor(CKDCard);
+    });
+    test('Goto CKD discrption and CKD discription page UI test', () async {
+      await driver.tap(CKDCard);
+      await driver.waitFor(CKDdiscriptionButton);
+      await driver.tap(CKDdiscriptionButton);
+      print('kushan');
+      await driver.waitFor(CKDdiscriptionPage);
+      print('kushan1');
+      await Future.delayed(Duration(milliseconds: 2000), () {});
+      await driver.tap(sampleCKDdirscription);
+      await Future.delayed(Duration(milliseconds: 2000), () {});
+      await driver.tap(sampleCKDdirscription);
+    });
+    test('test UI of CKD symptopm page', ()async{
+      await driver.tap(CKDsymptomButton);
+      await driver.waitFor(CKDsymptomPage);
+      await Future.delayed(Duration(milliseconds: 2000), () {});
+      await driver.scroll(
+          sampleCKDsymptom, 0, -800, Duration(milliseconds: 500));
+      await Future.delayed(Duration(milliseconds: 2000), () {});
+      await driver.tap(CKDsymptomBackButton);
+      await driver.waitFor(CKDdiscriptionPage);
+    });
+    test('test UI of CKD precaution', ()async{
+      await driver.tap(CKDprecautionButton);
+      await driver.waitFor(CKDprecautionPage);
+      await Future.delayed(Duration(milliseconds: 2000), () {});
+      await driver.tap(CKDprecautionBackButton);
+      await driver.waitFor(CKDdiscriptionPage);
+    });
+    test('test web view', ()async{
+      await driver.scroll(
+          sampleCKDdirscription, 0, -880, Duration(milliseconds: 500));
+      await Future.delayed(Duration(milliseconds: 2000), () {});
+      await driver.tap(find.text('Open More Info'));
+      await driver.waitFor(webviewBackButton);
+      await Future.delayed(Duration(milliseconds: 10000), () {});
+      await driver.tap(webviewBackButton);
+    });
+  });
+  group('Account test', () {
+    FlutterDriver driver;
+    setUpAll(() async {
+      driver = await FlutterDriver.connect();
+    });
+    tearDownAll(() async {
+      if (driver != null) {
+        driver.close();
+      }
+    });
+    test('go to the account page', () async {
+      await driver.tap(HomePopUpMenueButton);
+      await driver.tap(gotoAccountButton);
+      await driver.waitFor(AccountProfilePic);
+    });
+    test('account edit', () async {
+      await driver.tap(AccountEditButton);
+      await driver.waitFor(AccountEditBox);
+      await driver.tap(AccountUsernameEdit);
+      await driver.enterText("Kushan Nilanga");
+      await driver.tap(AccountBirthdayEdit);
+      await Future.delayed(Duration(milliseconds: 2000), () {});
+      await driver.tap(find.text('25'));
+      await driver.tap(find.text('OK'));
+      await driver.tap(AccountBloodGoupEdit);
+      await driver.tap(find.text('AB+'));
+      await driver.tap(AccountEditSubmitButton);
+      await Future.delayed(Duration(milliseconds: 2000), () {});
+      await driver.tap(AccountBackButton);
+      await driver.tap(CKDDiscriptionBackButton);
+      await driver.waitFor(homePage);
+    });
+  });
+  group('braest cancer UI test', () {
+    FlutterDriver driver;
+    setUpAll(() async {
+      driver = await FlutterDriver.connect();
+    });
+    tearDownAll(() async {
+      if (driver != null) {
+        driver.close();
+      }
+    });
+    test('breast cancer description test', () async {
+      await driver.scroll(
+          CKDCard, 0, -800, Duration(milliseconds: 500));
+      await driver.tap(BC_Card);
+      await driver.waitFor(BCdiscriptionButton);
+      await driver.tap(BCdiscriptionButton);
+      await driver.waitFor(BCdiscriptionPage);
+      await Future.delayed(Duration(milliseconds: 2000), () {});
+    });
+    test('breast cancer symptom', () async {
+      await driver.scroll(
+          find.text('What is breast cancer...?'), 0, -800,
+          Duration(milliseconds: 500));
+      await driver.tap(BCSymptomsButton);
+      await driver.waitFor(BCSymptomSampleEarly);
+      await driver.tap(BCSymptomSampleInvasive);
+      await Future.delayed(Duration(milliseconds: 2000), () {});
+      await driver.tap(BCSymptomSampleEarly);
+      await driver.tap(BCSymptomBackButton);
+      await driver.waitFor(BCdiscriptionPage);
+    });
+    test('breast cancer solution', () async {
+      await driver.tap(BCSolutionButton);
+      await driver.waitFor(BCSolutionPage);
+      await Future.delayed(Duration(milliseconds: 2000), () {});
+      await driver.tap(BCSolutionBackButton);
+      await driver.waitFor(BCdiscriptionPage);
+    });
+    test('breast cancer more pagee', () async {
+      await driver.tap(BCMoreButton);
+      await driver.waitFor(BCMoreSample);
+      await driver.tap(find.text('Ductal carcinoma symptoms'));
+      await driver.scroll(
+          BCMoreSample, 0, -800, Duration(milliseconds: 500));
+      await driver.tap(BCMoreBackButton);
+      await driver.waitFor(BCdiscriptionPage);
+      await driver.tap(BCdiscriptionBackButton);
+      await driver.scroll(
+          BC_Card, 0, 800, Duration(milliseconds: 500));
+    });
+  });
+  group('HTD UI test', (){
+    FlutterDriver driver;
+    setUpAll(() async {
+      driver = await FlutterDriver.connect();
+    });
+    tearDownAll(() async {
+      if (driver != null) {
+        driver.close();
+      }
+    });
+    test('HTD description UI test', ()async{
+      await driver.scroll(
+          CKDCard, 0, -800, Duration(milliseconds: 500));
+      await driver.tap(HTD_Card);
+      await driver.scroll(
+          HTD_Card, 0, -100, Duration(milliseconds: 500));
+      await driver.tap(HTDdiscriptionButton);
+      await driver.waitFor(HTDdiscriptionPage);
+      await driver.waitFor(HTDSpeedDial);
+    });
+
+    test('HTD symptom UI test', ()async{
+      await driver.tap(HTDSpeedDial);
+      await driver.waitFor(HTDSymptomsbutton);
+      await driver.tap(HTDSymptomsbutton);
+      await driver.waitFor(HTD_symptompage);
+      await driver.tap(HTDSymptomsSample);
+      await Future.delayed(Duration(milliseconds: 2000), () {});
+      await driver.tap(HTDBackbutton);
+      await driver.waitFor(HTDdiscriptionPage);
+    });
+    test('HTD precaution UI test', ()async{
+      await driver.tap(HTDPrecautionsbutton);
+      await driver.waitFor(HTD_precautionpage);
+      await driver.tap(HTDPrecautionsSample);
+      await Future.delayed(Duration(milliseconds: 2000), () {});
+      await driver.tap(HTDPrecuationBackButton);
+      await driver.waitFor(HTD_precautionpage);
+      await driver.tap(HTDBackbutton);
+      await driver.waitFor(HTDdiscriptionPage);
+    });
+    test('HTD More-info UI test', ()async{
+      await driver.tap(HTDMorebutton);
+      await driver.waitFor(HTD_Morepage);
+      await driver.tap(HTDMoreSample);
+      await Future.delayed(Duration(milliseconds: 2000), () {});
+      await driver.tap(HTDMoreBackButton);
+      await driver.waitFor(HTD_Morepage);
+      await driver.tap(HTDBackbutton);
+      await driver.waitFor(HTDdiscriptionPage);
+      await driver.tap(HTDBackbutton);
+      await driver.scroll(
+          BC_Card, 0, 8800, Duration(milliseconds: 500));
+    });
+  });
+  group('water notification page and diet notification ui validation', (){
+    FlutterDriver driver;
+    setUpAll(() async {
+      driver = await FlutterDriver.connect();
+    });
+    tearDownAll(() async {
+      if (driver != null) {
+        driver.close();
+      }
+    });
+//      test('logIn Successfully', () async {
+//        await driver.tap(logInEmail);
+//        await driver.enterText('kushan@kushan.com');
+//        await driver.tap(logInPassword);
+//        await driver.enterText('kushan1234');
+//        await Future.delayed(Duration(milliseconds: 2000), () {});
+//        await driver.tap(logInButton);
+//        await driver.waitFor(homePage);
+//        await driver.waitFor(CKDCard);
 //      });
-//      tearDownAll(() async {
-//        if (driver != null) {
-//          driver.close();
-//        }
-//      });
-//      test('Go to water notofocaition page', ()async{
-//        await driver.tap(waterNotificationCard);
-//        await driver.waitFor(waterNotificationBellButton);
-//      });
-//      test('Good path of alarm creation', ()async{
+    test('Go to water notofocaition page', ()async{
+      await driver.scroll(
+          BC_Card, 0, 8800, Duration(milliseconds: 500));
+      await driver.tap(waterNotificationCard);
+      await driver.waitFor(waterNotificationBellButton);
+    });
+    test(' water notification test', ()async{
 //        await driver.tap(waterNotificationStartTime);
 //        DateTime time=DateTime.now();
 //        String formattedDate1 = DateFormat('jm').format(time).split(' ')[0];
@@ -457,6 +473,29 @@ void main() {
 //        await driver.tap(find.text('10'));
 //        await Future.delayed(Duration(milliseconds: 2000), () {});
 //        await driver.tap(find.text('OK'));
-//      });
-//    });
+      await driver.tap(waterNotificationChartPageButton);
+      await driver.waitFor(waterNotificationChart);
+      await Future.delayed(Duration(milliseconds: 2000), () {});
+      await driver.tap(waterNotificationDrinkPageButton);
+      await driver.waitFor(waterNotificationDrinkButton);
+      await driver.tap(waterNotificationBellButton);
+      await driver.tap(waterNotificationAmount);
+      await driver.enterText('500');
+      await driver.tap(waterNotificationDrinkButton);
+      await Future.delayed(Duration(milliseconds: 2000), () {});
+      await driver.tap(waterNotificationChartPageButton);
+      await driver.waitFor(waterNotificationChart);
+      await Future.delayed(Duration(milliseconds: 2000), () {});
+      await driver.tap(waterNotificationBackButton);
+    });
+
+    test('diet notification', ()async{
+      await driver.waitFor(dietNotificationCard);
+      await driver.tap(dietNotificationCard);
+      await driver.waitFor(dietNotificationBellButton);
+      await driver.tap(dietNotificationBellButton);
+//        await driver.waitFor(dietNotificationSnackBar);
+    });
+
+  });
 }
