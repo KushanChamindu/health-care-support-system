@@ -181,7 +181,7 @@ void main() {
       await driver.tap(registerEmailField);
       await driver.enterText('kushan@kushan.com');
       await driver.tap(registerDateTimeField);
-      await driver.tap(find.text('May 2020'));
+      await driver.tap(find.text('June 2020'));
       await Future.delayed(Duration(milliseconds: 2000), () {});
       await driver.scroll(
           find.text('2021'), 0, 200, Duration(milliseconds: 500));
