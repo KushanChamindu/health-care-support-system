@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:healthcaresupportsystem/Pages/Auth/Service/Auth.dart';
 import 'package:url_launcher/url_launcher.dart';
 
-import '../../Popupmenu.dart';
+import '../Popupmenu.dart';
 
 class CKDMessageAbout extends StatelessWidget {
   final BaseAuth auth = Auth();

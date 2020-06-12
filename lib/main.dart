@@ -19,7 +19,7 @@ import 'Pages/Auth/SplashScreen.dart';
 import 'Pages/Auth/aboutus.dart';
 import 'Pages/CKD_pages/CKD_message.dart';
 import 'Pages/CKD_pages/CKD_discription.dart';
-import 'Pages/HTD/HTD_Pages/CKD_message_about.dart';
+import 'Pages/CKD_pages/CKD_message_about.dart';
 import 'Pages/HTD/dialog_flow.dart';
 import 'Pages/breast_cancer/breast_cancer.dart';
 import 'Pages/breast_cancer/prediction/b_result.dart';
