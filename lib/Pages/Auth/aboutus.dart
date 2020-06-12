@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:healthcaresupportsystem/Pages/CKD_pages/Constant.dart';
 
 import '../Popupmenu.dart';
 import 'Service/Auth.dart';
+import 'UID.dart';
 
 class AboutUs extends StatefulWidget {
   final BaseAuth auth = Auth();
@@ -10,6 +12,26 @@ class AboutUs extends StatefulWidget {
 }
 
 class _AboutUsState extends State<AboutUs> {
+
+  void choiceAction(String choice) async {
+    if (choice == 'Account') {
+      try {
+        var user = await widget.auth.getCurrentUser();
+        Navigator.pushNamed(context, '/account',
+            arguments: UID(uid: user.uid, email: user.email));
+      } catch (e) {
+        Scaffold.of(context).showSnackBar(SnackBar(
+          content: Text('Check your internet connection'),
+        ));
+      }
+    } else if (choice == 'SignOut') {
+      print('SignOut');
+      await widget.auth.singOut();
+      if (await widget.auth.currentUser() == null) {
+        Navigator.pushReplacementNamed(context, '/login');
+      }
+    }
+  }
   @override
   Widget build(BuildContext context) {
 Widget titleSection = Container(
@@ -69,9 +91,57 @@ Widget titleSection = Container(
           ],
         ),
         actions: <Widget>[
-          Popupmenu(
-            auth: widget.auth,
-          )
+      PopupMenuButton<String>(
+      icon: Icon(
+        Icons.more_vert,
+        color: Colors.white,
+      ),
+      key: ValueKey('HomePopUpMenueButton'),
+      onSelected: choiceAction,
+      itemBuilder: (BuildContext context) {
+        return Constant.choice.map((String choice) {
+          if (choice == 'Account') {
+            return PopupMenuItem(
+                key: ValueKey('gotoAccountButton'),
+                value: choice,
+                child: Row(
+                  children: <Widget>[
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Icon(
+                        Icons.person,
+                        color: Colors.black,
+                      ),
+                    ),
+                    Text(choice)
+                  ],
+                ));
+          } else if (choice == 'SignOut') {
+            return PopupMenuItem(
+                key: ValueKey("SignoutButton"),
+                value: choice,
+                child: Row(
+                  children: <Widget>[
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Icon(
+                        Icons.lock,
+                        color: Colors.black,
+                      ),
+                    ),
+                    Text(choice)
+                  ],
+                ));
+          } else
+            {
+            return null;
+          }
+        }).toList();
+      },
+    )
+//          Popupmenu(
+//            auth: widget.auth,
+//          )
         ],
         backgroundColor: Colors.blueAccent,
       ),

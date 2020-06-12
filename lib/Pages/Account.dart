@@ -91,8 +91,8 @@ class _AccountState extends State<Account> {
             context: context,
             applicationIcon: Image.asset(
               'assets/CKD_image/Doctor.png',
-              width: 100,
-              height: 100,
+              width: 120,
+              height: 170,
             ),
             applicationName: "Mobile Doctor",
             applicationVersion: '0.0.1',
@@ -113,7 +113,15 @@ class _AccountState extends State<Account> {
               ),
               Container(
                 child: Text('* Beast Cancer'),
-              )
+
+              ),
+              FlatButton.icon(
+                  icon: Icon(Icons.launch),
+                  shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(18)),
+                  color: Colors.blue[500],
+                  onPressed:() async =>  Navigator.pushNamed(context, '/aboutus'),
+                  label: Text('About us')),
             ]);
       }
     }
