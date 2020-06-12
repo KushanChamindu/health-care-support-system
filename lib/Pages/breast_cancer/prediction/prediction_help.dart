@@ -68,7 +68,6 @@ class _PredictionHelpState extends State<PredictionHelp> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                
                 Container(
                   padding: const EdgeInsets.only(bottom: 0),
                   child: Text(

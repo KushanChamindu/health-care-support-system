@@ -25,7 +25,7 @@ class HTD_Home extends StatelessWidget {
             child: new Text(
               'What is Heart Disease ?',
               textAlign: TextAlign.center,
-              style: Style.headerTextStyle,
+              style: TextStyle(color: Colors.black,fontSize: 18,fontWeight: FontWeight.w400),
             ),
           ),
           // new Text('What is Heart Disease ?',textAlign: TextAlign.center,style: TextStyle(fontSize: 24.0, height: 1.5,color: Colors.black,fontWeight: FontWeight.bold,),),

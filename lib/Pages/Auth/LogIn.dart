@@ -1,4 +1,5 @@
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:healthcaresupportsystem/Pages/Auth/Service/Auth.dart';
@@ -27,6 +28,7 @@ class _LogInState extends State<LogIn> {
   final TextEditingController _passwordController = TextEditingController();
   final TextEditingController _confirmPassController = TextEditingController();
   final TextEditingController _controller = new TextEditingController();
+  bool ispasswordApproved = false;
   String App_bar_title = "LogIn";
   String _email;
   String _password;
@@ -38,6 +40,17 @@ class _LogInState extends State<LogIn> {
 
   @override
   void initState() {
+    _passwordController.addListener(() {
+      if (_passwordController.text.length >= 6) {
+        setState(() {
+          ispasswordApproved = true;
+        });
+      } else {
+        setState(() {
+          ispasswordApproved = false;
+        });
+      }
+    });
     super.initState();
   }
 
@@ -52,6 +65,7 @@ class _LogInState extends State<LogIn> {
     'AB+'
   ];
   final format = DateFormat("yyyy-MM-dd");
+
   List<Widget> buildInputs() {
     if (_formType == FormType.logIn) {
       return [
@@ -90,8 +104,7 @@ class _LogInState extends State<LogIn> {
           onSaved: (value) => _password = value,
         ),
       ];
-    }
-    else if (_formType == FormType.register) {
+    } else if (_formType == FormType.register) {
       return [
         TextFormField(
           initialValue: Username == null ? '' : Username,
@@ -132,8 +145,7 @@ class _LogInState extends State<LogIn> {
             initialValue: Birthday == null ? null : Birthday,
             key: ValueKey('registerDateTimeField'),
             onSaved: (value) => Birthday = value,
-            validator: (value) =>
-                ValidationForm_userForms.dateValidate(value),
+            validator: (value) => ValidationForm_userForms.dateValidate(value),
             decoration: InputDecoration(
                 labelText: 'Birthday',
                 hintText: 'Input birthday',
@@ -176,8 +188,7 @@ class _LogInState extends State<LogIn> {
                 _controller.text = value;
               },
               itemBuilder: (BuildContext context) {
-                return blood_groups
-                    .map<PopupMenuItem<String>>((String value) {
+                return blood_groups.map<PopupMenuItem<String>>((String value) {
                   return new PopupMenuItem(
                       child: new Text(value), value: value);
                 }).toList();
@@ -185,8 +196,34 @@ class _LogInState extends State<LogIn> {
             ),
           ),
         ),
-        SizedBox(
-          height: 10,
+
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: <Widget>[
+            Text(
+              "Password should have six characters",
+              style: TextStyle(color: Colors.black, fontSize: 15,fontWeight: FontWeight.w700),
+            ),
+            Container(
+              margin: EdgeInsets.all(5),
+              decoration:
+                  BoxDecoration(shape: BoxShape.circle),
+              child: Padding(
+                padding: const EdgeInsets.all(10.0),
+                child: ispasswordApproved
+                    ? Icon(
+                        Icons.check,
+                        size: 30.0,
+                        color: Colors.green,
+                      )
+                    : Icon(
+                        Icons.warning,
+                        size: 30.0,
+                        color: Colors.red,
+                      ),
+              ),
+            ),
+          ],
         ),
         TextFormField(
           key: ValueKey('registerPasswordField'),
@@ -221,11 +258,11 @@ class _LogInState extends State<LogIn> {
           obscureText: true,
         ),
       ];
-    }
-    else if(_formType==FormType.reset){
-      return [SizedBox(
-        height: 5,
-      ),
+    } else if (_formType == FormType.reset) {
+      return [
+        SizedBox(
+          height: 5,
+        ),
         TextFormField(
           key: Key('forgetpPasswordEmail'),
           decoration: InputDecoration(
@@ -241,9 +278,11 @@ class _LogInState extends State<LogIn> {
         ),
         SizedBox(
           height: 10,
-        )];
+        )
+      ];
     }
   }
+
   void switchForm(formType) {
     setState(() {
       if (formType == FormType.register) {
@@ -289,37 +328,45 @@ class _LogInState extends State<LogIn> {
       }
     }
   }
-  createAlertDialog(context,resetEmailValidation){
-    return showDialog(context: context,builder: (context){
-      return AlertDialog(
-        title: Text("Rest password"),
-        content: Text(resetEmailValidation==true?'We will mail you a link.... Check this $_email email and click link to reset password':"Check your email and internet connection again. We can't send reset link for $_email."),
-        actions: <Widget>[
-          MaterialButton(
-            elevation: 2.0,
-            child: Text('OK'),
-            onPressed: () {
-              Navigator.of(context).pop();
-              if(resetEmailValidation){
-                switchForm(FormType.logIn);
-              }
-            },
-          ),
-          resetEmailValidation==true?MaterialButton(
-            elevation: 2.0,
-            child: Text('Ckeck email'),
-            onPressed: () {
-              Navigator.of(context).pop();
-              if(resetEmailValidation){
-                switchForm(FormType.logIn);
-              }
-              launch('mailto:');
-            },
-          ):null,
-        ],
-      );
-    });
+
+  createAlertDialog(context, resetEmailValidation) {
+    return showDialog(
+        context: context,
+        builder: (context) {
+          return AlertDialog(
+            title: Text("Rest password"),
+            content: Text(resetEmailValidation == true
+                ? 'We will mail you a link.... Check this $_email email and click link to reset password'
+                : "Check your email and internet connection again. We can't send reset link for $_email."),
+            actions: <Widget>[
+              MaterialButton(
+                elevation: 2.0,
+                child: Text('OK'),
+                onPressed: () {
+                  Navigator.of(context).pop();
+                  if (resetEmailValidation) {
+                    switchForm(FormType.logIn);
+                  }
+                },
+              ),
+              resetEmailValidation == true
+                  ? MaterialButton(
+                      elevation: 2.0,
+                      child: Text('Ckeck email'),
+                      onPressed: () {
+                        Navigator.of(context).pop();
+                        if (resetEmailValidation) {
+                          switchForm(FormType.logIn);
+                        }
+                        launch('mailto:');
+                      },
+                    )
+                  : null,
+            ],
+          );
+        });
   }
+
   List<Widget> buildSubmitButtons() {
     if (_formType == FormType.logIn) {
       return [
@@ -331,8 +378,8 @@ class _LogInState extends State<LogIn> {
           width: MediaQuery.of(context).size.width * 0.8,
           child: RaisedButton.icon(
             key: Key('logInButton'),
-            shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(18)),
+            shape:
+                RoundedRectangleBorder(borderRadius: BorderRadius.circular(18)),
             color: Colors.blue[200],
             splashColor: Colors.black38,
             elevation: 10,
@@ -356,8 +403,7 @@ class _LogInState extends State<LogIn> {
         ),
       ];
 //      e.toString().split(',')[1]
-    }
-    else if (_formType == FormType.register) {
+    } else if (_formType == FormType.register) {
       return [
         SizedBox(
           height: 10,
@@ -366,8 +412,8 @@ class _LogInState extends State<LogIn> {
           height: 50,
           width: MediaQuery.of(context).size.width * 0.8,
           child: RaisedButton.icon(
-            shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(18)),
+            shape:
+                RoundedRectangleBorder(borderRadius: BorderRadius.circular(18)),
             color: Colors.blue[200],
             splashColor: Colors.black38,
             elevation: 10,
@@ -387,29 +433,29 @@ class _LogInState extends State<LogIn> {
           },
         ),
       ];
-    }
-    else if(_formType==FormType.reset){
-      return[SizedBox(
-        height: 10,
-      ),
+    } else if (_formType == FormType.reset) {
+      return [
+        SizedBox(
+          height: 10,
+        ),
         Container(
           height: 50,
           width: MediaQuery.of(context).size.width * 0.8,
           child: RaisedButton.icon(
             key: Key('Reset password 2'),
-            shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(18)),
+            shape:
+                RoundedRectangleBorder(borderRadius: BorderRadius.circular(18)),
             color: Colors.blue[200],
             splashColor: Colors.black38,
             elevation: 10,
-            onPressed: ()async{
+            onPressed: () async {
               formKey.currentState.save();
-              if(validateAndSave()){
-                try{
+              if (validateAndSave()) {
+                try {
                   await widget.auth.sendPasswordResetEmail(_email);
-                  createAlertDialog(context,true);
-                }catch(e){
-                  createAlertDialog(context,false);
+                  createAlertDialog(context, true);
+                } catch (e) {
+                  createAlertDialog(context, false);
                 }
               }
             },
@@ -433,25 +479,25 @@ class _LogInState extends State<LogIn> {
       ];
     }
   }
-  Future<bool> _onBackPress(){
-    return showDialog(
-      context: context,
-      builder: (context)=>AlertDialog(
-        title: Text('Do you really want to exit the app?'),
-        actions: <Widget>[
-          FlatButton(
-            child: Text('Yes'),
-            onPressed: ()=>Navigator.pop(context,true),
-          ),
-          FlatButton(
-            child: Text('No'),
-            onPressed: ()=>Navigator.pop(context,false),
-          ),
 
-        ],
-      )
-    );
+  Future<bool> _onBackPress() {
+    return showDialog(
+        context: context,
+        builder: (context) => AlertDialog(
+              title: Text('Do you really want to exit the app?'),
+              actions: <Widget>[
+                FlatButton(
+                  child: Text('Yes'),
+                  onPressed: () => Navigator.pop(context, true),
+                ),
+                FlatButton(
+                  child: Text('No'),
+                  onPressed: () => Navigator.pop(context, false),
+                ),
+              ],
+            ));
   }
+
   @override
   Widget build(BuildContext context) {
     dynamic args = ModalRoute.of(context).settings.arguments;
@@ -505,59 +551,71 @@ class _LogInState extends State<LogIn> {
                 child: Form(
                     key: formKey,
                     child: SingleChildScrollView(
-                      child: _formType==FormType.register?
-                      Column(
-                        children: <Widget>[
-                          Column(
-                            crossAxisAlignment: CrossAxisAlignment.stretch,
-                            children: buildInputs(),
-                          ),
-                          Padding(
-                            padding: EdgeInsets.only(
-                                top: 15),
-                            child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.center,
-                                children: buildSubmitButtons()),
-                          ),
-                        ],
-                      )
-                          :Stack(
-                        children: <Widget>[
-                          Column(
-                            crossAxisAlignment: CrossAxisAlignment.stretch,
-                            children: buildInputs(),
-                          ),
-                          Container(
-                            child: _formType == FormType.logIn
-                                ? Padding(
-                                    padding: EdgeInsets.only(
-                                        top: 158,
-                                        left: MediaQuery.of(context).size.width -
-                                            185),
-                                    child: InkWell(
-                                      onTap: () {switchForm(FormType.reset);},
-                                      child: Row(
-                                        children: <Widget>[
-                                          Icon(Icons.graphic_eq),
-                                          Text("  Forgot password?",style: TextStyle(fontSize: 15),)
-                                        ],
-                                      ),
-                                    ),
-                                  )
-                                : null,
-                          ),
-                          Padding(
-                            padding: EdgeInsets.only(
-                                top: MediaQuery.of(context).size.height-204),
-                            child: Align(
-                              alignment: Alignment.center,
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.center,
-                                  children: buildSubmitButtons()),
+                      child: _formType == FormType.register
+                          ? Column(
+                              children: <Widget>[
+                                Column(
+                                  crossAxisAlignment:
+                                      CrossAxisAlignment.stretch,
+                                  children: buildInputs(),
+                                ),
+                                Padding(
+                                  padding: EdgeInsets.only(top: 15),
+                                  child: Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.center,
+                                      children: buildSubmitButtons()),
+                                ),
+                              ],
+                            )
+                          : Stack(
+                              children: <Widget>[
+                                Column(
+                                  crossAxisAlignment:
+                                      CrossAxisAlignment.stretch,
+                                  children: buildInputs(),
+                                ),
+                                Container(
+                                  child: _formType == FormType.logIn
+                                      ? Padding(
+                                          padding: EdgeInsets.only(
+                                              top: 158,
+                                              left: MediaQuery.of(context)
+                                                      .size
+                                                      .width -
+                                                  185),
+                                          child: InkWell(
+                                            onTap: () {
+                                              switchForm(FormType.reset);
+                                            },
+                                            child: Row(
+                                              children: <Widget>[
+                                                Icon(Icons.graphic_eq),
+                                                Text(
+                                                  "  Forgot password?",
+                                                  style:
+                                                      TextStyle(fontSize: 15),
+                                                )
+                                              ],
+                                            ),
+                                          ),
+                                        )
+                                      : null,
+                                ),
+                                Padding(
+                                  padding: EdgeInsets.only(
+                                      top: MediaQuery.of(context).size.height -
+                                          204),
+                                  child: Align(
+                                    alignment: Alignment.center,
+                                    child: Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.center,
+                                        children: buildSubmitButtons()),
+                                  ),
+                                ),
+                              ],
                             ),
-                          ),
-                        ],
-                      ),
                     )),
               ),
             ),

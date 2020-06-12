@@ -9,7 +9,7 @@ class Style {
     fontSize: 9.0,
   );
   static final commonTextStyle = baseTextStyle.copyWith(
-      color: Colors.black,
+      color: Colors.white,
       fontSize: 14.0,
       fontWeight: FontWeight.w400
   );
@@ -19,7 +19,7 @@ class Style {
       fontWeight: FontWeight.w600
   );
   static final headerTextStyle = baseTextStyle.copyWith(
-      color:Colors.black ,
+      color:Colors.white ,
       fontSize: 18.0,
       fontWeight: FontWeight.w400
   );

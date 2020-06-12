@@ -337,38 +337,46 @@ class _MessagePageBodyState extends State<MessagePageBody> {
     final UserData = Provider.of<DocumentSnapshot>(context);
     try {
       var userData = UserData.data;
-
       Widget _queryInputWidget(BuildContext context) {
         return Container(
-          child: Container(
-            margin: EdgeInsets.symmetric(horizontal: 8.0, vertical: 8.0),
-            child: Row(
-              children: <Widget>[
-                Flexible(
-                  child: Padding(
-                    padding: const EdgeInsets.only(left: 8.0),
-                    child: TextField(
-                      controller: _textController,
-                      onSubmitted: (_textController) {
-                        _submitQuery(_textController, userData);
-                      },
-                      decoration: InputDecoration.collapsed(
-                          hintText: ("Send a message")),
-                    ),
+          margin: EdgeInsets.symmetric(horizontal: 8.0, vertical: 8.0),
+          child: Row(
+            children: <Widget>[
+              Flexible(
+                child: Padding(
+                  padding: const EdgeInsets.only(left: 8.0),
+                  child: TextField(
+                    controller: _textController,
+                    onSubmitted: (_textController) {
+                      _submitQuery(_textController, userData);
+                    },
+                    decoration: InputDecoration.collapsed(
+                        hintText: ("Send a message")),
                   ),
                 ),
-                Container(
-                  margin: EdgeInsets.symmetric(horizontal: 4.0),
-                  child: IconButton(
-                      icon: Icon(
-                        Icons.send,
-                        size: 32,
-                      ),
-                      onPressed: () =>
-                          _submitQuery(_textController.text, userData)),
-                ),
-              ],
-            ),
+              ),
+              Container(
+                margin: EdgeInsets.only(right: 5),
+                child: IconButton(
+                    icon: Icon(
+                      Icons.live_help,
+                      size: 32,
+                    ),
+                  onPressed: () {
+                    Navigator.pushNamed(context, '/CKD_messageAbout');
+                  },
+                )
+              ),
+              Container(
+                child: IconButton(
+                    icon: Icon(
+                      Icons.send,
+                      size: 32,
+                    ),
+                    onPressed: () =>
+                        _submitQuery(_textController.text, userData)),
+              ),
+            ],
           ),
         );
       }

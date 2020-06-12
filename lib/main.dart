@@ -17,6 +17,7 @@ import 'Pages/Auth/LogIn.dart';
 import 'Pages/CKD_pages/CKD_message.dart';
 import 'Pages/CKD_pages/CKD_discription.dart';
 import 'Pages/Auth/SplashScreen.dart';
+import 'Pages/HTD/HTD_Pages/CKD_message_about.dart';
 import 'Pages/HTD/dialog_flow.dart';
 import 'Pages/breast_cancer/breast_cancer.dart';
 import 'Pages/breast_cancer/prediction/b_result.dart';
@@ -39,6 +40,7 @@ void main() => runApp(MaterialApp(
         '/CKD_precaution': (context) => CKD_precautions(),
         '/WaterNotification':(context)=>WaterNotification(),
         '/DietNotification':(context)=>DietNotification(),
+        '/CKD_messageAbout':(context)=>CKDMessageAbout(),
 
 //        -----------------------------------------------------------
         '/breastcancer':(context) =>BrestCancer(),
