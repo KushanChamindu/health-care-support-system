@@ -73,6 +73,7 @@ flutter:
     - assets/
     - assets/CKD_image/
     - assets/breast_cancer_image/
+    - assets/breast_cancer_image/guide/
     - assets/NotificationManager/
     - assets/OnboardScreen/
     - assets/dialogflow/bot-cred.json

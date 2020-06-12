@@ -1,3 +1,4 @@
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:healthcaresupportsystem/HTD_card/HTD_dart.dart';
@@ -14,9 +15,10 @@ import 'package:healthcaresupportsystem/Pages/breast_cancer/breast_symptoms.dart
 import 'package:healthcaresupportsystem/Pages/notificationManager/dietNotification.dart';
 import 'package:healthcaresupportsystem/Pages/notificationManager/waterNotification.dart';
 import 'Pages/Auth/LogIn.dart';
+import 'Pages/Auth/SplashScreen.dart';
+import 'Pages/Auth/aboutus.dart';
 import 'Pages/CKD_pages/CKD_message.dart';
 import 'Pages/CKD_pages/CKD_discription.dart';
-import 'Pages/Auth/SplashScreen.dart';
 import 'Pages/HTD/HTD_Pages/CKD_message_about.dart';
 import 'Pages/HTD/dialog_flow.dart';
 import 'Pages/breast_cancer/breast_cancer.dart';
@@ -51,6 +53,7 @@ void main() => runApp(MaterialApp(
         '/gresult':(context)=>Gresult(),
         '/bresult':(context)=>Bresult(),
         '/predictionhelp':(context)=>PredictionHelp(),
+        '/aboutus':(context)=>AboutUs(),
 
 //       -----------------------------------------------------------
         '/HTD_message':(context)=>FlutterFactsChatBot(),

@@ -23,14 +23,31 @@ class _BresultState extends State<Bresult> {
                 children: [
                   /*2*/
                   Container(
-                    child: Text(
-                      "Result is't good...!",
-                      style: TextStyle(
-                        fontWeight: FontWeight.w600,
-                        fontSize: 30.0,
-                        fontFamily: 'Cairo',
-                      ),
+                    padding: const EdgeInsets.only(bottom: 0),
+                    child: Stack(
+                      children: <Widget>[
+                        // Stroked text as border.
+                        Text(
+                          "Result is't good...!",
+                          style: TextStyle(
+                            fontSize: 32,
+                            foreground: Paint()
+                              ..style = PaintingStyle.stroke
+                              ..strokeWidth = 6
+                              ..color = Colors.red[800],
+                          ),
+                        ),
+                        // Solid text as fill.
+                        Text(
+                          "Result is't good...!",
+                          style: TextStyle(
+                            fontSize: 32,
+                            color: Colors.grey[300],
+                          ),
+                        ),
+                      ],
                     ),
+
                   ),
                   
                 ],
@@ -42,16 +59,34 @@ class _BresultState extends State<Bresult> {
 
     Widget textSection = Container(
       padding: const EdgeInsets.fromLTRB(16.0, 8.0, 8.0, 8.0),
-      child: Text(
-        'You have 97% of chance having the cancer cancer.  '
+      child: Stack(
+        children: <Widget>[
+          // Stroked text as border.
+          Text(
+            'You have 97% of chance having the cancer cancer.  '
             'This doesn’t define you.. '
-            'Meet your doctor immediately ',
+            'Meet your doctor immediately',
             style: TextStyle(
-                        fontSize: 18.0,
-                        fontFamily: 'Cairo',
+              fontSize: 16,
+              foreground: Paint()
+                ..style = PaintingStyle.stroke
+                ..strokeWidth = 4
+                ..color = Colors.red[700],
             ),
-        softWrap: true,  
+          ),
+          // Solid text as fill.
+          Text(
+            'You have 97% of chance having the cancer cancer.  '
+            'This doesn’t define you.. '
+            'Meet your doctor immediately',
+            style: TextStyle(
+              fontSize: 16,
+              color: Colors.grey[300],
+            ),
+          ),
+        ],
       ),
+
     );
     Widget buttonSection = Container(
       padding: const EdgeInsets.fromLTRB(8.0, 8.0, 8.0, 8.0),
@@ -65,6 +100,7 @@ class _BresultState extends State<Bresult> {
                         fontSize: 16.0,
                         fontFamily: 'Cairo',
                         backgroundColor: Colors.grey[200],
+                        fontWeight: FontWeight.w100
             ),
         softWrap: true,
         ),
@@ -73,7 +109,7 @@ class _BresultState extends State<Bresult> {
             Navigator.pushNamed(context, '/bc_solutions');
           }, 
           child: Text('Precausions'),
-          color: Colors.blueAccent,
+          color: Colors.lightBlueAccent,
         ),
         Text(
             'Check if you have the following symptoms',
@@ -90,7 +126,7 @@ class _BresultState extends State<Bresult> {
             Navigator.pushNamed(context, '/bc_symptoms');
           }, 
           child: Text('Symptoms'),
-          color: Colors.blueAccent,
+          color: Colors.lightBlueAccent,
         )
       ],
       )

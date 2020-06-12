@@ -8,7 +8,7 @@ class OnboardingScreen extends StatefulWidget {
 }
 
 class _OnboardingScreenState extends State<OnboardingScreen> {
-  final int _numPages = 3;
+  final int _numPages = 6;
   final PageController _pageController = PageController(initialPage: 0);
   int _currentPage = 0;
 
@@ -81,102 +81,13 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                       });
                     },
                     children: <Widget>[
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: <Widget>[
-                          Center(
-                            child: Padding(
-                              padding: const EdgeInsets.only(top:40.0),
-                              child: Container(
-                                height: 240,
-                                width: MediaQuery.of(context).size.width,
-                                child: Image(
-                                  fit: BoxFit.fill,
-                                  image: AssetImage(
-                                    'assets/OnboardScreen/description.png',
-                                  ),
-                                ),
-                              ),
-                            ),
-                          ),
-                          SizedBox(height: 30.0),
-                          Text(
-                            'Description about diseases',
-                            style: kTitleStyle,
-                          ),
-                          SizedBox(height: 15.0),
-                          Text(
-                            'You can get knowledge about Chronicle kidney disease,Heart Issues,Diabetes, Beast cancer',
-                            style: kSubtitleStyle,
-                            textAlign: TextAlign.center,
-                          ),
-                        ],
-                      ),
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: <Widget>[
-                          Center(
-                            child: Padding(
-                              padding: const EdgeInsets.only(top:40.0),
-                              child: Container(
-                                height: 240,
-                                width: MediaQuery.of(context).size.width,
-                                child: Image(
-                                  image: AssetImage(
-                                    'assets/OnboardScreen/message.jpg',
-                                  ),
-                                  fit: BoxFit.fill,
-                                ),
-                              ),
-                            ),
-                          ),
-                          SizedBox(height: 30.0),
-                          Text(
-                            'Message with medical services',
-                            style: kTitleStyle,
-                          ),
-                          SizedBox(height: 15.0),
-                          Text(
-                            'Can have real time message with bot and get informations',
-                            style: kSubtitleStyle,
-                            textAlign: TextAlign.center,
-                          ),
-                        ],
-                      ),
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: <Widget>[
-                          Center(
-                            child: Padding(
-                              padding: const EdgeInsets.only(top:40.0),
-                              child: Container(
-                                height: 240,
-                                width: MediaQuery.of(context).size.width,
-                                child: Image(
-                                  image: AssetImage(
-                                    'assets/OnboardScreen/alarm.jpg',
-                                  ),
-                                  fit: BoxFit.fill,
-                                ),
-                              ),
-                            ),
-                          ),
-                          SizedBox(height: 30.0),
-                          Text(
-                            'Notification manger',
-                            style: kTitleStyle,
-                          ),
-                          SizedBox(height: 15.0),
-                          Padding(
-                            padding: const EdgeInsets.only(left: 10,right: 10),
-                            child: Text(
-                              'Can use notification manager for tracker water and foods',
-                              style: kSubtitleStyle,
-                              textAlign: TextAlign.center,
-                            ),
-                          ),
-                        ],
-                      ),
+                      _buildContainerColumn('Open chat-bot...','Click the disease(except Breast cancer) you want then Click "Doctor" button','assets/breast_cancer_image/guide/Click doctor_1.gif'),
+                      _buildContainerColumn('Start predicting... ','Open chat-bot then say "Hi"','assets/breast_cancer_image/guide/say hi_1.gif'),
+                      _buildContainerColumn('Predict Breast Cancer...','Scroll down for Breast cancer the click "Doctor" button','assets/breast_cancer_image/guide/Kshyapa form click_1.gif'),
+                      _buildContainerColumn('Get disease information...','Select a disease then click the "Description" button','assets/breast_cancer_image/guide/Description click_1.gif'),
+                      _buildContainerColumn('Activate notification alert...','Click notification you want to activate then click the bell icon','assets/breast_cancer_image/guide/notification on_1.gif'),
+                      _buildContainerColumn('Get current situation of your disease.','Go to your profile..','assets/breast_cancer_image/guide/Profile click_2.gif'),
+
                     ],
                   ),
                 ),
@@ -249,6 +160,67 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
         ),
       )
           : Text(''),
+    );
+  }
+
+    Widget _buildContainerColumn(String lable,String description,String url) {
+    return SingleChildScrollView(
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: <Widget>[
+          Stack(
+            children: <Widget>[
+              // Stroked text as border.
+              Text(
+                lable,
+                style: TextStyle(
+                  fontSize: 20,
+                  foreground: Paint()
+                    ..style = PaintingStyle.stroke
+                    ..strokeWidth = 6
+                    ..color = Colors.purple,
+                ),
+              ),
+              // Solid text as fill.
+              Text(
+                lable,
+                style: TextStyle(
+                  fontSize: 20,
+                  color: Colors.grey[300],
+                ),
+              ),
+            ],
+          ),
+          SizedBox(height: 4.0),
+          Center(
+            child: Padding(
+              padding: const EdgeInsets.only(top:40.0),
+              child: Container(
+                height: 240,
+                width: MediaQuery.of(context).size.width,
+                child: Image(
+                  fit: BoxFit.fill,
+                  image: AssetImage(
+                    url,
+                  ),
+                ),
+              ),
+            ),
+          ),
+          SizedBox(height: 30.0),
+          Text(
+            description,
+            style: kSubtitleStyle,
+            textAlign: TextAlign.center,
+//          TextStyle(
+//            color: Colors.black,
+//              fontSize: 16.0,
+//              fontFamily: 'Cairo',
+//          ),
+//          textAlign: TextAlign.center,
+          ),
+        ],
+      ),
     );
   }
 }

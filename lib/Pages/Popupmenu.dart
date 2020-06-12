@@ -17,8 +17,9 @@ class _PopupmenuState extends State<Popupmenu> {
   void choiceAction(String choice) async {
     if (choice == 'Account') {
       try {
-        var user= await widget.auth.getCurrentUser();
-        Navigator.pushNamed(context, '/account', arguments: UID(uid: user.uid,email: user.email));
+        var user = await widget.auth.getCurrentUser();
+        Navigator.pushNamed(context, '/account',
+            arguments: UID(uid: user.uid, email: user.email));
       } catch (e) {
         Scaffold.of(context).showSnackBar(SnackBar(
           content: Text('Check your internet connection'),
@@ -34,11 +35,12 @@ class _PopupmenuState extends State<Popupmenu> {
       showAboutDialog(
           context: context,
           applicationIcon: Container(
-              width: 120,height: 170,
+              width: 120,
+              height: 170,
               child: Image.asset(
-            'assets/CKD_image/Doctor.png',
-            fit: BoxFit.fill,
-          )),
+                'assets/CKD_image/Doctor.png',
+                fit: BoxFit.fill,
+              )),
           applicationName: "Mobile Doctor",
           applicationVersion: '0.0.1',
           applicationLegalese:
@@ -58,7 +60,14 @@ class _PopupmenuState extends State<Popupmenu> {
             ),
             Container(
               child: Text('* Beast Cancer'),
-            )
+            ),
+            FlatButton.icon(
+                icon: Icon(Icons.launch),
+                shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(18)),
+                color: Colors.blue[500],
+                onPressed:() async =>  Navigator.pushNamed(context, '/aboutus'),
+                label: Text('About us')),
           ]);
     }
   }
@@ -66,14 +75,17 @@ class _PopupmenuState extends State<Popupmenu> {
   @override
   Widget build(BuildContext context) {
     return PopupMenuButton<String>(
-      icon: Icon(Icons.more_vert,color: Colors.white,),
+      icon: Icon(
+        Icons.more_vert,
+        color: Colors.white,
+      ),
       key: ValueKey('HomePopUpMenueButton'),
       onSelected: choiceAction,
       itemBuilder: (BuildContext context) {
         return Constant.choice.map((String choice) {
           if (choice == 'Account') {
             return PopupMenuItem(
-              key: ValueKey('gotoAccountButton'),
+                key: ValueKey('gotoAccountButton'),
                 value: choice,
                 child: Row(
                   children: <Widget>[

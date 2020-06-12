@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:healthcaresupportsystem/Pages/Auth/Service/Auth.dart';
 import 'package:healthcaresupportsystem/Pages/Auth/UID.dart';
@@ -69,7 +70,7 @@ class _BreastCancerPredictionState extends State<BreastCancerPrediction> {
           ),
         ),
         //centerTitle: true,
-        backgroundColor: Colors.blueAccent,
+        backgroundColor: Colors.lightBlue,
       ),
       body:Center(
         child: ListView(
@@ -88,7 +89,7 @@ class _BreastCancerPredictionState extends State<BreastCancerPrediction> {
                           fontSize: 20.0,
                           fontFamily: 'Cairo',
                           backgroundColor: Colors.grey[300],
-                          fontWeight: FontWeight.w600
+                          fontWeight: FontWeight.w100
               ),
               softWrap: true,
               ),
@@ -99,20 +100,36 @@ class _BreastCancerPredictionState extends State<BreastCancerPrediction> {
               onPressed: (){
                 Navigator.pushNamed(context, '/predictionhelp');
               }, 
-                child: Text('About', style: TextStyle(fontSize: 17),),
-                color: Colors.blueAccent,
+                child: Text('About'),
+                color: Colors.lightBlueAccent,
            ),
             ),
             Padding(
               padding: const EdgeInsets.fromLTRB(8.0, 0.0, 0.0, 0.0),
-              child: Text(
-                "Take your time to fill the information (provide values atleast four decimal places)",
-                style: TextStyle(
-                fontSize: 18.0,
-//                fontWeight: FontWeight.w300,
-                fontFamily: 'Cairo'
+              child: Stack(
+                  children: <Widget>[
+                    // Stroked text as border.
+                    Text(
+                      "Take your time to fill the information (provide values atleast four decimal places)",
+                      style: TextStyle(
+                        fontSize: 18,
+                        foreground: Paint()
+                          ..style = PaintingStyle.stroke
+                          ..strokeWidth = 3
+                          ..color = Colors.red[800],
+                      ),
+                    ),
+                    // Solid text as fill.
+                    Text(
+                      "Take your time to fill the information (provide values atleast four decimal places)",
+                      style: TextStyle(
+                        fontSize: 18,
+                        color: Colors.grey[300],
+                      ),
+                    ),
+                  ],
                 ),
-              ),
+
             ),
             Padding(
               padding: const EdgeInsets.fromLTRB(20, 10, 10, 10),
@@ -124,18 +141,7 @@ class _BreastCancerPredictionState extends State<BreastCancerPrediction> {
                       children: <Widget>[
                         Column (
                         children: <Widget>[
-                          Padding(
-                            padding: const EdgeInsets.fromLTRB(0.0, 8.0, 8.0, 8.0),
-                            child: Text(
-                              "  Breast Radius  ",
-                              style: TextStyle(
-                                fontSize: 16.0,
-                                fontFamily: 'Cairo',
-                                backgroundColor: Colors.grey[300],
-                                fontWeight: FontWeight.w600
-                              ),
-                            )
-                          ),
+                          _buildText("Breast Radius"),
                           Row(
                           children: <Widget>[
                             Expanded(
@@ -206,18 +212,7 @@ class _BreastCancerPredictionState extends State<BreastCancerPrediction> {
                         ),
                         Column (
                         children: <Widget>[
-                          Padding(
-                            padding: const EdgeInsets.fromLTRB(0.0, 8.0, 8.0, 8.0),
-                            child: Text(
-                              "  Texture of a Breast  ",
-                              style: TextStyle(
-                                fontSize: 16.0,
-                                fontFamily: 'Cairo',
-                                backgroundColor: Colors.grey[300],
-                                fontWeight: FontWeight.w600
-                              ),
-                              ),
-                          ),
+                          _buildText("Texture of a Breast "),
                           Row(
                           children: <Widget>[
                             Expanded(
@@ -288,18 +283,8 @@ class _BreastCancerPredictionState extends State<BreastCancerPrediction> {
                         ), 
                         Column (
                         children: <Widget>[
-                          Padding(
-                            padding: const EdgeInsets.fromLTRB(0.0, 8.0, 8.0, 8.0),
-                            child: Text(
-                              "  Breast Perimeter  ",
-                              style: TextStyle(
-                                fontSize: 16.0,
-                                fontFamily: 'Cairo',
-                                backgroundColor: Colors.grey[300],
-                                fontWeight: FontWeight.w600
-                              ),
-                              ),
-                          ),
+                          _buildText("Breast Perimeter"),
+
                           Row(
                           children: <Widget>[
                             Expanded(
@@ -370,18 +355,8 @@ class _BreastCancerPredictionState extends State<BreastCancerPrediction> {
                         ), 
                         Column (
                         children: <Widget>[
-                          Padding(
-                            padding: const EdgeInsets.fromLTRB(0.0, 8.0, 8.0, 8.0),
-                            child: Text(
-                              "  Area of the Breast  ",
-                              style: TextStyle(
-                                fontSize: 16.0,
-                                fontFamily: 'Cairo',
-                                backgroundColor: Colors.grey[300],
-                                fontWeight: FontWeight.w600
-                              ),
-                              ),
-                          ),
+                          _buildText("Area of the Breast"),
+
                           Row(
                           children: <Widget>[
                             Expanded(
@@ -452,18 +427,8 @@ class _BreastCancerPredictionState extends State<BreastCancerPrediction> {
                         ), 
                         Column (
                         children: <Widget>[
-                          Padding(
-                            padding: const EdgeInsets.fromLTRB(0.0, 8.0, 8.0, 8.0),
-                            child: Text(
-                              "  Smoothness of Breast  ",
-                              style: TextStyle(
-                                fontSize: 16.0,
-                                fontFamily: 'Cairo',
-                                backgroundColor: Colors.grey[300],
-                                fontWeight: FontWeight.w600
-                              ),
-                              ),
-                          ),
+                          _buildText("Smoothness of Breast"),
+
                           Row(
                           children: <Widget>[
                             Expanded(
@@ -534,18 +499,8 @@ class _BreastCancerPredictionState extends State<BreastCancerPrediction> {
                         ), 
                         Column (
                         children: <Widget>[
-                          Padding(
-                            padding: const EdgeInsets.fromLTRB(0.0, 8.0, 8.0, 8.0),
-                            child: Text(
-                              "  Breast Compactness  ",
-                              style: TextStyle(
-                                fontSize: 16.0,
-                                fontFamily: 'Cairo',
-                                backgroundColor: Colors.grey[300],
-                                fontWeight: FontWeight.w600
-                              ),
-                              ),
-                          ),
+                          _buildText("Breast Compactness"),
+
                           Row(
                           children: <Widget>[
                             Expanded(
@@ -616,18 +571,8 @@ class _BreastCancerPredictionState extends State<BreastCancerPrediction> {
                         ), 
                         Column (
                         children: <Widget>[
-                          Padding(
-                            padding: const EdgeInsets.fromLTRB(0.0, 8.0, 8.0, 8.0),
-                            child: Text(
-                              "  Concavity in Breast  ",
-                              style: TextStyle(
-                                fontSize: 16.0,
-                                fontFamily: 'Cairo',
-                                backgroundColor: Colors.grey[300],
-                                fontWeight: FontWeight.w600
-                              ),
-                              ),
-                          ),
+                          _buildText("Concavity in Breast"),
+
                           Row(
                           children: <Widget>[
                             Expanded(
@@ -698,18 +643,8 @@ class _BreastCancerPredictionState extends State<BreastCancerPrediction> {
                         ), 
                         Column (
                         children: <Widget>[
-                          Padding(
-                            padding: const EdgeInsets.fromLTRB(0.0, 8.0, 8.0, 8.0),
-                            child: Text(
-                              "  Concave Points (Number of concave portions of the contour)  ",
-                              style: TextStyle(
-                                fontSize: 16.0,
-                                fontFamily: 'Cairo',
-                                backgroundColor: Colors.grey[300],
-                                fontWeight: FontWeight.w600
-                              ),
-                              ),
-                          ),
+                          _buildText("Concave Points (Number of concave portions of the contour)"),
+
                           Row(
                           children: <Widget>[
                             Expanded(
@@ -780,18 +715,8 @@ class _BreastCancerPredictionState extends State<BreastCancerPrediction> {
                         ), 
                         Column (
                         children: <Widget>[
-                          Padding(
-                            padding: const EdgeInsets.fromLTRB(0.0, 8.0, 8.0, 8.0),
-                            child: Text(
-                              "  Breast Symmetry  ",
-                              style: TextStyle(
-                                fontSize: 16.0,
-                                fontFamily: 'Cairo',
-                                backgroundColor: Colors.grey[300],
-                                fontWeight: FontWeight.w600
-                              ),
-                              ),
-                          ),
+                          _buildText("Breast Symmetry"),
+
                           Row(
                           children: <Widget>[
                             Expanded(
@@ -862,18 +787,8 @@ class _BreastCancerPredictionState extends State<BreastCancerPrediction> {
                         ), 
                         Column (
                         children: <Widget>[
-                          Padding(
-                            padding: const EdgeInsets.fromLTRB(0.0, 8.0, 8.0, 8.0),
-                            child: Text(
-                              "  Fractal Dimension  ",
-                              style: TextStyle(
-                                fontSize: 16.0,
-                                fontFamily: 'Cairo',
-                                backgroundColor: Colors.grey[300],
-                                fontWeight: FontWeight.w600
-                              ),
-                              ),
-                          ),
+                          _buildText("Fractal Dimension"),
+
                           Row(
                           children: <Widget>[
                             Expanded(
@@ -952,17 +867,29 @@ class _BreastCancerPredictionState extends State<BreastCancerPrediction> {
               padding: const EdgeInsets.fromLTRB(8.0, 0.0, 8.0, 0.0),
               child: FlatButton(
                 child: Text("Predict"),
-                color: Colors.blueAccent,
+                color: Colors.lightBlueAccent,
                 onPressed: () async{
                   if (_formkey.currentState.validate()){
                     setState(() => loading=true);
-                    dynamic result = await _getResponse(args.uid);
-                    if (result == null){
-                        setState(() {
-                        error='Connection error of information error';
-                        loading=false;
-                        });
+
+                    try{
+                      final check = await InternetAddress.lookup("google.com");
+                      if (check.isNotEmpty && check[0].rawAddress.isNotEmpty){
+                        dynamic result = await _getResponse(args.uid);
+                        if (result == null){
+                          setState(() {
+                          error='Connection error or information error';
+                          loading=false;
+                          });
+                        }
                       }
+                    }on SocketException catch(e){
+                      setState(() {
+                        error='Connection error or information error';
+                        loading=false;
+                      });
+                    }
+
                   }
                 }
                 ),
@@ -1013,6 +940,35 @@ void _insertSingleItem(String message,String uid){
   }
   print(message);
   setState(() => loading=false);
+  }
+
+   Container _buildText(String text) {
+    return Container(
+      padding: const EdgeInsets.fromLTRB(0.0, 8.0, 8.0, 8.0),
+      child:Stack(
+          children: <Widget>[
+            // Stroked text as border.
+            Text(
+              text,
+              style: TextStyle(
+                fontSize: 18,
+                foreground: Paint()
+                  ..style = PaintingStyle.stroke
+                  ..strokeWidth = 6
+                  ..color = Colors.green[800],
+              ),
+            ),
+            // Solid text as fill.
+            Text(
+              text,
+              style: TextStyle(
+                fontSize: 18,
+                color: Colors.grey[300],
+              ),
+            ),
+          ],
+        ),
+    );
   }
 
 }
