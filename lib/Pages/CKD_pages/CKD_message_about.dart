@@ -199,17 +199,22 @@ class CKDMessageAbout extends StatelessWidget {
               'Blood Pressure',
               'When your heart beats, it pumps blood round your body to give it the energy and oxygen it needs. As the blood moves, it pushes against the sides of the blood vessels. The strength of this pushing is your blood pressure. If your blood pressure is too high, it puts extra strain on your arteries (and your heart) and this may lead to heart attacks and strokes',
               'assets/CKD_image/bloodPreasure.jpg'),
-          FlatButton.icon(
-            icon: Icon(Icons.launch),
-            shape:
-            RoundedRectangleBorder(borderRadius: BorderRadius.circular(18)),
-            color: Colors.blue[500],
-            onPressed: () async =>
-            await launch(
-                'https://www.heart.org/en/health-topics/high-blood-pressure/understanding-blood-pressure-readings',
-                forceWebView: false,
-                forceSafariVC: false),
-            label: Text('More Info about Blood preasure'),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: <Widget>[
+              FlatButton.icon(
+                icon: Icon(Icons.launch),
+                shape:
+                RoundedRectangleBorder(borderRadius: BorderRadius.circular(18)),
+                color: Colors.blue[500],
+                onPressed: () async =>
+                await launch(
+                    'https://www.heart.org/en/health-topics/high-blood-pressure/understanding-blood-pressure-readings',
+                    forceWebView: false,
+                    forceSafariVC: false),
+                label: Text('More Info about Blood preasure'),
+              ),
+            ],
           ),
           SizedBox(
             height: 20,
