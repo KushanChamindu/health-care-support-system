@@ -116,7 +116,6 @@ void main() {
         return false;
       }
     }
-
     FlutterDriver driver;
     setUpAll(() async {
       driver = await FlutterDriver.connect();
@@ -436,16 +435,16 @@ void main() {
           BC_Card, 0, 8800, Duration(milliseconds: 500));
     });
   });
-  group('water notification page and diet notification ui validation', (){
-    FlutterDriver driver;
-    setUpAll(() async {
-      driver = await FlutterDriver.connect();
-    });
-    tearDownAll(() async {
-      if (driver != null) {
-        driver.close();
-      }
-    });
+//  group('water notification page and diet notification ui validation', (){
+//    FlutterDriver driver;
+//    setUpAll(() async {
+//      driver = await FlutterDriver.connect();
+//    });
+//    tearDownAll(() async {
+//      if (driver != null) {
+//        driver.close();
+//      }
+//    });
 //      test('logIn Successfully', () async {
 //        await driver.tap(logInEmail);
 //        await driver.enterText('kushan@kushan.com');
@@ -456,13 +455,13 @@ void main() {
 //        await driver.waitFor(homePage);
 //        await driver.waitFor(CKDCard);
 //      });
-    test('Go to water notofocaition page', ()async{
-      await driver.scroll(
-          BC_Card, 0, 8800, Duration(milliseconds: 500));
-      await driver.tap(waterNotificationCard);
-      await driver.waitFor(waterNotificationBellButton);
-    });
-    test(' water notification test', ()async{
+//    test('Go to water notofocaition page', ()async{
+//      await driver.scroll(
+//          BC_Card, 0, 8800, Duration(milliseconds: 500));
+//      await driver.tap(waterNotificationCard);
+//      await driver.waitFor(waterNotificationBellButton);
+//    });
+//    test(' water notification test', ()async{
 //        await driver.tap(waterNotificationStartTime);
 //        DateTime time=DateTime.now();
 //        String formattedDate1 = DateFormat('jm').format(time).split(' ')[0];
@@ -474,29 +473,29 @@ void main() {
 //        await driver.tap(find.text('10'));
 //        await Future.delayed(Duration(milliseconds: 2000), () {});
 //        await driver.tap(find.text('OK'));
-      await driver.tap(waterNotificationChartPageButton);
-      await driver.waitFor(waterNotificationChart);
-      await Future.delayed(Duration(milliseconds: 2000), () {});
-      await driver.tap(waterNotificationDrinkPageButton);
-      await driver.waitFor(waterNotificationDrinkButton);
-      await driver.tap(waterNotificationBellButton);
-      await driver.tap(waterNotificationAmount);
-      await driver.enterText('500');
-      await driver.tap(waterNotificationDrinkButton);
-      await Future.delayed(Duration(milliseconds: 2000), () {});
-      await driver.tap(waterNotificationChartPageButton);
-      await driver.waitFor(waterNotificationChart);
-      await Future.delayed(Duration(milliseconds: 2000), () {});
-      await driver.tap(waterNotificationBackButton);
-    });
-
-    test('diet notification', ()async{
-      await driver.waitFor(dietNotificationCard);
-      await driver.tap(dietNotificationCard);
-      await driver.waitFor(dietNotificationBellButton);
-      await driver.tap(dietNotificationBellButton);
-//        await driver.waitFor(dietNotificationSnackBar);
-    });
-
-  });
+//      await driver.tap(waterNotificationChartPageButton);
+//      await driver.waitFor(waterNotificationChart);
+//      await Future.delayed(Duration(milliseconds: 2000), () {});
+//      await driver.tap(waterNotificationDrinkPageButton);
+//      await driver.waitFor(waterNotificationDrinkButton);
+//      await driver.tap(waterNotificationBellButton);
+//      await driver.tap(waterNotificationAmount);
+//      await driver.enterText('500');
+//      await driver.tap(waterNotificationDrinkButton);
+//      await Future.delayed(Duration(milliseconds: 2000), () {});
+//      await driver.tap(waterNotificationChartPageButton);
+//      await driver.waitFor(waterNotificationChart);
+//      await Future.delayed(Duration(milliseconds: 2000), () {});
+//      await driver.tap(waterNotificationBackButton);
+//    });
+//
+//    test('diet notification', ()async{
+//      await driver.waitFor(dietNotificationCard);
+//      await driver.tap(dietNotificationCard);
+//      await driver.waitFor(dietNotificationBellButton);
+//      await driver.tap(dietNotificationBellButton);
+////        await driver.waitFor(dietNotificationSnackBar);
+//    });
+//
+//  });
 }
