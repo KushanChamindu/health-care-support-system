@@ -148,7 +148,7 @@ Widget titleSection = Container(
        body:ListView(
         children: <Widget>[
           _buildTextRow('Who are we...?'),
-          _buildContainer("We are undergraduates at Department of Computer Science and Enginnering, Faculty of Engineering, University of Moratuwa"),
+          _buildContainer("🏆  We are undergraduates at Department of Computer Science and Enginnering, Faculty of Engineering, University of Moratuwa."),
           _buildTextContainer('Kushan Nilanga','kushanchamindu@gmail.com'),
           _buildTextContainer('Nishothan Vettivel','nishothanvettivel@gmail.com'),
           _buildTextContainer('Kashyapa Niyarepola','kashyapaniyarepola@gmail.com'),
@@ -157,9 +157,9 @@ Widget titleSection = Container(
              padding: const EdgeInsets.all(8.0),
              child: Image.asset(
               'assets/breast_cancer_image/guide/us.jpg',
-              width: 500,
-              height: 300,
-              fit: BoxFit.cover,
+              width: MediaQuery.of(context).size.width,
+              height: MediaQuery.of(context).size.width*0.8,
+              fit: BoxFit.fill,
           ),
            ),
 
@@ -224,30 +224,33 @@ Widget titleSection = Container(
             Icon(Icons.blur_linear),
             Expanded(
               /*1*/
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  /*2*/
-                  Container(
-                    //padding: const EdgeInsets.only(bottom: 0),
-                    child: Text(
-                      text,
-                      style: TextStyle(
-                        fontWeight: FontWeight.w500,
-                        fontSize: 20.0,
-                        fontFamily: 'Cairo',
+              child: Padding(
+                padding: const EdgeInsets.only(left:10.0),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    /*2*/
+                    Container(
+                      //padding: const EdgeInsets.only(bottom: 0),
+                      child: Text(
+                        text,
+                        style: TextStyle(
+                          fontWeight: FontWeight.w500,
+                          fontSize: 20.0,
+                          fontFamily: 'Cairo',
+                        ),
                       ),
                     ),
-                  ),
-                  Text(
-                      email,
-                      style: TextStyle(
-                        fontWeight: FontWeight.w500,
-                        fontSize: 16.0,
-                        fontFamily: 'Cairo',
+                    Text(
+                        email,
+                        style: TextStyle(
+                          fontWeight: FontWeight.w500,
+                          fontSize: 16.0,
+                          fontFamily: 'Cairo',
+                        ),
                       ),
-                    ),
-                ],
+                  ],
+                ),
               ),
             ),
           ],

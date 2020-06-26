@@ -110,7 +110,7 @@ class _CKD_discriptionState extends State<CKD_discription> {
                 child: Titles(
                   text1: 'Causes of Chronic Kidney Disease',
                   text2:
-                      '\u2055 Diabetes \n \u2055 high blood pressure \n \u2055 using Alcohol \n \u2055 smorking \n are the most common causes of kidney disease. Your health care provider may do tests to find out why you have kidney disease. The cause of your kidney disease may affect the type of treatment you receive.',
+                      '\u2055 Diabetes \n \u2055 high blood pressure \n \u2055 using Alcohol \n \u2055 smorking, \n \u0020  \u0020  \u0020  \u0020  \u0020  \u0020 \u0020 \u0020are the most common causes of kidney disease. Your health care provider may do tests to find out why you have kidney disease. The cause of your kidney disease may affect the type of treatment you receive.',
                 )),
             Align(
                 alignment: Alignment.centerLeft,

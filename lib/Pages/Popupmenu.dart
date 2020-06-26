@@ -49,25 +49,30 @@ class _PopupmenuState extends State<Popupmenu> {
             Padding(
               padding: const EdgeInsets.fromLTRB(0, 10, 0, 0),
               child: Container(
-                child: Text('* Chronic kidney disease'),
+                child: Text('\u2B24  Chronic kidney disease'),
               ),
             ),
             Container(
-              child: Text('* Diabetise'),
+              child: Text('\u2B24  Diabetise'),
             ),
             Container(
-              child: Text('* Heart disease'),
+              child: Text('\u2B24  Heart disease'),
             ),
             Container(
-              child: Text('* Beast Cancer'),
+              child: Text('\u2B24  Beast Cancer'),
             ),
-            FlatButton.icon(
-                icon: Icon(Icons.launch),
-                shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(18)),
-                color: Colors.blue[500],
-                onPressed:() async =>  Navigator.pushNamed(context, '/aboutus'),
-                label: Text('About us')),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: <Widget>[
+                FlatButton.icon(
+                    icon: Icon(Icons.launch),
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(18)),
+                    color: Colors.blue[500],
+                    onPressed:() async =>  Navigator.pushNamed(context, '/aboutus'),
+                    label: Text('About us')),
+              ],
+            ),
           ]);
     }
   }

@@ -133,8 +133,9 @@ class _CKD_webviewState extends State<CKD_webview> {
       ),
       isDividerExist == true
           ? Divider(
-              height: 10,
-              color: Colors.black87,
+        thickness: 5,
+              height: 15,
+              color: Colors.grey,
             )
           : Container(),
     ];
@@ -389,7 +390,7 @@ class _CKD_webviewState extends State<CKD_webview> {
                                   left: 25,
                                 ),
                                 child: Text(
-                                  'How kidneys work',
+                                  '\u2B24   How kidneys work',
                                   style: TextStyle(
                                     color: Colors.black87,
                                     height: 1.2,
@@ -419,7 +420,7 @@ class _CKD_webviewState extends State<CKD_webview> {
                                   left: 25,
                                 ),
                                 child: Text(
-                                  'Hemodialysis',
+                                  '\u2B24   Hemodialysis',
                                   style: TextStyle(
                                     color: Colors.black87,
                                     height: 1.2,
@@ -449,7 +450,7 @@ class _CKD_webviewState extends State<CKD_webview> {
                                   left: 25,
                                 ),
                                 child: Text(
-                                  'Peritoneal dialysis',
+                                  '\u2B24   Peritoneal dialysis',
                                   style: TextStyle(
                                     color: Colors.black87,
                                     height: 1.2,
