@@ -29,7 +29,7 @@
 .pub-cache/
 .pub/
 /build/
-/assets/dialogflow
+/assets/dialogflow/CKD-bot.json
 
 # Web related
 lib/generated_plugin_registrant.dart
