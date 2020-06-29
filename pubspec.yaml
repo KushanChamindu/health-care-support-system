@@ -76,7 +76,7 @@ flutter:
     - assets/breast_cancer_image/guide/
     - assets/NotificationManager/
     - assets/OnboardScreen/
-    - assets/dialogflow/bot-cred.json
+    - assets/dialogflow/CKD-bot.json
     - assets/HTD/images/
     - assets/HTD/
   #  - images/a_dot_ham.jpeg

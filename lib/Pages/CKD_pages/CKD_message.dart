@@ -137,7 +137,7 @@ class _MessagePageBodyState extends State<MessagePageBody> {
     _textController.clear();
     try {
       AuthGoogle authGoogle =
-          await AuthGoogle(fileJson: "assets/dialogflow/bot-cred.json").build();
+          await AuthGoogle(fileJson: "assets/dialogflow/CKD-bot.json").build();
       Dialogflow dialogFlow =
           Dialogflow(authGoogle: authGoogle, language: Language.english);
       AIResponse response = await dialogFlow.detectIntent(query);
