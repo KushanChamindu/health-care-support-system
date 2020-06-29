@@ -30,6 +30,7 @@
 .pub/
 /build/
 /assets/dialogflow/CKD-bot.json
+/assets/HTD/doctor-cqfxkd-9ebecdc5f002.json
 
 # Web related
 lib/generated_plugin_registrant.dart
