@@ -69,7 +69,7 @@ void main() => runApp(MaterialApp(
         '/HTD_card':(context)=>HTD_Cards(),
 //      ------------------------------------------------------------
         '/Diab_discription': (context) => Diab_discription(),
-        //'/Diab_webview': (context) => Diab_webview(),
+//        '/Diab_webview': (context) => Diab_webview(),
         '/Diab_symptom': (context) => Diab_symptoms(),
         '/Diab_precaution': (context) => Diab_precautions(),
         '/Diab_about' : (context) => Diab_about(),

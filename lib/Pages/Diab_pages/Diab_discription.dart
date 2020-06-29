@@ -107,22 +107,22 @@ class _Diab_discriptionState extends State<Diab_discription> {
             ),
 
 
-            Card(
-                color:Colors.amberAccent,
-                child: Column(
-              children: <Widget>[
-                FlatButton.icon(
-                    onPressed: () {
-                      Navigator.pushNamed(context, '/Diab_webview');
-                    },
-
-                    icon: Icon(Icons.public),
-                    label: Expanded(
-                        child: Text("Open More Info",
-                            style: TextStyle(
-                                fontSize: 20, fontWeight: FontWeight.w900)))),
-              ],
-            )),
+//            Card(
+//                color:Colors.amberAccent,
+//                child: Column(
+//              children: <Widget>[
+//                FlatButton.icon(
+//                    onPressed: () {
+//                      Navigator.pushNamed(context, '/Diab_webview');
+//                    },
+//
+//                    icon: Icon(Icons.public),
+//                    label: Expanded(
+//                        child: Text("Open More Info",
+//                            style: TextStyle(
+//                                fontSize: 20, fontWeight: FontWeight.w900)))),
+//              ],
+//            )),
           ],
         ),
       ),
