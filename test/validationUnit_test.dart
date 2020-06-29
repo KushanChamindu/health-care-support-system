@@ -229,7 +229,7 @@ void main() {
       expect(result, 'Drink amount should be a number');
     });
   });
-  group('diet notification validation', () {
+  group('diet notification validation test', () {
     test('breakfast time should not be null or 0', () {
       var result1 = ValidationOfFormDiet.BreakFastValidation(
           null, _lunchController, _dinnerController);

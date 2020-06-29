@@ -527,7 +527,7 @@ class _LogInState extends State<LogIn> {
         return WillPopScope(
           onWillPop: _onBackPress,
           child: Scaffold(
-            backgroundColor: Colors.grey[200],
+            backgroundColor: Colors.white,
             appBar: AppBar(
               centerTitle: true,
               title: Text(
