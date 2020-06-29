@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/material.dart';
 
 abstract class BaseAuth {
   Future<String> signInWithEmailAndPassword(String email, String password);
@@ -133,10 +134,10 @@ class Auth implements BaseAuth {
       'isReset':true,
     });
     await dietNotification.document(uid).setData({
-      'breakfast':null,
-      'lunchtime':null,
-      'dinnertime':null,
-      'IsAlermOn':false
+      'breakfast':DateTime.parse("1969-07-20 20:18:04Z"),
+      'lunchtime':DateTime.utc(1989, 11, 9,12),
+      'dinnertime':DateTime.utc(1989, 11, 9,20),
+      'IsAlermOn':true
     });
   }
 //  static List days=['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];

@@ -203,12 +203,12 @@ class _WaterNotificationBodyState extends State<WaterNotificationBody> {
     int difference = finishedTime.difference(startTime).inMinutes;
     var alarmStartTime = DateTime(startTime.year, startTime.month,
         startTime.day, startTime.hour, startTime.minute, 0);
-    for (var i = 0; i < difference; i++) {
+    for (var i = 1; i <= difference; i++) {
       await flutterLocalNotificationsPlugin.schedule(
           i,
           'Water Alerm $i',
           ('Time to drink water and update your water tracking system'),
-          alarmStartTime.add(Duration(seconds: i * 2)),
+          alarmStartTime.add(Duration(minutes: i*30)),
           platformChannelSpecifics,
           payload: '/WaterNotification');
     }
