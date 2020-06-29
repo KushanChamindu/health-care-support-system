@@ -95,6 +95,12 @@ class MockAuth implements BaseAuth {
     // TODO: implement getCurrentUser
     return null;
   }
+
+  @override
+  Future setDiabPrediction(String uid, double percentage) {
+    // TODO: implement setDiabPrediction
+    throw UnimplementedError();
+  }
 }
 
 MockFirebaseAuth _auth = MockFirebaseAuth();

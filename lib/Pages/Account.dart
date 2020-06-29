@@ -746,24 +746,51 @@ class _AccountBodyState extends State<AccountBody> {
                                             Padding(
                                               padding: const EdgeInsets.all(8.0),
                                               child: Text(
-                                                'Diabetits',
+                                                'Diabetics',
                                                 style: TextStyle(
-                                                    fontWeight: FontWeight.w500),
+                                                    fontWeight: FontWeight.w700),
                                               ),
                                             ),
                                             Padding(
                                               padding: const EdgeInsets.fromLTRB(
                                                   14, 0, 8, 8),
-                                              child: Text(
-                                                'Percentage: ${userData['Diabetits'] == null ? 'Not predicted yet' : userData['Diabetits']}',
-                                                style: TextStyle(fontSize: 15),
-                                              ),
+                                              child: RichText(
+                                                  text: TextSpan(
+                                                      text:
+                                                      ('Predicted Percentage: '),
+                                                      style: TextStyle(
+                                                          fontSize: 15,
+                                                          color: Colors.black),
+                                                      children: [
+                                                        TextSpan(
+                                                            text:
+                                                            '${userData['Diabetits'] == null ? 'Not predicted yet' : '${userData['Diabetits'].split('_')[0]}%'}',
+                                                            style: TextStyle(
+                                                                fontWeight:
+                                                                FontWeight.bold,
+                                                                color: userData['Diabetits'] !=
+                                                                    null &&
+                                                                    double.parse(userData[
+                                                                    'Diabetits']
+                                                                        .split(
+                                                                        '_')[0]) >
+                                                                        30
+                                                                    ? Colors.red
+                                                                    : Colors.green))
+                                                      ])),
                                             ),
                                             Padding(
                                               padding: const EdgeInsets.fromLTRB(
                                                   14, 0, 8, 8),
                                               child: Text(
-                                                  'Precautions according to precentage : ${''}',
+                                                  'Predict date : ${userData['Diabetits'] == null ? 'Not predicted yet' : '${userData['Diabetits'].split('_')[1].split('T')[0]}'}',
+                                                  style: TextStyle(fontSize: 15)),
+                                            ),
+                                            Padding(
+                                              padding: const EdgeInsets.fromLTRB(
+                                                  14, 0, 8, 8),
+                                              child: Text(
+                                                  'Predict time : ${userData['Diabetits'] == null ? 'Not predicted yet' : '${userData['Diabetits'].split('_')[1].split('T')[1].split(':')[0]}:${userData['Diabetits'].split('_')[1].split('T')[1].split(':')[1]}'}',
                                                   style: TextStyle(fontSize: 15)),
                                             ),
                                           ],

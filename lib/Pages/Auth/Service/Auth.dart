@@ -16,6 +16,7 @@ abstract class BaseAuth {
       String uid, String Username, String bloodGroup, DateTime Birthday);
   Future setUserImageDetails(String uid, String ImageURL);
   Future setCKDPrediction(String uid, double percentage);
+  Future setDiabPrediction(String uid, double percentage);
   Future setBreastCancerPrediction(String uid, double percentage);
   Future setHTDPrediction(String uid, double percentage);
   Future sendPasswordResetEmail(String email);
@@ -76,6 +77,13 @@ class Auth implements BaseAuth {
     var percent=percentage.toStringAsFixed(2);
     await userData.document(uid).updateData({
       'CKD':'${percent.toString()}_${date.toIso8601String()}'
+    });
+  }
+  Future setDiabPrediction(String uid, double percentage)async{
+    DateTime date= DateTime.now();
+    var percent=percentage.toStringAsFixed(2);
+    await userData.document(uid).updateData({
+      'Diabetits':'${percent.toString()}_${date.toIso8601String()}'
     });
   }
   //set HTD predictions result

@@ -20,6 +20,14 @@ import 'Pages/Auth/aboutus.dart';
 import 'Pages/CKD_pages/CKD_message.dart';
 import 'Pages/CKD_pages/CKD_discription.dart';
 import 'Pages/CKD_pages/CKD_message_about.dart';
+import 'Pages/Diab_pages/Diab_about.dart';
+import 'Pages/Diab_pages/Diab_discription.dart';
+import 'Pages/Diab_pages/Diab_food.dart';
+import 'Pages/Diab_pages/Diab_goodfood.dart';
+import 'Pages/Diab_pages/Diab_precautions.dart';
+import 'Pages/Diab_pages/Diab_symptom.dart';
+import 'Pages/Diab_pages/Diab_worstfood.dart';
+import 'Pages/Diab_pages/dialog_flow.dart';
 import 'Pages/HTD/dialog_flow.dart';
 import 'Pages/breast_cancer/breast_cancer.dart';
 import 'Pages/breast_cancer/prediction/b_result.dart';
@@ -59,6 +67,15 @@ void main() => runApp(MaterialApp(
         '/HTD_message':(context)=>FlutterFactsChatBot(),
         '/HTD_home':(context)=>HTD_Home(),
         '/HTD_card':(context)=>HTD_Cards(),
-
+//      ------------------------------------------------------------
+        '/Diab_discription': (context) => Diab_discription(),
+        //'/Diab_webview': (context) => Diab_webview(),
+        '/Diab_symptom': (context) => Diab_symptoms(),
+        '/Diab_precaution': (context) => Diab_precautions(),
+        '/Diab_about' : (context) => Diab_about(),
+        '/Diab_food' : (context) => Diab_food(),
+        '/Diab_worstfood' : (context) => Diab_worstfood(),
+        '/Diab_goodfood' : (context) => Diab_goodfood(),
+        '/Diab_message' : (context) =>FlutterFactsChatBotdiab()
       },
     ));

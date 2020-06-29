@@ -31,6 +31,8 @@
 /build/
 /assets/dialogflow/CKD-bot.json
 /assets/HTD/doctor-cqfxkd-9ebecdc5f002.json
+/assets/Diab_images/diabetes-doctor-vcjxty-f5eebc88aedd.
+/assets/Diab_images/doctor-of-diabetes-imxiuc-4f36d1cb4712.json
 
 # Web related
 lib/generated_plugin_registrant.dart
