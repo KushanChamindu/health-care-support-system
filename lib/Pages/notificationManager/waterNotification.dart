@@ -189,7 +189,7 @@ class _WaterNotificationBodyState extends State<WaterNotificationBody> {
     var androidPlatformChannelSpecifics = AndroidNotificationDetails(
       'channel_ID',
       'channel_name',
-      'chanell description',
+      'channel description',
       importance: Importance.Max,
       priority: Priority.High,
       ticker: 'test ticker',
@@ -203,10 +203,10 @@ class _WaterNotificationBodyState extends State<WaterNotificationBody> {
     int difference = finishedTime.difference(startTime).inMinutes;
     var alarmStartTime = DateTime(startTime.year, startTime.month,
         startTime.day, startTime.hour, startTime.minute, 0);
-    for (var i = 1; i <= difference; i++) {
+    for (var i = 0; i <= difference; i++) {
       await flutterLocalNotificationsPlugin.schedule(
           i,
-          'Water Alerm $i',
+          'Water Alarm',
           ('Time to drink water and update your water tracking system'),
           alarmStartTime.add(Duration(minutes: i*30)),
           platformChannelSpecifics,

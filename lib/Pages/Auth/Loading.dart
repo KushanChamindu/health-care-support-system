@@ -219,11 +219,13 @@ class _LoadingState extends State<Loading> with SingleTickerProviderStateMixin {
               child: Visibility(
                   visible: _visibility,
                   child: AlertDialog(
-                    title: Center(
-                      child: Text(
-                        "Some Went Wrong!!",
-                        style: TextStyle(
-                          fontSize: 25,
+                    title: SingleChildScrollView(
+                      child: Center(
+                        child: Text(
+                          "Some Went Wrong!!",
+                          style: TextStyle(
+                            fontSize: 25,
+                          ),
                         ),
                       ),
                     ),

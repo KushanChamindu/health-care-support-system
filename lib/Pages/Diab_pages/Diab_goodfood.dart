@@ -1,14 +1,20 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:healthcaresupportsystem/Pages/Auth/Service/Auth.dart';
+
+import '../Popupmenu.dart';
 
 
 class Diab_goodfood extends StatefulWidget {
+  BaseAuth auth=Auth();
   @override
   _Diab_goodfoodState createState() => _Diab_goodfoodState();
 }
 
 class _Diab_goodfoodState extends State<Diab_goodfood> {
   bool visible=true;
+
+
   @override
   Widget build(BuildContext context) {
     void set_visible(visi){
@@ -20,6 +26,9 @@ class _Diab_goodfoodState extends State<Diab_goodfood> {
       Scaffold(
         backgroundColor: Colors.grey[900],
         appBar: AppBar(
+          actions: <Widget>[
+            Popupmenu(auth: widget.auth,)
+          ],
           title: Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[

@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:healthcaresupportsystem/Pages/Auth/Service/Auth.dart';
+
+import '../Popupmenu.dart';
 
 
 class Diab_precautions extends StatefulWidget {
-
+  BaseAuth auth=Auth();
   @override
   _Diab_precautionsState createState() => _Diab_precautionsState();
 }
@@ -14,6 +17,9 @@ class _Diab_precautionsState extends State<Diab_precautions> {
     return Scaffold(
         backgroundColor: Colors.grey[900],
         appBar: AppBar(
+          actions: <Widget>[
+            Popupmenu(auth: widget.auth,)
+          ],
           title: Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[

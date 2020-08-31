@@ -2,8 +2,12 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutube/flutube.dart';
+import 'package:healthcaresupportsystem/Pages/Auth/Service/Auth.dart';
+
+import '../Popupmenu.dart';
 
 class Diab_about extends StatefulWidget {
+  BaseAuth auth=Auth();
   @override
   _Diab_aboutState createState() => _Diab_aboutState();
 }
@@ -15,6 +19,9 @@ class _Diab_aboutState extends State<Diab_about> {
     return Scaffold(
         backgroundColor: Colors.grey[900],
       appBar: AppBar(
+        actions: <Widget>[
+          Popupmenu(auth: widget.auth,)
+        ],
           title: Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[

@@ -1,12 +1,19 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:healthcaresupportsystem/Pages/Auth/Service/Auth.dart';
+
+import '../Popupmenu.dart';
 
 class Diab_food extends StatelessWidget {
+  BaseAuth auth=Auth();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
         backgroundColor: Colors.grey[900],
         appBar: AppBar(
+          actions: <Widget>[
+            Popupmenu(auth: auth,)
+          ],
           title: Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[

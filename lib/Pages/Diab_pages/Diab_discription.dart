@@ -2,13 +2,15 @@
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:healthcaresupportsystem/Pages/Auth/Service/Auth.dart';
 
+import '../Popupmenu.dart';
 import 'Diab_symptom.dart';
 
 
 
 class Diab_discription extends StatefulWidget {
-
+  BaseAuth auth=Auth();
   @override
   _Diab_discriptionState createState() => _Diab_discriptionState();
 }
@@ -19,7 +21,11 @@ class _Diab_discriptionState extends State<Diab_discription> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.grey[900],
+//      backgroundColor: Colors.grey[400],
       appBar:  AppBar(
+        actions: <Widget>[
+          Popupmenu(auth: widget.auth,)
+        ],
 
         title: Row(
           mainAxisAlignment: MainAxisAlignment.center,
@@ -47,7 +53,7 @@ class _Diab_discriptionState extends State<Diab_discription> {
           ],
         ),
 
-
+//        backgroundColor: Colors.blueAccent,
         backgroundColor: Colors.grey[850],
       ),
       body:
@@ -72,7 +78,7 @@ class _Diab_discriptionState extends State<Diab_discription> {
             Align(
               child: Card_body(
                 image : 'assets/Diab_images/diab2-cropped.png',
-                text1: 'Symptoms of Diabetes',
+                text1: 'Symptoms of Diabete',
                 routeName: '/Diab_symptom',
                 substring1:'Main Symptoms' ,
                 substring2: 'Small Description',
@@ -84,7 +90,7 @@ class _Diab_discriptionState extends State<Diab_discription> {
             Align(
               child: Card_body(
                 image : 'assets/Diab_images/diab-cropped.png',
-                text1: 'Precautions of Diabetes',
+                text1: 'Precautions of Diabete',
                 routeName: '/Diab_precaution',
                 substring1:'Main Precautions' ,
                 substring2: 'Small Description',
@@ -232,13 +238,13 @@ class DetailThumbnail extends StatelessWidget {
     
     return Container(
       margin: new EdgeInsets.symmetric(
-        vertical: 16
+        vertical: 19
       ),
       alignment: FractionalOffset.centerLeft,
       child: new Image(
         image: new AssetImage(ima),
-        height: 92,
-          width: 92,
+        height: 80,
+          width: 80,
       ),
     );
   }

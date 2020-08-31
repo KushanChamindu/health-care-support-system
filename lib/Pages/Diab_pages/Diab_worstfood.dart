@@ -1,8 +1,12 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:healthcaresupportsystem/Pages/Auth/Service/Auth.dart';
+
+import '../Popupmenu.dart';
 
 
 class Diab_worstfood extends StatefulWidget {
+  BaseAuth auth=Auth();
   @override
   _Diab_worstfoodState createState() => _Diab_worstfoodState();
 }
@@ -20,6 +24,9 @@ class _Diab_worstfoodState extends State<Diab_worstfood> {
       Scaffold(
         backgroundColor: Colors.grey[900],
         appBar: AppBar(
+          actions: <Widget>[
+            Popupmenu(auth: widget.auth,)
+          ],
           title: Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
