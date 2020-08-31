@@ -835,9 +835,10 @@ class _AccountBodyState extends State<AccountBody> {
                                                                 FontWeight.bold,
                                                                 color: userData['Breast_canser'] !=
                                                                     null &&
-                                                                    double.parse(userData['Breast_canser']
+                                                                    double.parse(userData[
+                                                                    'Breast_canser']
                                                                         .split(
-                                                                        '_')[0])>
+                                                                        '_')[0]) >
                                                                         30
                                                                     ? Colors.red
                                                                     : Colors.green))
