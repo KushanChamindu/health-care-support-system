@@ -85,7 +85,7 @@ class _HTD_CardsState extends State<HTD_Cards> {
                                   Icons.local_hospital,
                                   size: 40,),
                                 Text(
-                                  'Discription',
+                                  'Description',
                                   style: TextStyle(
                                     fontWeight: FontWeight.w500,
                                     fontSize: 16,

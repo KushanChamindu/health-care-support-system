@@ -73,7 +73,7 @@ class _CKD_discriptionState extends State<CKD_discription> {
                         ),
                         label: Text("CKD Symptoms",
                             style: TextStyle(
-                                fontSize: 15, fontWeight: FontWeight.w900))),
+                                fontSize: MediaQuery.of(context).textScaleFactor*14, fontWeight: FontWeight.w900))),
                   ),
                 ),
                 Spacer(),
@@ -91,7 +91,7 @@ class _CKD_discriptionState extends State<CKD_discription> {
                         ),
                         label: Text("CKD Precautions",
                             style: TextStyle(
-                                fontSize: 15, fontWeight: FontWeight.w900))),
+                                fontSize: MediaQuery.of(context).textScaleFactor*14, fontWeight: FontWeight.w900))),
                   ),
                 ),
               ],
