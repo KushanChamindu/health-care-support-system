@@ -253,7 +253,7 @@ class _MessagePageBodyState extends State<MessagePageBody> {
       crossAxisAlignment: WrapCrossAlignment.center,
       children: <Widget>[
         SizedBox(
-          width: 50,
+          width: 0,
         ),
         FlatButton.icon(
             icon: Icon(Icons.perm_device_information),
