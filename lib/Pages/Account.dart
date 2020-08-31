@@ -829,16 +829,17 @@ class _AccountBodyState extends State<AccountBody> {
                                                       children: [
                                                         TextSpan(
                                                             text:
-                                                            '${userData['Breast_canser'] == null ? 'Not predicted yet' : "${userData['Breast_canser'].split('_')[0]}" == '3.0' ? 'Breast cancer does not exist' : 'Breast cancer exist'}',
+                                                            '${userData['Breast_canser'] == null ? 'Not predicted yet' : "${userData['Breast_canser'].split('_')[0]}%"}',
                                                             style: TextStyle(
                                                                 fontWeight:
                                                                 FontWeight.bold,
                                                                 color: userData['Breast_canser'] !=
                                                                     null &&
-                                                                    userData['Breast_canser']
+                                                                    double.parse(userData[
+                                                                    'Breast_canser']
                                                                         .split(
-                                                                        '_')[0] !=
-                                                                        '3.0'
+                                                                        '_')[0]) >
+                                                                        30
                                                                     ? Colors.red
                                                                     : Colors.green))
                                                       ])),
