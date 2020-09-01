@@ -137,7 +137,7 @@ class Auth implements BaseAuth {
       'breakfast':DateTime.parse("1969-07-20 20:18:04Z"),
       'lunchtime':DateTime.utc(1989, 11, 9,12),
       'dinnertime':DateTime.utc(1989, 11, 9,20),
-      'IsAlermOn':true
+      'IsAlarmOn':false
     });
   }
 //  static List days=['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];

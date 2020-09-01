@@ -142,6 +142,8 @@ class _MessagePageBodyState extends State<MessagePageBody> {
           Dialogflow(authGoogle: authGoogle, language: Language.english);
       AIResponse response = await dialogFlow.detectIntent(query);
 //      var data_q=response.queryResult.fulfillmentMessages.where((m) => m['platform'] !='FACEBOOK' && m['platform'] !='TELEGRAM');
+      print(response.queryResult.intent.displayName);
+      print(response.webhookStatus);
       if (response.getMessage() != null &&
           response.webhookStatus != null &&
           response.queryResult.intent.displayName != null) {
@@ -154,8 +156,14 @@ class _MessagePageBodyState extends State<MessagePageBody> {
         setState(() {
           _messages.insert(0, message);
         });
-        widget.auth.setCKDPrediction(widget.uid,
-            double.parse(response.getMessage().split(' ')[4].split('%')[0]));
+        if(response.getMessage().split(' ')[4].contains('%')){
+          widget.auth.setCKDPrediction(widget.uid,
+              double.parse(response.getMessage().split(' ')[4].split('%')[0]));
+        }else{
+          widget.auth.setCKDPrediction(widget.uid,
+              double.parse(response.getMessage().split(' ')[7].split('%')[0]));
+        }
+
       } else if (response.queryResult.intent.displayName.toString() ==
           'telegrame') {
         var response_data = response.queryResult.fulfillmentMessages

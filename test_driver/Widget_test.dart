@@ -180,7 +180,7 @@ void main() {
       await driver.tap(registerEmailField);
       await driver.enterText('kushan@kushan.com');
       await driver.tap(registerDateTimeField);
-      await driver.tap(find.text('June 2020'));
+      await driver.tap(find.text('August 2020'));
       await Future.delayed(Duration(milliseconds: 2000), () {});
       await driver.scroll(
           find.text('2021'), 0, 200, Duration(milliseconds: 500));
@@ -341,11 +341,16 @@ void main() {
     });
     test('breast cancer description test', () async {
       await driver.scroll(
-          CKDCard, 0, -800, Duration(milliseconds: 500));
+          CKDCard, 0, -600, Duration(milliseconds: 500));
+      print('0');
       await driver.tap(BC_Card);
+      print('1');
       await driver.waitFor(BCdiscriptionButton);
+      print('2');
       await driver.tap(BCdiscriptionButton);
+      print('3');
       await driver.waitFor(BCdiscriptionPage);
+      print('4c');
       await Future.delayed(Duration(milliseconds: 2000), () {});
     });
     test('breast cancer symptom', () async {
